@@ -27,4 +27,22 @@ export class FeedsService {
     this.feeds.push(feed);
     return feed;
   }
+
+  deleteFeed(id: string): void {
+    this.feeds = this.feeds.filter((feed) => feed.id !== id);
+  }
+
+  updateFeed(
+    id: string,
+    title: string,
+    description: string,
+    tag: FeedTag,
+  ): Feed {
+    const feed = this.getFeedById(id);
+    feed.title = title;
+    feed.description = description;
+    feed.tag = tag;
+
+    return feed;
+  }
 }

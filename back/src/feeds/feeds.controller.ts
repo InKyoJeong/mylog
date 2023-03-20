@@ -1,6 +1,14 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import { CreateFeedDto } from './dto/create-feed.dto';
-import { Feed } from './feed.model';
+import { Feed, FeedTag } from './feed.model';
 import { FeedsService } from './feeds.service';
 
 @Controller('feeds')
@@ -20,5 +28,20 @@ export class FeedsController {
   @Post()
   createFeed(@Body() createFeedDto: CreateFeedDto): Feed {
     return this.feedsService.createFeed(createFeedDto);
+  }
+
+  @Delete('/:id')
+  deleteFeed(@Param('id') id: string): void {
+    this.feedsService.deleteFeed(id);
+  }
+
+  @Patch('/:id')
+  updateFeed(
+    @Param('id') id: string,
+    @Body('title') title: string,
+    @Body('description') description: string,
+    @Body('tag') tag: FeedTag,
+  ) {
+    return this.feedsService.updateFeed(id, title, description, tag);
   }
 }
