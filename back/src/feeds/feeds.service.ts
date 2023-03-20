@@ -10,6 +10,10 @@ export class FeedsService {
     return this.feeds;
   }
 
+  getFeedById(id: string): Feed {
+    return this.feeds.find((feed) => feed.id === id);
+  }
+
   createFeed(createFeedDto: CreateFeedDto) {
     const { title, description } = createFeedDto;
 
