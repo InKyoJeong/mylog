@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
+import { Feed } from './feed.model';
 
 @Injectable()
 export class FeedsService {
-  private feeds = [];
+  private feeds: Feed[] = [];
 
-  getAllFeeds() {
+  getAllFeeds(): Feed[] {
     return this.feeds;
   }
 }
