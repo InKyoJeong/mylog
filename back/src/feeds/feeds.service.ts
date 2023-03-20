@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CreateFeedDto } from './dto/create-feed.dto';
-import { Feed, FeedTag } from './feed.model';
+import { Feed } from './feed.model';
 
 @Injectable()
 export class FeedsService {
@@ -15,13 +15,13 @@ export class FeedsService {
   }
 
   createFeed(createFeedDto: CreateFeedDto) {
-    const { title, description } = createFeedDto;
+    const { title, description, tag } = createFeedDto;
 
     const feed: Feed = {
       id: String(Date.now()),
       title,
       description,
-      tag: FeedTag.RED,
+      tag,
     };
 
     this.feeds.push(feed);
@@ -32,13 +32,9 @@ export class FeedsService {
     this.feeds = this.feeds.filter((feed) => feed.id !== id);
   }
 
-  updateFeed(
-    id: string,
-    title: string,
-    description: string,
-    tag: FeedTag,
-  ): Feed {
+  updateFeed(id: string, createFeedDto: CreateFeedDto): Feed {
     const feed = this.getFeedById(id);
+    const { title, description, tag } = createFeedDto;
     feed.title = title;
     feed.description = description;
     feed.tag = tag;

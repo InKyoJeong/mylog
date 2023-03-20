@@ -6,9 +6,11 @@ import {
   Param,
   Patch,
   Post,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { CreateFeedDto } from './dto/create-feed.dto';
-import { Feed, FeedTag } from './feed.model';
+import { Feed } from './feed.model';
 import { FeedsService } from './feeds.service';
 
 @Controller('feeds')
@@ -26,6 +28,7 @@ export class FeedsController {
   }
 
   @Post()
+  @UsePipes(ValidationPipe)
   createFeed(@Body() createFeedDto: CreateFeedDto): Feed {
     return this.feedsService.createFeed(createFeedDto);
   }
@@ -36,12 +39,8 @@ export class FeedsController {
   }
 
   @Patch('/:id')
-  updateFeed(
-    @Param('id') id: string,
-    @Body('title') title: string,
-    @Body('description') description: string,
-    @Body('tag') tag: FeedTag,
-  ) {
-    return this.feedsService.updateFeed(id, title, description, tag);
+  @UsePipes(ValidationPipe)
+  updateFeed(@Param('id') id: string, @Body() createFeedDto: CreateFeedDto) {
+    return this.feedsService.updateFeed(id, createFeedDto);
   }
 }
