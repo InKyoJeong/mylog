@@ -1,4 +1,5 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
+import { CreateFeedDto } from './dto/create-feed.dto';
 import { Feed } from './feed.model';
 import { FeedsService } from './feeds.service';
 
@@ -12,10 +13,7 @@ export class FeedsController {
   }
 
   @Post()
-  createFeed(
-    @Body('title') title: string,
-    @Body('description') description: string,
-  ): Feed {
-    return this.feedsService.createFeed(title, description);
+  createFeed(@Body() createFeedDto: CreateFeedDto): Feed {
+    return this.feedsService.createFeed(createFeedDto);
   }
 }
