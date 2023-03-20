@@ -1,5 +1,5 @@
 import { IsNotEmpty, IsString } from 'class-validator';
-import { FeedTag } from '../feed.model';
+import { FeedTag } from '../feed-tag.enum';
 
 export class CreateFeedDto {
   @IsNotEmpty()
