@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateFeedDto } from './dto/create-feed.dto';
 import { Feed } from './feed.model';
 
@@ -11,7 +11,13 @@ export class FeedsService {
   }
 
   getFeedById(id: string): Feed {
-    return this.feeds.find((feed) => feed.id === id);
+    const foundFeed = this.feeds.find((feed) => feed.id === id);
+
+    if (!foundFeed) {
+      throw new NotFoundException('존재하지 않는 피드입니다.');
+    }
+
+    return foundFeed;
   }
 
   createFeed(createFeedDto: CreateFeedDto) {
@@ -29,16 +35,17 @@ export class FeedsService {
   }
 
   deleteFeed(id: string): void {
-    this.feeds = this.feeds.filter((feed) => feed.id !== id);
+    const foundFeed = this.getFeedById(id);
+    this.feeds = this.feeds.filter((feed) => feed.id !== foundFeed.id);
   }
 
   updateFeed(id: string, createFeedDto: CreateFeedDto): Feed {
-    const feed = this.getFeedById(id);
+    const foundFeed = this.getFeedById(id);
     const { title, description, tag } = createFeedDto;
-    feed.title = title;
-    feed.description = description;
-    feed.tag = tag;
+    foundFeed.title = title;
+    foundFeed.description = description;
+    foundFeed.tag = tag;
 
-    return feed;
+    return foundFeed;
   }
 }
