@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Feed } from './feed.model';
+import { Feed, FeedTag } from './feed.model';
 
 @Injectable()
 export class FeedsService {
@@ -7,5 +7,17 @@ export class FeedsService {
 
   getAllFeeds(): Feed[] {
     return this.feeds;
+  }
+
+  createFeed(title: string, description: string) {
+    const feed: Feed = {
+      id: '2',
+      title,
+      description,
+      tag: FeedTag.RED,
+    };
+
+    this.feeds.push(feed);
+    return feed;
   }
 }
