@@ -4,6 +4,9 @@ export class AuthCredentialsDto {
   @IsString()
   @MinLength(4)
   @MaxLength(20)
+  @Matches(/^([a-z0-9_]+)$/, {
+    message: '아이디는 영어 소문자, 숫자, 언더바(_) 조합으로 입력해주세요.',
+  })
   username: string;
 
   @IsString()
