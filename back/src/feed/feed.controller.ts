@@ -34,8 +34,8 @@ export class FeedController {
   }
 
   @Get('/:id')
-  getFeedById(@Param('id') id: number): Promise<Feed> {
-    return this.feedService.getFeedById(id);
+  getFeedById(@Param('id') id: number, @GetUser() user: User): Promise<Feed> {
+    return this.feedService.getFeedById(id, user);
   }
 
   @Post()
@@ -60,7 +60,8 @@ export class FeedController {
   updateFeed(
     @Param('id', ParseIntPipe) id: number,
     @Body() createFeedDto: CreateFeedDto,
+    @GetUser() user: User,
   ) {
-    return this.feedService.updateFeed(id, createFeedDto);
+    return this.feedService.updateFeed(id, createFeedDto, user);
   }
 }

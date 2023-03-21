@@ -25,8 +25,12 @@ export class FeedService {
     return feeds;
   }
 
-  async getFeedById(id: number): Promise<Feed> {
-    const foundFeed = await this.feedRepository.findOneBy({ id });
+  async getFeedById(id: number, user: User): Promise<Feed> {
+    const foundFeed = await this.feedRepository
+      .createQueryBuilder('feed')
+      .where('feed.userId = :userId', { userId: user.id })
+      .andWhere('id = :id', { id })
+      .getOne();
 
     if (!foundFeed) {
       throw new NotFoundException('존재하지 않는 피드입니다.');
@@ -62,8 +66,12 @@ export class FeedService {
     }
   }
 
-  async updateFeed(id: number, createFeedDto: CreateFeedDto): Promise<Feed> {
-    const feed = await this.getFeedById(id);
+  async updateFeed(
+    id: number,
+    createFeedDto: CreateFeedDto,
+    user: User,
+  ): Promise<Feed> {
+    const feed = await this.getFeedById(id, user);
     const { title, description, tag } = createFeedDto;
     feed.title = title;
     feed.description = description;
