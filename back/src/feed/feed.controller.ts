@@ -12,6 +12,8 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { GetUser } from 'src/auth/decorator/get-user.decorator';
+import { User } from 'src/auth/user.entity';
 import { CreateFeedDto } from './dto/create-feed.dto';
 import { Feed } from './feed.entity';
 import { FeedService } from './feed.service';
@@ -33,8 +35,11 @@ export class FeedController {
 
   @Post()
   @UsePipes(ValidationPipe)
-  createFeed(@Body() createFeedDto: CreateFeedDto): Promise<Feed> {
-    return this.feedService.createFeed(createFeedDto);
+  createFeed(
+    @Body() createFeedDto: CreateFeedDto,
+    @GetUser() user: User,
+  ): Promise<Feed> {
+    return this.feedService.createFeed(createFeedDto, user);
   }
 
   @Delete('/:id')

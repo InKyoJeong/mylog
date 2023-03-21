@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { User } from 'src/auth/user.entity';
 import { Repository } from 'typeorm';
 import { CreateFeedDto } from './dto/create-feed.dto';
 import { Feed } from './feed.entity';
@@ -25,12 +26,13 @@ export class FeedService {
     return foundFeed;
   }
 
-  async createFeed(createFeedDto: CreateFeedDto): Promise<Feed> {
+  async createFeed(createFeedDto: CreateFeedDto, user: User): Promise<Feed> {
     const { title, description, tag } = createFeedDto;
     const feed = this.feedRepository.create({
       title,
       description,
       tag,
+      user,
     });
 
     await this.feedRepository.save(feed);
