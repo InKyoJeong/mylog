@@ -7,14 +7,17 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { CreateFeedDto } from './dto/create-feed.dto';
 import { Feed } from './feed.entity';
 import { FeedService } from './feed.service';
 
 @Controller('feed')
+@UseGuards(AuthGuard())
 export class FeedController {
   constructor(private feedService: FeedService) {}
 

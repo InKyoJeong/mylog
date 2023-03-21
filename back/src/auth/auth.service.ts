@@ -9,12 +9,14 @@ import { Repository } from 'typeorm';
 import * as bcrypt from 'bcryptjs';
 import { AuthCredentialsDto } from './dto/auth-credential.dto';
 import { User } from './user.entity';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
+    private jwtService: JwtService,
   ) {}
 
   async signup(authCredentialsDto: AuthCredentialsDto): Promise<void> {
@@ -38,12 +40,17 @@ export class AuthService {
     }
   }
 
-  async signin(authCredentialsDto: AuthCredentialsDto): Promise<string> {
+  async signin(
+    authCredentialsDto: AuthCredentialsDto,
+  ): Promise<{ accessToken: string }> {
     const { username, password } = authCredentialsDto;
     const user = await this.userRepository.findOneBy({ username });
 
     if (user && (await bcrypt.compare(password, user.password))) {
-      return 'login success';
+      const payload = { username };
+      const accessToken = await this.jwtService.sign(payload);
+
+      return { accessToken };
     } else {
       throw new UnauthorizedException(
         '아이디 또는 비밀번호가 일치하지 않습니다.',
