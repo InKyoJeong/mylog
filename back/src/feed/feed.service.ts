@@ -48,8 +48,14 @@ export class FeedService {
     return feed;
   }
 
-  async deleteFeed(id: number): Promise<void> {
-    const result = await this.feedRepository.delete({ id });
+  async deleteFeed(id: number, user: User): Promise<void> {
+    const result = await this.feedRepository
+      .createQueryBuilder('feed')
+      .delete()
+      .from(Feed)
+      .where('userId = :userId', { userId: user.id })
+      .andWhere('id = :id', { id })
+      .execute();
 
     if (result.affected === 0) {
       throw new NotFoundException('존재하지 않는 피드입니다.');

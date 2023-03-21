@@ -48,8 +48,11 @@ export class FeedController {
   }
 
   @Delete('/:id')
-  deleteFeed(@Param('id', ParseIntPipe) id: number): Promise<void> {
-    return this.feedService.deleteFeed(id);
+  deleteFeed(
+    @Param('id', ParseIntPipe) id: number,
+    @GetUser() user: User,
+  ): Promise<void> {
+    return this.feedService.deleteFeed(id, user);
   }
 
   @Patch('/:id')
