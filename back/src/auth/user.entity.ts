@@ -1,7 +1,9 @@
+import { Feed } from 'src/feed/feed.entity';
 import {
   BaseEntity,
   Column,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   Unique,
 } from 'typeorm';
@@ -17,4 +19,7 @@ export class User extends BaseEntity {
 
   @Column()
   password: string;
+
+  @OneToMany(() => Feed, (feed) => feed.user, { eager: true })
+  feed: Feed[];
 }
