@@ -16,6 +16,15 @@ export class FeedService {
     return this.feedRepository.find();
   }
 
+  async getAllMyFeed(user: User): Promise<Feed[]> {
+    const feeds = await this.feedRepository
+      .createQueryBuilder('feed')
+      .where('feed.userId = :userId', { userId: user.id })
+      .getMany();
+
+    return feeds;
+  }
+
   async getFeedById(id: number): Promise<Feed> {
     const foundFeed = await this.feedRepository.findOneBy({ id });
 

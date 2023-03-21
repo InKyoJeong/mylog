@@ -28,6 +28,11 @@ export class FeedController {
     return this.feedService.getAllFeed();
   }
 
+  @Get('/my')
+  getAllMyFeed(@GetUser() user: User): Promise<Feed[]> {
+    return this.feedService.getAllMyFeed(user);
+  }
+
   @Get('/:id')
   getFeedById(@Param('id') id: number): Promise<Feed> {
     return this.feedService.getFeedById(id);
