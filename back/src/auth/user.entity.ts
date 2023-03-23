@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer';
 import { Feed } from 'src/feed/feed.entity';
 import {
   BaseEntity,
@@ -19,6 +20,10 @@ export class User extends BaseEntity {
 
   @Column()
   password: string;
+
+  @Column({ nullable: true })
+  @Exclude()
+  hashedRefreshToken?: string;
 
   @OneToMany(() => Feed, (feed) => feed.user, { eager: true })
   feed: Feed[];

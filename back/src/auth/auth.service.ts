@@ -10,6 +10,7 @@ import * as bcrypt from 'bcryptjs';
 import { AuthCredentialsDto } from './dto/auth-credential.dto';
 import { User } from './user.entity';
 import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
@@ -17,6 +18,7 @@ export class AuthService {
     @InjectRepository(User)
     private userRepository: Repository<User>,
     private jwtService: JwtService,
+    private configService: ConfigService,
   ) {}
 
   async signup(authCredentialsDto: AuthCredentialsDto): Promise<void> {
@@ -42,19 +44,47 @@ export class AuthService {
 
   async signin(
     authCredentialsDto: AuthCredentialsDto,
-  ): Promise<{ accessToken: string }> {
+  ): Promise<{ username: string; accessToken: string; refreshToken: string }> {
     const { username, password } = authCredentialsDto;
     const user = await this.userRepository.findOneBy({ username });
 
     if (user && (await bcrypt.compare(password, user.password))) {
       const payload = { username };
-      const accessToken = await this.jwtService.sign(payload);
 
-      return { accessToken };
+      const { accessToken, refreshToken } = await this.getTokens(payload);
+      await this.updateHashedRefreshToken(user.id, refreshToken);
+
+      return { username, accessToken, refreshToken };
     } else {
       throw new UnauthorizedException(
         '아이디 또는 비밀번호가 일치하지 않습니다.',
       );
     }
+  }
+
+  async updateHashedRefreshToken(id: number, refreshToken: string) {
+    const salt = await bcrypt.genSalt();
+    const hashedRefreshToken = await bcrypt.hash(refreshToken, salt);
+
+    await this.userRepository.update(id, { hashedRefreshToken });
+  }
+
+  private async getTokens(payload: { username: string }) {
+    const [accessToken, refreshToken] = await Promise.all([
+      this.jwtService.signAsync(payload, {
+        secret: this.configService.get<string>('JWT_SECRET'),
+        expiresIn: this.configService.get<string>(
+          'JWT_ACCRESS_TOKEN_EXPIRATION',
+        ),
+      }),
+      this.jwtService.signAsync(payload, {
+        secret: this.configService.get<string>('JWT_SECRET'),
+        expiresIn: this.configService.get<string>(
+          'JWT_REFRESH_TOKEN_EXPIRATION',
+        ),
+      }),
+    ]);
+
+    return { accessToken, refreshToken };
   }
 }
