@@ -49,9 +49,7 @@ export class AuthService {
     const user = await this.userRepository.findOneBy({ username });
 
     if (user && (await bcrypt.compare(password, user.password))) {
-      const payload = { username };
-
-      const { accessToken, refreshToken } = await this.getTokens(payload);
+      const { accessToken, refreshToken } = await this.getTokens({ username });
       await this.updateHashedRefreshToken(user.id, refreshToken);
 
       return { username, accessToken, refreshToken };
@@ -62,7 +60,19 @@ export class AuthService {
     }
   }
 
-  async updateHashedRefreshToken(id: number, refreshToken: string) {
+  async refreshToken(user: User): Promise<{
+    username: string;
+    accessToken: string;
+    refreshToken: string;
+  }> {
+    const { username } = user;
+    const { accessToken, refreshToken } = await this.getTokens({ username });
+    await this.updateHashedRefreshToken(user.id, refreshToken);
+
+    return { username, accessToken, refreshToken };
+  }
+
+  private async updateHashedRefreshToken(id: number, refreshToken: string) {
     const salt = await bcrypt.genSalt();
     const hashedRefreshToken = await bcrypt.hash(refreshToken, salt);
 
