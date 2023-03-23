@@ -39,4 +39,10 @@ export class AuthController {
   }> {
     return this.authService.refreshToken(user);
   }
+
+  @Post('/logout')
+  @UseGuards(AuthGuard())
+  logout(@GetUser() user: User) {
+    return this.authService.deleteRefreshToken(user.id);
+  }
 }

@@ -1,5 +1,6 @@
 import {
   ConflictException,
+  ForbiddenException,
   Injectable,
   InternalServerErrorException,
   UnauthorizedException,
@@ -48,13 +49,16 @@ export class AuthService {
     const { username, password } = authCredentialsDto;
     const user = await this.userRepository.findOneBy({ username });
 
-    if (user && (await bcrypt.compare(password, user.password))) {
-      return this.refreshToken(user);
-    } else {
+    if (!user || !(await bcrypt.compare(password, user.password))) {
       throw new UnauthorizedException(
         '아이디 또는 비밀번호가 일치하지 않습니다.',
       );
     }
+
+    const { accessToken, refreshToken } = await this.getTokens({ username });
+    await this.updateHashedRefreshToken(user.id, refreshToken);
+
+    return { username, accessToken, refreshToken };
   }
 
   async refreshToken(user: User): Promise<{
@@ -64,9 +68,18 @@ export class AuthService {
   }> {
     const { username } = user;
     const { accessToken, refreshToken } = await this.getTokens({ username });
+
+    if (!user.hashedRefreshToken) {
+      throw new ForbiddenException();
+    }
+
     await this.updateHashedRefreshToken(user.id, refreshToken);
 
     return { username, accessToken, refreshToken };
+  }
+
+  async deleteRefreshToken(id: number) {
+    await this.userRepository.update(id, { hashedRefreshToken: null });
   }
 
   private async updateHashedRefreshToken(id: number, refreshToken: string) {
