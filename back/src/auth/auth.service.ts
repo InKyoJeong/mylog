@@ -49,10 +49,7 @@ export class AuthService {
     const user = await this.userRepository.findOneBy({ username });
 
     if (user && (await bcrypt.compare(password, user.password))) {
-      const { accessToken, refreshToken } = await this.getTokens({ username });
-      await this.updateHashedRefreshToken(user.id, refreshToken);
-
-      return { username, accessToken, refreshToken };
+      return this.refreshToken(user);
     } else {
       throw new UnauthorizedException(
         '아이디 또는 비밀번호가 일치하지 않습니다.',
