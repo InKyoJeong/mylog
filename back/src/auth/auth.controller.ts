@@ -33,11 +33,16 @@ export class AuthController {
   @Get('/refresh')
   @UseGuards(AuthGuard())
   refresh(@GetUser() user: User): Promise<{
-    username: string;
     accessToken: string;
     refreshToken: string;
   }> {
     return this.authService.refreshToken(user);
+  }
+
+  @Get('/me')
+  @UseGuards(AuthGuard())
+  getProfile(@GetUser() user: User) {
+    return this.authService.getProfile(user);
   }
 
   @Post('/logout')
