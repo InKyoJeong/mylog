@@ -62,7 +62,6 @@ export class AuthService {
   }
 
   async refreshToken(user: User): Promise<{
-    username: string;
     accessToken: string;
     refreshToken: string;
   }> {
@@ -75,7 +74,13 @@ export class AuthService {
 
     await this.updateHashedRefreshToken(user.id, refreshToken);
 
-    return { username, accessToken, refreshToken };
+    return { accessToken, refreshToken };
+  }
+
+  getProfile(user: User) {
+    const { username } = user;
+
+    return { username };
   }
 
   async deleteRefreshToken(id: number) {

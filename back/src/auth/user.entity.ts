@@ -25,6 +25,6 @@ export class User extends BaseEntity {
   @Exclude()
   hashedRefreshToken?: string;
 
-  @OneToMany(() => Feed, (feed) => feed.user, { eager: true })
+  @OneToMany(() => Feed, (feed) => feed.user, { eager: false })
   feed: Feed[];
 }
