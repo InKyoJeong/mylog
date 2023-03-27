@@ -1,8 +1,9 @@
 import React from 'react';
-import Navigation from './src/navigations';
 
-function App(): JSX.Element {
-  return <Navigation />;
+import RootNavigator from './src/navigations/root/RootNavigator';
+
+function App() {
+  return <RootNavigator />;
 }
 
 export default App;
