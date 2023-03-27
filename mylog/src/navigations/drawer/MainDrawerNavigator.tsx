@@ -18,7 +18,7 @@ const Drawer = createDrawerNavigator<MainDrawerParamList>();
 
 function MainDrawerNavigator() {
   return (
-    <Drawer.Navigator>
+    <Drawer.Navigator screenOptions={{headerShown: false}}>
       <Drawer.Screen
         name={MainNavigations.Home}
         component={HomeStackNavigator}

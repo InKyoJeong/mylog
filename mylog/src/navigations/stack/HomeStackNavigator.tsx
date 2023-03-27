@@ -5,12 +5,12 @@ import HomeScreen from '../../screens/HomeScreen';
 import AddLocationScreen from '../../screens/AddLocationScreen';
 
 export enum HomeNavigations {
-  Home = 'Home',
+  MapHome = 'MapHome',
   AddLocation = 'AddLocation',
 }
 
 export type HomeStackParamList = {
-  [HomeNavigations.Home]: undefined;
+  [HomeNavigations.MapHome]: undefined;
   [HomeNavigations.AddLocation]: undefined;
 };
 
@@ -19,7 +19,11 @@ const Stack = createNativeStackNavigator<HomeStackParamList>();
 function HomeStackNavigator() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name={HomeNavigations.Home} component={HomeScreen} />
+      <Stack.Screen
+        name={HomeNavigations.MapHome}
+        component={HomeScreen}
+        options={{headerShown: false}}
+      />
       <Stack.Screen
         name={HomeNavigations.AddLocation}
         component={AddLocationScreen}

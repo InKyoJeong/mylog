@@ -1,26 +1,33 @@
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import React from 'react';
 import {
+  Button,
   SafeAreaView,
   ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
-  useColorScheme,
   View,
 } from 'react-native';
+import {
+  FeedStackParamList,
+  FeedNavigations,
+} from '../navigations/stack/FeedStackNavigator';
 
-function FeedScreen(): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+type FeedScreenProps = NativeStackScreenProps<
+  FeedStackParamList,
+  FeedNavigations.LocationFeed
+>;
 
+function FeedScreen({navigation}: FeedScreenProps) {
   return (
     <SafeAreaView>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={'red'}
-      />
-      <ScrollView contentInsetAdjustmentBehavior="automatic">
+      <ScrollView>
         <View style={styles.container}>
-          <Text>FeedScreen</Text>
+          <Text>Feed</Text>
+          <Button
+            title="Detail 페이지로 이동"
+            onPress={() => navigation.navigate(FeedNavigations.LocationDetail)}
+          />
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -28,9 +35,7 @@ function FeedScreen(): JSX.Element {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
+  container: {flex: 1},
 });
 
 export default FeedScreen;

@@ -1,29 +1,34 @@
-// import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import React from 'react';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {
+  Button,
   SafeAreaView,
   ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
-  useColorScheme,
   View,
 } from 'react-native';
-// import {RootStackParamList} from '../navigations';
 
-// type HomeScreenProps = NativeStackScreenProps<RootStackParamList, 'Home'>;
+import {
+  HomeNavigations,
+  HomeStackParamList,
+} from '../navigations/stack/HomeStackNavigator';
 
-function HomeScreen() {
-  const isDarkMode = useColorScheme() === 'dark';
+type HomeScreenProps = NativeStackScreenProps<
+  HomeStackParamList,
+  HomeNavigations.MapHome
+>;
+
+function HomeScreen({navigation}: HomeScreenProps) {
   return (
     <SafeAreaView>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={'red'}
-      />
       <ScrollView contentInsetAdjustmentBehavior="automatic">
         <View style={styles.container}>
-          <Text>HomeScreen</Text>
+          <Text>Home</Text>
+          <Button
+            title="AddLocation 페이지로 이동"
+            onPress={() => navigation.navigate(HomeNavigations.AddLocation)}
+          />
         </View>
       </ScrollView>
     </SafeAreaView>

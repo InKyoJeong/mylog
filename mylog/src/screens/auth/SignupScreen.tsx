@@ -9,9 +9,6 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
-// import {RootStackParamList} from '../navigations';
-
-// type SignScreenProps = NativeStackScreenProps<RootStackParamList, 'Sign'>;
 
 function SignupScreen() {
   const isDarkMode = useColorScheme() === 'dark';

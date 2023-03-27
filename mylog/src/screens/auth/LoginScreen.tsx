@@ -9,9 +9,6 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
-// import {RootStackParamList} from '../navigations';
-
-// type LoginScreenProps = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
 function LoginScreen() {
   const isDarkMode = useColorScheme() === 'dark';

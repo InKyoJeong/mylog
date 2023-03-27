@@ -5,12 +5,12 @@ import FeedScreen from '../../screens/FeedScreen';
 import LocationDetailScreen from '../../screens/LocationDetailScreen';
 
 export enum FeedNavigations {
-  Feed = 'Feed',
+  LocationFeed = 'LocationFeed',
   LocationDetail = 'LocationDetail',
 }
 
 export type FeedStackParamList = {
-  [FeedNavigations.Feed]: undefined;
+  [FeedNavigations.LocationFeed]: undefined;
   [FeedNavigations.LocationDetail]: undefined;
 };
 
@@ -19,7 +19,10 @@ const Stack = createNativeStackNavigator<FeedStackParamList>();
 function FeedStackNavigator() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name={FeedNavigations.Feed} component={FeedScreen} />
+      <Stack.Screen
+        name={FeedNavigations.LocationFeed}
+        component={FeedScreen}
+      />
       <Stack.Screen
         name={FeedNavigations.LocationDetail}
         component={LocationDetailScreen}
