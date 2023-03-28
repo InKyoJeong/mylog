@@ -1,5 +1,4 @@
 import React from 'react';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {
   Button,
   SafeAreaView,
@@ -8,15 +7,17 @@ import {
   Text,
   View,
 } from 'react-native';
+import type {StackScreenProps} from '@react-navigation/stack';
+import type {DrawerScreenProps} from '@react-navigation/drawer';
+import type {CompositeScreenProps} from '@react-navigation/native';
 
-import {
-  HomeNavigations,
-  HomeStackParamList,
-} from '../navigations/stack/HomeStackNavigator';
+import type {HomeStackParamList} from '@/navigations/stack/HomeStackNavigator';
+import type {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
+import {homeNavigations, mainNavigations} from '@/constants';
 
-type HomeScreenProps = NativeStackScreenProps<
-  HomeStackParamList,
-  HomeNavigations.MapHome
+type HomeScreenProps = CompositeScreenProps<
+  StackScreenProps<HomeStackParamList, typeof homeNavigations.MAP_HOME>,
+  DrawerScreenProps<MainDrawerParamList, typeof mainNavigations.HOME>
 >;
 
 function HomeScreen({navigation}: HomeScreenProps) {
@@ -27,7 +28,7 @@ function HomeScreen({navigation}: HomeScreenProps) {
           <Text>Home</Text>
           <Button
             title="AddLocation 페이지로 이동"
-            onPress={() => navigation.navigate(HomeNavigations.AddLocation)}
+            onPress={() => navigation.navigate(homeNavigations.ADD_LOCATION)}
           />
         </View>
       </ScrollView>

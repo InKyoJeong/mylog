@@ -1,4 +1,3 @@
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import React from 'react';
 import {
   Button,
@@ -8,14 +7,17 @@ import {
   Text,
   View,
 } from 'react-native';
-import {
-  FeedStackParamList,
-  FeedNavigations,
-} from '../navigations/stack/FeedStackNavigator';
+import type {StackScreenProps} from '@react-navigation/stack';
+import type {DrawerScreenProps} from '@react-navigation/drawer';
+import type {CompositeScreenProps} from '@react-navigation/native';
 
-type FeedScreenProps = NativeStackScreenProps<
-  FeedStackParamList,
-  FeedNavigations.LocationFeed
+import type {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
+import type {FeedStackParamList} from '@/navigations/stack/FeedStackNavigator';
+import {feedNavigations, mainNavigations} from '@/constants';
+
+type FeedScreenProps = CompositeScreenProps<
+  StackScreenProps<FeedStackParamList, typeof feedNavigations.LOCATION_FEED>,
+  DrawerScreenProps<MainDrawerParamList, typeof mainNavigations.FEED>
 >;
 
 function FeedScreen({navigation}: FeedScreenProps) {
@@ -26,7 +28,7 @@ function FeedScreen({navigation}: FeedScreenProps) {
           <Text>Feed</Text>
           <Button
             title="Detail 페이지로 이동"
-            onPress={() => navigation.navigate(FeedNavigations.LocationDetail)}
+            onPress={() => navigation.navigate(feedNavigations.LOCATION_DETAIL)}
           />
         </View>
       </ScrollView>

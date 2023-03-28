@@ -1,31 +1,47 @@
 import React from 'react';
-import {createDrawerNavigator} from '@react-navigation/drawer';
+import {Dimensions} from 'react-native';
+import {
+  createDrawerNavigator,
+  DrawerNavigationOptions,
+} from '@react-navigation/drawer';
 
-import HomeStackNavigator from '../stack/HomeStackNavigator';
-import FeedStackNavigator from '../stack/FeedStackNavigator';
-
-export enum MainNavigations {
-  Home = 'Home',
-  Feed = 'Feed',
-}
+import HomeStackNavigator from '@/navigations/stack/HomeStackNavigator';
+import FeedStackNavigator from '@/navigations/stack/FeedStackNavigator';
+import {colors, mainNavigations} from '@/constants';
 
 export type MainDrawerParamList = {
-  [MainNavigations.Home]: undefined;
-  [MainNavigations.Feed]: undefined;
+  [mainNavigations.HOME]: undefined;
+  [mainNavigations.FEED]: undefined;
 };
 
 const Drawer = createDrawerNavigator<MainDrawerParamList>();
 
+const mainDrawerOptions: DrawerNavigationOptions = {
+  headerShown: false,
+  drawerType: 'front',
+  drawerStyle: {
+    width: Dimensions.get('screen').width * 0.6,
+  },
+  drawerActiveTintColor: colors.BLACK,
+  drawerInactiveTintColor: colors.BLACK,
+  drawerActiveBackgroundColor: colors.PINK_200,
+  drawerContentStyle: {
+    backgroundColor: colors.WHITE,
+  },
+};
+
 function MainDrawerNavigator() {
   return (
-    <Drawer.Navigator screenOptions={{headerShown: false}}>
+    <Drawer.Navigator screenOptions={mainDrawerOptions}>
       <Drawer.Screen
-        name={MainNavigations.Home}
+        name={mainNavigations.HOME}
         component={HomeStackNavigator}
+        options={{title: '홈'}}
       />
       <Drawer.Screen
-        name={MainNavigations.Feed}
+        name={mainNavigations.FEED}
         component={FeedStackNavigator}
+        options={{title: '피드'}}
       />
     </Drawer.Navigator>
   );

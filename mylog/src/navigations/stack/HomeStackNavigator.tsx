@@ -1,31 +1,27 @@
 import React from 'react';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {createStackNavigator} from '@react-navigation/stack';
 
-import HomeScreen from '../../screens/HomeScreen';
-import AddLocationScreen from '../../screens/AddLocationScreen';
-
-export enum HomeNavigations {
-  MapHome = 'MapHome',
-  AddLocation = 'AddLocation',
-}
+import HomeScreen from '@/screens/HomeScreen';
+import AddLocationScreen from '@/screens/AddLocationScreen';
+import {homeNavigations} from '@/constants';
 
 export type HomeStackParamList = {
-  [HomeNavigations.MapHome]: undefined;
-  [HomeNavigations.AddLocation]: undefined;
+  [homeNavigations.MAP_HOME]: undefined;
+  [homeNavigations.ADD_LOCATION]: undefined;
 };
 
-const Stack = createNativeStackNavigator<HomeStackParamList>();
+const Stack = createStackNavigator<HomeStackParamList>();
 
 function HomeStackNavigator() {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name={HomeNavigations.MapHome}
+        name={homeNavigations.MAP_HOME}
         component={HomeScreen}
         options={{headerShown: false}}
       />
       <Stack.Screen
-        name={HomeNavigations.AddLocation}
+        name={homeNavigations.ADD_LOCATION}
         component={AddLocationScreen}
       />
     </Stack.Navigator>
