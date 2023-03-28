@@ -7,7 +7,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import type {NativeStackScreenProps} from '@react-navigation/native-stack';
+import type {StackScreenProps} from '@react-navigation/stack';
 import type {DrawerScreenProps} from '@react-navigation/drawer';
 import type {CompositeScreenProps} from '@react-navigation/native';
 
@@ -16,10 +16,7 @@ import type {FeedStackParamList} from '@/navigations/stack/FeedStackNavigator';
 import {feedNavigations, mainNavigations} from '@/constants';
 
 type FeedScreenProps = CompositeScreenProps<
-  NativeStackScreenProps<
-    FeedStackParamList,
-    typeof feedNavigations.LOCATION_FEED
-  >,
+  StackScreenProps<FeedStackParamList, typeof feedNavigations.LOCATION_FEED>,
   DrawerScreenProps<MainDrawerParamList, typeof mainNavigations.FEED>
 >;
 

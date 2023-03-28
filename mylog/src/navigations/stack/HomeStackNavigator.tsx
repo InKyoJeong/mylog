@@ -1,5 +1,5 @@
 import React from 'react';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {createStackNavigator} from '@react-navigation/stack';
 
 import HomeScreen from '@/screens/HomeScreen';
 import AddLocationScreen from '@/screens/AddLocationScreen';
@@ -10,7 +10,7 @@ export type HomeStackParamList = {
   [homeNavigations.ADD_LOCATION]: undefined;
 };
 
-const Stack = createNativeStackNavigator<HomeStackParamList>();
+const Stack = createStackNavigator<HomeStackParamList>();
 
 function HomeStackNavigator() {
   return (

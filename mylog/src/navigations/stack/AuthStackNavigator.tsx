@@ -1,5 +1,5 @@
 import React from 'react';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {createStackNavigator} from '@react-navigation/stack';
 
 import SignupScreen from '@/screens/auth/SignupScreen';
 import LoginScreen from '@/screens/auth/LoginScreen';
@@ -11,7 +11,7 @@ export type AuthStackParamList = {
   [authNavigations.LOGIN]: undefined;
   [authNavigations.SIGNUP]: undefined;
 };
-const Stack = createNativeStackNavigator<AuthStackParamList>();
+const Stack = createStackNavigator<AuthStackParamList>();
 
 function AuthStackNavigator() {
   return (
@@ -20,11 +20,24 @@ function AuthStackNavigator() {
         name={authNavigations.AUTH_HOME}
         component={AuthHomeScreen}
         options={{
+          headerTitle: ' ',
           headerShown: false,
         }}
       />
-      <Stack.Screen name={authNavigations.LOGIN} component={LoginScreen} />
-      <Stack.Screen name={authNavigations.SIGNUP} component={SignupScreen} />
+      <Stack.Screen
+        name={authNavigations.LOGIN}
+        component={LoginScreen}
+        options={{
+          headerTitle: '로그인',
+        }}
+      />
+      <Stack.Screen
+        name={authNavigations.SIGNUP}
+        component={SignupScreen}
+        options={{
+          headerTitle: '회원가입',
+        }}
+      />
     </Stack.Navigator>
   );
 }

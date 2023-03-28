@@ -7,7 +7,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import type {NativeStackScreenProps} from '@react-navigation/native-stack';
+import type {StackScreenProps} from '@react-navigation/stack';
 import type {DrawerScreenProps} from '@react-navigation/drawer';
 import type {CompositeScreenProps} from '@react-navigation/native';
 
@@ -16,7 +16,7 @@ import type {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator
 import {homeNavigations, mainNavigations} from '@/constants';
 
 type HomeScreenProps = CompositeScreenProps<
-  NativeStackScreenProps<HomeStackParamList, typeof homeNavigations.MAP_HOME>,
+  StackScreenProps<HomeStackParamList, typeof homeNavigations.MAP_HOME>,
   DrawerScreenProps<MainDrawerParamList, typeof mainNavigations.HOME>
 >;
 
