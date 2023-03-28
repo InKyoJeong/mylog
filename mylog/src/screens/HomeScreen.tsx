@@ -1,5 +1,4 @@
 import React from 'react';
-import type {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {
   Button,
   SafeAreaView,
@@ -8,13 +7,17 @@ import {
   Text,
   View,
 } from 'react-native';
+import type {NativeStackScreenProps} from '@react-navigation/native-stack';
+import type {DrawerScreenProps} from '@react-navigation/drawer';
+import type {CompositeScreenProps} from '@react-navigation/native';
 
-import {HomeStackParamList} from '@/navigations/stack/HomeStackNavigator';
-import {homeNavigations} from '@/constants';
+import type {HomeStackParamList} from '@/navigations/stack/HomeStackNavigator';
+import type {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
+import {homeNavigations, mainNavigations} from '@/constants';
 
-type HomeScreenProps = NativeStackScreenProps<
-  HomeStackParamList,
-  typeof homeNavigations.MAP_HOME
+type HomeScreenProps = CompositeScreenProps<
+  NativeStackScreenProps<HomeStackParamList, typeof homeNavigations.MAP_HOME>,
+  DrawerScreenProps<MainDrawerParamList, typeof mainNavigations.HOME>
 >;
 
 function HomeScreen({navigation}: HomeScreenProps) {

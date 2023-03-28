@@ -1,5 +1,4 @@
 import React from 'react';
-import type {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {
   Button,
   SafeAreaView,
@@ -8,13 +7,20 @@ import {
   Text,
   View,
 } from 'react-native';
+import type {NativeStackScreenProps} from '@react-navigation/native-stack';
+import type {DrawerScreenProps} from '@react-navigation/drawer';
+import type {CompositeScreenProps} from '@react-navigation/native';
 
-import {FeedStackParamList} from '@/navigations/stack/FeedStackNavigator';
-import {feedNavigations} from '@/constants';
+import type {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
+import type {FeedStackParamList} from '@/navigations/stack/FeedStackNavigator';
+import {feedNavigations, mainNavigations} from '@/constants';
 
-type FeedScreenProps = NativeStackScreenProps<
-  FeedStackParamList,
-  typeof feedNavigations.LOCATION_FEED
+type FeedScreenProps = CompositeScreenProps<
+  NativeStackScreenProps<
+    FeedStackParamList,
+    typeof feedNavigations.LOCATION_FEED
+  >,
+  DrawerScreenProps<MainDrawerParamList, typeof mainNavigations.FEED>
 >;
 
 function FeedScreen({navigation}: FeedScreenProps) {
