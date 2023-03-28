@@ -26,7 +26,7 @@ const mainDrawerOptions: DrawerNavigationOptions = {
   drawerInactiveTintColor: colors.BLACK,
   drawerActiveBackgroundColor: colors.PINK_200,
   drawerContentStyle: {
-    backgroundColor: colors.WIHTE,
+    backgroundColor: colors.WHITE,
   },
 };
 

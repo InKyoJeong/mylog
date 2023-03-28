@@ -6,6 +6,8 @@ import {
   Pressable,
   Text,
   Dimensions,
+  StyleProp,
+  ViewStyle,
 } from 'react-native';
 
 import {colors} from '@/constants';
@@ -17,6 +19,7 @@ interface CustomButtonProps extends PressableProps {
   label: string;
   variant?: Variant;
   size?: Size;
+  style?: StyleProp<ViewStyle>;
 }
 const deviceHeight = Dimensions.get('screen').height;
 
@@ -24,6 +27,7 @@ function CustomButton({
   label,
   variant = 'standard',
   size = 'default',
+  style = null,
   ...props
 }: CustomButtonProps) {
   return (
@@ -33,7 +37,7 @@ function CustomButton({
         styles.container,
       ]}
       {...props}>
-      <View style={[styles.view, styles[size]]}>
+      <View style={[styles.view, styles[size], style]}>
         <Text style={[styles.text, styles[`${variant}Text`]]}>{label}</Text>
       </View>
     </Pressable>
@@ -79,12 +83,12 @@ const styles = StyleSheet.create({
     opacity: 0.5,
   },
   text: {
-    color: colors.WIHTE,
+    color: colors.WHITE,
     fontSize: 16,
     fontWeight: '700',
   },
   filledText: {
-    color: colors.WIHTE,
+    color: colors.WHITE,
   },
   outlinedText: {
     color: colors.PINK_600,

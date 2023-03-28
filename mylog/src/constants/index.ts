@@ -1,5 +1,5 @@
 const colors = {
-  WIHTE: '#FFF',
+  WHITE: '#FFF',
   PINK_200: '#FAE2E9',
   PINK_400: '#bf5c79',
   PINK_600: '#C63B64',
