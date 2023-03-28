@@ -7,16 +7,11 @@ import {
 
 import HomeStackNavigator from '@/navigations/stack/HomeStackNavigator';
 import FeedStackNavigator from '@/navigations/stack/FeedStackNavigator';
-import {color} from '@/constants';
-
-export enum MainNavigations {
-  Home = 'Home',
-  Feed = 'Feed',
-}
+import {colors, mainNavigations} from '@/constants';
 
 export type MainDrawerParamList = {
-  [MainNavigations.Home]: undefined;
-  [MainNavigations.Feed]: undefined;
+  [mainNavigations.HOME]: undefined;
+  [mainNavigations.FEED]: undefined;
 };
 
 const Drawer = createDrawerNavigator<MainDrawerParamList>();
@@ -27,11 +22,11 @@ const mainDrawerOptions: DrawerNavigationOptions = {
   drawerStyle: {
     width: Dimensions.get('screen').width * 0.6,
   },
-  drawerActiveTintColor: color.BLACK,
-  drawerInactiveTintColor: color.BLACK,
-  drawerActiveBackgroundColor: color.PINK_200,
+  drawerActiveTintColor: colors.BLACK,
+  drawerInactiveTintColor: colors.BLACK,
+  drawerActiveBackgroundColor: colors.PINK_200,
   drawerContentStyle: {
-    backgroundColor: color.WIHTE,
+    backgroundColor: colors.WIHTE,
   },
 };
 
@@ -39,12 +34,12 @@ function MainDrawerNavigator() {
   return (
     <Drawer.Navigator screenOptions={mainDrawerOptions}>
       <Drawer.Screen
-        name={MainNavigations.Home}
+        name={mainNavigations.HOME}
         component={HomeStackNavigator}
         options={{title: '홈'}}
       />
       <Drawer.Screen
-        name={MainNavigations.Feed}
+        name={mainNavigations.FEED}
         component={FeedStackNavigator}
         options={{title: '피드'}}
       />

@@ -3,23 +3,19 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import SignupScreen from '@/screens/auth/SignupScreen';
 import LoginScreen from '@/screens/auth/LoginScreen';
-
-export enum AuthNavigations {
-  Login = 'Login',
-  Signup = 'Signup',
-}
+import {authNavigations} from '@/constants';
 
 export type AuthStackParamList = {
-  [AuthNavigations.Login]: undefined;
-  [AuthNavigations.Signup]: undefined;
+  [authNavigations.LOGIN]: undefined;
+  [authNavigations.SIGNUP]: undefined;
 };
 const Stack = createNativeStackNavigator<AuthStackParamList>();
 
 function AuthStackNavigator() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name={AuthNavigations.Login} component={LoginScreen} />
-      <Stack.Screen name={AuthNavigations.Signup} component={SignupScreen} />
+      <Stack.Screen name={authNavigations.LOGIN} component={LoginScreen} />
+      <Stack.Screen name={authNavigations.SIGNUP} component={SignupScreen} />
     </Stack.Navigator>
   );
 }

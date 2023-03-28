@@ -9,14 +9,12 @@ import {
   View,
 } from 'react-native';
 
-import {
-  HomeNavigations,
-  HomeStackParamList,
-} from '@/navigations/stack/HomeStackNavigator';
+import {HomeStackParamList} from '@/navigations/stack/HomeStackNavigator';
+import {homeNavigations} from '@/constants';
 
 type HomeScreenProps = NativeStackScreenProps<
   HomeStackParamList,
-  HomeNavigations.MapHome
+  typeof homeNavigations.MAP_HOME
 >;
 
 function HomeScreen({navigation}: HomeScreenProps) {
@@ -27,7 +25,7 @@ function HomeScreen({navigation}: HomeScreenProps) {
           <Text>Home</Text>
           <Button
             title="AddLocation 페이지로 이동"
-            onPress={() => navigation.navigate(HomeNavigations.AddLocation)}
+            onPress={() => navigation.navigate(homeNavigations.ADD_LOCATION)}
           />
         </View>
       </ScrollView>

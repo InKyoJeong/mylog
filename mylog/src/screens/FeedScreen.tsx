@@ -9,14 +9,12 @@ import {
   View,
 } from 'react-native';
 
-import {
-  FeedNavigations,
-  FeedStackParamList,
-} from '@/navigations/stack/FeedStackNavigator';
+import {FeedStackParamList} from '@/navigations/stack/FeedStackNavigator';
+import {feedNavigations} from '@/constants';
 
 type FeedScreenProps = NativeStackScreenProps<
   FeedStackParamList,
-  FeedNavigations.LocationFeed
+  typeof feedNavigations.LOCATION_FEED
 >;
 
 function FeedScreen({navigation}: FeedScreenProps) {
@@ -27,7 +25,7 @@ function FeedScreen({navigation}: FeedScreenProps) {
           <Text>Feed</Text>
           <Button
             title="Detail 페이지로 이동"
-            onPress={() => navigation.navigate(FeedNavigations.LocationDetail)}
+            onPress={() => navigation.navigate(feedNavigations.LOCATION_DETAIL)}
           />
         </View>
       </ScrollView>
