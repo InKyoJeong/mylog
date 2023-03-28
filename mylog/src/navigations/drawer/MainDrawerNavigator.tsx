@@ -1,8 +1,8 @@
 import React from 'react';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 
-import HomeStackNavigator from '../stack/HomeStackNavigator';
-import FeedStackNavigator from '../stack/FeedStackNavigator';
+import HomeStackNavigator from '@/navigations/stack/HomeStackNavigator';
+import FeedStackNavigator from '@/navigations/stack/FeedStackNavigator';
 
 export enum MainNavigations {
   Home = 'Home',

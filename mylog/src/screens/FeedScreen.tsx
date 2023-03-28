@@ -8,10 +8,11 @@ import {
   Text,
   View,
 } from 'react-native';
+
 import {
-  FeedStackParamList,
   FeedNavigations,
-} from '../navigations/stack/FeedStackNavigator';
+  FeedStackParamList,
+} from '@/navigations/stack/FeedStackNavigator';
 
 type FeedScreenProps = NativeStackScreenProps<
   FeedStackParamList,

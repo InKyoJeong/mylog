@@ -12,7 +12,7 @@ import {
 import {
   HomeNavigations,
   HomeStackParamList,
-} from '../navigations/stack/HomeStackNavigator';
+} from '@/navigations/stack/HomeStackNavigator';
 
 type HomeScreenProps = NativeStackScreenProps<
   HomeStackParamList,

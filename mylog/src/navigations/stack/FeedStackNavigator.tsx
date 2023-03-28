@@ -1,8 +1,8 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-import FeedScreen from '../../screens/FeedScreen';
-import LocationDetailScreen from '../../screens/LocationDetailScreen';
+import FeedScreen from '@/screens/FeedScreen';
+import LocationDetailScreen from '@/screens/LocationDetailScreen';
 
 export enum FeedNavigations {
   LocationFeed = 'LocationFeed',
