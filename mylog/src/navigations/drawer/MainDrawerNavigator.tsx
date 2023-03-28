@@ -1,4 +1,5 @@
 import React from 'react';
+import {Dimensions} from 'react-native';
 import {
   createDrawerNavigator,
   DrawerNavigationOptions,
@@ -6,7 +7,7 @@ import {
 
 import HomeStackNavigator from '@/navigations/stack/HomeStackNavigator';
 import FeedStackNavigator from '@/navigations/stack/FeedStackNavigator';
-import {Dimensions} from 'react-native';
+import {color} from '@/constants';
 
 export enum MainNavigations {
   Home = 'Home',
@@ -26,11 +27,11 @@ const mainDrawerOptions: DrawerNavigationOptions = {
   drawerStyle: {
     width: Dimensions.get('screen').width * 0.6,
   },
-  drawerActiveTintColor: 'black',
-  drawerInactiveTintColor: '#000',
-  drawerActiveBackgroundColor: '#FAE2E9',
+  drawerActiveTintColor: color.BLACK,
+  drawerInactiveTintColor: color.BLACK,
+  drawerActiveBackgroundColor: color.PINK_200,
   drawerContentStyle: {
-    backgroundColor: '#fff',
+    backgroundColor: color.WIHTE,
   },
 };
 
