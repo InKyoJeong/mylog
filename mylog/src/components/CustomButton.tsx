@@ -21,6 +21,7 @@ interface CustomButtonProps extends PressableProps {
   size?: Size;
   style?: StyleProp<ViewStyle>;
 }
+
 const deviceHeight = Dimensions.get('screen').height;
 
 function CustomButton({
