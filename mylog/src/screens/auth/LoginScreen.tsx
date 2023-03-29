@@ -1,10 +1,10 @@
 import React, {useRef} from 'react';
 import {
   View,
+  TextInput,
   SafeAreaView,
   ScrollView,
   StyleSheet,
-  TextInput,
 } from 'react-native';
 
 import CustomButton from '@/components/CustomButton';
@@ -53,7 +53,12 @@ function LoginScreen() {
             onSubmitEditing={handleSubmit}
           />
         </View>
-        <CustomButton label="로그인" variant="filled" />
+        <CustomButton
+          label="로그인"
+          variant="filled"
+          size="large"
+          isValid={!login.hasErrors}
+        />
       </ScrollView>
     </SafeAreaView>
   );
