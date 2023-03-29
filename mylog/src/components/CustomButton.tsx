@@ -10,7 +10,7 @@ import {
   ViewStyle,
 } from 'react-native';
 
-import {colors} from '@/constants';
+import {colors} from '@/constants/colors';
 
 type Variant = 'standard' | 'outlined' | 'filled';
 type Size = 'default' | 'medium' | 'large';
@@ -21,6 +21,7 @@ interface CustomButtonProps extends PressableProps {
   size?: Size;
   style?: StyleProp<ViewStyle>;
 }
+
 const deviceHeight = Dimensions.get('screen').height;
 
 function CustomButton({

@@ -3,7 +3,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 import HomeScreen from '@/screens/HomeScreen';
 import AddLocationScreen from '@/screens/AddLocationScreen';
-import {homeNavigations} from '@/constants';
+import {homeNavigations} from '@/constants/navigations';
 
 export type HomeStackParamList = {
   [homeNavigations.MAP_HOME]: undefined;

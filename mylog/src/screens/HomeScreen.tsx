@@ -13,7 +13,7 @@ import type {CompositeScreenProps} from '@react-navigation/native';
 
 import type {HomeStackParamList} from '@/navigations/stack/HomeStackNavigator';
 import type {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
-import {homeNavigations, mainNavigations} from '@/constants';
+import {homeNavigations, mainNavigations} from '@/constants/navigations';
 
 type HomeScreenProps = CompositeScreenProps<
   StackScreenProps<HomeStackParamList, typeof homeNavigations.MAP_HOME>,

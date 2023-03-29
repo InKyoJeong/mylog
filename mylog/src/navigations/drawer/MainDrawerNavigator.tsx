@@ -7,7 +7,8 @@ import {
 
 import HomeStackNavigator from '@/navigations/stack/HomeStackNavigator';
 import FeedStackNavigator from '@/navigations/stack/FeedStackNavigator';
-import {colors, mainNavigations} from '@/constants';
+import {mainNavigations} from '@/constants/navigations';
+import {colors} from '@/constants/colors';
 
 export type MainDrawerParamList = {
   [mainNavigations.HOME]: undefined;
