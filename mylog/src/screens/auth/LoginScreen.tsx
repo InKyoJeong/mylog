@@ -27,6 +27,7 @@ function LoginScreen() {
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.inputContainer}>
           <InputField
+            autoFocus
             {...login.getTextInputProps('username')}
             error={login.errors.username}
             touched={login.touched.username}

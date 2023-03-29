@@ -28,6 +28,7 @@ function SignupScreen() {
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.inputContainer}>
           <InputField
+            autoFocus
             {...signup.getTextInputProps('username')}
             error={signup.errors.username}
             touched={signup.touched.username}
