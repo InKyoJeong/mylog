@@ -3,7 +3,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 import FeedScreen from '@/screens/FeedScreen';
 import LocationDetailScreen from '@/screens/LocationDetailScreen';
-import {feedNavigations} from '@/constants';
+import {feedNavigations} from '@/constants/navigations';
 
 export type FeedStackParamList = {
   [feedNavigations.LOCATION_FEED]: undefined;

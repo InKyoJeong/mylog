@@ -1,11 +1,3 @@
-const colors = {
-  WHITE: '#FFF',
-  PINK_200: '#FAE2E9',
-  PINK_400: '#bf5c79',
-  PINK_600: '#C63B64',
-  BLACK: '#000',
-} as const;
-
 const mainNavigations = {
   HOME: 'Home',
   FEED: 'Feed',
@@ -27,10 +19,4 @@ const feedNavigations = {
   LOCATION_DETAIL: 'LocationDetail',
 } as const;
 
-export {
-  colors,
-  mainNavigations,
-  authNavigations,
-  homeNavigations,
-  feedNavigations,
-};
+export {mainNavigations, authNavigations, homeNavigations, feedNavigations};

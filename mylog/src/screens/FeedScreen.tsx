@@ -13,7 +13,7 @@ import type {CompositeScreenProps} from '@react-navigation/native';
 
 import type {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
 import type {FeedStackParamList} from '@/navigations/stack/FeedStackNavigator';
-import {feedNavigations, mainNavigations} from '@/constants';
+import {feedNavigations, mainNavigations} from '@/constants/navigations';
 
 type FeedScreenProps = CompositeScreenProps<
   StackScreenProps<FeedStackParamList, typeof feedNavigations.LOCATION_FEED>,

@@ -1,20 +1,25 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {SafeAreaView, StyleSheet, View} from 'react-native';
+
+import CustomButton from '@/components/CustomButton';
 
 function SignupScreen() {
   return (
-    <View style={styles.container}>
-      <View style={styles.view}></View>
-    </View>
+    <SafeAreaView style={styles.container}>
+      <View>
+        <CustomButton label="회원가입" variant="filled" size="large" />
+      </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  view: {
-    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginHorizontal: 30,
+    marginVertical: 30,
   },
 });
 

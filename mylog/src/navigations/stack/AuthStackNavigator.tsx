@@ -1,10 +1,14 @@
 import React from 'react';
-import {createStackNavigator} from '@react-navigation/stack';
+import {
+  createStackNavigator,
+  StackNavigationOptions,
+} from '@react-navigation/stack';
 
 import SignupScreen from '@/screens/auth/SignupScreen';
 import LoginScreen from '@/screens/auth/LoginScreen';
 import AuthHomeScreen from '@/screens/auth/AuthHomeScreen';
-import {authNavigations, colors} from '@/constants';
+import {authNavigations} from '@/constants/navigations';
+import {colors} from '@/constants/colors';
 
 export type AuthStackParamList = {
   [authNavigations.AUTH_HOME]: undefined;
@@ -13,18 +17,19 @@ export type AuthStackParamList = {
 };
 const Stack = createStackNavigator<AuthStackParamList>();
 
+const authStackOptions: StackNavigationOptions = {
+  headerStyle: {
+    backgroundColor: colors.WHITE,
+  },
+  headerTintColor: colors.BLACK,
+  cardStyle: {
+    backgroundColor: colors.WHITE,
+  },
+};
+
 function AuthStackNavigator() {
   return (
-    <Stack.Navigator
-      screenOptions={{
-        headerStyle: {
-          backgroundColor: colors.WHITE,
-        },
-        headerTintColor: colors.BLACK,
-        cardStyle: {
-          backgroundColor: colors.WHITE,
-        },
-      }}>
+    <Stack.Navigator screenOptions={authStackOptions}>
       <Stack.Screen
         name={authNavigations.AUTH_HOME}
         component={AuthHomeScreen}
