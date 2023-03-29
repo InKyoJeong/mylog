@@ -1,43 +1,59 @@
-import React, {useState} from 'react';
-import {SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
+import React, {useRef} from 'react';
+import {
+  View,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  TextInput,
+} from 'react-native';
 
 import CustomButton from '@/components/CustomButton';
 import InputField from '@/components/InputField';
+import useForm from '@/hooks/common/useForm';
+
+const validateLogin = () => ({
+  id: '',
+  password: '',
+});
 
 function LoginScreen() {
-  const [value, setValue] = useState('');
-  const [password, setPassword] = useState('');
+  const login = useForm({
+    initialValue: {
+      id: '',
+      password: '',
+    },
+    validate: validateLogin,
+  });
 
-  const handleChangeId = (text: string) => {
-    setValue(text);
-  };
+  const passwordRef = useRef<TextInput | null>(null);
 
-  const handleChangePassword = (text: string) => {
-    setPassword(text);
-  };
+  const handleSubmit = () => {};
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.inputContainer}>
           <InputField
-            value={value}
-            onChangeText={handleChangeId}
+            {...login.getTextInputProps('id')}
+            onSubmitEditing={() => {
+              passwordRef.current?.focus();
+            }}
             placeholder="아이디"
             importantForAutofill="yes"
             returnKeyType="next"
             clearButtonMode="always"
             autoCapitalize="none"
             inputMode="email"
-            blurOnSubmit={false}
             maxLength={20}
+            blurOnSubmit={false}
           />
           <InputField
-            value={password}
-            onChangeText={handleChangePassword}
+            {...login.getTextInputProps('password')}
+            ref={passwordRef}
             placeholder="비밀번호"
             maxLength={20}
             secureTextEntry
+            onSubmitEditing={handleSubmit}
           />
         </View>
         <CustomButton label="로그인" variant="filled" />

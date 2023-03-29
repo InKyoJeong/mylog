@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {ForwardedRef, forwardRef} from 'react';
 import {
   Dimensions,
   StyleSheet,
@@ -17,18 +17,24 @@ interface InputFieldProps extends TextInputProps {
 
 const deviceHeight = Dimensions.get('screen').height;
 
-function InputField({touched, error, ...props}: InputFieldProps) {
-  return (
-    <View style={[styles.container, touched && !!error && styles.inputError]}>
-      <TextInput
-        style={styles.input}
-        placeholderTextColor={colors.GRAY_500}
-        {...props}
-      />
-      {touched && <Text style={styles.error}>{error}</Text>}
-    </View>
-  );
-}
+const InputField = forwardRef(
+  (
+    {touched, error, ...props}: InputFieldProps,
+    ref?: ForwardedRef<TextInput>,
+  ) => {
+    return (
+      <View style={[styles.container, touched && !!error && styles.inputError]}>
+        <TextInput
+          ref={ref}
+          style={styles.input}
+          placeholderTextColor={colors.GRAY_500}
+          {...props}
+        />
+        {touched && <Text style={styles.error}>{error}</Text>}
+      </View>
+    );
+  },
+);
 
 const styles = StyleSheet.create({
   container: {
