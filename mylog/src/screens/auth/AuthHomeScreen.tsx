@@ -4,7 +4,7 @@ import type {StackScreenProps} from '@react-navigation/stack';
 
 import type {AuthStackParamList} from '@/navigations/stack/AuthStackNavigator';
 import CustomButton from '@/components/CustomButton';
-import {authNavigations} from '@/constants';
+import {authNavigations} from '@/constants/navigations';
 
 type AuthHomeScreenProps = StackScreenProps<
   AuthStackParamList,

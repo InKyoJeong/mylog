@@ -10,7 +10,7 @@ import {
   ViewStyle,
 } from 'react-native';
 
-import {colors} from '@/constants';
+import {colors} from '@/constants/colors';
 
 type Variant = 'standard' | 'outlined' | 'filled';
 type Size = 'default' | 'medium' | 'large';
