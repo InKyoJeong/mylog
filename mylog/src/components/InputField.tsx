@@ -30,7 +30,7 @@ const InputField = forwardRef(
           placeholderTextColor={colors.GRAY_500}
           {...props}
         />
-        {touched && <Text style={styles.error}>{error}</Text>}
+        {touched && error && <Text style={styles.error}>{error}</Text>}
       </View>
     );
   },

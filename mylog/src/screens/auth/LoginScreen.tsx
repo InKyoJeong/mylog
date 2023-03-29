@@ -10,18 +10,11 @@ import {
 import CustomButton from '@/components/CustomButton';
 import InputField from '@/components/InputField';
 import useForm from '@/hooks/common/useForm';
-
-const validateLogin = () => ({
-  id: '',
-  password: '',
-});
+import {validateLogin} from '@/utils/validate';
 
 function LoginScreen() {
   const login = useForm({
-    initialValue: {
-      id: '',
-      password: '',
-    },
+    initialValue: {username: '', password: ''},
     validate: validateLogin,
   });
 
@@ -34,24 +27,28 @@ function LoginScreen() {
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.inputContainer}>
           <InputField
-            {...login.getTextInputProps('id')}
+            {...login.getTextInputProps('username')}
+            error={login.errors.username}
+            touched={login.touched.username}
+            placeholder="아이디"
+            maxLength={20}
+            inputMode="email"
+            clearButtonMode="always"
+            autoCapitalize="none"
+            returnKeyType="next"
+            blurOnSubmit={false}
             onSubmitEditing={() => {
               passwordRef.current?.focus();
             }}
-            placeholder="아이디"
-            importantForAutofill="yes"
-            returnKeyType="next"
-            clearButtonMode="always"
-            autoCapitalize="none"
-            inputMode="email"
-            maxLength={20}
-            blurOnSubmit={false}
           />
           <InputField
             {...login.getTextInputProps('password')}
+            error={login.errors.password}
+            touched={login.touched.password}
             ref={passwordRef}
             placeholder="비밀번호"
             maxLength={20}
+            clearButtonMode="always"
             secureTextEntry
             onSubmitEditing={handleSubmit}
           />

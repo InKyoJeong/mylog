@@ -1,7 +1,7 @@
 import React from 'react';
 import {Dimensions, Image, SafeAreaView, StyleSheet, View} from 'react-native';
-
 import type {StackScreenProps} from '@react-navigation/stack';
+
 import type {AuthStackParamList} from '@/navigations/stack/AuthStackNavigator';
 import CustomButton from '@/components/CustomButton';
 import {authNavigations} from '@/constants';
@@ -31,6 +31,7 @@ function AuthHomeScreen({navigation}: AuthHomeScreenProps) {
         <CustomButton
           label="MYLOG 가입하기"
           variant="outlined"
+          size="large"
           onPress={() => navigation.navigate(authNavigations.SIGNUP)}
         />
       </View>
