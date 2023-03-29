@@ -1,3 +1,5 @@
+import {errorMessages} from '@/constants/messages';
+import {numbers} from '@/constants/numbers';
 import {getObjectWithValue} from '.';
 
 type LoginInfo = {
@@ -13,17 +15,23 @@ const validateLogin = (values: LoginInfo) => {
   const {username, password} = values;
 
   if (!/^[a-zA-Z0-9]*$/.test(username)) {
-    errors.username = '아이디는 영어 또는 숫자로 입력해주세요.';
+    errors.username = errorMessages.INVALID_USERNAME_FORMAT;
   }
-  if (username.length < 4 || username.length > 20) {
-    errors.username = '아이디는 4~20자 이내로 입력해주세요.';
+  if (
+    username.length < numbers.MIN_USERNAME_LENGTH ||
+    username.length > numbers.MAX_USERNAME_LENGTH
+  ) {
+    errors.username = errorMessages.INVALID_USERNAME_LENGTH;
   }
 
   if (!/^[a-zA-Z0-9`'~!@#$%^&*()-_=+]*$/.test(password)) {
-    errors.password = '비밀번호는 영어, 숫자, 특수문자만 입력가능합니다.';
+    errors.password = errorMessages.INVALID_PASSWORD_FORMAT;
   }
-  if (password.length < 8 || password.length > 20) {
-    errors.password = '비밀번호는 8~20자 이내로 입력해주세요.';
+  if (
+    password.length < numbers.MIN_PASSWORD_LENGTH ||
+    password.length > numbers.MAX_PASSWORD_LENGTH
+  ) {
+    errors.password = errorMessages.INVALID_PASSWORD_LENGTH;
   }
 
   return errors;
