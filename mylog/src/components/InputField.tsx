@@ -1,6 +1,7 @@
-import React, {ForwardedRef, forwardRef} from 'react';
+import React, {ForwardedRef, forwardRef, useRef} from 'react';
 import {
   Dimensions,
+  Pressable,
   StyleSheet,
   Text,
   TextInput,
@@ -17,24 +18,46 @@ interface InputFieldProps extends TextInputProps {
 
 const deviceHeight = Dimensions.get('screen').height;
 
-const InputField = forwardRef(
-  (
-    {touched, error, ...props}: InputFieldProps,
-    ref?: ForwardedRef<TextInput>,
-  ) => {
-    return (
+function mergeRefs<T>(
+  ...refs: (React.MutableRefObject<T> | React.ForwardedRef<T>)[]
+) {
+  return (node: T) => {
+    refs.forEach(ref => {
+      if (typeof ref === 'function') {
+        ref(node);
+      } else if (ref) {
+        ref.current = node;
+      }
+    });
+  };
+}
+
+function InputField(
+  {touched, error, ...props}: InputFieldProps,
+  ref?: ForwardedRef<TextInput>,
+) {
+  const innerRef = useRef<TextInput | null>(null);
+
+  const handlePressInput = () => {
+    innerRef.current?.focus();
+  };
+
+  return (
+    <Pressable onPress={handlePressInput}>
       <View style={[styles.container, touched && !!error && styles.inputError]}>
         <TextInput
-          ref={ref}
+          ref={ref ? mergeRefs(innerRef, ref) : innerRef}
           style={styles.input}
+          autoCapitalize="none"
+          clearButtonMode="while-editing"
           placeholderTextColor={colors.GRAY_500}
           {...props}
         />
         {touched && error && <Text style={styles.error}>{error}</Text>}
       </View>
-    );
-  },
-);
+    </Pressable>
+  );
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -60,4 +83,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default InputField;
+export default forwardRef(InputField);
