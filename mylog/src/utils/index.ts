@@ -1,3 +1,5 @@
+import {ForwardedRef, MutableRefObject} from 'react';
+
 function getObjectWithValue<T, K>(
   array: (keyof T)[],
   value: K,
@@ -8,4 +10,16 @@ function getObjectWithValue<T, K>(
   );
 }
 
-export {getObjectWithValue};
+function mergeRefs<T>(...refs: (MutableRefObject<T> | ForwardedRef<T>)[]) {
+  return (node: T) => {
+    refs.forEach(ref => {
+      if (typeof ref === 'function') {
+        ref(node);
+      } else if (ref) {
+        ref.current = node;
+      }
+    });
+  };
+}
+
+export {getObjectWithValue, mergeRefs};

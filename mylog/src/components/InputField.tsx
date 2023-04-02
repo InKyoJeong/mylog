@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 
 import {colors} from '@/constants/colors';
+import {mergeRefs} from '@/utils';
 
 interface InputFieldProps extends TextInputProps {
   touched?: boolean;
@@ -17,20 +18,6 @@ interface InputFieldProps extends TextInputProps {
 }
 
 const deviceHeight = Dimensions.get('screen').height;
-
-function mergeRefs<T>(
-  ...refs: (React.MutableRefObject<T> | React.ForwardedRef<T>)[]
-) {
-  return (node: T) => {
-    refs.forEach(ref => {
-      if (typeof ref === 'function') {
-        ref(node);
-      } else if (ref) {
-        ref.current = node;
-      }
-    });
-  };
-}
 
 function InputField(
   {touched, error, ...props}: InputFieldProps,
