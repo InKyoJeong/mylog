@@ -1,14 +1,10 @@
 import React, {useRef} from 'react';
-import {
-  View,
-  TextInput,
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-} from 'react-native';
+import {View, TextInput, SafeAreaView, StyleSheet} from 'react-native';
 
 import CustomButton from '@/components/CustomButton';
 import InputField from '@/components/InputField';
+import KeyboardPersistView from '@/components/KeyboardPersistView';
+import CustomKeyboardAvoidingView from '@/components/CustomKeyboardAvoidingView';
 import useForm from '@/hooks/common/useForm';
 import {validateLogin} from '@/utils/validate';
 
@@ -24,43 +20,43 @@ function LoginScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles.inputContainer}>
-          <InputField
-            autoFocus
-            {...login.getTextInputProps('username')}
-            error={login.errors.username}
-            touched={login.touched.username}
-            placeholder="아이디"
-            maxLength={20}
-            inputMode="email"
-            clearButtonMode="always"
-            autoCapitalize="none"
-            returnKeyType="next"
-            blurOnSubmit={false}
-            onSubmitEditing={() => {
-              passwordRef.current?.focus();
-            }}
+      <KeyboardPersistView>
+        <CustomKeyboardAvoidingView>
+          <View style={styles.inputContainer}>
+            <InputField
+              autoFocus
+              {...login.getTextInputProps('username')}
+              error={login.errors.username}
+              touched={login.touched.username}
+              placeholder="아이디"
+              maxLength={20}
+              inputMode="email"
+              returnKeyType="next"
+              blurOnSubmit={false}
+              onSubmitEditing={() => {
+                passwordRef.current?.focus();
+              }}
+            />
+            <InputField
+              {...login.getTextInputProps('password')}
+              error={login.errors.password}
+              touched={login.touched.password}
+              ref={passwordRef}
+              placeholder="비밀번호"
+              maxLength={20}
+              returnKeyType="join"
+              secureTextEntry
+              onSubmitEditing={handleSubmit}
+            />
+          </View>
+          <CustomButton
+            label="로그인"
+            variant="filled"
+            size="large"
+            isValid={!login.hasErrors}
           />
-          <InputField
-            {...login.getTextInputProps('password')}
-            error={login.errors.password}
-            touched={login.touched.password}
-            ref={passwordRef}
-            placeholder="비밀번호"
-            maxLength={20}
-            clearButtonMode="always"
-            secureTextEntry
-            onSubmitEditing={handleSubmit}
-          />
-        </View>
-        <CustomButton
-          label="로그인"
-          variant="filled"
-          size="large"
-          isValid={!login.hasErrors}
-        />
-      </ScrollView>
+        </CustomKeyboardAvoidingView>
+      </KeyboardPersistView>
     </SafeAreaView>
   );
 }

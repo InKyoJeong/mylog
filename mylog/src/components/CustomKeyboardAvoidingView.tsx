@@ -21,7 +21,7 @@ function CustomKeyboardAvoidingView({
   return (
     <KeyboardAvoidingView
       style={[styles.container, style]}
-      behavior={Platform.select({ios: 'padding', android: 'position'})}
+      behavior={'position'}
       keyboardVerticalOffset={Platform.select({
         ios: headerHeight,
         android: -1000,

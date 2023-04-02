@@ -13,83 +13,81 @@ type SignupInfo = {
   passwordConfirm: string;
 };
 
-const isValidUsernameFormat = (username: string) => {
+function isValidUsernameFormat(username: string) {
   return /^[a-zA-Z0-9]*$/.test(username);
-};
+}
 
-const isValidPasswordFormat = (password: string) => {
+function isValidPasswordFormat(password: string) {
   return /^[a-zA-Z0-9`'~!@#$%^&*()-_=+]*$/.test(password);
-};
+}
 
-const isValidUsernameLength = (username: string) => {
+function isValidUsernameLength(username: string) {
   return (
     username.length >= numbers.MIN_USERNAME_LENGTH &&
     username.length <= numbers.MAX_USERNAME_LENGTH
   );
-};
+}
 
-const isValidPasswordLength = (password: string) => {
+function isValidPasswordLength(password: string) {
   return (
     password.length >= numbers.MIN_PASSWORD_LENGTH &&
     password.length <= numbers.MAX_PASSWORD_LENGTH
   );
-};
+}
 
-const isMatchPasswordConfirm = (password: string, passwordConfirm: string) => {
+function isMatchPasswordConfirm(password: string, passwordConfirm: string) {
   return password === passwordConfirm;
-};
+}
 
-const validateUser = (
-  userErrors: Record<keyof LoginInfo, string>,
+function validateUser(
+  errors: Record<keyof LoginInfo, string>,
   username: string,
   password: string,
-) => {
+) {
   if (!isValidUsernameFormat(username)) {
-    userErrors.username = errorMessages.INVALID_USERNAME_FORMAT;
+    errors.username = errorMessages.INVALID_USERNAME_FORMAT;
   }
   if (!isValidUsernameLength(username)) {
-    userErrors.username = errorMessages.INVALID_USERNAME_LENGTH;
+    errors.username = errorMessages.INVALID_USERNAME_LENGTH;
   }
   if (!isValidPasswordFormat(password)) {
-    userErrors.password = errorMessages.INVALID_PASSWORD_FORMAT;
+    errors.password = errorMessages.INVALID_PASSWORD_FORMAT;
   }
   if (!isValidPasswordLength(password)) {
-    userErrors.password = errorMessages.INVALID_PASSWORD_LENGTH;
+    errors.password = errorMessages.INVALID_PASSWORD_LENGTH;
   }
 
-  return userErrors;
-};
+  return errors;
+}
 
-const validatePasswordConfirm = (
-  passwordConfirmErrors: Record<keyof SignupInfo, string>,
+function validatePasswordConfirm(
+  errors: Record<keyof SignupInfo, string>,
   password: string,
   passwordConfirm: string,
-) => {
+) {
   if (!isValidPasswordFormat(passwordConfirm)) {
-    passwordConfirmErrors.passwordConfirm =
-      errorMessages.INVALID_PASSWORD_FORMAT;
+    errors.passwordConfirm = errorMessages.INVALID_PASSWORD_FORMAT;
   }
   if (!isValidPasswordLength(passwordConfirm)) {
-    passwordConfirmErrors.passwordConfirm =
-      errorMessages.INVALID_PASSWORD_LENGTH;
+    errors.passwordConfirm = errorMessages.INVALID_PASSWORD_LENGTH;
   }
   if (!isMatchPasswordConfirm(password, passwordConfirm)) {
-    passwordConfirmErrors.passwordConfirm = errorMessages.NOT_MATCH_PASSWORD;
+    errors.passwordConfirm = errorMessages.NOT_MATCH_PASSWORD;
   }
 
-  return passwordConfirmErrors;
-};
+  return errors;
+}
 
-const validateLogin = (values: LoginInfo) => {
+function validateLogin(values: LoginInfo) {
   const {username, password} = values;
 
   const errors = getObjectWithValue(Object.keys(values), '');
   const userErrors = validateUser(errors, username, password);
 
   return {...errors, ...userErrors};
-};
+}
 
-const validateSignup = (values: SignupInfo) => {
+function validateSignup(values: SignupInfo) {
   const {username, password, passwordConfirm} = values;
 
   const errors = getObjectWithValue(Object.keys(values), '');
@@ -101,6 +99,6 @@ const validateSignup = (values: SignupInfo) => {
   );
 
   return {...passwordConfirmErrors, ...userErrors};
-};
+}
 
 export {validateLogin, validateSignup};
