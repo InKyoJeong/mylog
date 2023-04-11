@@ -5,32 +5,40 @@ interface TokenResponse {
   refreshToken: string;
 }
 
-const signup = async (): Promise<void> => {
-  const {data} = await axiosInstance.post('/signup');
+interface UserRequest {
+  username: string;
+  password: string;
+}
+
+const postSignup = async ({username, password}: UserRequest): Promise<void> => {
+  const {data} = await axiosInstance.post('/auth/signup', {username, password});
 
   return data;
 };
 
-const login = async (): Promise<TokenResponse> => {
-  const {data} = await axiosInstance.post('/signin');
+const postLogin = async ({
+  username,
+  password,
+}: UserRequest): Promise<TokenResponse> => {
+  const {data} = await axiosInstance.post('/auth/signin', {username, password});
 
   return data;
 };
 
 const getProfile = async (): Promise<{username: string}> => {
-  const {data} = await axiosInstance.get('/me');
+  const {data} = await axiosInstance.get('/auth/me');
 
   return data;
 };
 
 const getAccessToken = async (): Promise<TokenResponse> => {
-  const {data} = await axiosInstance.get('/refresh');
+  const {data} = await axiosInstance.get('/auth/refresh');
 
   return data;
 };
 
 const logout = async () => {
-  await axiosInstance.post('/logout');
+  await axiosInstance.post('/auth/logout');
 };
 
-export {signup, login, getProfile, getAccessToken, logout};
+export {postSignup, postLogin, getProfile, getAccessToken, logout};
