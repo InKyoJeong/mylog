@@ -1,14 +1,16 @@
 import React, {useRef} from 'react';
 import {View, TextInput, SafeAreaView, StyleSheet} from 'react-native';
 
-import CustomButton from '@/components/CustomButton';
-import InputField from '@/components/InputField';
-import KeyboardPersistView from '@/components/KeyboardPersistView';
-import CustomKeyboardAvoidingView from '@/components/CustomKeyboardAvoidingView';
+import InputField from '@/components/common/InputField';
+import CustomButton from '@/components/common/CustomButton';
+import KeyboardPersistView from '@/components/keyboard/KeyboardPersistView';
+import CustomKeyboardAvoidingView from '@/components/keyboard/CustomKeyboardAvoidingView';
 import useForm from '@/hooks/common/useForm';
+import useAuth from '@/hooks/queries/useAuth';
 import {validateLogin} from '@/utils/validate';
 
 function LoginScreen() {
+  const {loginMutate} = useAuth();
   const login = useForm({
     initialValue: {username: '', password: ''},
     validate: validateLogin,
@@ -16,7 +18,15 @@ function LoginScreen() {
 
   const passwordRef = useRef<TextInput | null>(null);
 
-  const handleSubmit = () => {};
+  const handleSubmit = () => {
+    loginMutate.mutate(login.values, {
+      onSuccess: data => {
+        console.log('data', data);
+      },
+      onError: error =>
+        console.log('error.response?.data', error.response?.data),
+    });
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -54,6 +64,7 @@ function LoginScreen() {
             variant="filled"
             size="large"
             isValid={!login.hasErrors}
+            onPress={handleSubmit}
           />
         </CustomKeyboardAvoidingView>
       </KeyboardPersistView>

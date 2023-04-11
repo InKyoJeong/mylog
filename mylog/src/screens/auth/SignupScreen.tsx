@@ -1,14 +1,24 @@
 import React, {useRef} from 'react';
 import {SafeAreaView, StyleSheet, TextInput, View} from 'react-native';
+import type {StackScreenProps} from '@react-navigation/stack';
 
-import CustomButton from '@/components/CustomButton';
-import InputField from '@/components/InputField';
-import KeyboardPersistView from '@/components/KeyboardPersistView';
-import CustomKeyboardAvoidingView from '@/components/CustomKeyboardAvoidingView';
+import type {AuthStackParamList} from '@/navigations/stack/AuthStackNavigator';
+import CustomButton from '@/components/common/CustomButton';
+import InputField from '@/components/common/InputField';
+import KeyboardPersistView from '@/components/keyboard/KeyboardPersistView';
+import CustomKeyboardAvoidingView from '@/components/keyboard/CustomKeyboardAvoidingView';
 import useForm from '@/hooks/common/useForm';
+import useAuth from '@/hooks/queries/useAuth';
 import {validateSignup} from '@/utils/validate';
+import {authNavigations} from '@/constants/navigations';
 
-function SignupScreen() {
+type SignupScreenProps = StackScreenProps<
+  AuthStackParamList,
+  typeof authNavigations.SIGNUP
+>;
+
+function SignupScreen({navigation}: SignupScreenProps) {
+  const {signupMutate} = useAuth();
   const signup = useForm({
     initialValue: {username: '', password: '', passwordConfirm: ''},
     validate: validateSignup,
@@ -17,7 +27,17 @@ function SignupScreen() {
   const passwordRef = useRef<TextInput | null>(null);
   const passwordConfirmRef = useRef<TextInput | null>(null);
 
-  const handleSubmit = () => {};
+  const handleSubmit = () => {
+    const {username, password} = signup.values;
+    signupMutate.mutate(
+      {username, password},
+      {
+        onSuccess: () => navigation.navigate('Login'),
+        onError: error =>
+          console.log('error.response?.data', error.response?.data),
+      },
+    );
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -69,6 +89,7 @@ function SignupScreen() {
             variant="filled"
             size="large"
             isValid={!signup.hasErrors}
+            onPress={handleSubmit}
           />
         </CustomKeyboardAvoidingView>
       </KeyboardPersistView>
