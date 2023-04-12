@@ -78,7 +78,9 @@ function useAuth() {
   const signupMutate = useSignup();
   const loginMutate = useLogin();
   const refreshTokenQuery = useRefreshToken();
-  const getProfileQuery = useGetProfile();
+  const getProfileQuery = useGetProfile({
+    enabled: refreshTokenQuery.isSuccess,
+  });
   const isLogin = getProfileQuery.isSuccess;
 
   return {
