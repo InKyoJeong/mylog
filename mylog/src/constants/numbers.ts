@@ -3,6 +3,7 @@ const numbers = {
   MAX_USERNAME_LENGTH: 20,
   MIN_PASSWORD_LENGTH: 8,
   MAX_PASSWORD_LENGTH: 20,
+  ACCESS_TOKEN_REFRESH_TIME: 1000 * 60 * 30 - 1000 * 60 * 3,
 } as const;
 
 export {numbers};

@@ -1,6 +1,7 @@
 import axiosInstance from '.';
+import {getEncryptStorage} from '@/utils/encryptStorage';
 
-interface TokenResponse {
+export interface TokenResponse {
   accessToken: string;
   refreshToken: string;
 }
@@ -8,6 +9,10 @@ interface TokenResponse {
 interface UserRequest {
   username: string;
   password: string;
+}
+
+export interface ProfileResponse {
+  username: string;
 }
 
 const postSignup = async ({username, password}: UserRequest): Promise<void> => {
@@ -25,14 +30,20 @@ const postLogin = async ({
   return data;
 };
 
-const getProfile = async (): Promise<{username: string}> => {
+const getProfile = async (): Promise<ProfileResponse> => {
   const {data} = await axiosInstance.get('/auth/me');
 
   return data;
 };
 
 const getAccessToken = async (): Promise<TokenResponse> => {
-  const {data} = await axiosInstance.get('/auth/refresh');
+  const refreshToken = await getEncryptStorage('refreshToken');
+
+  const {data} = await axiosInstance.get('/auth/refresh', {
+    headers: {
+      Authorization: `Bearer ${refreshToken}`,
+    },
+  });
 
   return data;
 };

@@ -20,8 +20,8 @@ function LoginScreen() {
 
   const handleSubmit = () => {
     loginMutate.mutate(login.values, {
-      onSuccess: data => {
-        console.log('data', data);
+      onSuccess: () => {
+        console.log('로그인 완료');
       },
       onError: error =>
         console.log('error.response?.data', error.response?.data),
