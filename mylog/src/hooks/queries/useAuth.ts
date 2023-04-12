@@ -1,24 +1,20 @@
-import {AxiosError} from 'axios';
-import {useMutation, UseMutationOptions} from '@tanstack/react-query';
+import {useMutation} from '@tanstack/react-query';
 
+import axiosInstance from '@/api';
 import {postLogin, postSignup} from '@/api/auth';
+import type {
+  UseMutationCustomOptions,
+  AxiosCommonRequestHeaders,
+} from '@/types';
 
 interface TokenResponse {
   accessToken: string;
   refreshToken: string;
 }
 
-type ErrorResponse = AxiosError<{
-  statusCode: number;
-  message: string;
-  error: string;
-}>;
-
-type UseMutationCustomOptions<TData = unknown> = UseMutationOptions<
-  TData,
-  ErrorResponse,
-  unknown
->;
+const setDefaultHeader = (key: AxiosCommonRequestHeaders, value: string) => {
+  axiosInstance.defaults.headers.common[key] = value;
+};
 
 function useSignup(mutationOptions?: UseMutationCustomOptions) {
   return useMutation(postSignup, {
@@ -34,7 +30,12 @@ function useLogin(mutationOptions?: UseMutationCustomOptions<TokenResponse>) {
 
 function useAuth() {
   const signupMutate = useSignup();
-  const loginMutate = useLogin();
+  const loginMutate = useLogin({
+    onSuccess: ({accessToken, refreshToken}) => {
+      setDefaultHeader('Authorization', `Bearer ${accessToken}`);
+      console.log(refreshToken);
+    },
+  });
 
   return {signupMutate, loginMutate};
 }
