@@ -2,8 +2,10 @@ import {UseQueryOptions, useMutation, useQuery} from '@tanstack/react-query';
 
 import {
   ProfileResponse,
+  TokenResponse,
   getAccessToken,
   getProfile,
+  logout,
   postLogin,
   postSignup,
 } from '@/api/auth';
@@ -12,11 +14,6 @@ import queryClient from '@/api/queryClient';
 import {removeEncryptStorage, setEncryptStorage} from '@/utils/encryptStorage';
 import {removeHeader, setHeader} from '@/utils/axiosInstance';
 import {numbers} from '@/constants/numbers';
-
-interface TokenResponse {
-  accessToken: string;
-  refreshToken: string;
-}
 
 function useSignup(mutationOptions?: UseMutationCustomOptions) {
   return useMutation(postSignup, {
@@ -33,6 +30,19 @@ function useLogin(mutationOptions?: UseMutationCustomOptions<TokenResponse>) {
     onSettled: () => {
       queryClient.refetchQueries(['auth', 'getAccessToken']);
       queryClient.invalidateQueries(['auth', 'getProfile']);
+    },
+    ...mutationOptions,
+  });
+}
+
+function useLogout(mutationOptions?: UseMutationCustomOptions) {
+  return useMutation(logout, {
+    onSettled: () => {
+      queryClient.invalidateQueries(['auth']);
+    },
+    onSuccess: () => {
+      removeHeader('Authorization');
+      removeEncryptStorage('refreshToken');
     },
     ...mutationOptions,
   });
@@ -79,6 +89,7 @@ function useGetProfile(
 function useAuth() {
   const signupMutate = useSignup();
   const loginMutate = useLogin();
+  const logoutMutate = useLogout();
   const refreshTokenQuery = useRefreshToken();
   const getProfileQuery = useGetProfile({
     enabled: refreshTokenQuery.isSuccess,
@@ -88,6 +99,7 @@ function useAuth() {
   return {
     signupMutate,
     loginMutate,
+    logoutMutate,
     refreshTokenQuery,
     getProfileQuery,
     isLogin,

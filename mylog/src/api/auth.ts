@@ -1,7 +1,7 @@
 import axiosInstance from '.';
 import {getEncryptStorage} from '@/utils/encryptStorage';
 
-interface TokenResponse {
+export interface TokenResponse {
   accessToken: string;
   refreshToken: string;
 }

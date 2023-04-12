@@ -14,6 +14,7 @@ import type {CompositeScreenProps} from '@react-navigation/native';
 import type {HomeStackParamList} from '@/navigations/stack/HomeStackNavigator';
 import type {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
 import {homeNavigations, mainNavigations} from '@/constants/navigations';
+import useAuth from '@/hooks/queries/useAuth';
 
 type HomeScreenProps = CompositeScreenProps<
   StackScreenProps<HomeStackParamList, typeof homeNavigations.MAP_HOME>,
@@ -21,6 +22,12 @@ type HomeScreenProps = CompositeScreenProps<
 >;
 
 function HomeScreen({navigation}: HomeScreenProps) {
+  const {logoutMutate} = useAuth();
+
+  const handleLogout = () => {
+    logoutMutate.mutate(null);
+  };
+
   return (
     <SafeAreaView>
       <ScrollView contentInsetAdjustmentBehavior="automatic">
@@ -30,6 +37,7 @@ function HomeScreen({navigation}: HomeScreenProps) {
             title="AddLocation 페이지로 이동"
             onPress={() => navigation.navigate(homeNavigations.ADD_LOCATION)}
           />
+          <Button title="로그아웃" onPress={handleLogout} />
         </View>
       </ScrollView>
     </SafeAreaView>
