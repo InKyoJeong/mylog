@@ -45,7 +45,7 @@ export class AuthService {
 
   async signin(
     authCredentialsDto: AuthCredentialsDto,
-  ): Promise<{ username: string; accessToken: string; refreshToken: string }> {
+  ): Promise<{ accessToken: string; refreshToken: string }> {
     const { username, password } = authCredentialsDto;
     const user = await this.userRepository.findOneBy({ username });
 
@@ -58,7 +58,7 @@ export class AuthService {
     const { accessToken, refreshToken } = await this.getTokens({ username });
     await this.updateHashedRefreshToken(user.id, refreshToken);
 
-    return { username, accessToken, refreshToken };
+    return { accessToken, refreshToken };
   }
 
   async refreshToken(user: User): Promise<{
