@@ -1,6 +1,5 @@
 import {UseQueryOptions, useMutation, useQuery} from '@tanstack/react-query';
 
-import axiosInstance from '@/api';
 import {
   ProfileResponse,
   getAccessToken,
@@ -8,20 +7,15 @@ import {
   postLogin,
   postSignup,
 } from '@/api/auth';
-import type {
-  ErrorResponse,
-  UseMutationCustomOptions,
-  AxiosCommonRequestHeaders,
-} from '@/types';
+import type {ErrorResponse, UseMutationCustomOptions} from '@/types';
+import queryClient from '@/api/queryClient';
+import {removeEncryptStorage, setEncryptStorage} from '@/utils/encryptStorage';
+import {removeHeader, setHeader} from '@/utils/axiosInstance';
 
 interface TokenResponse {
   accessToken: string;
   refreshToken: string;
 }
-
-const setDefaultHeader = (key: AxiosCommonRequestHeaders, value: string) => {
-  axiosInstance.defaults.headers.common[key] = value;
-};
 
 function useSignup(mutationOptions?: UseMutationCustomOptions) {
   return useMutation(postSignup, {
@@ -31,6 +25,14 @@ function useSignup(mutationOptions?: UseMutationCustomOptions) {
 
 function useLogin(mutationOptions?: UseMutationCustomOptions<TokenResponse>) {
   return useMutation(postLogin, {
+    onSuccess: ({accessToken, refreshToken}) => {
+      setHeader('Authorization', `Bearer ${accessToken}`);
+      setEncryptStorage('refreshToken', refreshToken);
+    },
+    onSettled: () => {
+      queryClient.refetchQueries(['auth', 'getAccessToken']);
+      queryClient.invalidateQueries(['auth', 'getProfile']);
+    },
     ...mutationOptions,
   });
 }
@@ -38,9 +40,25 @@ function useLogin(mutationOptions?: UseMutationCustomOptions<TokenResponse>) {
 function useRefreshToken(
   queryOptions?: UseQueryOptions<TokenResponse, ErrorResponse>,
 ) {
-  return useQuery<TokenResponse, ErrorResponse>([], () => getAccessToken(), {
-    ...queryOptions,
-  });
+  return useQuery<TokenResponse, ErrorResponse>(
+    ['auth', 'getAccessToken'],
+    () => getAccessToken(),
+    {
+      onSuccess: ({accessToken, refreshToken}) => {
+        setHeader('Authorization', `Bearer ${accessToken}`);
+        setEncryptStorage('refreshToken', refreshToken);
+      },
+      onError: () => {
+        removeHeader('Authorization');
+        removeEncryptStorage('refreshToken');
+      },
+      useErrorBoundary: false,
+      // refetchOnReconnect: true,
+      // refetchInterval: 1000 * 60 * 60,
+      // refetchIntervalInBackground: true,
+      ...queryOptions,
+    },
+  );
 }
 
 function useGetProfile(
@@ -50,6 +68,7 @@ function useGetProfile(
     ['auth', 'getProfile'],
     () => getProfile(),
     {
+      useErrorBoundary: false,
       ...queryOptions,
     },
   );
@@ -57,12 +76,7 @@ function useGetProfile(
 
 function useAuth() {
   const signupMutate = useSignup();
-  const loginMutate = useLogin({
-    onSuccess: ({accessToken, refreshToken}) => {
-      setDefaultHeader('Authorization', `Bearer ${accessToken}`);
-      console.log(refreshToken);
-    },
-  });
+  const loginMutate = useLogin();
   const refreshTokenQuery = useRefreshToken();
   const getProfileQuery = useGetProfile();
   const isLogin = getProfileQuery.isSuccess;
