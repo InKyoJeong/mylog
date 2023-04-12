@@ -14,6 +14,7 @@ import queryClient from '@/api/queryClient';
 import {removeEncryptStorage, setEncryptStorage} from '@/utils/encryptStorage';
 import {removeHeader, setHeader} from '@/utils/axiosInstance';
 import {numbers} from '@/constants/numbers';
+import queryKeys from '@/constants/queryKeys';
 
 function useSignup(mutationOptions?: UseMutationCustomOptions) {
   return useMutation(postSignup, {
@@ -28,8 +29,8 @@ function useLogin(mutationOptions?: UseMutationCustomOptions<TokenResponse>) {
       setEncryptStorage('refreshToken', refreshToken);
     },
     onSettled: () => {
-      queryClient.refetchQueries(['auth', 'getAccessToken']);
-      queryClient.invalidateQueries(['auth', 'getProfile']);
+      queryClient.refetchQueries([queryKeys.AUTH, queryKeys.GET_ACCESS_TOKEN]);
+      queryClient.invalidateQueries([queryKeys.AUTH, queryKeys.GET_PROFILE]);
     },
     ...mutationOptions,
   });
@@ -37,12 +38,12 @@ function useLogin(mutationOptions?: UseMutationCustomOptions<TokenResponse>) {
 
 function useLogout(mutationOptions?: UseMutationCustomOptions) {
   return useMutation(logout, {
-    onSettled: () => {
-      queryClient.invalidateQueries(['auth']);
-    },
     onSuccess: () => {
       removeHeader('Authorization');
       removeEncryptStorage('refreshToken');
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries([queryKeys.AUTH]);
     },
     ...mutationOptions,
   });
@@ -52,7 +53,7 @@ function useRefreshToken(
   queryOptions?: UseQueryOptions<TokenResponse, ErrorResponse>,
 ) {
   return useQuery<TokenResponse, ErrorResponse>(
-    ['auth', 'getAccessToken'],
+    [queryKeys.AUTH, queryKeys.GET_ACCESS_TOKEN],
     () => getAccessToken(),
     {
       onSuccess: ({accessToken, refreshToken}) => {
@@ -77,7 +78,7 @@ function useGetProfile(
   queryOptions?: UseQueryOptions<ProfileResponse, ErrorResponse>,
 ) {
   return useQuery<ProfileResponse, ErrorResponse>(
-    ['auth', 'getProfile'],
+    [queryKeys.AUTH, queryKeys.GET_PROFILE],
     () => getProfile(),
     {
       useErrorBoundary: false,
