@@ -11,6 +11,7 @@ import type {ErrorResponse, UseMutationCustomOptions} from '@/types';
 import queryClient from '@/api/queryClient';
 import {removeEncryptStorage, setEncryptStorage} from '@/utils/encryptStorage';
 import {removeHeader, setHeader} from '@/utils/axiosInstance';
+import {numbers} from '@/constants/numbers';
 
 interface TokenResponse {
   accessToken: string;
@@ -53,9 +54,10 @@ function useRefreshToken(
         removeEncryptStorage('refreshToken');
       },
       useErrorBoundary: false,
-      // refetchOnReconnect: true,
-      // refetchInterval: 1000 * 60 * 60,
-      // refetchIntervalInBackground: true,
+      staleTime: numbers.ACCESS_TOKEN_REFRESH_TIME,
+      refetchInterval: numbers.ACCESS_TOKEN_REFRESH_TIME,
+      refetchOnReconnect: true,
+      refetchIntervalInBackground: true,
       ...queryOptions,
     },
   );
