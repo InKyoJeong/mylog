@@ -1,7 +1,13 @@
 import {UseQueryOptions, useMutation, useQuery} from '@tanstack/react-query';
 
 import axiosInstance from '@/api';
-import {ProfileResponse, getProfile, postLogin, postSignup} from '@/api/auth';
+import {
+  ProfileResponse,
+  getAccessToken,
+  getProfile,
+  postLogin,
+  postSignup,
+} from '@/api/auth';
 import type {
   ErrorResponse,
   UseMutationCustomOptions,
@@ -29,6 +35,14 @@ function useLogin(mutationOptions?: UseMutationCustomOptions<TokenResponse>) {
   });
 }
 
+function useRefreshToken(
+  queryOptions?: UseQueryOptions<TokenResponse, ErrorResponse>,
+) {
+  return useQuery<TokenResponse, ErrorResponse>([], () => getAccessToken(), {
+    ...queryOptions,
+  });
+}
+
 function useGetProfile(
   queryOptions?: UseQueryOptions<ProfileResponse, ErrorResponse>,
 ) {
@@ -49,10 +63,17 @@ function useAuth() {
       console.log(refreshToken);
     },
   });
+  const refreshTokenQuery = useRefreshToken();
   const getProfileQuery = useGetProfile();
   const isLogin = getProfileQuery.isSuccess;
 
-  return {signupMutate, loginMutate, getProfileQuery, isLogin};
+  return {
+    signupMutate,
+    loginMutate,
+    refreshTokenQuery,
+    getProfileQuery,
+    isLogin,
+  };
 }
 
 export default useAuth;
