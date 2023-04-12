@@ -10,6 +10,10 @@ interface UserRequest {
   password: string;
 }
 
+export interface ProfileResponse {
+  username: string;
+}
+
 const postSignup = async ({username, password}: UserRequest): Promise<void> => {
   const {data} = await axiosInstance.post('/auth/signup', {username, password});
 
@@ -25,7 +29,7 @@ const postLogin = async ({
   return data;
 };
 
-const getProfile = async (): Promise<{username: string}> => {
+const getProfile = async (): Promise<ProfileResponse> => {
   const {data} = await axiosInstance.get('/auth/me');
 
   return data;

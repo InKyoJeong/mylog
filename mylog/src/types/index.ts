@@ -13,4 +13,16 @@ type UseMutationCustomOptions<TData = unknown> = UseMutationOptions<
   unknown
 >;
 
-export type {ErrorResponse, UseMutationCustomOptions};
+type AxiosCommonRequestHeaders =
+  | 'Accept'
+  | 'Content-Length'
+  | 'User-Agent'
+  | 'Content-Encoding'
+  | 'Authorization'
+  | 'Content-Type';
+
+export type {
+  ErrorResponse,
+  UseMutationCustomOptions,
+  AxiosCommonRequestHeaders,
+};

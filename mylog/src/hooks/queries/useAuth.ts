@@ -1,8 +1,9 @@
-import {useMutation} from '@tanstack/react-query';
+import {UseQueryOptions, useMutation, useQuery} from '@tanstack/react-query';
 
 import axiosInstance from '@/api';
-import {postLogin, postSignup} from '@/api/auth';
+import {ProfileResponse, getProfile, postLogin, postSignup} from '@/api/auth';
 import type {
+  ErrorResponse,
   UseMutationCustomOptions,
   AxiosCommonRequestHeaders,
 } from '@/types';
@@ -28,6 +29,18 @@ function useLogin(mutationOptions?: UseMutationCustomOptions<TokenResponse>) {
   });
 }
 
+function useGetProfile(
+  queryOptions?: UseQueryOptions<ProfileResponse, ErrorResponse>,
+) {
+  return useQuery<ProfileResponse, ErrorResponse>(
+    ['auth', 'getProfile'],
+    () => getProfile(),
+    {
+      ...queryOptions,
+    },
+  );
+}
+
 function useAuth() {
   const signupMutate = useSignup();
   const loginMutate = useLogin({
@@ -36,8 +49,10 @@ function useAuth() {
       console.log(refreshToken);
     },
   });
+  const getProfileQuery = useGetProfile();
+  const isLogin = getProfileQuery.isSuccess;
 
-  return {signupMutate, loginMutate};
+  return {signupMutate, loginMutate, getProfileQuery, isLogin};
 }
 
 export default useAuth;
