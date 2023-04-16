@@ -9,6 +9,7 @@ import type {HomeStackParamList} from '@/navigations/stack/HomeStackNavigator';
 import type {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
 import {homeNavigations, mainNavigations} from '@/constants/navigations';
 import useAuth from '@/hooks/queries/useAuth';
+import getMapStyle from '@/style/mapStyle';
 
 type HomeScreenProps = CompositeScreenProps<
   StackScreenProps<HomeStackParamList, typeof homeNavigations.MAP_HOME>,
@@ -28,8 +29,9 @@ function HomeScreen({navigation}: HomeScreenProps) {
         style={styles.container}
         provider={PROVIDER_GOOGLE}
         showsUserLocation={true}
-        // showsMyLocationButton={true}
+        showsMyLocationButton={true}
         followsUserLocation={true}
+        customMapStyle={getMapStyle('light')}
         initialRegion={{
           latitude: 37.78825,
           longitude: -122.4324,
