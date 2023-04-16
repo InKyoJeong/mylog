@@ -1,12 +1,6 @@
 import React from 'react';
-import {
-  Button,
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import {Button, StyleSheet, View} from 'react-native';
+import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
 import type {StackScreenProps} from '@react-navigation/stack';
 import type {DrawerScreenProps} from '@react-navigation/drawer';
 import type {CompositeScreenProps} from '@react-navigation/native';
@@ -29,24 +23,39 @@ function HomeScreen({navigation}: HomeScreenProps) {
   };
 
   return (
-    <SafeAreaView>
-      <ScrollView contentInsetAdjustmentBehavior="automatic">
-        <View style={styles.container}>
-          <Text>Home</Text>
-          <Button
-            title="AddLocation 페이지로 이동"
-            onPress={() => navigation.navigate(homeNavigations.ADD_LOCATION)}
-          />
-          <Button title="로그아웃" onPress={handleLogout} />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <View style={styles.container}>
+      <MapView
+        style={styles.container}
+        provider={PROVIDER_GOOGLE}
+        showsUserLocation={true}
+        // showsMyLocationButton={true}
+        followsUserLocation={true}
+        initialRegion={{
+          latitude: 37.78825,
+          longitude: -122.4324,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+        }}
+      />
+      <View style={styles.buttons}>
+        <Button title="로그아웃" onPress={handleLogout} />
+        <Button
+          title="AddLocation"
+          onPress={() => navigation.navigate(homeNavigations.ADD_LOCATION)}
+        />
+      </View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  buttons: {
+    position: 'absolute',
+    bottom: 40,
+    backgroundColor: 'red',
   },
 });
 
