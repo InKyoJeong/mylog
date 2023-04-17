@@ -21,8 +21,11 @@ type AxiosCommonRequestHeaders =
   | 'Authorization'
   | 'Content-Type';
 
+type ThemeMode = 'light' | 'dark';
+
 export type {
   ErrorResponse,
   UseMutationCustomOptions,
   AxiosCommonRequestHeaders,
+  ThemeMode,
 };
