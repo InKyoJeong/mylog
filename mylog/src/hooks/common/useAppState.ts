@@ -1,8 +1,8 @@
 import {useEffect, useRef, useState} from 'react';
-import {AppState, AppStateStatus} from 'react-native';
+import {AppState} from 'react-native';
 
 function useAppState() {
-  const appState = useRef<AppStateStatus>(AppState.currentState);
+  const appState = useRef(AppState.currentState);
   const [appStateVisible, setAppStateVisible] = useState(appState.current);
   const [isComeback, setIsComeback] = useState(false);
 
