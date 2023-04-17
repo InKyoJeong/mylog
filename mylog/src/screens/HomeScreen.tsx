@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {Alert, Button, StyleSheet, View} from 'react-native';
+import React, {useRef, useState} from 'react';
+import {Alert, Button, StyleSheet, Text, View} from 'react-native';
 import MapView, {
   LatLng,
   LongPressEvent,
@@ -13,9 +13,11 @@ import type {CompositeScreenProps} from '@react-navigation/native';
 import type {HomeStackParamList} from '@/navigations/stack/HomeStackNavigator';
 import type {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
 import {homeNavigations, mainNavigations} from '@/constants/navigations';
-import useAuth from '@/hooks/queries/useAuth';
-import getMapStyle from '@/style/mapStyle';
 import {colors} from '@/constants/colors';
+import useAuth from '@/hooks/queries/useAuth';
+import usePermissions from '@/hooks/common/usePermission';
+import useCurrentLocation from '@/hooks/common/useCurrentLocation';
+import getMapStyle from '@/style/mapStyle';
 
 type HomeScreenProps = CompositeScreenProps<
   StackScreenProps<HomeStackParamList, typeof homeNavigations.MAP_HOME>,
@@ -36,11 +38,32 @@ const markers: (LatLng & {id: number})[] = [
 ];
 
 function HomeScreen({navigation}: HomeScreenProps) {
+  const mapRef = useRef<MapView | null>(null);
   const {logoutMutate} = useAuth();
   const [selectedLocation, setSelectedLocation] = useState<LatLng | null>(null);
+  const {currentLocation} = useCurrentLocation();
+  usePermissions();
+
+  if (!currentLocation) {
+    return (
+      <View style={{alignItems: 'center', justifyContent: 'center', flex: 1}}>
+        <Text>내 위치를 로딩 중입니다.</Text>
+        <Text>권한을 허용했는지 확인해주세요.</Text>
+      </View>
+    );
+  }
 
   const handleLogout = () => {
     logoutMutate.mutate(null);
+  };
+
+  const handleMoveCurrentLocation = () => {
+    mapRef.current?.animateToRegion({
+      latitude: currentLocation.latitude,
+      longitude: currentLocation.longitude,
+      latitudeDelta: 0.0922,
+      longitudeDelta: 0.0421,
+    });
   };
 
   const handleSelectLocation = ({nativeEvent}: LongPressEvent) => {
@@ -54,24 +77,25 @@ function HomeScreen({navigation}: HomeScreenProps) {
         '지도를 길게 누르면 위치가 선택됩니다.',
       );
     }
+    setSelectedLocation(null);
     navigation.navigate(homeNavigations.ADD_LOCATION, {
       location: selectedLocation,
     });
-    setSelectedLocation(null);
   };
 
   return (
     <View style={styles.container}>
       <MapView
+        ref={mapRef}
         style={styles.container}
         provider={PROVIDER_GOOGLE}
         showsUserLocation={true}
-        showsMyLocationButton={true}
+        showsMyLocationButton={false}
         followsUserLocation={true}
         customMapStyle={getMapStyle('light')}
         initialRegion={{
-          latitude: 37.3814,
-          longitude: 127.1191,
+          latitude: currentLocation.latitude,
+          longitude: currentLocation.longitude,
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
         }}
@@ -83,18 +107,20 @@ function HomeScreen({navigation}: HomeScreenProps) {
               latitude: marker.latitude,
               longitude: marker.longitude,
             }}>
-            <View style={styles.marker} />
+            <View style={[styles.marker, styles.savedMarker]} />
           </Marker>
         ))}
         {selectedLocation && (
           <Marker coordinate={selectedLocation}>
-            <View style={styles.selectedMarker} />
+            <View style={[styles.marker, styles.selectedMarker]} />
           </Marker>
         )}
       </MapView>
       <View style={styles.buttons}>
+        <Button title="openDrawer" onPress={() => navigation.openDrawer()} />
         <Button title="로그아웃" onPress={handleLogout} />
         <Button title="+" onPress={handleMoveAddLocation} />
+        <Button title="현재위치" onPress={handleMoveCurrentLocation} />
       </View>
     </View>
   );
@@ -105,26 +131,24 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   marker: {
-    backgroundColor: colors.PINK_600,
-    width: 20,
-    height: 20,
-    borderRadius: 10,
-    borderBottomRightRadius: 3,
-    borderColor: colors.GRAY_500,
-    borderWidth: 1.5,
+    width: 25,
+    height: 25,
+    borderRadius: 25,
+    borderBottomRightRadius: 1,
+  },
+  savedMarker: {
+    backgroundColor: '#EC87A5',
+    borderColor: '#5A5A5A', // lightMode
+    borderWidth: 1,
   },
   selectedMarker: {
     backgroundColor: colors.WHITE,
-    width: 20,
-    height: 20,
-    borderRadius: 10,
-    borderBottomRightRadius: 3,
     borderColor: colors.GRAY_500,
-    borderWidth: 1.5,
+    borderWidth: 1,
   },
   buttons: {
     position: 'absolute',
-    bottom: 40,
+    bottom: 50,
     backgroundColor: colors.PINK_600,
   },
 });
