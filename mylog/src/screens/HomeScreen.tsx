@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Button, StyleSheet, View} from 'react-native';
+import {Alert, Button, StyleSheet, View} from 'react-native';
 import MapView, {
   LatLng,
   LongPressEvent,
@@ -25,19 +25,19 @@ type HomeScreenProps = CompositeScreenProps<
 const markers: (LatLng & {id: number})[] = [
   {
     id: 1,
-    latitude: 37.3814,
-    longitude: 127.1291,
+    latitude: 37.3851,
+    longitude: 127.115,
   },
   {
     id: 2,
-    latitude: 37.3814,
-    longitude: 127.1091,
+    latitude: 37.385278905375554,
+    longitude: 127.12102600461246,
   },
 ];
 
 function HomeScreen({navigation}: HomeScreenProps) {
   const {logoutMutate} = useAuth();
-  const [selectedLocation, setSelectedLocation] = useState<LatLng>();
+  const [selectedLocation, setSelectedLocation] = useState<LatLng | null>(null);
 
   const handleLogout = () => {
     logoutMutate.mutate(null);
@@ -45,6 +45,19 @@ function HomeScreen({navigation}: HomeScreenProps) {
 
   const handleSelectLocation = ({nativeEvent}: LongPressEvent) => {
     setSelectedLocation(nativeEvent.coordinate);
+  };
+
+  const handleMoveAddLocation = () => {
+    if (!selectedLocation) {
+      return Alert.alert(
+        '위치를 선택해주세요',
+        '지도를 길게 누르면 위치가 선택됩니다.',
+      );
+    }
+    navigation.navigate(homeNavigations.ADD_LOCATION, {
+      location: selectedLocation,
+    });
+    setSelectedLocation(null);
   };
 
   return (
@@ -81,10 +94,7 @@ function HomeScreen({navigation}: HomeScreenProps) {
       </MapView>
       <View style={styles.buttons}>
         <Button title="로그아웃" onPress={handleLogout} />
-        <Button
-          title="위치 추가"
-          onPress={() => navigation.navigate(homeNavigations.ADD_LOCATION)}
-        />
+        <Button title="+" onPress={handleMoveAddLocation} />
       </View>
     </View>
   );
