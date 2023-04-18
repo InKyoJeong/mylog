@@ -1,5 +1,5 @@
 import React, {useRef, useState} from 'react';
-import {Alert, Button, StyleSheet, Text, View} from 'react-native';
+import {Alert, Button, Pressable, StyleSheet, Text, View} from 'react-native';
 import MapView, {
   LatLng,
   LongPressEvent,
@@ -9,6 +9,7 @@ import MapView, {
 import type {StackScreenProps} from '@react-navigation/stack';
 import type {DrawerScreenProps} from '@react-navigation/drawer';
 import type {CompositeScreenProps} from '@react-navigation/native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import type {HomeStackParamList} from '@/navigations/stack/HomeStackNavigator';
 import type {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
@@ -43,6 +44,7 @@ function HomeScreen({navigation}: HomeScreenProps) {
   const {logoutMutate} = useAuth();
   const {currentLocation} = useCurrentLocation();
   const [selectedLocation, setSelectedLocation] = useState<LatLng | null>(null);
+
   usePermissions();
 
   if (!currentLocation) {
@@ -117,8 +119,14 @@ function HomeScreen({navigation}: HomeScreenProps) {
           </Marker>
         )}
       </MapView>
+
+      <Pressable
+        style={styles.drawerButton}
+        onPress={() => navigation.openDrawer()}>
+        <Ionicons name={'md-menu-sharp'} color={colors.WHITE} size={30} />
+      </Pressable>
+
       <View style={styles.buttons}>
-        <Button title="openDrawer" onPress={() => navigation.openDrawer()} />
         <Button title="로그아웃" onPress={handleLogout} />
         <Button title="+" onPress={handleMoveAddLocation} />
         <Button title="현재위치" onPress={handleMoveCurrentLocation} />
@@ -152,6 +160,20 @@ const styles = StyleSheet.create({
     bottom: 50,
     right: 0,
     backgroundColor: colors.PINK_600,
+  },
+  drawerButton: {
+    position: 'absolute',
+    left: 0,
+    top: 60,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    borderTopRightRadius: 50,
+    borderBottomRightRadius: 50,
+    backgroundColor: colors.PINK_600,
+    shadowColor: colors.BLACK,
+    shadowOffset: {width: 2, height: 1},
+    shadowOpacity: 0.5,
+    elevation: 2,
   },
 });
 
