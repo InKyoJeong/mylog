@@ -12,6 +12,7 @@ import type {CompositeScreenProps} from '@react-navigation/native';
 
 import type {HomeStackParamList} from '@/navigations/stack/HomeStackNavigator';
 import type {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
+import Indicator from '@/components/common/Indicator';
 import {homeNavigations, mainNavigations} from '@/constants/navigations';
 import {colors} from '@/constants/colors';
 import useAuth from '@/hooks/queries/useAuth';
@@ -40,16 +41,16 @@ const markers: (LatLng & {id: number})[] = [
 function HomeScreen({navigation}: HomeScreenProps) {
   const mapRef = useRef<MapView | null>(null);
   const {logoutMutate} = useAuth();
-  const [selectedLocation, setSelectedLocation] = useState<LatLng | null>(null);
   const {currentLocation} = useCurrentLocation();
+  const [selectedLocation, setSelectedLocation] = useState<LatLng | null>(null);
   usePermissions();
 
   if (!currentLocation) {
     return (
-      <View style={{alignItems: 'center', justifyContent: 'center', flex: 1}}>
+      <Indicator>
         <Text>내 위치를 로딩 중입니다.</Text>
         <Text>권한을 허용했는지 확인해주세요.</Text>
-      </View>
+      </Indicator>
     );
   }
 
@@ -77,10 +78,10 @@ function HomeScreen({navigation}: HomeScreenProps) {
         '지도를 길게 누르면 위치가 선택됩니다.',
       );
     }
-    setSelectedLocation(null);
     navigation.navigate(homeNavigations.ADD_LOCATION, {
       location: selectedLocation,
     });
+    setSelectedLocation(null);
   };
 
   return (
@@ -149,6 +150,7 @@ const styles = StyleSheet.create({
   buttons: {
     position: 'absolute',
     bottom: 50,
+    right: 0,
     backgroundColor: colors.PINK_600,
   },
 });
