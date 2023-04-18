@@ -17,10 +17,7 @@ export type MainDrawerParamList = {
 
 const Drawer = createDrawerNavigator<MainDrawerParamList>();
 
-function DrawerIcons(
-  route: RouteProp<MainDrawerParamList, keyof MainDrawerParamList>,
-  focused: boolean,
-) {
+function DrawerIcons(route: RouteProp<MainDrawerParamList>, focused: boolean) {
   let iconName = '';
   if (route.name === mainNavigations.HOME) {
     iconName = 'map';
