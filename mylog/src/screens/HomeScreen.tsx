@@ -17,7 +17,6 @@ import type {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator
 import Indicator from '@/components/common/Indicator';
 import {homeNavigations, mainNavigations} from '@/constants/navigations';
 import {colors} from '@/constants/colors';
-import useAuth from '@/hooks/queries/useAuth';
 import usePermissions from '@/hooks/common/usePermission';
 import useCurrentLocation from '@/hooks/common/useCurrentLocation';
 import getMapStyle from '@/style/mapStyle';
@@ -43,7 +42,6 @@ const markers: (LatLng & {id: number})[] = [
 
 function HomeScreen({navigation}: HomeScreenProps) {
   const mapRef = useRef<MapView | null>(null);
-  const {logoutMutate} = useAuth();
   const {currentLocation} = useCurrentLocation();
   const [selectedLocation, setSelectedLocation] = useState<LatLng | null>(null);
 
@@ -57,10 +55,6 @@ function HomeScreen({navigation}: HomeScreenProps) {
       </Indicator>
     );
   }
-
-  // const handleLogout = () => {
-  //   logoutMutate.mutate(null);
-  // };
 
   const handleMoveCurrentLocation = () => {
     mapRef.current?.animateToRegion({

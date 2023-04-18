@@ -4,6 +4,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import FeedScreen from '@/screens/FeedScreen';
 import LocationDetailScreen from '@/screens/LocationDetailScreen';
 import {feedNavigations} from '@/constants/navigations';
+import FeedLeftHeader from '@/components/FeedLeftHeader';
 
 export type FeedStackParamList = {
   [feedNavigations.LOCATION_FEED]: undefined;
@@ -18,6 +19,10 @@ function FeedStackNavigator() {
       <Stack.Screen
         name={feedNavigations.LOCATION_FEED}
         component={FeedScreen}
+        options={({navigation}) => ({
+          headerTitle: '피드',
+          headerLeft: () => FeedLeftHeader(navigation),
+        })}
       />
       <Stack.Screen
         name={feedNavigations.LOCATION_DETAIL}
