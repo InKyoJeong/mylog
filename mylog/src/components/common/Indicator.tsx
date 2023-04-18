@@ -12,10 +12,16 @@ function Indicator({
   children,
   size = 'small',
   color = colors.GRAY_500,
+  ...props
 }: PropsWithChildren<ActivityIndicatorProps>) {
   return (
     <View style={styles.container}>
-      <ActivityIndicator size={size} color={color} style={styles.indicator} />
+      <ActivityIndicator
+        size={size}
+        color={color}
+        style={styles.indicator}
+        {...props}
+      />
       {children}
     </View>
   );

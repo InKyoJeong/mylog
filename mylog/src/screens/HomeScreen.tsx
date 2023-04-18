@@ -1,5 +1,5 @@
 import React, {useRef, useState} from 'react';
-import {Alert, Button, Pressable, StyleSheet, Text, View} from 'react-native';
+import {Alert, Pressable, StyleSheet, Text, View} from 'react-native';
 import MapView, {
   LatLng,
   LongPressEvent,
@@ -21,6 +21,7 @@ import useAuth from '@/hooks/queries/useAuth';
 import usePermissions from '@/hooks/common/usePermission';
 import useCurrentLocation from '@/hooks/common/useCurrentLocation';
 import getMapStyle from '@/style/mapStyle';
+import MapButton from '@/components/MapButton';
 
 type HomeScreenProps = CompositeScreenProps<
   StackScreenProps<HomeStackParamList, typeof homeNavigations.MAP_HOME>,
@@ -128,13 +129,13 @@ function HomeScreen({navigation}: HomeScreenProps) {
       </Pressable>
 
       <View style={styles.buttons}>
-        <Pressable onPress={handleMoveAddLocation} style={styles.mapButton}>
+        <MapButton onPress={handleMoveAddLocation}>
           <MaterialIcons name={'add'} color={colors.WHITE} size={25} />
-        </Pressable>
+        </MapButton>
 
-        <Pressable onPress={handleMoveCurrentLocation} style={styles.mapButton}>
+        <MapButton onPress={handleMoveCurrentLocation}>
           <MaterialIcons name={'my-location'} color={colors.WHITE} size={25} />
-        </Pressable>
+        </MapButton>
       </View>
     </View>
   );
@@ -178,19 +179,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 50,
     right: 10,
-  },
-  mapButton: {
-    margin: 5,
-    backgroundColor: colors.PINK_600,
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 50,
-    width: 50,
-    borderRadius: 30,
-    shadowColor: colors.BLACK,
-    shadowOffset: {width: 1, height: 3},
-    shadowOpacity: 0.5,
-    elevation: 2,
   },
 });
 
