@@ -10,6 +10,7 @@ import type {StackScreenProps} from '@react-navigation/stack';
 import type {DrawerScreenProps} from '@react-navigation/drawer';
 import type {CompositeScreenProps} from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import type {HomeStackParamList} from '@/navigations/stack/HomeStackNavigator';
 import type {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
@@ -127,9 +128,13 @@ function HomeScreen({navigation}: HomeScreenProps) {
       </Pressable>
 
       <View style={styles.buttons}>
-        <Button title="로그아웃" onPress={handleLogout} />
-        <Button title="+" onPress={handleMoveAddLocation} />
-        <Button title="현재위치" onPress={handleMoveCurrentLocation} />
+        <Pressable onPress={handleMoveAddLocation} style={styles.mapButton}>
+          <MaterialIcons name={'add'} color={colors.WHITE} size={25} />
+        </Pressable>
+
+        <Pressable onPress={handleMoveCurrentLocation} style={styles.mapButton}>
+          <MaterialIcons name={'my-location'} color={colors.WHITE} size={25} />
+        </Pressable>
       </View>
     </View>
   );
@@ -155,12 +160,6 @@ const styles = StyleSheet.create({
     borderColor: colors.GRAY_500,
     borderWidth: 1,
   },
-  buttons: {
-    position: 'absolute',
-    bottom: 50,
-    right: 0,
-    backgroundColor: colors.PINK_600,
-  },
   drawerButton: {
     position: 'absolute',
     left: 0,
@@ -172,6 +171,24 @@ const styles = StyleSheet.create({
     backgroundColor: colors.PINK_600,
     shadowColor: colors.BLACK,
     shadowOffset: {width: 2, height: 1},
+    shadowOpacity: 0.5,
+    elevation: 2,
+  },
+  buttons: {
+    position: 'absolute',
+    bottom: 50,
+    right: 10,
+  },
+  mapButton: {
+    margin: 5,
+    backgroundColor: colors.PINK_600,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 50,
+    width: 50,
+    borderRadius: 30,
+    shadowColor: colors.BLACK,
+    shadowOffset: {width: 1, height: 3},
     shadowOpacity: 0.5,
     elevation: 2,
   },
