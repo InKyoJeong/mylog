@@ -1,5 +1,5 @@
 import React, {useRef, useState} from 'react';
-import {Alert, Button, StyleSheet, Text, View} from 'react-native';
+import {Alert, Pressable, StyleSheet, Text, View} from 'react-native';
 import MapView, {
   LatLng,
   LongPressEvent,
@@ -9,15 +9,19 @@ import MapView, {
 import type {StackScreenProps} from '@react-navigation/stack';
 import type {DrawerScreenProps} from '@react-navigation/drawer';
 import type {CompositeScreenProps} from '@react-navigation/native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import type {HomeStackParamList} from '@/navigations/stack/HomeStackNavigator';
 import type {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
+import Indicator from '@/components/common/Indicator';
 import {homeNavigations, mainNavigations} from '@/constants/navigations';
 import {colors} from '@/constants/colors';
 import useAuth from '@/hooks/queries/useAuth';
 import usePermissions from '@/hooks/common/usePermission';
 import useCurrentLocation from '@/hooks/common/useCurrentLocation';
 import getMapStyle from '@/style/mapStyle';
+import MapButton from '@/components/MapButton';
 
 type HomeScreenProps = CompositeScreenProps<
   StackScreenProps<HomeStackParamList, typeof homeNavigations.MAP_HOME>,
@@ -40,22 +44,23 @@ const markers: (LatLng & {id: number})[] = [
 function HomeScreen({navigation}: HomeScreenProps) {
   const mapRef = useRef<MapView | null>(null);
   const {logoutMutate} = useAuth();
-  const [selectedLocation, setSelectedLocation] = useState<LatLng | null>(null);
   const {currentLocation} = useCurrentLocation();
+  const [selectedLocation, setSelectedLocation] = useState<LatLng | null>(null);
+
   usePermissions();
 
   if (!currentLocation) {
     return (
-      <View style={{alignItems: 'center', justifyContent: 'center', flex: 1}}>
+      <Indicator>
         <Text>내 위치를 로딩 중입니다.</Text>
         <Text>권한을 허용했는지 확인해주세요.</Text>
-      </View>
+      </Indicator>
     );
   }
 
-  const handleLogout = () => {
-    logoutMutate.mutate(null);
-  };
+  // const handleLogout = () => {
+  //   logoutMutate.mutate(null);
+  // };
 
   const handleMoveCurrentLocation = () => {
     mapRef.current?.animateToRegion({
@@ -77,10 +82,10 @@ function HomeScreen({navigation}: HomeScreenProps) {
         '지도를 길게 누르면 위치가 선택됩니다.',
       );
     }
-    setSelectedLocation(null);
     navigation.navigate(homeNavigations.ADD_LOCATION, {
       location: selectedLocation,
     });
+    setSelectedLocation(null);
   };
 
   return (
@@ -116,11 +121,21 @@ function HomeScreen({navigation}: HomeScreenProps) {
           </Marker>
         )}
       </MapView>
+
+      <Pressable
+        style={styles.drawerButton}
+        onPress={() => navigation.openDrawer()}>
+        <Ionicons name={'md-menu-sharp'} color={colors.WHITE} size={30} />
+      </Pressable>
+
       <View style={styles.buttons}>
-        <Button title="openDrawer" onPress={() => navigation.openDrawer()} />
-        <Button title="로그아웃" onPress={handleLogout} />
-        <Button title="+" onPress={handleMoveAddLocation} />
-        <Button title="현재위치" onPress={handleMoveCurrentLocation} />
+        <MapButton onPress={handleMoveAddLocation}>
+          <MaterialIcons name={'add'} color={colors.WHITE} size={25} />
+        </MapButton>
+
+        <MapButton onPress={handleMoveCurrentLocation}>
+          <MaterialIcons name={'my-location'} color={colors.WHITE} size={25} />
+        </MapButton>
       </View>
     </View>
   );
@@ -146,10 +161,24 @@ const styles = StyleSheet.create({
     borderColor: colors.GRAY_500,
     borderWidth: 1,
   },
+  drawerButton: {
+    position: 'absolute',
+    left: 0,
+    top: 60,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    borderTopRightRadius: 50,
+    borderBottomRightRadius: 50,
+    backgroundColor: colors.PINK_600,
+    shadowColor: colors.BLACK,
+    shadowOffset: {width: 2, height: 1},
+    shadowOpacity: 0.5,
+    elevation: 2,
+  },
   buttons: {
     position: 'absolute',
     bottom: 50,
-    backgroundColor: colors.PINK_600,
+    right: 10,
   },
 });
 
