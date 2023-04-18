@@ -58,9 +58,9 @@ function HomeScreen({navigation}: HomeScreenProps) {
     );
   }
 
-  const handleLogout = () => {
-    logoutMutate.mutate(null);
-  };
+  // const handleLogout = () => {
+  //   logoutMutate.mutate(null);
+  // };
 
   const handleMoveCurrentLocation = () => {
     mapRef.current?.animateToRegion({

@@ -18,6 +18,7 @@ const Drawer = createDrawerNavigator<MainDrawerParamList>();
 
 function DrawerIcons(
   route: RouteProp<MainDrawerParamList, keyof MainDrawerParamList>,
+  focused: boolean,
 ) {
   let iconName = '';
   if (route.name === mainNavigations.HOME) {
@@ -26,7 +27,13 @@ function DrawerIcons(
     iconName = 'ios-reader';
   }
 
-  return <Ionicons name={iconName} color={colors.BLACK} size={18} />;
+  return (
+    <Ionicons
+      name={iconName}
+      color={focused ? colors.BLACK : colors.GRAY_700}
+      size={18}
+    />
+  );
 }
 
 function MainDrawerNavigator() {
@@ -39,7 +46,7 @@ function MainDrawerNavigator() {
           width: Dimensions.get('screen').width * 0.6,
         },
         drawerActiveTintColor: colors.BLACK,
-        drawerInactiveTintColor: colors.BLACK,
+        drawerInactiveTintColor: colors.GRAY_700,
         drawerActiveBackgroundColor: colors.PINK_200,
         drawerLabelStyle: {
           fontWeight: '600',
@@ -47,7 +54,7 @@ function MainDrawerNavigator() {
         drawerContentStyle: {
           backgroundColor: colors.WHITE,
         },
-        drawerIcon: () => DrawerIcons(route),
+        drawerIcon: ({focused}) => DrawerIcons(route, focused),
       })}>
       <Drawer.Screen
         name={mainNavigations.HOME}
