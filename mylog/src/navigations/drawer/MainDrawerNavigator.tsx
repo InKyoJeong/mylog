@@ -8,6 +8,7 @@ import HomeStackNavigator from '@/navigations/stack/HomeStackNavigator';
 import FeedStackNavigator from '@/navigations/stack/FeedStackNavigator';
 import {mainNavigations} from '@/constants/navigations';
 import {colors} from '@/constants/colors';
+import CustomDrawerContent from './CustomDrawerContent';
 
 export type MainDrawerParamList = {
   [mainNavigations.HOME]: undefined;
@@ -39,6 +40,7 @@ function DrawerIcons(
 function MainDrawerNavigator() {
   return (
     <Drawer.Navigator
+      drawerContent={CustomDrawerContent}
       screenOptions={({route}) => ({
         headerShown: false,
         drawerType: 'front',
