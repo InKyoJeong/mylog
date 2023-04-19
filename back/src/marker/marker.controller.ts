@@ -18,21 +18,29 @@ import { CreateMarkerDto } from './dto/create-marker.dto';
 import { Marker } from './marker.entity';
 import { MarkerService } from './marker.service';
 
-@Controller('markers')
+@Controller()
 @UseGuards(AuthGuard())
 export class MarkerController {
   constructor(private markerService: MarkerService) {}
 
-  @Get()
+  @Get('/markers')
   getAllMarker(): Promise<Marker[]> {
     return this.markerService.getAllMarker();
   }
 
-  @Get('/my')
-  getAllMyMarker(@GetUser() user: User): Promise<Marker[]> {
-    return this.markerService.getAllMyMarker(user);
+  // @Get('/my')
+  // getAllMyMarker(@GetUser() user: User): Promise<Marker[]> {
+  //   return this.markerService.getAllMyMarker(user);
+  // }
+
+  @Get('/markers/my')
+  getAllMyMarkers(
+    @GetUser() user: User,
+  ): Promise<Pick<Marker, 'id' | 'latitude' | 'longitude' | 'markerType'>[]> {
+    return this.markerService.getAllMyMarkers(user);
   }
 
+  @Get('/posts/my')
   @Get('/:id')
   getMarkerById(
     @Param('id') id: number,
@@ -41,7 +49,7 @@ export class MarkerController {
     return this.markerService.getMarkerById(id, user);
   }
 
-  @Post()
+  @Post('/markers')
   @UsePipes(ValidationPipe)
   createMarker(
     @Body() createMarkerDto: CreateMarkerDto,
@@ -50,7 +58,7 @@ export class MarkerController {
     return this.markerService.createMarker(createMarkerDto, user);
   }
 
-  @Delete('/:id')
+  @Delete('/markers/:id')
   deleteMarker(
     @Param('id', ParseIntPipe) id: number,
     @GetUser() user: User,
@@ -58,7 +66,7 @@ export class MarkerController {
     return this.markerService.deleteMarker(id, user);
   }
 
-  @Patch('/:id')
+  @Patch('/markers/:id')
   @UsePipes(ValidationPipe)
   updateMarker(
     @Param('id', ParseIntPipe) id: number,

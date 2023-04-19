@@ -3,6 +3,12 @@ import { MarkerType } from '../marker-type.enum';
 
 export class CreateMarkerDto {
   @IsNotEmpty()
+  latitude: number;
+
+  @IsNotEmpty()
+  longitude: number;
+
+  @IsNotEmpty()
   title: string;
 
   @IsString()
