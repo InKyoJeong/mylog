@@ -2,7 +2,7 @@ import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { LoggerMiddleware } from './middlewares/logger.middleware';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { FeedsModule } from './feed/feed.module';
+import { MarkerModule } from './marker/marker.module';
 import { AuthModule } from './auth/auth.module';
 
 @Module({
@@ -18,7 +18,7 @@ import { AuthModule } from './auth/auth.module';
       entities: [__dirname + '/**/*.entity.{js,ts}'],
       synchronize: true,
     }),
-    FeedsModule,
+    MarkerModule,
     AuthModule,
   ],
   providers: [ConfigService],

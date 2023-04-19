@@ -6,10 +6,10 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { FeedTag } from './feed-tag.enum';
+import { MarkerType } from './marker-type.enum';
 
 @Entity()
-export class Feed extends BaseEntity {
+export class Marker extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -20,8 +20,8 @@ export class Feed extends BaseEntity {
   description: string;
 
   @Column()
-  tag: FeedTag;
+  markerType: MarkerType;
 
-  @ManyToOne(() => User, (user) => user.feed, { eager: false })
+  @ManyToOne(() => User, (user) => user.marker, { eager: false })
   user: User;
 }

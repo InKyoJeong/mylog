@@ -1,7 +1,7 @@
 import { IsNotEmpty, IsString } from 'class-validator';
-import { FeedTag } from '../feed-tag.enum';
+import { MarkerType } from '../marker-type.enum';
 
-export class CreateFeedDto {
+export class CreateMarkerDto {
   @IsNotEmpty()
   title: string;
 
@@ -9,5 +9,5 @@ export class CreateFeedDto {
   description: string;
 
   @IsNotEmpty()
-  tag: FeedTag;
+  markerType: MarkerType;
 }

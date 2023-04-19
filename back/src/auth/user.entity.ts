@@ -1,5 +1,5 @@
 import { Exclude } from 'class-transformer';
-import { Feed } from 'src/feed/feed.entity';
+import { Marker } from 'src/marker/marker.entity';
 import {
   BaseEntity,
   Column,
@@ -37,6 +37,6 @@ export class User extends BaseEntity {
   @Exclude()
   hashedRefreshToken?: string;
 
-  @OneToMany(() => Feed, (feed) => feed.user, { eager: false })
-  feed: Feed[];
+  @OneToMany(() => Marker, (marker) => marker.user, { eager: false })
+  marker: Marker[];
 }

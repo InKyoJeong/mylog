@@ -1,4 +1,4 @@
-export enum FeedTag {
+export enum MarkerType {
   RED = 'RED',
   BLUE = 'BLUE',
   GREEN = 'GREEN',
