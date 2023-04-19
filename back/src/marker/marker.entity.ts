@@ -13,10 +13,10 @@ export class Marker extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ type: 'decimal' })
   latitude: number;
 
-  @Column()
+  @Column({ type: 'decimal' })
   longitude: number;
 
   @Column()
