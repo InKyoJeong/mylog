@@ -1,9 +1,11 @@
 import {
   BaseEntity,
   Column,
+  CreateDateColumn,
   Entity,
   ManyToOne,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { User } from 'src/auth/user.entity';
 import { MarkerType } from './marker-type.enum';
@@ -20,13 +22,19 @@ export class Marker extends BaseEntity {
   longitude: number;
 
   @Column()
+  markerType: MarkerType;
+
+  @Column()
   title: string;
 
   @Column()
   description: string;
 
-  @Column()
-  markerType: MarkerType;
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 
   @ManyToOne(() => User, (user) => user.marker, { eager: false })
   user: User;

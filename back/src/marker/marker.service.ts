@@ -16,15 +16,6 @@ export class MarkerService {
     return this.markerRepository.find();
   }
 
-  // async getAllMyMarker(user: User): Promise<Marker[]> {
-  //   const markers = await this.markerRepository
-  //     .createQueryBuilder('marker')
-  //     .where('marker.userId = :userId', { userId: user.id })
-  //     .getMany();
-
-  //   return markers;
-  // }
-
   async getAllMyMarkers(
     user: User,
   ): Promise<Pick<Marker, 'id' | 'latitude' | 'longitude' | 'markerType'>[]> {
@@ -36,6 +27,15 @@ export class MarkerService {
         'marker.longitude',
         'marker.markerType',
       ])
+      .where('marker.userId = :userId', { userId: user.id })
+      .getMany();
+
+    return markers;
+  }
+
+  async getAllMyPosts(user: User): Promise<Marker[]> {
+    const markers = await this.markerRepository
+      .createQueryBuilder('marker')
       .where('marker.userId = :userId', { userId: user.id })
       .getMany();
 

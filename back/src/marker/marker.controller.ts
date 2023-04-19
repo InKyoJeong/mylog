@@ -28,11 +28,6 @@ export class MarkerController {
     return this.markerService.getAllMarker();
   }
 
-  // @Get('/my')
-  // getAllMyMarker(@GetUser() user: User): Promise<Marker[]> {
-  //   return this.markerService.getAllMyMarker(user);
-  // }
-
   @Get('/markers/my')
   getAllMyMarkers(
     @GetUser() user: User,
@@ -41,7 +36,11 @@ export class MarkerController {
   }
 
   @Get('/posts/my')
-  @Get('/:id')
+  getAllMyPosts(@GetUser() user: User): Promise<Marker[]> {
+    return this.markerService.getAllMyPosts(user);
+  }
+
+  @Get('/markers/:id')
   getMarkerById(
     @Param('id') id: number,
     @GetUser() user: User,
