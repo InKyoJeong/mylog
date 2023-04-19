@@ -1,4 +1,3 @@
-import { User } from 'src/auth/user.entity';
 import {
   BaseEntity,
   Column,
@@ -6,12 +5,19 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { User } from 'src/auth/user.entity';
 import { MarkerType } from './marker-type.enum';
 
 @Entity()
 export class Marker extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @Column()
+  latitude: number;
+
+  @Column()
+  longitude: number;
 
   @Column()
   title: string;
