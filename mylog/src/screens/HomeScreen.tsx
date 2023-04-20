@@ -28,28 +28,12 @@ type HomeScreenProps = CompositeScreenProps<
   DrawerScreenProps<MainDrawerParamList, typeof mainNavigations.HOME>
 >;
 
-// const markers: (LatLng & {id: number})[] = [
-//   {
-//     id: 1,
-//     latitude: 37.3851,
-//     longitude: 127.115,
-//   },
-//   {
-//     id: 2,
-//     latitude: 37.385278905375554,
-//     longitude: 127.12102600461246,
-//   },
-// ];
-
 function HomeScreen({navigation}: HomeScreenProps) {
   const mapRef = useRef<MapView | null>(null);
   const {currentLocation} = useCurrentLocation();
   const [selectedLocation, setSelectedLocation] = useState<LatLng | null>(null);
   const {data: markers = []} = useGetMarkers();
-  console.log('markers', markers);
   usePermissions();
-
-  console.log('selectedLocation', selectedLocation);
 
   if (!currentLocation) {
     return (
