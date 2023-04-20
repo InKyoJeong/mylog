@@ -31,7 +31,7 @@ export class MarkerController {
   @Get('/markers/my')
   getAllMyMarkers(
     @GetUser() user: User,
-  ): Promise<Pick<Marker, 'id' | 'latitude' | 'longitude' | 'markerType'>[]> {
+  ): Promise<Pick<Marker, 'id' | 'latitude' | 'longitude' | 'color'>[]> {
     return this.markerService.getAllMyMarkers(user);
   }
 

@@ -8,7 +8,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { User } from 'src/auth/user.entity';
-import { MarkerType } from './marker-type.enum';
+import { MarkerColor } from './marker-color.enum';
 
 @Entity()
 export class Marker extends BaseEntity {
@@ -22,7 +22,7 @@ export class Marker extends BaseEntity {
   longitude: number;
 
   @Column()
-  markerType: MarkerType;
+  color: MarkerColor;
 
   @Column()
   title: string;

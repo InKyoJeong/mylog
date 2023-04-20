@@ -1,5 +1,5 @@
 import { IsNotEmpty, IsString } from 'class-validator';
-import { MarkerType } from '../marker-type.enum';
+import { MarkerColor } from '../marker-color.enum';
 
 export class CreateMarkerDto {
   @IsNotEmpty()
@@ -15,5 +15,5 @@ export class CreateMarkerDto {
   description: string;
 
   @IsNotEmpty()
-  markerType: MarkerType;
+  color: MarkerColor;
 }

@@ -1,4 +1,4 @@
-export enum MarkerType {
+export enum MarkerColor {
   RED = 'RED',
   BLUE = 'BLUE',
   GREEN = 'GREEN',
