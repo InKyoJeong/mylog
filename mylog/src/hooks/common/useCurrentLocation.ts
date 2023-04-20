@@ -4,8 +4,9 @@ import Geolocation from '@react-native-community/geolocation';
 
 import useAppState from './useAppState';
 
-function useCurrentLocation() {
-  const [currentLocation, setCurrentLocation] = useState<LatLng | null>(null);
+function useCurrentLocation(initialLocation: LatLng) {
+  const [currentLocation, setCurrentLocation] =
+    useState<LatLng>(initialLocation);
   const {isComeback} = useAppState();
 
   useEffect(() => {
@@ -15,11 +16,12 @@ function useCurrentLocation() {
         setCurrentLocation({latitude, longitude});
       },
       error => {
-        console.log('error', error);
+        console.log('error 권한 에러', error);
       },
       {
         enableHighAccuracy: true,
         timeout: 20000,
+        maximumAge: 10000,
       },
     );
   }, [isComeback]);

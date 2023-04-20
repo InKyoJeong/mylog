@@ -29,15 +29,8 @@ export class MarkerController {
   // }
 
   @Get('/markers/my')
-  getAllMyMarkers(
-    @GetUser() user: User,
-  ): Promise<Pick<Marker, 'id' | 'latitude' | 'longitude' | 'color'>[]> {
+  getAllMyMarkers(@GetUser() user: User): Promise<Marker[]> {
     return this.markerService.getAllMyMarkers(user);
-  }
-
-  @Get('/posts/my')
-  getAllMyPosts(@GetUser() user: User): Promise<Marker[]> {
-    return this.markerService.getAllMyPosts(user);
   }
 
   @Get('/markers/:id')
