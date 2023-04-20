@@ -1,4 +1,4 @@
-## http request
+<!-- ## http request
 
 - android
 
@@ -11,4 +11,4 @@
 
 ```
 
-`API_URL=http://10.0.2.2:3030`
+`API_URL=http://10.0.2.2:3030` -->

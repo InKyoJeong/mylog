@@ -1,12 +1,15 @@
 import { Exclude } from 'class-transformer';
-import { Feed } from 'src/feed/feed.entity';
+import { Marker } from 'src/marker/marker.entity';
 import {
   BaseEntity,
   Column,
+  CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   OneToMany,
   PrimaryGeneratedColumn,
   Unique,
+  UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
@@ -21,10 +24,19 @@ export class User extends BaseEntity {
   @Column()
   password: string;
 
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
+
+  @DeleteDateColumn()
+  deletedAt: Date | null;
+
   @Column({ nullable: true })
   @Exclude()
   hashedRefreshToken?: string;
 
-  @OneToMany(() => Feed, (feed) => feed.user, { eager: false })
-  feed: Feed[];
+  @OneToMany(() => Marker, (marker) => marker.user, { eager: false })
+  marker: Marker[];
 }
