@@ -11,11 +11,11 @@ import useAuth from '@/hooks/queries/useAuth';
 import {colors} from '@/constants/colors';
 
 function CustomDrawerContent(props: DrawerContentComponentProps) {
-  const {logoutMutate, getProfileQuery} = useAuth();
+  const {logoutMutation, getProfileQuery} = useAuth();
   const {username} = getProfileQuery.data || {};
 
   const handleLogout = () => {
-    logoutMutate.mutate(null);
+    logoutMutation.mutate(null);
   };
 
   return (

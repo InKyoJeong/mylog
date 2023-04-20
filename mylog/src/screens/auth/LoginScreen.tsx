@@ -10,7 +10,7 @@ import useAuth from '@/hooks/queries/useAuth';
 import {validateLogin} from '@/utils/validate';
 
 function LoginScreen() {
-  const {loginMutate} = useAuth();
+  const {loginMutation} = useAuth();
   const login = useForm({
     initialValue: {username: '', password: ''},
     validate: validateLogin,
@@ -19,7 +19,7 @@ function LoginScreen() {
   const passwordRef = useRef<TextInput | null>(null);
 
   const handleSubmit = () => {
-    loginMutate.mutate(login.values, {
+    loginMutation.mutate(login.values, {
       onSuccess: () => {
         console.log('로그인 완료');
       },
