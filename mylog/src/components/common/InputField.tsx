@@ -63,10 +63,10 @@ const styles = StyleSheet.create({
   },
   inputError: {
     borderWidth: 1,
-    borderColor: colors.PINK_300,
+    borderColor: colors.RED_300,
   },
   error: {
-    color: colors.ORANGE_500,
+    color: colors.RED_500,
     fontSize: 12,
     paddingTop: 5,
     paddingLeft: 0,

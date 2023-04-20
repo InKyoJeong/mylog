@@ -38,6 +38,7 @@ function HomeScreen({navigation}: HomeScreenProps) {
   usePermissions();
 
   const handleMoveCurrentLocation = () => {
+    // 권한 에러시 return
     mapRef.current?.animateToRegion({
       latitude: currentLocation.latitude,
       longitude: currentLocation.longitude,
@@ -127,7 +128,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 1,
   },
   savedMarker: {
-    backgroundColor: '#EC87A5',
+    backgroundColor: colors.PINK_400,
     borderColor: '#5A5A5A', // lightMode
     borderWidth: 1,
   },
@@ -144,7 +145,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     borderTopRightRadius: 50,
     borderBottomRightRadius: 50,
-    backgroundColor: colors.PINK_600,
+    backgroundColor: colors.PINK_700,
     shadowColor: colors.BLACK,
     shadowOffset: {width: 2, height: 1},
     shadowOpacity: 0.5,

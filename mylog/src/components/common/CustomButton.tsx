@@ -72,18 +72,18 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   filled: {
-    backgroundColor: colors.PINK_600,
+    backgroundColor: colors.PINK_700,
   },
   outlined: {
-    borderColor: colors.PINK_600,
+    borderColor: colors.PINK_700,
     borderWidth: 1,
   },
   standard: {},
   filledPressed: {
-    backgroundColor: colors.PINK_400,
+    backgroundColor: colors.PINK_500,
   },
   outlinedPressed: {
-    borderColor: colors.PINK_600,
+    borderColor: colors.PINK_700,
     borderWidth: 1,
     opacity: 0.5,
   },
@@ -99,10 +99,10 @@ const styles = StyleSheet.create({
     color: colors.WHITE,
   },
   outlinedText: {
-    color: colors.PINK_600,
+    color: colors.PINK_700,
   },
   standardText: {
-    color: colors.PINK_600,
+    color: colors.PINK_700,
   },
 });
 
