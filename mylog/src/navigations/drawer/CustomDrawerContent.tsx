@@ -56,6 +56,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.WHITE,
   },
   userInfoContainer: {
+    alignItems: 'center',
     marginVertical: 30,
     marginHorizontal: 15,
   },
