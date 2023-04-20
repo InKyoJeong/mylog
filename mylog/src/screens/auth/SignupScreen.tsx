@@ -10,7 +10,7 @@ import useAuth from '@/hooks/queries/useAuth';
 import {validateSignup} from '@/utils/validate';
 
 function SignupScreen() {
-  const {signupMutate, loginMutate} = useAuth();
+  const {signupMutation, loginMutation} = useAuth();
   const signup = useForm({
     initialValue: {username: '', password: '', passwordConfirm: ''},
     validate: validateSignup,
@@ -21,11 +21,11 @@ function SignupScreen() {
 
   const handleSubmit = () => {
     const {username, password} = signup.values;
-    signupMutate.mutate(
+    signupMutation.mutate(
       {username, password},
       {
         onSuccess: () => {
-          loginMutate.mutate({username, password});
+          loginMutation.mutate({username, password});
         },
         onError: error =>
           console.log('error.response?.data', error.response?.data),
