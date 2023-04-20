@@ -15,37 +15,41 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import type {HomeStackParamList} from '@/navigations/stack/HomeStackNavigator';
 import type {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
 import Indicator from '@/components/common/Indicator';
-import {homeNavigations, mainNavigations} from '@/constants/navigations';
-import {colors} from '@/constants/colors';
+import MapButton from '@/components/MapButton';
 import usePermissions from '@/hooks/common/usePermission';
 import useCurrentLocation from '@/hooks/common/useCurrentLocation';
+import {useGetMarkers} from '@/hooks/queries/useMarker';
+import {homeNavigations, mainNavigations} from '@/constants/navigations';
+import {colors} from '@/constants/colors';
 import getMapStyle from '@/style/mapStyle';
-import MapButton from '@/components/MapButton';
 
 type HomeScreenProps = CompositeScreenProps<
   StackScreenProps<HomeStackParamList, typeof homeNavigations.MAP_HOME>,
   DrawerScreenProps<MainDrawerParamList, typeof mainNavigations.HOME>
 >;
 
-const markers: (LatLng & {id: number})[] = [
-  {
-    id: 1,
-    latitude: 37.3851,
-    longitude: 127.115,
-  },
-  {
-    id: 2,
-    latitude: 37.385278905375554,
-    longitude: 127.12102600461246,
-  },
-];
+// const markers: (LatLng & {id: number})[] = [
+//   {
+//     id: 1,
+//     latitude: 37.3851,
+//     longitude: 127.115,
+//   },
+//   {
+//     id: 2,
+//     latitude: 37.385278905375554,
+//     longitude: 127.12102600461246,
+//   },
+// ];
 
 function HomeScreen({navigation}: HomeScreenProps) {
   const mapRef = useRef<MapView | null>(null);
   const {currentLocation} = useCurrentLocation();
   const [selectedLocation, setSelectedLocation] = useState<LatLng | null>(null);
-
+  const {data: markers = []} = useGetMarkers();
+  console.log('markers', markers);
   usePermissions();
+
+  console.log('selectedLocation', selectedLocation);
 
   if (!currentLocation) {
     return (

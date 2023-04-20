@@ -12,9 +12,9 @@ export class MarkerService {
     private markerRepository: Repository<Marker>,
   ) {}
 
-  async getAllMarker(): Promise<Marker[]> {
-    return this.markerRepository.find();
-  }
+  // async getAllMarker(): Promise<Marker[]> {
+  //   return this.markerRepository.find();
+  // }
 
   async getAllMyMarkers(
     user: User,

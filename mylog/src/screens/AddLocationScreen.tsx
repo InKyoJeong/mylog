@@ -1,17 +1,41 @@
 import React from 'react';
-import {SafeAreaView, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {
+  Button,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import type {StackScreenProps} from '@react-navigation/stack';
 
 import {homeNavigations} from '@/constants/navigations';
-import {HomeStackParamList} from '@/navigations/stack/HomeStackNavigator';
+import type {HomeStackParamList} from '@/navigations/stack/HomeStackNavigator';
+import {useCreateMarker} from '@/hooks/queries/useMarker';
 
 type AddLocationScreenProps = StackScreenProps<
   HomeStackParamList,
   typeof homeNavigations.ADD_LOCATION
 >;
 
-function AddLocationScreen({route}: AddLocationScreenProps) {
+function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
   const {location} = route.params;
+  const markerMutation = useCreateMarker();
+
+  const handleSubmit = () => {
+    markerMutation.mutate(
+      {
+        latitude: location.latitude,
+        longitude: location.longitude,
+        title: '제목',
+        description: '설명',
+        color: 'BLUE',
+      },
+      {
+        onSuccess: () => navigation.goBack(),
+      },
+    );
+  };
 
   return (
     <SafeAreaView>
@@ -20,6 +44,7 @@ function AddLocationScreen({route}: AddLocationScreenProps) {
           <Text>추가할 위치</Text>
           <Text>{location.latitude}</Text>
           <Text>{location.longitude}</Text>
+          <Button title="등록" onPress={handleSubmit} />
         </View>
       </ScrollView>
     </SafeAreaView>

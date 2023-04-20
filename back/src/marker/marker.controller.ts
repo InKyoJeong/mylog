@@ -23,10 +23,10 @@ import { MarkerService } from './marker.service';
 export class MarkerController {
   constructor(private markerService: MarkerService) {}
 
-  @Get('/markers')
-  getAllMarker(): Promise<Marker[]> {
-    return this.markerService.getAllMarker();
-  }
+  // @Get('/markers')
+  // getAllMarker(): Promise<Marker[]> {
+  //   return this.markerService.getAllMarker();
+  // }
 
   @Get('/markers/my')
   getAllMyMarkers(
@@ -42,7 +42,7 @@ export class MarkerController {
 
   @Get('/markers/:id')
   getMarkerById(
-    @Param('id') id: number,
+    @Param('id', ParseIntPipe) id: number,
     @GetUser() user: User,
   ): Promise<Marker> {
     return this.markerService.getMarkerById(id, user);

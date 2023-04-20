@@ -19,10 +19,18 @@ const getMarker = async (id: string): Promise<Marker> => {
   return data;
 };
 
+export type CreateMarkerRequest = Omit<Marker, 'id'>;
+
+const createMarker = async ({...body}: CreateMarkerRequest) => {
+  const {data} = await axiosInstance.post('/markers', body);
+
+  return data;
+};
+
 const getPosts = async (): Promise<Marker[]> => {
   const {data} = await axiosInstance.get('/posts/my');
 
   return data;
 };
 
-export {getMarkers, getMarker, getPosts};
+export {getMarkers, getMarker, createMarker, getPosts};
