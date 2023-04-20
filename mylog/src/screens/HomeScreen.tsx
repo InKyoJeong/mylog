@@ -1,5 +1,5 @@
 import React, {useRef, useState} from 'react';
-import {Alert, Pressable, StyleSheet, Text, View} from 'react-native';
+import {Alert, Pressable, StyleSheet, View} from 'react-native';
 import MapView, {
   LatLng,
   LongPressEvent,
@@ -14,11 +14,10 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import type {HomeStackParamList} from '@/navigations/stack/HomeStackNavigator';
 import type {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
-import Indicator from '@/components/common/Indicator';
 import MapButton from '@/components/MapButton';
 import usePermissions from '@/hooks/common/usePermission';
 import useCurrentLocation from '@/hooks/common/useCurrentLocation';
-import {useGetMarkers} from '@/hooks/queries/useMarker';
+import {useGetMarkerLocations} from '@/hooks/queries/useMarker';
 import {homeNavigations, mainNavigations} from '@/constants/navigations';
 import {colors} from '@/constants/colors';
 import getMapStyle from '@/style/mapStyle';
@@ -30,19 +29,13 @@ type HomeScreenProps = CompositeScreenProps<
 
 function HomeScreen({navigation}: HomeScreenProps) {
   const mapRef = useRef<MapView | null>(null);
-  const {currentLocation} = useCurrentLocation();
+  const {currentLocation} = useCurrentLocation({
+    latitude: 37.5516032365118,
+    longitude: 126.98989626020192,
+  });
   const [selectedLocation, setSelectedLocation] = useState<LatLng | null>(null);
-  const {data: markers = []} = useGetMarkers();
+  const {data: markers = []} = useGetMarkerLocations();
   usePermissions();
-
-  if (!currentLocation) {
-    return (
-      <Indicator>
-        <Text>내 위치를 로딩 중입니다.</Text>
-        <Text>권한을 허용했는지 확인해주세요.</Text>
-      </Indicator>
-    );
-  }
 
   const handleMoveCurrentLocation = () => {
     mapRef.current?.animateToRegion({
@@ -80,7 +73,7 @@ function HomeScreen({navigation}: HomeScreenProps) {
         showsMyLocationButton={false}
         followsUserLocation={true}
         customMapStyle={getMapStyle('light')}
-        initialRegion={{
+        region={{
           latitude: currentLocation.latitude,
           longitude: currentLocation.longitude,
           latitudeDelta: 0.0922,
