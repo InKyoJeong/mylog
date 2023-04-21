@@ -15,7 +15,6 @@ import type {HomeStackParamList} from '@/navigations/stack/HomeStackNavigator';
 import type {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
 import MapButton from '@/components/MapButton';
 import CustomMarker from '@/components/common/CustomMarker';
-import MarkerList from '@/components/MarkerList';
 import usePermissions from '@/hooks/common/usePermission';
 import useUserLocation from '@/hooks/common/useUserLocation';
 import useMoveMapView from '@/hooks/common/useMoveMapView';
@@ -24,6 +23,8 @@ import {homeNavigations, mainNavigations} from '@/constants/navigations';
 import {colors} from '@/constants/colors';
 import {numbers} from '@/constants/numbers';
 import getMapStyle from '@/style/mapStyle';
+import useModalStore from '@/store/useModalStore';
+import MarkerModal from '@/components/MarkerModal';
 
 type MapHomeScreenProps = CompositeScreenProps<
   StackScreenProps<HomeStackParamList, typeof homeNavigations.MAP_HOME>,
@@ -31,16 +32,18 @@ type MapHomeScreenProps = CompositeScreenProps<
 >;
 
 function MapHomeScreen({navigation}: MapHomeScreenProps) {
-  const {mapRef, moveMapView, handleChangeDelta} = useMoveMapView({
-    latitudeDelta: numbers.INITIAL_LATITUDE_DELTA,
-    longitudeDelta: numbers.INITIAL_LONGITUDE_DELTA,
-  });
+  const {mapRef, moveMapView, handleChangeDelta, setSelectedMarker} =
+    useMoveMapView({
+      latitudeDelta: numbers.INITIAL_LATITUDE_DELTA,
+      longitudeDelta: numbers.INITIAL_LONGITUDE_DELTA,
+    });
   const {userLocation, isUserLocationError} = useUserLocation({
     latitude: numbers.INITIAL_LATITUDE,
     longitude: numbers.INITIAL_LONGITUDE,
   });
   const [selectedMapView, setSelectedMapView] = useState<LatLng | null>(null);
   const {data: markers = []} = useGetMarkerLocations();
+  const {showModal} = useModalStore();
   usePermissions();
 
   const handleLongPressMapView = ({nativeEvent}: LongPressEvent) => {
@@ -70,6 +73,11 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
     moveMapView(userLocation);
   };
 
+  const handlePressMarker = (id: number, coordinate: LatLng) => {
+    showModal(id);
+    setSelectedMarker(coordinate);
+  };
+
   return (
     <View style={styles.container}>
       <MapView
@@ -88,7 +96,14 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
         }}
         onLongPress={handleLongPressMapView}
         onRegionChangeComplete={handleChangeDelta}>
-        <MarkerList markers={markers} />
+        {markers.map(({id, color, latitude, longitude}) => (
+          <CustomMarker
+            key={id}
+            coordinate={{latitude, longitude}}
+            color={color}
+            onPress={() => handlePressMarker(id, {latitude, longitude})}
+          />
+        ))}
         {selectedMapView && <CustomMarker coordinate={selectedMapView} />}
       </MapView>
 
@@ -106,6 +121,8 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
           <MaterialIcons name={'my-location'} color={colors.WHITE} size={25} />
         </MapButton>
       </View>
+
+      <MarkerModal />
     </View>
   );
 }

@@ -1,14 +1,12 @@
 import {useEffect, useRef, useState} from 'react';
 import MapView, {LatLng, Region} from 'react-native-maps';
 
-import useLocationStore from '@/store/useLocationStore';
-
 function useMoveMapView(
   initialDelta: Pick<Region, 'latitudeDelta' | 'longitudeDelta'>,
 ) {
   const mapRef = useRef<MapView | null>(null);
   const [regionDelta, setRegionDelta] = useState(initialDelta);
-  const {selectedMarker} = useLocationStore();
+  const [selectedMarker, setSelectedMarker] = useState<LatLng>();
 
   const handleChangeDelta = (region: Region) => {
     const {latitudeDelta, longitudeDelta} = region;
@@ -31,7 +29,7 @@ function useMoveMapView(
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedMarker]);
 
-  return {mapRef, moveMapView, handleChangeDelta};
+  return {mapRef, moveMapView, handleChangeDelta, setSelectedMarker};
 }
 
 export default useMoveMapView;

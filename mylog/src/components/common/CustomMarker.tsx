@@ -1,12 +1,11 @@
 import React from 'react';
-import {StyleSheet, View, ViewProps} from 'react-native';
-import {LatLng, Marker} from 'react-native-maps';
+import {StyleSheet, View} from 'react-native';
+import {LatLng, MapMarkerProps, Marker} from 'react-native-maps';
 
-import useLocationStore from '@/store/useLocationStore';
 import {colors} from '@/constants/colors';
 import type {MarkerColor} from '@/types/api';
 
-interface CustomMarkerProps extends ViewProps {
+interface CustomMarkerProps extends MapMarkerProps {
   coordinate: LatLng;
   color?: MarkerColor | 'WHITE';
 }
@@ -24,18 +23,9 @@ function CustomMarker({
   color = 'WHITE',
   ...props
 }: CustomMarkerProps) {
-  const {setSelectedMarker} = useLocationStore();
-
-  const handlePressMarker = () => {
-    setSelectedMarker(coordinate);
-  };
-
   return (
-    <Marker coordinate={coordinate} onPress={handlePressMarker}>
-      <View
-        style={[styles.marker, {backgroundColor: colorHex[color]}]}
-        {...props}
-      />
+    <Marker coordinate={coordinate} {...props}>
+      <View style={[styles.marker, {backgroundColor: colorHex[color]}]} />
     </Marker>
   );
 }
