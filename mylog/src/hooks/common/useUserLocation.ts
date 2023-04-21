@@ -23,7 +23,7 @@ function useUserLocation(initialLocation: LatLng) {
       {
         enableHighAccuracy: true,
         timeout: 20000,
-        maximumAge: 10000,
+        maximumAge: 20000,
       },
     );
   }, [isComeback]);

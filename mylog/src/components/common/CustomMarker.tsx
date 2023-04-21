@@ -27,10 +27,6 @@ function CustomMarker({
   const {setSelectedMarker} = useLocationStore();
 
   const handlePressMarker = () => {
-    console.log('coordinate', coordinate);
-    // id없을때는 요청x
-    // api요청
-    // map이동
     setSelectedMarker(coordinate);
   };
 

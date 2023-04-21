@@ -8,7 +8,6 @@ function useMoveMapView(
 ) {
   const mapRef = useRef<MapView | null>(null);
   const [regionDelta, setRegionDelta] = useState(initialDelta);
-
   const {selectedMarker} = useLocationStore();
 
   const handleChangeDelta = (region: Region) => {
