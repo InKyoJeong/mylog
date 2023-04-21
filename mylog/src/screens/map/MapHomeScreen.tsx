@@ -22,8 +22,8 @@ import useMoveMapView from '@/hooks/common/useMoveMapView';
 import {useGetMarkerLocations} from '@/hooks/queries/useMarker';
 import {homeNavigations, mainNavigations} from '@/constants/navigations';
 import {colors} from '@/constants/colors';
-import getMapStyle from '@/style/mapStyle';
 import {numbers} from '@/constants/numbers';
+import getMapStyle from '@/style/mapStyle';
 
 type MapHomeScreenProps = CompositeScreenProps<
   StackScreenProps<HomeStackParamList, typeof homeNavigations.MAP_HOME>,
@@ -31,7 +31,10 @@ type MapHomeScreenProps = CompositeScreenProps<
 >;
 
 function MapHomeScreen({navigation}: MapHomeScreenProps) {
-  const {mapRef, moveMapView} = useMoveMapView();
+  const {mapRef, moveMapView, handleChangeDelta} = useMoveMapView({
+    latitudeDelta: numbers.INITIAL_LATITUDE_DELTA,
+    longitudeDelta: numbers.INITIAL_LONGITUDE_DELTA,
+  });
   const {userLocation, isUserLocationError} = useUserLocation({
     latitude: numbers.INITIAL_LATITUDE,
     longitude: numbers.INITIAL_LONGITUDE,
@@ -44,15 +47,6 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
     setSelectedMapView(nativeEvent.coordinate);
   };
 
-  const handlePressUserLocation = () => {
-    if (isUserLocationError) {
-      console.log('위치 권한을 허용해주세요.');
-      return;
-    }
-
-    moveMapView(userLocation);
-  };
-
   const handlePressAddLocation = () => {
     if (!selectedMapView) {
       return Alert.alert(
@@ -60,10 +54,20 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
         '지도를 길게 누르면 위치가 선택됩니다.',
       );
     }
+
     navigation.navigate(homeNavigations.ADD_LOCATION, {
       location: selectedMapView,
     });
     setSelectedMapView(null);
+  };
+
+  const handlePressUserLocation = () => {
+    if (isUserLocationError) {
+      console.log('위치 권한을 허용해주세요.');
+      return;
+    }
+
+    moveMapView(userLocation);
   };
 
   return (
@@ -82,7 +86,8 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
           latitudeDelta: numbers.INITIAL_LATITUDE_DELTA,
           longitudeDelta: numbers.INITIAL_LONGITUDE_DELTA,
         }}
-        onLongPress={handleLongPressMapView}>
+        onLongPress={handleLongPressMapView}
+        onRegionChangeComplete={handleChangeDelta}>
         <MarkerList markers={markers} />
         {selectedMapView && <CustomMarker coordinate={selectedMapView} />}
       </MapView>
@@ -93,7 +98,7 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
         <Ionicons name={'md-menu-sharp'} color={colors.WHITE} size={30} />
       </Pressable>
 
-      <View style={styles.buttons}>
+      <View style={styles.buttonList}>
         <MapButton onPress={handlePressAddLocation}>
           <MaterialIcons name={'add'} color={colors.WHITE} size={25} />
         </MapButton>
@@ -123,7 +128,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     elevation: 2,
   },
-  buttons: {
+  buttonList: {
     position: 'absolute',
     bottom: 50,
     right: 10,

@@ -1,11 +1,11 @@
 import {useEffect, useState} from 'react';
-import {LatLng} from 'react-native-maps';
+import type {LatLng} from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
 
 import useAppState from './useAppState';
 
 function useUserLocation(initialLocation: LatLng) {
-  const [userLocation, setUserLocation] = useState<LatLng>(initialLocation);
+  const [userLocation, setUserLocation] = useState(initialLocation);
   const [isUserLocationError, setIsUserLocationError] = useState(false);
   const {isComeback} = useAppState();
 

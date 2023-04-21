@@ -1,15 +1,15 @@
-import {LatLng} from 'react-native-maps';
 import {create} from 'zustand';
+import type {LatLng} from 'react-native-maps';
 
 interface LocationState {
-  location: LatLng | null;
-  setLocation: (coordinate: LatLng) => void;
+  selectedMarker: LatLng | null;
+  setSelectedMarker: (coordinate: LatLng) => void;
 }
 
 const LocationStore = create<LocationState>(set => ({
-  location: null,
-  setLocation: (coordinate: LatLng) => {
-    set(state => ({location: {...state.location, ...coordinate}}));
+  selectedMarker: null,
+  setSelectedMarker: (coordinate: LatLng) => {
+    set(state => ({selectedMarker: {...state.selectedMarker, ...coordinate}}));
   },
 }));
 
