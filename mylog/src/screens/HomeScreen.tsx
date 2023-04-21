@@ -21,6 +21,7 @@ import {homeNavigations, mainNavigations} from '@/constants/navigations';
 import {colors} from '@/constants/colors';
 import getMapStyle from '@/style/mapStyle';
 import CustomMarker from '@/components/common/CustomMarker';
+import MarkerList from '@/components/MarkerList';
 
 type HomeScreenProps = CompositeScreenProps<
   StackScreenProps<HomeStackParamList, typeof homeNavigations.MAP_HOME>,
@@ -81,13 +82,7 @@ function HomeScreen({navigation}: HomeScreenProps) {
           longitudeDelta: 0.0421,
         }}
         onLongPress={handleSelectLocation}>
-        {markers.map(({id, color, latitude, longitude}) => (
-          <CustomMarker
-            key={id}
-            coordinate={{latitude, longitude}}
-            color={color}
-          />
-        ))}
+        <MarkerList markers={markers} />
         {selectedLocation && <CustomMarker coordinate={selectedLocation} />}
       </MapView>
 
@@ -101,7 +96,6 @@ function HomeScreen({navigation}: HomeScreenProps) {
         <MapButton onPress={handleMoveAddLocation}>
           <MaterialIcons name={'add'} color={colors.WHITE} size={25} />
         </MapButton>
-
         <MapButton onPress={handleMoveCurrentLocation}>
           <MaterialIcons name={'my-location'} color={colors.WHITE} size={25} />
         </MapButton>

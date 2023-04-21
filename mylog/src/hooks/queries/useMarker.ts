@@ -5,7 +5,7 @@ import queryKeys from '@/constants/queryKeys';
 import {ErrorResponse, UseMutationCustomOptions} from '@/types';
 import queryClient from '@/api/queryClient';
 
-type MarkerLocation = Pick<
+export type MarkerLocation = Pick<
   ResponseMarker,
   'id' | 'latitude' | 'longitude' | 'color'
 >;
