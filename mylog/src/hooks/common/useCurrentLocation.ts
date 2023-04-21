@@ -7,6 +7,7 @@ import useAppState from './useAppState';
 function useCurrentLocation(initialLocation: LatLng) {
   const [currentLocation, setCurrentLocation] =
     useState<LatLng>(initialLocation);
+  const [isCurrentLocationError, setIsCurrentLocationError] = useState(false);
   const {isComeback} = useAppState();
 
   useEffect(() => {
@@ -14,9 +15,11 @@ function useCurrentLocation(initialLocation: LatLng) {
       info => {
         const {latitude, longitude} = info.coords;
         setCurrentLocation({latitude, longitude});
+        setIsCurrentLocationError(false);
       },
       error => {
         console.log('error 권한 에러', error);
+        setIsCurrentLocationError(true);
       },
       {
         enableHighAccuracy: true,
@@ -26,7 +29,7 @@ function useCurrentLocation(initialLocation: LatLng) {
     );
   }, [isComeback]);
 
-  return {currentLocation};
+  return {currentLocation, isCurrentLocationError};
 }
 
 export default useCurrentLocation;

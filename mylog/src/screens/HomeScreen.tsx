@@ -30,39 +30,45 @@ type HomeScreenProps = CompositeScreenProps<
 
 function HomeScreen({navigation}: HomeScreenProps) {
   const mapRef = useRef<MapView | null>(null);
-  const {currentLocation} = useCurrentLocation({
+  const {currentLocation, isCurrentLocationError} = useCurrentLocation({
     latitude: 37.5516032365118,
     longitude: 126.98989626020192,
   });
-  const [selectedLocation, setSelectedLocation] = useState<LatLng | null>(null);
+  const [selectedMapView, setSelectedMapView] = useState<LatLng | null>(null);
   const {data: markers = []} = useGetMarkerLocations();
   usePermissions();
 
-  const handleMoveCurrentLocation = () => {
-    // 권한 에러시 return
-    mapRef.current?.animateToRegion({
-      latitude: currentLocation.latitude,
-      longitude: currentLocation.longitude,
-      latitudeDelta: 0.0922,
-      longitudeDelta: 0.0421,
-    });
+  const handlePressCurrentLocation = () => {
+    if (isCurrentLocationError) {
+      console.log('위치 권한을 허용해주세요.');
+      return;
+    }
+    moveMapView(currentLocation);
   };
 
-  const handleSelectLocation = ({nativeEvent}: LongPressEvent) => {
-    setSelectedLocation(nativeEvent.coordinate);
+  const handlePressMapView = ({nativeEvent}: LongPressEvent) => {
+    setSelectedMapView(nativeEvent.coordinate);
   };
 
-  const handleMoveAddLocation = () => {
-    if (!selectedLocation) {
+  const handlePressAddLocation = () => {
+    if (!selectedMapView) {
       return Alert.alert(
         '위치를 선택해주세요',
         '지도를 길게 누르면 위치가 선택됩니다.',
       );
     }
     navigation.navigate(homeNavigations.ADD_LOCATION, {
-      location: selectedLocation,
+      location: selectedMapView,
     });
-    setSelectedLocation(null);
+    setSelectedMapView(null);
+  };
+
+  const moveMapView = (coordinate: LatLng) => {
+    mapRef.current?.animateToRegion({
+      ...coordinate,
+      latitudeDelta: 0.0922,
+      longitudeDelta: 0.0421,
+    });
   };
 
   return (
@@ -81,9 +87,9 @@ function HomeScreen({navigation}: HomeScreenProps) {
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
         }}
-        onLongPress={handleSelectLocation}>
+        onLongPress={handlePressMapView}>
         <MarkerList markers={markers} />
-        {selectedLocation && <CustomMarker coordinate={selectedLocation} />}
+        {selectedMapView && <CustomMarker coordinate={selectedMapView} />}
       </MapView>
 
       <Pressable
@@ -93,10 +99,10 @@ function HomeScreen({navigation}: HomeScreenProps) {
       </Pressable>
 
       <View style={styles.buttons}>
-        <MapButton onPress={handleMoveAddLocation}>
+        <MapButton onPress={handlePressAddLocation}>
           <MaterialIcons name={'add'} color={colors.WHITE} size={25} />
         </MapButton>
-        <MapButton onPress={handleMoveCurrentLocation}>
+        <MapButton onPress={handlePressCurrentLocation}>
           <MaterialIcons name={'my-location'} color={colors.WHITE} size={25} />
         </MapButton>
       </View>

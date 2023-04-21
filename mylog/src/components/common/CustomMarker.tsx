@@ -23,8 +23,12 @@ function CustomMarker({
   color = 'WHITE',
   ...props
 }: CustomMarkerProps) {
+  const handlePressMarker = () => {
+    console.log('coordinate', coordinate);
+  };
+
   return (
-    <Marker coordinate={coordinate}>
+    <Marker coordinate={coordinate} onPress={handlePressMarker}>
       <View
         style={[styles.marker, {backgroundColor: colorHex[color]}]}
         {...props}
