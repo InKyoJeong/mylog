@@ -2,6 +2,7 @@ import React from 'react';
 import {StyleSheet, View, ViewProps} from 'react-native';
 import {LatLng, Marker} from 'react-native-maps';
 
+import useLocationStore from '@/store/useLocationStore';
 import type {MarkerColor} from '@/types/api';
 import {colors} from '@/constants/colors';
 
@@ -23,8 +24,14 @@ function CustomMarker({
   color = 'WHITE',
   ...props
 }: CustomMarkerProps) {
+  const {setLocation} = useLocationStore();
+
   const handlePressMarker = () => {
     console.log('coordinate', coordinate);
+    // id없을때는 요청x
+    // api요청
+    // map이동
+    setLocation(coordinate);
   };
 
   return (

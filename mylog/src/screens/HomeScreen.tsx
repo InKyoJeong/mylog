@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useState} from 'react';
 import {Alert, Pressable, StyleSheet, View} from 'react-native';
 import MapView, {
   LatLng,
@@ -14,14 +14,16 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import type {HomeStackParamList} from '@/navigations/stack/HomeStackNavigator';
 import type {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
 import MapButton from '@/components/MapButton';
+import CustomMarker from '@/components/common/CustomMarker';
+import MarkerList from '@/components/MarkerList';
 import usePermissions from '@/hooks/common/usePermission';
 import useCurrentLocation from '@/hooks/common/useCurrentLocation';
+import useMoveMapView from '@/hooks/common/useMoveMapView';
 import {useGetMarkerLocations} from '@/hooks/queries/useMarker';
 import {homeNavigations, mainNavigations} from '@/constants/navigations';
 import {colors} from '@/constants/colors';
 import getMapStyle from '@/style/mapStyle';
-import CustomMarker from '@/components/common/CustomMarker';
-import MarkerList from '@/components/MarkerList';
+import {numbers} from '@/constants/numbers';
 
 type HomeScreenProps = CompositeScreenProps<
   StackScreenProps<HomeStackParamList, typeof homeNavigations.MAP_HOME>,
@@ -29,10 +31,10 @@ type HomeScreenProps = CompositeScreenProps<
 >;
 
 function HomeScreen({navigation}: HomeScreenProps) {
-  const mapRef = useRef<MapView | null>(null);
+  const {mapRef, moveMapView} = useMoveMapView();
   const {currentLocation, isCurrentLocationError} = useCurrentLocation({
-    latitude: 37.5516032365118,
-    longitude: 126.98989626020192,
+    latitude: numbers.INITIAL_LATITUDE,
+    longitude: numbers.INITIAL_LONGITUDE,
   });
   const [selectedMapView, setSelectedMapView] = useState<LatLng | null>(null);
   const {data: markers = []} = useGetMarkerLocations();
@@ -43,10 +45,11 @@ function HomeScreen({navigation}: HomeScreenProps) {
       console.log('위치 권한을 허용해주세요.');
       return;
     }
+
     moveMapView(currentLocation);
   };
 
-  const handlePressMapView = ({nativeEvent}: LongPressEvent) => {
+  const handleLongPressMapView = ({nativeEvent}: LongPressEvent) => {
     setSelectedMapView(nativeEvent.coordinate);
   };
 
@@ -63,14 +66,6 @@ function HomeScreen({navigation}: HomeScreenProps) {
     setSelectedMapView(null);
   };
 
-  const moveMapView = (coordinate: LatLng) => {
-    mapRef.current?.animateToRegion({
-      ...coordinate,
-      latitudeDelta: 0.0922,
-      longitudeDelta: 0.0421,
-    });
-  };
-
   return (
     <View style={styles.container}>
       <MapView
@@ -84,10 +79,10 @@ function HomeScreen({navigation}: HomeScreenProps) {
         region={{
           latitude: currentLocation.latitude,
           longitude: currentLocation.longitude,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
+          latitudeDelta: numbers.INITIAL_LATITUDE_DELTA,
+          longitudeDelta: numbers.INITIAL_LONGITUDE_DELTA,
         }}
-        onLongPress={handlePressMapView}>
+        onLongPress={handleLongPressMapView}>
         <MarkerList markers={markers} />
         {selectedMapView && <CustomMarker coordinate={selectedMapView} />}
       </MapView>
