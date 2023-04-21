@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     height: 50,
     width: 50,
-    backgroundColor: colors.PINK_600,
+    backgroundColor: colors.PINK_700,
     borderRadius: 30,
     shadowColor: colors.BLACK,
     shadowOffset: {width: 1, height: 3},

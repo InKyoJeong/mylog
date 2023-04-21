@@ -1,7 +1,7 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 
-import FeedScreen from '@/screens/FeedScreen';
+import FeedScreen from '@/screens/feed/FeedScreen';
 // import LocationDetailScreen from '@/screens/LocationDetailScreen';
 import {feedNavigations} from '@/constants/navigations';
 import FeedLeftHeader from '@/components/FeedLeftHeader';

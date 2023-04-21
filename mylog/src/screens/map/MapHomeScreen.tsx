@@ -1,9 +1,8 @@
-import React, {useRef, useState} from 'react';
+import React, {useState} from 'react';
 import {Alert, Pressable, StyleSheet, View} from 'react-native';
 import MapView, {
   LatLng,
   LongPressEvent,
-  Marker,
   PROVIDER_GOOGLE,
 } from 'react-native-maps';
 import type {StackScreenProps} from '@react-navigation/stack';
@@ -15,52 +14,68 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import type {HomeStackParamList} from '@/navigations/stack/HomeStackNavigator';
 import type {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
 import MapButton from '@/components/MapButton';
+import CustomMarker from '@/components/common/CustomMarker';
 import usePermissions from '@/hooks/common/usePermission';
-import useCurrentLocation from '@/hooks/common/useCurrentLocation';
+import useUserLocation from '@/hooks/common/useUserLocation';
+import useMoveMapView from '@/hooks/common/useMoveMapView';
 import {useGetMarkerLocations} from '@/hooks/queries/useMarker';
 import {homeNavigations, mainNavigations} from '@/constants/navigations';
 import {colors} from '@/constants/colors';
+import {numbers} from '@/constants/numbers';
 import getMapStyle from '@/style/mapStyle';
+import useModalStore from '@/store/useModalStore';
+import MarkerModal from '@/components/MarkerModal';
 
-type HomeScreenProps = CompositeScreenProps<
+type MapHomeScreenProps = CompositeScreenProps<
   StackScreenProps<HomeStackParamList, typeof homeNavigations.MAP_HOME>,
   DrawerScreenProps<MainDrawerParamList, typeof mainNavigations.HOME>
 >;
 
-function HomeScreen({navigation}: HomeScreenProps) {
-  const mapRef = useRef<MapView | null>(null);
-  const {currentLocation} = useCurrentLocation({
-    latitude: 37.5516032365118,
-    longitude: 126.98989626020192,
+function MapHomeScreen({navigation}: MapHomeScreenProps) {
+  const {mapRef, moveMapView, handleChangeDelta, setSelectedMarker} =
+    useMoveMapView({
+      latitudeDelta: numbers.INITIAL_LATITUDE_DELTA,
+      longitudeDelta: numbers.INITIAL_LONGITUDE_DELTA,
+    });
+  const {userLocation, isUserLocationError} = useUserLocation({
+    latitude: numbers.INITIAL_LATITUDE,
+    longitude: numbers.INITIAL_LONGITUDE,
   });
-  const [selectedLocation, setSelectedLocation] = useState<LatLng | null>(null);
   const {data: markers = []} = useGetMarkerLocations();
+  const [selectedMapView, setSelectedMapView] = useState<LatLng | null>(null);
+  const {showModal} = useModalStore();
   usePermissions();
 
-  const handleMoveCurrentLocation = () => {
-    mapRef.current?.animateToRegion({
-      latitude: currentLocation.latitude,
-      longitude: currentLocation.longitude,
-      latitudeDelta: 0.0922,
-      longitudeDelta: 0.0421,
-    });
+  const handleLongPressMapView = ({nativeEvent}: LongPressEvent) => {
+    setSelectedMapView(nativeEvent.coordinate);
   };
 
-  const handleSelectLocation = ({nativeEvent}: LongPressEvent) => {
-    setSelectedLocation(nativeEvent.coordinate);
+  const handlePressMarker = (id: number, coordinate: LatLng) => {
+    showModal(id);
+    setSelectedMarker(coordinate);
   };
 
-  const handleMoveAddLocation = () => {
-    if (!selectedLocation) {
+  const handlePressAddLocation = () => {
+    if (!selectedMapView) {
       return Alert.alert(
-        '위치를 선택해주세요',
+        '추가할 위치를 선택해주세요',
         '지도를 길게 누르면 위치가 선택됩니다.',
       );
     }
+
     navigation.navigate(homeNavigations.ADD_LOCATION, {
-      location: selectedLocation,
+      location: selectedMapView,
     });
-    setSelectedLocation(null);
+    setSelectedMapView(null);
+  };
+
+  const handlePressUserLocation = () => {
+    if (isUserLocationError) {
+      console.log('위치 권한을 허용해주세요.');
+      return;
+    }
+
+    moveMapView(userLocation);
   };
 
   return (
@@ -74,27 +89,22 @@ function HomeScreen({navigation}: HomeScreenProps) {
         followsUserLocation={true}
         customMapStyle={getMapStyle('light')}
         region={{
-          latitude: currentLocation.latitude,
-          longitude: currentLocation.longitude,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
+          latitude: userLocation.latitude,
+          longitude: userLocation.longitude,
+          latitudeDelta: numbers.INITIAL_LATITUDE_DELTA,
+          longitudeDelta: numbers.INITIAL_LONGITUDE_DELTA,
         }}
-        onLongPress={handleSelectLocation}>
-        {markers.map(marker => (
-          <Marker
-            key={marker.id}
-            coordinate={{
-              latitude: marker.latitude,
-              longitude: marker.longitude,
-            }}>
-            <View style={[styles.marker, styles.savedMarker]} />
-          </Marker>
+        onLongPress={handleLongPressMapView}
+        onRegionChangeComplete={handleChangeDelta}>
+        {markers.map(({id, color, latitude, longitude}) => (
+          <CustomMarker
+            key={id}
+            coordinate={{latitude, longitude}}
+            color={color}
+            onPress={() => handlePressMarker(id, {latitude, longitude})}
+          />
         ))}
-        {selectedLocation && (
-          <Marker coordinate={selectedLocation}>
-            <View style={[styles.marker, styles.selectedMarker]} />
-          </Marker>
-        )}
+        {selectedMapView && <CustomMarker coordinate={selectedMapView} />}
       </MapView>
 
       <Pressable
@@ -103,15 +113,16 @@ function HomeScreen({navigation}: HomeScreenProps) {
         <Ionicons name={'md-menu-sharp'} color={colors.WHITE} size={30} />
       </Pressable>
 
-      <View style={styles.buttons}>
-        <MapButton onPress={handleMoveAddLocation}>
+      <View style={styles.buttonList}>
+        <MapButton onPress={handlePressAddLocation}>
           <MaterialIcons name={'add'} color={colors.WHITE} size={25} />
         </MapButton>
-
-        <MapButton onPress={handleMoveCurrentLocation}>
+        <MapButton onPress={handlePressUserLocation}>
           <MaterialIcons name={'my-location'} color={colors.WHITE} size={25} />
         </MapButton>
       </View>
+
+      <MarkerModal />
     </View>
   );
 }
@@ -119,22 +130,6 @@ function HomeScreen({navigation}: HomeScreenProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  marker: {
-    width: 25,
-    height: 25,
-    borderRadius: 25,
-    borderBottomRightRadius: 1,
-  },
-  savedMarker: {
-    backgroundColor: '#EC87A5',
-    borderColor: '#5A5A5A', // lightMode
-    borderWidth: 1,
-  },
-  selectedMarker: {
-    backgroundColor: colors.WHITE,
-    borderColor: colors.GRAY_500,
-    borderWidth: 1,
   },
   drawerButton: {
     position: 'absolute',
@@ -144,17 +139,17 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     borderTopRightRadius: 50,
     borderBottomRightRadius: 50,
-    backgroundColor: colors.PINK_600,
+    backgroundColor: colors.PINK_700,
     shadowColor: colors.BLACK,
     shadowOffset: {width: 2, height: 1},
     shadowOpacity: 0.5,
     elevation: 2,
   },
-  buttons: {
+  buttonList: {
     position: 'absolute',
     bottom: 50,
     right: 10,
   },
 });
 
-export default HomeScreen;
+export default MapHomeScreen;

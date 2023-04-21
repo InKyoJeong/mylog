@@ -1,11 +1,16 @@
 import {UseQueryOptions, useMutation, useQuery} from '@tanstack/react-query';
 
-import {ResponseMarker, createMarker, getMarkers} from '@/api/marker';
+import {
+  ResponseMarker,
+  createMarker,
+  getMarker,
+  getMarkers,
+} from '@/api/marker';
 import queryKeys from '@/constants/queryKeys';
 import {ErrorResponse, UseMutationCustomOptions} from '@/types';
 import queryClient from '@/api/queryClient';
 
-type MarkerLocation = Pick<
+export type MarkerLocation = Pick<
   ResponseMarker,
   'id' | 'latitude' | 'longitude' | 'color'
 >;
@@ -26,7 +31,6 @@ function useGetMarkerLocations(
     [queryKeys.MARKER, 'getMarkers', 'locations'],
     () => getMarkers(),
     {
-      useErrorBoundary: false,
       select: markers => extractLocation(markers),
       ...queryOptions,
     },
@@ -40,7 +44,20 @@ function useGetMarkers(
     [queryKeys.MARKER, 'getMarkers', 'all'],
     () => getMarkers(),
     {
-      useErrorBoundary: false,
+      ...queryOptions,
+    },
+  );
+}
+
+function useGetMarker(
+  markerId: number,
+  queryOptions?: UseQueryOptions<ResponseMarker, ErrorResponse>,
+) {
+  return useQuery<ResponseMarker, ErrorResponse>(
+    [queryKeys.MARKER, 'getMarker', markerId],
+    () => getMarker(markerId),
+    {
+      enabled: !!markerId,
       ...queryOptions,
     },
   );
@@ -55,4 +72,4 @@ function useCreateMarker(mutationOptions?: UseMutationCustomOptions) {
   });
 }
 
-export {useGetMarkers, useGetMarkerLocations, useCreateMarker};
+export {useGetMarkers, useGetMarker, useGetMarkerLocations, useCreateMarker};

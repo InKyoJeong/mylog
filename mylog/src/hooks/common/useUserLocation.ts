@@ -1,32 +1,34 @@
 import {useEffect, useState} from 'react';
-import {LatLng} from 'react-native-maps';
+import type {LatLng} from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
 
 import useAppState from './useAppState';
 
-function useCurrentLocation(initialLocation: LatLng) {
-  const [currentLocation, setCurrentLocation] =
-    useState<LatLng>(initialLocation);
+function useUserLocation(initialLocation: LatLng) {
+  const [userLocation, setUserLocation] = useState(initialLocation);
+  const [isUserLocationError, setIsUserLocationError] = useState(false);
   const {isComeback} = useAppState();
 
   useEffect(() => {
     Geolocation.getCurrentPosition(
       info => {
         const {latitude, longitude} = info.coords;
-        setCurrentLocation({latitude, longitude});
+        setUserLocation({latitude, longitude});
+        setIsUserLocationError(false);
       },
       error => {
         console.log('error 권한 에러', error);
+        setIsUserLocationError(true);
       },
       {
         enableHighAccuracy: true,
         timeout: 20000,
-        maximumAge: 10000,
+        maximumAge: 20000,
       },
     );
   }, [isComeback]);
 
-  return {currentLocation};
+  return {userLocation, isUserLocationError};
 }
 
-export default useCurrentLocation;
+export default useUserLocation;

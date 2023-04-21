@@ -9,4 +9,4 @@ interface Marker {
   description: string;
 }
 
-export type {Marker};
+export type {MarkerColor, Marker};

@@ -10,7 +10,7 @@ const getMarkers = async (): Promise<ResponseMarker[]> => {
   return data;
 };
 
-const getMarker = async (id: string): Promise<ResponseMarker> => {
+const getMarker = async (id: number): Promise<ResponseMarker> => {
   const {data} = await axiosInstance.get(`/markers/${id}`);
 
   return data;
