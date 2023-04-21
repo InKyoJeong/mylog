@@ -11,6 +11,7 @@ import {
 
 import useModalStore from '@/store/useModalStore';
 import {useGetMarker} from '@/hooks/queries/useMarker';
+import {colors} from '@/constants/colors';
 
 function MarkerModal() {
   const {isVisible, markerId, hideModal} = useModalStore();
@@ -55,6 +56,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
+    borderWidth: 1,
+    borderColor: colors.GRAY_500,
   },
   modalInner: {
     padding: 30,
