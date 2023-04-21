@@ -7,15 +7,15 @@ import {LatLng} from 'react-native-maps';
 
 import MapHomeScreen from '@/screens/map/MapHomeScreen';
 import AddLocationScreen from '@/screens/map/AddLocationScreen';
-import {homeNavigations} from '@/constants/navigations';
+import {mapNavigations} from '@/constants/navigations';
 import {colors} from '@/constants/colors';
 
-export type HomeStackParamList = {
-  [homeNavigations.MAP_HOME]: undefined;
-  [homeNavigations.ADD_LOCATION]: {location: LatLng};
+export type MapStackParamList = {
+  [mapNavigations.MAP_HOME]: undefined;
+  [mapNavigations.ADD_LOCATION]: {location: LatLng};
 };
 
-const Stack = createStackNavigator<HomeStackParamList>();
+const Stack = createStackNavigator<MapStackParamList>();
 
 const mapStackOptions: StackNavigationOptions = {
   headerStyle: {
@@ -31,7 +31,7 @@ function MapStackNavigator() {
   return (
     <Stack.Navigator screenOptions={mapStackOptions}>
       <Stack.Screen
-        name={homeNavigations.MAP_HOME}
+        name={mapNavigations.MAP_HOME}
         component={MapHomeScreen}
         options={{
           headerTitle: ' ',
@@ -39,7 +39,7 @@ function MapStackNavigator() {
         }}
       />
       <Stack.Screen
-        name={homeNavigations.ADD_LOCATION}
+        name={mapNavigations.ADD_LOCATION}
         component={AddLocationScreen}
         options={{
           headerTitle: '장소 추가',

@@ -9,7 +9,7 @@ const authNavigations = {
   SIGNUP: 'Signup',
 } as const;
 
-const homeNavigations = {
+const mapNavigations = {
   MAP_HOME: 'MapHome',
   ADD_LOCATION: 'AddLocation',
 } as const;
@@ -19,4 +19,4 @@ const feedNavigations = {
   LOCATION_DETAIL: 'LocationDetail',
 } as const;
 
-export {mainNavigations, authNavigations, homeNavigations, feedNavigations};
+export {mainNavigations, authNavigations, mapNavigations, feedNavigations};

@@ -9,13 +9,13 @@ import {
 } from 'react-native';
 import type {StackScreenProps} from '@react-navigation/stack';
 
-import {homeNavigations} from '@/constants/navigations';
-import type {HomeStackParamList} from '@/navigations/stack/HomeStackNavigator';
+import {mapNavigations} from '@/constants/navigations';
+import type {MapStackParamList} from '@/navigations/stack/MapStackNavigator';
 import {useCreateMarker} from '@/hooks/queries/useMarker';
 
 type AddLocationScreenProps = StackScreenProps<
-  HomeStackParamList,
-  typeof homeNavigations.ADD_LOCATION
+  MapStackParamList,
+  typeof mapNavigations.ADD_LOCATION
 >;
 
 function AddLocationScreen({route, navigation}: AddLocationScreenProps) {

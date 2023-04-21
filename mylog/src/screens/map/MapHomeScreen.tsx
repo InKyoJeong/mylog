@@ -11,23 +11,23 @@ import type {CompositeScreenProps} from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-import type {HomeStackParamList} from '@/navigations/stack/HomeStackNavigator';
+import type {MapStackParamList} from '@/navigations/stack/MapStackNavigator';
 import type {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
 import MapButton from '@/components/MapButton';
 import CustomMarker from '@/components/common/CustomMarker';
+import MarkerModal from '@/components/MarkerModal';
 import usePermissions from '@/hooks/common/usePermission';
 import useUserLocation from '@/hooks/common/useUserLocation';
 import useMoveMapView from '@/hooks/common/useMoveMapView';
 import {useGetMarkerLocations} from '@/hooks/queries/useMarker';
-import {homeNavigations, mainNavigations} from '@/constants/navigations';
+import {mapNavigations, mainNavigations} from '@/constants/navigations';
 import {colors} from '@/constants/colors';
 import {numbers} from '@/constants/numbers';
 import getMapStyle from '@/style/mapStyle';
 import useModalStore from '@/store/useModalStore';
-import MarkerModal from '@/components/MarkerModal';
 
 type MapHomeScreenProps = CompositeScreenProps<
-  StackScreenProps<HomeStackParamList, typeof homeNavigations.MAP_HOME>,
+  StackScreenProps<MapStackParamList, typeof mapNavigations.MAP_HOME>,
   DrawerScreenProps<MainDrawerParamList, typeof mainNavigations.HOME>
 >;
 
@@ -63,7 +63,7 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
       );
     }
 
-    navigation.navigate(homeNavigations.ADD_LOCATION, {
+    navigation.navigate(mapNavigations.ADD_LOCATION, {
       location: selectedMapView,
     });
     setSelectedMapView(null);
