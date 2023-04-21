@@ -41,8 +41,8 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
     latitude: numbers.INITIAL_LATITUDE,
     longitude: numbers.INITIAL_LONGITUDE,
   });
-  const [selectedMapView, setSelectedMapView] = useState<LatLng | null>(null);
   const {data: markers = []} = useGetMarkerLocations();
+  const [selectedMapView, setSelectedMapView] = useState<LatLng | null>(null);
   const {showModal} = useModalStore();
   usePermissions();
 
@@ -50,10 +50,15 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
     setSelectedMapView(nativeEvent.coordinate);
   };
 
+  const handlePressMarker = (id: number, coordinate: LatLng) => {
+    showModal(id);
+    setSelectedMarker(coordinate);
+  };
+
   const handlePressAddLocation = () => {
     if (!selectedMapView) {
       return Alert.alert(
-        '위치를 선택해주세요',
+        '추가할 위치를 선택해주세요',
         '지도를 길게 누르면 위치가 선택됩니다.',
       );
     }
@@ -71,11 +76,6 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
     }
 
     moveMapView(userLocation);
-  };
-
-  const handlePressMarker = (id: number, coordinate: LatLng) => {
-    showModal(id);
-    setSelectedMarker(coordinate);
   };
 
   return (
