@@ -3,7 +3,6 @@ import {Alert, Pressable, StyleSheet, View} from 'react-native';
 import MapView, {
   LatLng,
   LongPressEvent,
-  Marker,
   PROVIDER_GOOGLE,
 } from 'react-native-maps';
 import type {StackScreenProps} from '@react-navigation/stack';
@@ -21,6 +20,7 @@ import {useGetMarkerLocations} from '@/hooks/queries/useMarker';
 import {homeNavigations, mainNavigations} from '@/constants/navigations';
 import {colors} from '@/constants/colors';
 import getMapStyle from '@/style/mapStyle';
+import CustomMarker from '@/components/common/CustomMarker';
 
 type HomeScreenProps = CompositeScreenProps<
   StackScreenProps<HomeStackParamList, typeof homeNavigations.MAP_HOME>,
@@ -81,21 +81,14 @@ function HomeScreen({navigation}: HomeScreenProps) {
           longitudeDelta: 0.0421,
         }}
         onLongPress={handleSelectLocation}>
-        {markers.map(marker => (
-          <Marker
-            key={marker.id}
-            coordinate={{
-              latitude: marker.latitude,
-              longitude: marker.longitude,
-            }}>
-            <View style={[styles.marker, styles.savedMarker]} />
-          </Marker>
+        {markers.map(({id, color, latitude, longitude}) => (
+          <CustomMarker
+            key={id}
+            coordinate={{latitude, longitude}}
+            color={color}
+          />
         ))}
-        {selectedLocation && (
-          <Marker coordinate={selectedLocation}>
-            <View style={[styles.marker, styles.selectedMarker]} />
-          </Marker>
-        )}
+        {selectedLocation && <CustomMarker coordinate={selectedLocation} />}
       </MapView>
 
       <Pressable
@@ -120,22 +113,6 @@ function HomeScreen({navigation}: HomeScreenProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  marker: {
-    width: 25,
-    height: 25,
-    borderRadius: 25,
-    borderBottomRightRadius: 1,
-  },
-  savedMarker: {
-    backgroundColor: colors.PINK_400,
-    borderColor: '#5A5A5A', // lightMode
-    borderWidth: 1,
-  },
-  selectedMarker: {
-    backgroundColor: colors.WHITE,
-    borderColor: colors.GRAY_500,
-    borderWidth: 1,
   },
   drawerButton: {
     position: 'absolute',
