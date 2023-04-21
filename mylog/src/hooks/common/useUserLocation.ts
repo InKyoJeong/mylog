@@ -4,22 +4,21 @@ import Geolocation from '@react-native-community/geolocation';
 
 import useAppState from './useAppState';
 
-function useCurrentLocation(initialLocation: LatLng) {
-  const [currentLocation, setCurrentLocation] =
-    useState<LatLng>(initialLocation);
-  const [isCurrentLocationError, setIsCurrentLocationError] = useState(false);
+function useUserLocation(initialLocation: LatLng) {
+  const [userLocation, setUserLocation] = useState<LatLng>(initialLocation);
+  const [isUserLocationError, setIsUserLocationError] = useState(false);
   const {isComeback} = useAppState();
 
   useEffect(() => {
     Geolocation.getCurrentPosition(
       info => {
         const {latitude, longitude} = info.coords;
-        setCurrentLocation({latitude, longitude});
-        setIsCurrentLocationError(false);
+        setUserLocation({latitude, longitude});
+        setIsUserLocationError(false);
       },
       error => {
         console.log('error 권한 에러', error);
-        setIsCurrentLocationError(true);
+        setIsUserLocationError(true);
       },
       {
         enableHighAccuracy: true,
@@ -29,7 +28,7 @@ function useCurrentLocation(initialLocation: LatLng) {
     );
   }, [isComeback]);
 
-  return {currentLocation, isCurrentLocationError};
+  return {userLocation, isUserLocationError};
 }
 
-export default useCurrentLocation;
+export default useUserLocation;

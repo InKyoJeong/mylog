@@ -17,7 +17,7 @@ import MapButton from '@/components/MapButton';
 import CustomMarker from '@/components/common/CustomMarker';
 import MarkerList from '@/components/MarkerList';
 import usePermissions from '@/hooks/common/usePermission';
-import useCurrentLocation from '@/hooks/common/useCurrentLocation';
+import useUserLocation from '@/hooks/common/useUserLocation';
 import useMoveMapView from '@/hooks/common/useMoveMapView';
 import {useGetMarkerLocations} from '@/hooks/queries/useMarker';
 import {homeNavigations, mainNavigations} from '@/constants/navigations';
@@ -32,7 +32,7 @@ type MapHomeScreenProps = CompositeScreenProps<
 
 function MapHomeScreen({navigation}: MapHomeScreenProps) {
   const {mapRef, moveMapView} = useMoveMapView();
-  const {currentLocation, isCurrentLocationError} = useCurrentLocation({
+  const {userLocation, isUserLocationError} = useUserLocation({
     latitude: numbers.INITIAL_LATITUDE,
     longitude: numbers.INITIAL_LONGITUDE,
   });
@@ -40,17 +40,17 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
   const {data: markers = []} = useGetMarkerLocations();
   usePermissions();
 
-  const handlePressCurrentLocation = () => {
-    if (isCurrentLocationError) {
+  const handleLongPressMapView = ({nativeEvent}: LongPressEvent) => {
+    setSelectedMapView(nativeEvent.coordinate);
+  };
+
+  const handlePressUserLocation = () => {
+    if (isUserLocationError) {
       console.log('위치 권한을 허용해주세요.');
       return;
     }
 
-    moveMapView(currentLocation);
-  };
-
-  const handleLongPressMapView = ({nativeEvent}: LongPressEvent) => {
-    setSelectedMapView(nativeEvent.coordinate);
+    moveMapView(userLocation);
   };
 
   const handlePressAddLocation = () => {
@@ -77,8 +77,8 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
         followsUserLocation={true}
         customMapStyle={getMapStyle('light')}
         region={{
-          latitude: currentLocation.latitude,
-          longitude: currentLocation.longitude,
+          latitude: userLocation.latitude,
+          longitude: userLocation.longitude,
           latitudeDelta: numbers.INITIAL_LATITUDE_DELTA,
           longitudeDelta: numbers.INITIAL_LONGITUDE_DELTA,
         }}
@@ -97,7 +97,7 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
         <MapButton onPress={handlePressAddLocation}>
           <MaterialIcons name={'add'} color={colors.WHITE} size={25} />
         </MapButton>
-        <MapButton onPress={handlePressCurrentLocation}>
+        <MapButton onPress={handlePressUserLocation}>
           <MaterialIcons name={'my-location'} color={colors.WHITE} size={25} />
         </MapButton>
       </View>
