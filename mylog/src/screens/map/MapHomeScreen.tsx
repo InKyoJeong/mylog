@@ -25,12 +25,12 @@ import {colors} from '@/constants/colors';
 import getMapStyle from '@/style/mapStyle';
 import {numbers} from '@/constants/numbers';
 
-type HomeScreenProps = CompositeScreenProps<
+type MapHomeScreenProps = CompositeScreenProps<
   StackScreenProps<HomeStackParamList, typeof homeNavigations.MAP_HOME>,
   DrawerScreenProps<MainDrawerParamList, typeof mainNavigations.HOME>
 >;
 
-function HomeScreen({navigation}: HomeScreenProps) {
+function MapHomeScreen({navigation}: MapHomeScreenProps) {
   const {mapRef, moveMapView} = useMoveMapView();
   const {currentLocation, isCurrentLocationError} = useCurrentLocation({
     latitude: numbers.INITIAL_LATITUDE,
@@ -130,4 +130,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeScreen;
+export default MapHomeScreen;

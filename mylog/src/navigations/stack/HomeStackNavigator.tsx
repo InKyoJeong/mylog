@@ -5,8 +5,8 @@ import {
 } from '@react-navigation/stack';
 import {LatLng} from 'react-native-maps';
 
-import HomeScreen from '@/screens/HomeScreen';
-import AddLocationScreen from '@/screens/AddLocationScreen';
+import MapHomeScreen from '@/screens/map/MapHomeScreen';
+import AddLocationScreen from '@/screens/map/AddLocationScreen';
 import {homeNavigations} from '@/constants/navigations';
 import {colors} from '@/constants/colors';
 
@@ -17,7 +17,7 @@ export type HomeStackParamList = {
 
 const Stack = createStackNavigator<HomeStackParamList>();
 
-const homeStackOptions: StackNavigationOptions = {
+const mapStackOptions: StackNavigationOptions = {
   headerStyle: {
     backgroundColor: colors.WHITE,
   },
@@ -27,12 +27,12 @@ const homeStackOptions: StackNavigationOptions = {
   },
 };
 
-function HomeStackNavigator() {
+function MapStackNavigator() {
   return (
-    <Stack.Navigator screenOptions={homeStackOptions}>
+    <Stack.Navigator screenOptions={mapStackOptions}>
       <Stack.Screen
         name={homeNavigations.MAP_HOME}
-        component={HomeScreen}
+        component={MapHomeScreen}
         options={{
           headerTitle: ' ',
           headerShown: false,
@@ -49,4 +49,4 @@ function HomeStackNavigator() {
   );
 }
 
-export default HomeStackNavigator;
+export default MapStackNavigator;
