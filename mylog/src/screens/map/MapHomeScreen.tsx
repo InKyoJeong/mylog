@@ -32,11 +32,10 @@ type MapHomeScreenProps = CompositeScreenProps<
 >;
 
 function MapHomeScreen({navigation}: MapHomeScreenProps) {
-  const {mapRef, moveMapView, handleChangeDelta, setSelectedMarker} =
-    useMoveMapView({
-      latitudeDelta: numbers.INITIAL_LATITUDE_DELTA,
-      longitudeDelta: numbers.INITIAL_LONGITUDE_DELTA,
-    });
+  const {mapRef, moveMapView, handleChangeDelta} = useMoveMapView({
+    latitudeDelta: numbers.INITIAL_LATITUDE_DELTA,
+    longitudeDelta: numbers.INITIAL_LONGITUDE_DELTA,
+  });
   const {userLocation, isUserLocationError} = useUserLocation({
     latitude: numbers.INITIAL_LATITUDE,
     longitude: numbers.INITIAL_LONGITUDE,
@@ -51,8 +50,8 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
   };
 
   const handlePressMarker = (id: number, coordinate: LatLng) => {
+    moveMapView(coordinate);
     showModal(id);
-    setSelectedMarker(coordinate);
   };
 
   const handlePressAddLocation = () => {
@@ -122,6 +121,12 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
         </MapButton>
       </View>
 
+      {/* 
+      <Map />
+      <DrawerButton />
+      <MapButtonList/>
+      <MarkerModal /> 
+      */}
       <MarkerModal />
     </View>
   );
