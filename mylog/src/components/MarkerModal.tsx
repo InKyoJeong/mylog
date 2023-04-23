@@ -1,12 +1,12 @@
 import React from 'react';
 import {
-  Dimensions,
-  GestureResponderEvent,
-  Modal,
-  ScrollView,
-  StyleSheet,
   Text,
   View,
+  Modal,
+  Dimensions,
+  GestureResponderEvent,
+  ScrollView,
+  StyleSheet,
 } from 'react-native';
 
 import useModalStore from '@/store/useModalStore';
