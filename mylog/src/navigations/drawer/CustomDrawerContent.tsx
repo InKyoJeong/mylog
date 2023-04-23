@@ -27,7 +27,7 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
         <View style={styles.userInfoContainer}>
           <View style={styles.userImageContainer}>
             <Image
-              source={require('@/assets/user.png')}
+              source={require('@/assets/user-default.png')}
               style={styles.userImage}
             />
           </View>
