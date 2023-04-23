@@ -7,9 +7,7 @@ type LoginInfo = {
   password: string;
 };
 
-type SignupInfo = {
-  username: string;
-  password: string;
+type SignupInfo = LoginInfo & {
   passwordConfirm: string;
 };
 

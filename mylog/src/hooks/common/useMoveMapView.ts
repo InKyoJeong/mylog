@@ -1,4 +1,4 @@
-import {useEffect, useRef, useState} from 'react';
+import {useRef, useState} from 'react';
 import MapView, {LatLng, Region} from 'react-native-maps';
 
 function useMoveMapView(
@@ -6,7 +6,6 @@ function useMoveMapView(
 ) {
   const mapRef = useRef<MapView | null>(null);
   const [regionDelta, setRegionDelta] = useState(initialDelta);
-  const [selectedMarker, setSelectedMarker] = useState<LatLng>();
 
   const handleChangeDelta = (region: Region) => {
     const {latitudeDelta, longitudeDelta} = region;
@@ -20,16 +19,7 @@ function useMoveMapView(
     });
   };
 
-  useEffect(() => {
-    if (!selectedMarker) {
-      return;
-    }
-
-    moveMapView(selectedMarker);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedMarker]);
-
-  return {mapRef, moveMapView, handleChangeDelta, setSelectedMarker};
+  return {mapRef, moveMapView, handleChangeDelta};
 }
 
 export default useMoveMapView;

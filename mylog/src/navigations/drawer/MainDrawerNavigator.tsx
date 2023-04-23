@@ -4,7 +4,7 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import type {RouteProp} from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import HomeStackNavigator from '@/navigations/stack/HomeStackNavigator';
+import MapStackNavigator from '@/navigations/stack/MapStackNavigator';
 import FeedStackNavigator from '@/navigations/stack/FeedStackNavigator';
 import {mainNavigations} from '@/constants/navigations';
 import {colors} from '@/constants/colors';
@@ -57,7 +57,7 @@ function MainDrawerNavigator() {
       })}>
       <Drawer.Screen
         name={mainNavigations.HOME}
-        component={HomeStackNavigator}
+        component={MapStackNavigator}
         options={{
           title: '홈',
           swipeEnabled: false,

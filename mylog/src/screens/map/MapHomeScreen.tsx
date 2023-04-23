@@ -11,67 +11,66 @@ import type {CompositeScreenProps} from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-import type {HomeStackParamList} from '@/navigations/stack/HomeStackNavigator';
+import type {MapStackParamList} from '@/navigations/stack/MapStackNavigator';
 import type {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
 import MapButton from '@/components/MapButton';
 import CustomMarker from '@/components/common/CustomMarker';
+import MarkerModal from '@/components/MarkerModal';
 import usePermissions from '@/hooks/common/usePermission';
 import useUserLocation from '@/hooks/common/useUserLocation';
 import useMoveMapView from '@/hooks/common/useMoveMapView';
 import {useGetMarkerLocations} from '@/hooks/queries/useMarker';
-import {homeNavigations, mainNavigations} from '@/constants/navigations';
+import {mapNavigations, mainNavigations} from '@/constants/navigations';
 import {colors} from '@/constants/colors';
 import {numbers} from '@/constants/numbers';
-import getMapStyle from '@/style/mapStyle';
 import useModalStore from '@/store/useModalStore';
-import MarkerModal from '@/components/MarkerModal';
+import getMapStyle from '@/style/mapStyle';
 
 type MapHomeScreenProps = CompositeScreenProps<
-  StackScreenProps<HomeStackParamList, typeof homeNavigations.MAP_HOME>,
+  StackScreenProps<MapStackParamList, typeof mapNavigations.MAP_HOME>,
   DrawerScreenProps<MainDrawerParamList, typeof mainNavigations.HOME>
 >;
 
 function MapHomeScreen({navigation}: MapHomeScreenProps) {
-  const {mapRef, moveMapView, handleChangeDelta, setSelectedMarker} =
-    useMoveMapView({
-      latitudeDelta: numbers.INITIAL_LATITUDE_DELTA,
-      longitudeDelta: numbers.INITIAL_LONGITUDE_DELTA,
-    });
+  const {mapRef, moveMapView, handleChangeDelta} = useMoveMapView({
+    latitudeDelta: numbers.INITIAL_LATITUDE_DELTA,
+    longitudeDelta: numbers.INITIAL_LONGITUDE_DELTA,
+  });
   const {userLocation, isUserLocationError} = useUserLocation({
     latitude: numbers.INITIAL_LATITUDE,
     longitude: numbers.INITIAL_LONGITUDE,
   });
+  const [selectLocation, setSelectLocation] = useState<LatLng | null>(null);
   const {data: markers = []} = useGetMarkerLocations();
-  const [selectedMapView, setSelectedMapView] = useState<LatLng | null>(null);
   const {showModal} = useModalStore();
   usePermissions();
 
-  const handleLongPressMapView = ({nativeEvent}: LongPressEvent) => {
-    setSelectedMapView(nativeEvent.coordinate);
+  const handleLongPressLocation = ({nativeEvent}: LongPressEvent) => {
+    setSelectLocation(nativeEvent.coordinate);
   };
 
-  const handlePressMarker = (id: number, coordinate: LatLng) => {
-    showModal(id);
-    setSelectedMarker(coordinate);
+  const handlePressMarker = (markerId: number, coordinate: LatLng) => {
+    showModal(markerId);
+    moveMapView(coordinate);
   };
 
   const handlePressAddLocation = () => {
-    if (!selectedMapView) {
+    if (!selectLocation) {
       return Alert.alert(
         '추가할 위치를 선택해주세요',
         '지도를 길게 누르면 위치가 선택됩니다.',
       );
     }
 
-    navigation.navigate(homeNavigations.ADD_LOCATION, {
-      location: selectedMapView,
+    navigation.navigate(mapNavigations.ADD_LOCATION, {
+      location: selectLocation,
     });
-    setSelectedMapView(null);
+    setSelectLocation(null);
   };
 
   const handlePressUserLocation = () => {
     if (isUserLocationError) {
-      console.log('위치 권한을 허용해주세요.');
+      console.log('위치 권한을 허용해주세요.'); // toast
       return;
     }
 
@@ -94,17 +93,17 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
           latitudeDelta: numbers.INITIAL_LATITUDE_DELTA,
           longitudeDelta: numbers.INITIAL_LONGITUDE_DELTA,
         }}
-        onLongPress={handleLongPressMapView}
+        onLongPress={handleLongPressLocation}
         onRegionChangeComplete={handleChangeDelta}>
-        {markers.map(({id, color, latitude, longitude}) => (
+        {markers.map(({id, color, ...coordinate}) => (
           <CustomMarker
             key={id}
-            coordinate={{latitude, longitude}}
             color={color}
-            onPress={() => handlePressMarker(id, {latitude, longitude})}
+            coordinate={coordinate}
+            onPress={() => handlePressMarker(id, coordinate)}
           />
         ))}
-        {selectedMapView && <CustomMarker coordinate={selectedMapView} />}
+        {selectLocation && <CustomMarker coordinate={selectLocation} />}
       </MapView>
 
       <Pressable
