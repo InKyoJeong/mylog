@@ -1,11 +1,11 @@
 import React from 'react';
 
-import useModalStore from '@/store/useModalStore';
+import useMarkerStore from '@/store/useMarkerStore';
 import {useGetMarker} from '@/hooks/queries/useMarker';
 import {CompoundModal} from './CompoundModal';
 
 function MarkerModal() {
-  const {isVisible, markerId, hideModal} = useModalStore();
+  const {markerId, isVisible, hideModal} = useMarkerStore();
   const {data: marker, isLoading, isError} = useGetMarker(markerId);
 
   if (isLoading || isError) {

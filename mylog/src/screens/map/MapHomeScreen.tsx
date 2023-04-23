@@ -18,13 +18,13 @@ import CustomMarker from '@/components/common/CustomMarker';
 import usePermissions from '@/hooks/common/usePermission';
 import useUserLocation from '@/hooks/common/useUserLocation';
 import useMoveMapView from '@/hooks/common/useMoveMapView';
+import MarkerModal from '@/components/modal/MarkerModal';
 import {useGetMarkerLocations} from '@/hooks/queries/useMarker';
 import {mapNavigations, mainNavigations} from '@/constants/navigations';
 import {colors} from '@/constants/colors';
 import {numbers} from '@/constants/numbers';
-import useModalStore from '@/store/useModalStore';
+import useMarkerStore from '@/store/useMarkerStore';
 import getMapStyle from '@/style/mapStyle';
-import MarkerModal from '@/components/modal/MarkerModal';
 
 type MapHomeScreenProps = CompositeScreenProps<
   StackScreenProps<MapStackParamList, typeof mapNavigations.MAP_HOME>,
@@ -42,7 +42,7 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
   });
   const [selectLocation, setSelectLocation] = useState<LatLng | null>(null);
   const {data: markers = []} = useGetMarkerLocations();
-  const {showModal} = useModalStore();
+  const {showModal} = useMarkerStore();
   usePermissions();
 
   const handleLongPressLocation = ({nativeEvent}: LongPressEvent) => {

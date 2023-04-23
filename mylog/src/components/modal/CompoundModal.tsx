@@ -17,7 +17,7 @@ import Octicons from 'react-native-vector-icons/Octicons';
 import {colors} from '@/constants/colors';
 
 interface ModalContextValue {
-  onOuterClick?: (event: GestureResponderEvent) => void;
+  onClickOutSide?: (event: GestureResponderEvent) => void;
 }
 
 const ModalContext = createContext<ModalContextValue | undefined>(undefined);
@@ -34,7 +34,7 @@ function ModalMain({
   animationType = 'slide',
   ...props
 }: PropsWithChildren<ModalMainProps>) {
-  const onOuterClick = (event: GestureResponderEvent) => {
+  const onClickOutSide = (event: GestureResponderEvent) => {
     if (event.target === event.currentTarget) {
       hideModal();
     }
@@ -47,7 +47,7 @@ function ModalMain({
       transparent={true}
       visible={isVisible}
       onRequestClose={hideModal}>
-      <ModalContext.Provider value={{onOuterClick}}>
+      <ModalContext.Provider value={{onClickOutSide}}>
         {children}
       </ModalContext.Provider>
     </Modal>
@@ -58,7 +58,7 @@ function DialogContainer({children}: PropsWithChildren) {
   const modalContext = useContext(ModalContext);
 
   return (
-    <View style={styles.container} onTouchEnd={modalContext?.onOuterClick}>
+    <View style={styles.container} onTouchEnd={modalContext?.onClickOutSide}>
       {children}
     </View>
   );
@@ -70,7 +70,7 @@ function OptionContainer({children}: PropsWithChildren) {
   return (
     <SafeAreaView
       style={[styles.container, styles.optionContainer]}
-      onTouchEnd={modalContext?.onOuterClick}>
+      onTouchEnd={modalContext?.onClickOutSide}>
       {children}
     </SafeAreaView>
   );

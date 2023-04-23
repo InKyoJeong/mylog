@@ -1,21 +1,21 @@
 import {create} from 'zustand';
 
 interface modalState {
-  isVisible: boolean;
   markerId: number;
+  isVisible: boolean;
   showModal: (id: number) => void;
   hideModal: () => void;
 }
 
-const useModalStore = create<modalState>(set => ({
-  isVisible: false,
+const useMarkerStore = create<modalState>(set => ({
   markerId: 0,
+  isVisible: false,
   showModal: (id: number) => {
     set({isVisible: true, markerId: id});
   },
   hideModal: () => {
-    set({isVisible: false});
+    set(state => ({...state, isVisible: false}));
   },
 }));
 
-export default useModalStore;
+export default useMarkerStore;
