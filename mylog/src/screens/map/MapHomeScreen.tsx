@@ -15,7 +15,6 @@ import type {MapStackParamList} from '@/navigations/stack/MapStackNavigator';
 import type {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
 import MapButton from '@/components/MapButton';
 import CustomMarker from '@/components/common/CustomMarker';
-import MarkerModal from '@/components/MarkerModal';
 import usePermissions from '@/hooks/common/usePermission';
 import useUserLocation from '@/hooks/common/useUserLocation';
 import useMoveMapView from '@/hooks/common/useMoveMapView';
@@ -25,6 +24,7 @@ import {colors} from '@/constants/colors';
 import {numbers} from '@/constants/numbers';
 import useModalStore from '@/store/useModalStore';
 import getMapStyle from '@/style/mapStyle';
+import MarkerModal from '@/components/modal/MarkerModal';
 
 type MapHomeScreenProps = CompositeScreenProps<
   StackScreenProps<MapStackParamList, typeof mapNavigations.MAP_HOME>,
