@@ -1,4 +1,4 @@
-import React, {PropsWithChildren} from 'react';
+import React, {PropsWithChildren, createContext, useContext} from 'react';
 import {
   GestureResponderEvent,
   Modal,
@@ -10,10 +10,17 @@ import {
   View,
   Dimensions,
   Image,
+  SafeAreaView,
 } from 'react-native';
 import Octicons from 'react-native-vector-icons/Octicons';
 
 import {colors} from '@/constants/colors';
+
+interface ModalContextValue {
+  onOuterClick?: (event: GestureResponderEvent) => void;
+}
+
+const ModalContext = createContext<ModalContextValue | undefined>(undefined);
 
 interface ModalMainProps extends ModalProps {
   isVisible: boolean;
@@ -27,7 +34,7 @@ function ModalMain({
   animationType = 'slide',
   ...props
 }: PropsWithChildren<ModalMainProps>) {
-  const handleOuterClick = (event: GestureResponderEvent) => {
+  const onOuterClick = (event: GestureResponderEvent) => {
     if (event.target === event.currentTarget) {
       hideModal();
     }
@@ -40,10 +47,32 @@ function ModalMain({
       transparent={true}
       visible={isVisible}
       onRequestClose={hideModal}>
-      <View style={styles.container} onTouchEnd={handleOuterClick}>
+      <ModalContext.Provider value={{onOuterClick}}>
         {children}
-      </View>
+      </ModalContext.Provider>
     </Modal>
+  );
+}
+
+function DialogContainer({children}: PropsWithChildren) {
+  const modalContext = useContext(ModalContext);
+
+  return (
+    <View style={styles.container} onTouchEnd={modalContext?.onOuterClick}>
+      {children}
+    </View>
+  );
+}
+
+function OptionContainer({children}: PropsWithChildren) {
+  const modalContext = useContext(ModalContext);
+
+  return (
+    <SafeAreaView
+      style={[styles.container, styles.optionContainer]}
+      onTouchEnd={modalContext?.onOuterClick}>
+      {children}
+    </SafeAreaView>
   );
 }
 
@@ -83,6 +112,27 @@ function GoNextButton({onPress}: GoNextButtonProps) {
   );
 }
 
+function OptionButtonList({children}: PropsWithChildren) {
+  return <View style={styles.optionButtonContainer}>{children}</View>;
+}
+
+interface OptionButtonProps {
+  onPress: () => void;
+  isDanger?: boolean;
+}
+
+function OptionButton({
+  children,
+  isDanger = false,
+  onPress,
+}: PropsWithChildren<OptionButtonProps>) {
+  return (
+    <Pressable style={styles.optionButton} onPress={onPress}>
+      <Text style={isDanger && styles.dangerText}>{children}</Text>
+    </Pressable>
+  );
+}
+
 interface MarkerInfoProps {
   imageUrl?: string;
   address?: string;
@@ -114,6 +164,10 @@ function MarkerInfo({imageUrl, address, title}: MarkerInfoProps) {
 }
 
 export const CompoundModal = Object.assign(ModalMain, {
+  DialogContainer,
+  OptionContainer,
+  OptionButtonList,
+  OptionButton,
   Scroll,
   Date,
   Description,
@@ -125,11 +179,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'flex-end',
-    backgroundColor: 'rgba(0 0 0 / 0)',
+  },
+  optionContainer: {
+    backgroundColor: 'rgba(0 0 0 / 0.5)',
   },
   modalScroll: {
     maxHeight: Dimensions.get('screen').height / 3.5,
-    backgroundColor: 'white',
+    backgroundColor: colors.WHITE,
     borderTopLeftRadius: 40,
     borderTopRightRadius: 40,
     borderWidth: 1,
@@ -201,5 +257,18 @@ const styles = StyleSheet.create({
     borderRadius: 45,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  optionButtonContainer: {
+    borderRadius: 15,
+    marginHorizontal: 10,
+    backgroundColor: colors.GRAY_100,
+  },
+  optionButton: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 50,
+  },
+  dangerText: {
+    color: colors.RED_500,
   },
 });

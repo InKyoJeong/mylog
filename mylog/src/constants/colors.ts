@@ -9,6 +9,7 @@ const colors = {
   BLUE_400: '#B4E0FF',
   GREEN_400: '#CCE6BA',
   YELLOW_400: '#FFE594',
+  GRAY_100: '#F8F8F8',
   GRAY_200: '#E3E8EE',
   GRAY_500: '#8E8E8E',
   GRAY_700: '#575757',
