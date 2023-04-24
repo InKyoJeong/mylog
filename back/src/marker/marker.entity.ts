@@ -9,6 +9,7 @@ import {
 } from 'typeorm';
 import { User } from 'src/auth/user.entity';
 import { MarkerColor } from './marker-color.enum';
+import { ColumnNumericTransformer } from 'src/common/transformers/numeric.transformer';
 
 @Entity()
 export class Marker extends BaseEntity {
@@ -17,27 +18,13 @@ export class Marker extends BaseEntity {
 
   @Column({
     type: 'decimal',
-    transformer: {
-      to(value) {
-        return value;
-      },
-      from(value) {
-        return parseFloat(value);
-      },
-    },
+    transformer: new ColumnNumericTransformer(),
   })
   latitude: number;
 
   @Column({
     type: 'decimal',
-    transformer: {
-      to(value) {
-        return value;
-      },
-      from(value) {
-        return parseFloat(value);
-      },
-    },
+    transformer: new ColumnNumericTransformer(),
   })
   longitude: number;
 
