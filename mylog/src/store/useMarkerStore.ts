@@ -1,13 +1,13 @@
 import {create} from 'zustand';
 
-interface modalState {
+interface ModalState {
   markerId: number;
   isVisible: boolean;
   showModal: (id: number) => void;
   hideModal: () => void;
 }
 
-const useMarkerStore = create<modalState>(set => ({
+const useMarkerStore = create<ModalState>(set => ({
   markerId: 0,
   isVisible: false,
   showModal: (id: number) => {

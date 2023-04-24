@@ -42,11 +42,11 @@ function ModalMain({
 
   return (
     <Modal
-      {...props}
       animationType={animationType}
       transparent={true}
       visible={isVisible}
-      onRequestClose={hideModal}>
+      onRequestClose={hideModal}
+      {...props}>
       <ModalContext.Provider value={{onClickOutSide}}>
         {children}
       </ModalContext.Provider>
