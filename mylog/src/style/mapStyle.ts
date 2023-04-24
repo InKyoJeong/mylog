@@ -109,6 +109,7 @@ const commonStyle = [
 const mapStyle = {
   light: [
     ...commonStyle,
+
     {
       featureType: 'road.arterial',
       elementType: 'labels.text.fill',
@@ -217,7 +218,6 @@ const mapStyle = {
         },
       ],
     },
-
     {
       featureType: 'poi.park',
       elementType: 'geometry',
@@ -236,7 +236,6 @@ const mapStyle = {
         },
       ],
     },
-
     {
       featureType: 'road',
       elementType: 'geometry',
