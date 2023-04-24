@@ -12,6 +12,7 @@ import type {StackScreenProps} from '@react-navigation/stack';
 import {mapNavigations} from '@/constants/navigations';
 import type {MapStackParamList} from '@/navigations/stack/MapStackNavigator';
 import {useCreateMarker} from '@/hooks/queries/useMarker';
+import useGetAddress from '@/hooks/common/useGetAddress';
 
 type AddLocationScreenProps = StackScreenProps<
   MapStackParamList,
@@ -20,6 +21,7 @@ type AddLocationScreenProps = StackScreenProps<
 
 function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
   const {location} = route.params;
+  const address = useGetAddress(location);
   const markerMutation = useCreateMarker();
 
   const handleSubmit = () => {
@@ -44,6 +46,7 @@ function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
           <Text>추가할 위치</Text>
           <Text>{location.latitude}</Text>
           <Text>{location.longitude}</Text>
+          <Text>{address}</Text>
           <Button title="등록" onPress={handleSubmit} />
         </View>
       </ScrollView>

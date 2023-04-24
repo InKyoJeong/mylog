@@ -1,12 +1,12 @@
 import {create} from 'zustand';
 
-interface optionState {
+interface OptionState {
   isVisible: boolean;
   showOption: () => void;
   hideOption: () => void;
 }
 
-const useOptionStore = create<optionState>(set => ({
+const useOptionStore = create<OptionState>(set => ({
   isVisible: false,
   showOption: () => {
     set({isVisible: true});

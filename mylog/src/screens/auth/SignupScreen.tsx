@@ -20,6 +20,10 @@ function SignupScreen() {
   const passwordConfirmRef = useRef<TextInput | null>(null);
 
   const handleSubmit = () => {
+    if (signup.hasErrors) {
+      return;
+    }
+
     const {username, password} = signup.values;
     signupMutation.mutate(
       {username, password},
