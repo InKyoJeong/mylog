@@ -1,4 +1,4 @@
-import React, {ForwardedRef, forwardRef, useRef} from 'react';
+import React, {ForwardedRef, ReactNode, forwardRef, useRef} from 'react';
 import {
   Dimensions,
   Pressable,
@@ -16,13 +16,14 @@ interface InputFieldProps extends TextInputProps {
   touched?: boolean;
   error?: string;
   disabled?: boolean;
+  icon?: ReactNode;
 }
 
 const deviceHeight = Dimensions.get('screen').height;
 
 const InputField = forwardRef(
   (
-    {touched, error, disabled = false, ...props}: InputFieldProps,
+    {touched, error, disabled = false, icon = null, ...props}: InputFieldProps,
     ref?: ForwardedRef<TextInput>,
   ) => {
     const innerRef = useRef<TextInput | null>(null);
@@ -39,14 +40,17 @@ const InputField = forwardRef(
             disabled && styles.disabled,
             touched && !!error && styles.inputError,
           ]}>
-          <TextInput
-            ref={ref ? mergeRefs(innerRef, ref) : innerRef}
-            style={[styles.input, disabled && styles.disabled]}
-            autoCapitalize="none"
-            clearButtonMode="while-editing"
-            placeholderTextColor={colors.GRAY_500}
-            {...props}
-          />
+          <View style={!!icon && styles.innerContainer}>
+            {icon}
+            <TextInput
+              ref={ref ? mergeRefs(innerRef, ref) : innerRef}
+              style={[styles.input, disabled && styles.disabled]}
+              autoCapitalize="none"
+              clearButtonMode="while-editing"
+              placeholderTextColor={colors.GRAY_500}
+              {...props}
+            />
+          </View>
           {touched && error && <Text style={styles.error}>{error}</Text>}
         </View>
       </Pressable>
@@ -65,6 +69,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     paddingVertical: 0,
     paddingLeft: 0,
+  },
+  innerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
   },
   disabled: {
     backgroundColor: colors.GRAY_200,
