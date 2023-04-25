@@ -29,9 +29,10 @@ function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
       {
         latitude: location.latitude,
         longitude: location.longitude,
+        color: 'BLUE',
         title: '제목',
         description: '설명',
-        color: 'BLUE',
+        address,
       },
       {
         onSuccess: () => navigation.goBack(),
