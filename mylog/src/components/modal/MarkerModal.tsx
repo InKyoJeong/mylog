@@ -15,17 +15,17 @@ function MarkerModal() {
   return (
     <CompoundModal isVisible={isVisible} hideModal={hideModal}>
       <CompoundModal.DialogContainer>
+        <CompoundModal.GoNextButton onPress={() => {}} />
         <CompoundModal.Scroll>
-          <CompoundModal.Date>2023년 04월 24일</CompoundModal.Date>
           <CompoundModal.MarkerInfo
             imageUrl={'https://reactnative.dev/img/tiny_logo.png'}
-            address={marker.address}
+            date={'2023년 04월 26일'}
             title={marker.title}
           />
+          <CompoundModal.Address>{marker.address}</CompoundModal.Address>
           <CompoundModal.Description>
             {marker.description}
           </CompoundModal.Description>
-          <CompoundModal.GoNextButton onPress={() => {}} />
         </CompoundModal.Scroll>
       </CompoundModal.DialogContainer>
     </CompoundModal>

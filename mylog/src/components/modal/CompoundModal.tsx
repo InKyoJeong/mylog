@@ -84,12 +84,11 @@ function Scroll({children}: PropsWithChildren) {
   );
 }
 
-function Date({children}: PropsWithChildren) {
+function Address({children}: PropsWithChildren) {
   return (
-    <View style={styles.navContainer}>
-      <View style={styles.dateContainer}>
-        <Text style={styles.dateText}>{children}</Text>
-      </View>
+    <View style={styles.addressContainer}>
+      <Octicons name="location" size={10} color={colors.GRAY_500} />
+      <Text style={styles.addressText}>{children}</Text>
     </View>
   );
 }
@@ -135,11 +134,11 @@ function OptionButton({
 
 interface MarkerInfoProps {
   imageUrl?: string;
-  address?: string;
+  date: string;
   title: string;
 }
 
-function MarkerInfo({imageUrl, address, title}: MarkerInfoProps) {
+function MarkerInfo({imageUrl, date, title}: MarkerInfoProps) {
   return (
     <View style={styles.infoContainer}>
       <View style={styles.imageContainer}>
@@ -151,12 +150,7 @@ function MarkerInfo({imageUrl, address, title}: MarkerInfoProps) {
         />
       </View>
       <View style={styles.titleContainer}>
-        {address && (
-          <View style={styles.addressContainer}>
-            <Octicons name="location" size={10} color={colors.GRAY_500} />
-            <Text style={styles.addressText}>{address}</Text>
-          </View>
-        )}
+        <Text style={styles.dateText}>{date}</Text>
         <Text style={styles.titleText}>{title}</Text>
       </View>
     </View>
@@ -170,6 +164,7 @@ export const CompoundModal = Object.assign(ModalMain, {
   OptionButton,
   Scroll,
   Date,
+  Address,
   Description,
   GoNextButton,
   MarkerInfo,
@@ -184,37 +179,22 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0 0 0 / 0.5)',
   },
   modalScroll: {
-    maxHeight: Dimensions.get('screen').height / 3.5,
+    maxHeight: Dimensions.get('screen').height / 4,
     backgroundColor: colors.WHITE,
-    borderTopLeftRadius: 40,
-    borderTopRightRadius: 40,
+    marginHorizontal: 10,
+    marginBottom: 20,
+    borderRadius: 25,
     borderWidth: 1,
     borderColor: colors.GRAY_500,
   },
   modalInner: {
-    paddingVertical: 25,
-    paddingHorizontal: 30,
-  },
-  navContainer: {
-    alignItems: 'center',
-  },
-  dateContainer: {
-    backgroundColor: colors.PINK_700,
-    paddingHorizontal: 14,
-    paddingVertical: 7,
-    marginBottom: 15,
-    borderRadius: 30,
-  },
-  dateText: {
-    color: colors.WHITE,
-    fontSize: 13,
-    fontWeight: 'bold',
+    padding: 20,
   },
   infoContainer: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: 10,
   },
   imageContainer: {
     width: 70,
@@ -234,6 +214,7 @@ const styles = StyleSheet.create({
     gap: 5,
     flexDirection: 'row',
     alignItems: 'center',
+    marginBottom: 10,
   },
   addressText: {
     color: colors.GRAY_500,
@@ -243,20 +224,30 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
+  dateText: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: colors.PINK_700,
+  },
   descriptionText: {
     fontSize: 14,
   },
   goNextButtonContainer: {
     alignItems: 'flex-end',
-    marginTop: 10,
+    marginRight: 15,
+    marginBottom: 5,
   },
   goNextButton: {
     backgroundColor: colors.PINK_700,
-    width: 45,
-    height: 45,
-    borderRadius: 45,
+    width: 40,
+    height: 40,
+    borderRadius: 40,
     alignItems: 'center',
     justifyContent: 'center',
+    shadowColor: colors.BLACK,
+    shadowOffset: {width: 1, height: 1},
+    shadowOpacity: 0.5,
+    elevation: 2,
   },
   optionButtonContainer: {
     borderRadius: 15,
