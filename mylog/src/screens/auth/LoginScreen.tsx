@@ -62,7 +62,7 @@ function LoginScreen() {
             label="로그인"
             variant="filled"
             size="large"
-            isValid={!login.hasErrors}
+            hasError={login.hasErrors}
             onPress={handleSubmit}
           />
         </CustomKeyboardAvoidingView>

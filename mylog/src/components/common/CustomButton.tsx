@@ -20,7 +20,7 @@ interface CustomButtonProps extends PressableProps {
   variant?: Variant;
   size?: Size;
   style?: StyleProp<ViewStyle>;
-  isValid?: boolean;
+  hasError?: boolean;
 }
 
 const deviceHeight = Dimensions.get('screen').height;
@@ -30,16 +30,16 @@ function CustomButton({
   variant = 'standard',
   size = 'default',
   style = null,
-  isValid = true,
+  hasError = false,
   ...props
 }: CustomButtonProps) {
   return (
     <Pressable
-      disabled={!isValid}
+      disabled={hasError}
       style={({pressed}) => [
         pressed ? styles[`${variant}Pressed`] : styles[variant],
         styles.container,
-        !isValid && styles.inValidContainer,
+        hasError && styles.inValidContainer,
       ]}
       {...props}>
       <View style={[styles.view, styles[size], style]}>
