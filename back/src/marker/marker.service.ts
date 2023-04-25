@@ -43,13 +43,15 @@ export class MarkerService {
     createMarkerDto: CreateMarkerDto,
     user: User,
   ): Promise<Marker> {
-    const { latitude, longitude, title, description, color } = createMarkerDto;
+    const { latitude, longitude, color, address, title, description } =
+      createMarkerDto;
     const marker = this.markerRepository.create({
       latitude,
       longitude,
+      color,
+      address,
       title,
       description,
-      color,
       user,
     });
 
