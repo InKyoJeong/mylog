@@ -1,5 +1,4 @@
 import React from 'react';
-import {Pressable, StyleSheet} from 'react-native';
 import type {StackNavigationProp} from '@react-navigation/stack';
 import type {CompositeNavigationProp} from '@react-navigation/native';
 import type {DrawerNavigationProp} from '@react-navigation/drawer';
@@ -8,6 +7,7 @@ import type {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import {colors} from '@/constants/colors';
+import HeaderButton from './common/HeaderButton';
 
 type FeedLeftHeaderProps = CompositeNavigationProp<
   StackNavigationProp<FeedStackParamList>,
@@ -16,20 +16,11 @@ type FeedLeftHeaderProps = CompositeNavigationProp<
 
 function FeedLeftHeader(navigation: FeedLeftHeaderProps) {
   return (
-    <Pressable style={styles.container} onPress={() => navigation.openDrawer()}>
-      <Ionicons name={'md-menu-sharp'} color={colors.BLACK} size={25} />
-    </Pressable>
+    <HeaderButton
+      icon={<Ionicons name={'md-menu-sharp'} color={colors.BLACK} size={25} />}
+      onPress={() => navigation.openDrawer()}
+    />
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    height: '100%',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingLeft: 10,
-  },
-});
 
 export default FeedLeftHeader;

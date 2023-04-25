@@ -1,10 +1,8 @@
 import React, {useCallback, useLayoutEffect, useRef, useState} from 'react';
 import {
-  Pressable,
   SafeAreaView,
   ScrollView,
   StyleSheet,
-  Text,
   TextInput,
   View,
 } from 'react-native';
@@ -15,6 +13,7 @@ import type {MapStackParamList} from '@/navigations/stack/MapStackNavigator';
 import InputField from '@/components/common/InputField';
 import CustomKeyboardAvoidingView from '@/components/keyboard/CustomKeyboardAvoidingView';
 import MarkerSelector from '@/components/MarkerSelector';
+import AddLocationRightHeader from '@/components/AddLocationRightHeader';
 import {useCreateMarker} from '@/hooks/queries/useMarker';
 import useGetAddress from '@/hooks/common/useGetAddress';
 import useForm from '@/hooks/common/useForm';
@@ -27,21 +26,6 @@ type AddLocationScreenProps = StackScreenProps<
   MapStackParamList,
   typeof mapNavigations.ADD_LOCATION
 >;
-
-function AddLocationRightHeader(onSubmit: () => void, hasError: boolean) {
-  return (
-    <Pressable disabled={hasError} onPress={onSubmit} style={{marginRight: 10}}>
-      <Text
-        style={{
-          fontSize: 15,
-          fontWeight: '500',
-          color: hasError ? colors.GRAY_300 : colors.PINK_700,
-        }}>
-        등록
-      </Text>
-    </Pressable>
-  );
-}
 
 function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
   const {location} = route.params;

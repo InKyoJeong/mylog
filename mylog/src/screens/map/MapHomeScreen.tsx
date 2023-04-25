@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
   drawerButton: {
     position: 'absolute',
     left: 0,
-    top: 60,
+    top: 50,
     paddingVertical: 10,
     paddingHorizontal: 12,
     borderTopRightRadius: 50,
