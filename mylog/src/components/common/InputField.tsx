@@ -48,6 +48,7 @@ const InputField = forwardRef(
               autoCapitalize="none"
               clearButtonMode="while-editing"
               placeholderTextColor={colors.GRAY_500}
+              editable={!disabled}
               {...props}
             />
           </View>

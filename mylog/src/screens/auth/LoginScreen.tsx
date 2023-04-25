@@ -75,8 +75,7 @@ function LoginScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginHorizontal: 30,
-    marginVertical: 30,
+    margin: 30,
   },
   inputContainer: {
     gap: 30,

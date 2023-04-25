@@ -19,7 +19,7 @@ function MarkerModal() {
           <CompoundModal.Date>2023년 04월 24일</CompoundModal.Date>
           <CompoundModal.MarkerInfo
             imageUrl={'https://reactnative.dev/img/tiny_logo.png'}
-            address="000-000 000길"
+            address={marker.address}
             title={marker.title}
           />
           <CompoundModal.Description>
