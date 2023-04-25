@@ -15,13 +15,14 @@ import {mergeRefs} from '@/utils';
 interface InputFieldProps extends TextInputProps {
   touched?: boolean;
   error?: string;
+  disabled?: boolean;
 }
 
 const deviceHeight = Dimensions.get('screen').height;
 
 const InputField = forwardRef(
   (
-    {touched, error, ...props}: InputFieldProps,
+    {touched, error, disabled = false, ...props}: InputFieldProps,
     ref?: ForwardedRef<TextInput>,
   ) => {
     const innerRef = useRef<TextInput | null>(null);
@@ -33,10 +34,14 @@ const InputField = forwardRef(
     return (
       <Pressable onPress={handlePressInput}>
         <View
-          style={[styles.container, touched && !!error && styles.inputError]}>
+          style={[
+            styles.container,
+            disabled && styles.disabled,
+            touched && !!error && styles.inputError,
+          ]}>
           <TextInput
             ref={ref ? mergeRefs(innerRef, ref) : innerRef}
-            style={styles.input}
+            style={[styles.input, disabled && styles.disabled]}
             autoCapitalize="none"
             clearButtonMode="while-editing"
             placeholderTextColor={colors.GRAY_500}
@@ -60,6 +65,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     paddingVertical: 0,
     paddingLeft: 0,
+  },
+  disabled: {
+    backgroundColor: colors.GRAY_200,
+    color: colors.GRAY_700,
   },
   inputError: {
     borderWidth: 1,
