@@ -17,7 +17,7 @@ type FeedLeftHeaderProps = CompositeNavigationProp<
 function FeedLeftHeader(navigation: FeedLeftHeaderProps) {
   return (
     <Pressable style={styles.container} onPress={() => navigation.openDrawer()}>
-      <Ionicons name={'md-menu-sharp'} color={colors.BLACK} size={30} />
+      <Ionicons name={'md-menu-sharp'} color={colors.BLACK} size={25} />
     </Pressable>
   );
 }

@@ -1,9 +1,10 @@
-import React, {useRef, useState} from 'react';
+import React, {useCallback, useLayoutEffect, useRef, useState} from 'react';
 import {
-  Button,
+  Pressable,
   SafeAreaView,
   ScrollView,
   StyleSheet,
+  Text,
   TextInput,
   View,
 } from 'react-native';
@@ -27,6 +28,21 @@ type AddLocationScreenProps = StackScreenProps<
   typeof mapNavigations.ADD_LOCATION
 >;
 
+function AddLocationRightHeader(onSubmit: () => void, hasError: boolean) {
+  return (
+    <Pressable disabled={hasError} onPress={onSubmit} style={{marginRight: 10}}>
+      <Text
+        style={{
+          fontSize: 15,
+          fontWeight: '500',
+          color: hasError ? colors.GRAY_300 : colors.PINK_700,
+        }}>
+        등록
+      </Text>
+    </Pressable>
+  );
+}
+
 function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
   const {location} = route.params;
   const address = useGetAddress(location);
@@ -38,7 +54,7 @@ function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
   const [marker, setMarker] = useState<MarkerColor>('RED');
   const descriptionRef = useRef<TextInput | null>(null);
 
-  const handleSubmit = () => {
+  const handleSubmit = useCallback(() => {
     markerMutation.mutate(
       {
         latitude: location.latitude,
@@ -52,11 +68,25 @@ function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
         onSuccess: () => navigation.goBack(),
       },
     );
-  };
+  }, [
+    markerMutation,
+    location,
+    marker,
+    addLocation.values,
+    address,
+    navigation,
+  ]);
 
   const handleSelectMarker = (name: MarkerColor) => {
     setMarker(name);
   };
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () =>
+        AddLocationRightHeader(handleSubmit, addLocation.hasErrors),
+    });
+  }, [handleSubmit, navigation, addLocation.hasErrors]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -98,8 +128,6 @@ function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
               marker={marker}
               onPressMarker={handleSelectMarker}
             />
-
-            <Button title="등록" onPress={handleSubmit} />
           </View>
         </ScrollView>
       </CustomKeyboardAvoidingView>
