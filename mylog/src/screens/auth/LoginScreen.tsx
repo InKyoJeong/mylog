@@ -15,7 +15,6 @@ function LoginScreen() {
     initialValue: {username: '', password: ''},
     validate: validateLogin,
   });
-
   const passwordRef = useRef<TextInput | null>(null);
 
   const handleSubmit = () => {

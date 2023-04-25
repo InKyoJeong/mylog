@@ -49,6 +49,8 @@ const InputField = forwardRef(
               clearButtonMode="while-editing"
               placeholderTextColor={colors.GRAY_500}
               editable={!disabled}
+              autoCorrect={false}
+              spellCheck={false}
               {...props}
             />
           </View>
