@@ -32,6 +32,9 @@ export class Marker extends BaseEntity {
   color: MarkerColor;
 
   @Column()
+  address: string;
+
+  @Column()
   title: string;
 
   @Column()

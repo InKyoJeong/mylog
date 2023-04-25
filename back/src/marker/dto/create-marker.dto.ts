@@ -9,11 +9,14 @@ export class CreateMarkerDto {
   longitude: number;
 
   @IsNotEmpty()
+  color: MarkerColor;
+
+  @IsString()
+  address: string;
+
+  @IsNotEmpty()
   title: string;
 
   @IsString()
   description: string;
-
-  @IsNotEmpty()
-  color: MarkerColor;
 }

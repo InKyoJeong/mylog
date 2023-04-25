@@ -8,6 +8,8 @@ import {
 } from 'react-native';
 import {useHeaderHeight} from '@react-navigation/elements';
 
+import {numbers} from '@/constants/numbers';
+
 interface CustomKeyboardAvoidingViewProps {
   style?: StyleProp<ViewStyle>;
 }
@@ -21,10 +23,13 @@ function CustomKeyboardAvoidingView({
   return (
     <KeyboardAvoidingView
       style={[styles.container, style]}
-      behavior={'position'}
+      behavior={Platform.select({
+        ios: 'padding',
+        android: 'height',
+      })}
       keyboardVerticalOffset={Platform.select({
         ios: headerHeight,
-        android: -1000,
+        android: numbers.KEYBOARD_VERTICAL_OFFSET.ANDROID,
       })}>
       {children}
     </KeyboardAvoidingView>

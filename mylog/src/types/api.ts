@@ -1,4 +1,4 @@
-type MarkerColor = 'RED' | 'BLUE' | 'GREEN' | 'YELLOW';
+type MarkerColor = 'RED' | 'YELLOW' | 'GREEN' | 'BLUE' | 'PURPLE';
 
 interface Marker {
   id: number;
@@ -7,6 +7,7 @@ interface Marker {
   color: MarkerColor;
   title: string;
   description: string;
+  address: string;
 }
 
 export type {MarkerColor, Marker};

@@ -86,7 +86,7 @@ function SignupScreen() {
             label="회원가입"
             variant="filled"
             size="large"
-            isValid={!signup.hasErrors}
+            hasError={signup.hasErrors}
             onPress={handleSubmit}
           />
         </CustomKeyboardAvoidingView>

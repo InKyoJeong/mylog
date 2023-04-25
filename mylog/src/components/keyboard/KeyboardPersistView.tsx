@@ -6,7 +6,8 @@ function KeyboardPersistView({children}: PropsWithChildren) {
     <ScrollView
       showsVerticalScrollIndicator={false}
       keyboardShouldPersistTaps="always"
-      keyboardDismissMode="on-drag">
+      keyboardDismissMode="on-drag"
+      scrollIndicatorInsets={{right: 1}}>
       {children}
     </ScrollView>
   );

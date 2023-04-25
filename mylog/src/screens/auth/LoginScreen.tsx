@@ -15,7 +15,6 @@ function LoginScreen() {
     initialValue: {username: '', password: ''},
     validate: validateLogin,
   });
-
   const passwordRef = useRef<TextInput | null>(null);
 
   const handleSubmit = () => {
@@ -63,7 +62,7 @@ function LoginScreen() {
             label="로그인"
             variant="filled"
             size="large"
-            isValid={!login.hasErrors}
+            hasError={login.hasErrors}
             onPress={handleSubmit}
           />
         </CustomKeyboardAvoidingView>
@@ -75,8 +74,7 @@ function LoginScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginHorizontal: 30,
-    marginVertical: 30,
+    margin: 30,
   },
   inputContainer: {
     gap: 30,

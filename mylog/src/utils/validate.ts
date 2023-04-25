@@ -11,6 +11,15 @@ type SignupInfo = LoginInfo & {
   passwordConfirm: string;
 };
 
+type AddLocationInfo = {
+  title: string;
+  description: string;
+};
+
+function isBlank(value: string) {
+  return value.trim() === '';
+}
+
 function isValidUsernameFormat(username: string) {
   return /^[a-zA-Z0-9]*$/.test(username);
 }
@@ -99,4 +108,16 @@ function validateSignup(values: SignupInfo) {
   return {...passwordConfirmErrors, ...userErrors};
 }
 
-export {validateLogin, validateSignup};
+function validateAddLocation(values: AddLocationInfo) {
+  const {title} = values;
+
+  const errors = getObjectWithValue(Object.keys(values), '');
+
+  if (isBlank(title)) {
+    errors.title = errorMessages.INVALID_TITLE_LENGTH;
+  }
+
+  return errors;
+}
+
+export {validateLogin, validateSignup, validateAddLocation};

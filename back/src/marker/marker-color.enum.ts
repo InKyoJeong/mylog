@@ -3,4 +3,5 @@ export enum MarkerColor {
   BLUE = 'BLUE',
   GREEN = 'GREEN',
   YELLOW = 'YELLOW',
+  PURPLE = 'PURPLE',
 }

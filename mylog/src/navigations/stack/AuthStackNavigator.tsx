@@ -21,6 +21,9 @@ const authStackOptions: StackNavigationOptions = {
   headerStyle: {
     backgroundColor: colors.WHITE,
   },
+  headerTitleStyle: {
+    fontSize: 15,
+  },
   headerTintColor: colors.BLACK,
   cardStyle: {
     backgroundColor: colors.WHITE,
