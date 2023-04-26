@@ -1,4 +1,5 @@
 import React from 'react';
+import {StyleSheet, View} from 'react-native';
 
 import useMarkerStore from '@/store/useMarkerStore';
 import {useGetMarker} from '@/hooks/queries/useMarker';
@@ -14,22 +15,39 @@ function MarkerModal() {
 
   return (
     <CompoundModal isVisible={isVisible} hideModal={hideModal}>
-      <CompoundModal.DialogContainer>
-        <CompoundModal.GoNextButton onPress={() => {}} />
-        <CompoundModal.Scroll>
-          <CompoundModal.MarkerInfo
-            imageUrl={'https://reactnative.dev/img/tiny_logo.png'}
-            date={'2023년 04월 26일'}
-            title={marker.title}
-          />
-          <CompoundModal.Address>{marker.address}</CompoundModal.Address>
-          <CompoundModal.Description>
-            {marker.description}
-          </CompoundModal.Description>
-        </CompoundModal.Scroll>
-      </CompoundModal.DialogContainer>
+      <CompoundModal.CardBackground>
+        <CompoundModal.Card>
+          <View style={styles.cardAlign}>
+            <View style={styles.infoAlign}>
+              <CompoundModal.CardImage
+                uri={'https://reactnative.dev/img/tiny_logo.png'}
+              />
+              <CompoundModal.MarkerInfo
+                address={marker.address}
+                title={marker.title}
+                date="2023.04.26"
+              />
+            </View>
+            <CompoundModal.GoNextButton onPress={() => {}} />
+          </View>
+        </CompoundModal.Card>
+      </CompoundModal.CardBackground>
     </CompoundModal>
   );
 }
+
+const styles = StyleSheet.create({
+  cardAlign: {
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  infoAlign: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
 
 export default MarkerModal;
