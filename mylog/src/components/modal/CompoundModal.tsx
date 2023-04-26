@@ -58,7 +58,9 @@ function DialogContainer({children}: PropsWithChildren) {
   const modalContext = useContext(ModalContext);
 
   return (
-    <View style={styles.container} onTouchEnd={modalContext?.onClickOutSide}>
+    <View
+      style={[styles.container, styles.dialogContainer]}
+      onTouchEnd={modalContext?.onClickOutSide}>
       {children}
     </View>
   );
@@ -78,7 +80,7 @@ function OptionContainer({children}: PropsWithChildren) {
 
 function Scroll({children}: PropsWithChildren) {
   return (
-    <ScrollView style={styles.modalScroll}>
+    <ScrollView style={styles.modalScroll} showsVerticalScrollIndicator={false}>
       <View style={styles.modalInner}>{children}</View>
     </ScrollView>
   );
@@ -163,7 +165,6 @@ export const CompoundModal = Object.assign(ModalMain, {
   OptionButtonList,
   OptionButton,
   Scroll,
-  Date,
   Address,
   Description,
   GoNextButton,
@@ -175,17 +176,21 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
   },
+  dialogContainer: {
+    shadowColor: colors.BLACK,
+    shadowOffset: {width: 1, height: 2},
+    shadowOpacity: 0.5,
+    elevation: 2,
+  },
   optionContainer: {
     backgroundColor: 'rgba(0 0 0 / 0.5)',
   },
   modalScroll: {
-    maxHeight: Dimensions.get('screen').height / 4,
+    maxHeight: Dimensions.get('screen').height / 4.5,
     backgroundColor: colors.WHITE,
     marginHorizontal: 10,
     marginBottom: 20,
     borderRadius: 25,
-    borderWidth: 1,
-    borderColor: colors.GRAY_500,
   },
   modalInner: {
     padding: 20,
@@ -207,7 +212,7 @@ const styles = StyleSheet.create({
     borderRadius: 35,
   },
   titleContainer: {
-    gap: 8,
+    gap: 4,
     marginLeft: 20,
   },
   addressContainer: {

@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: 50,
     height: 50,
-    backgroundColor: '#f2f2f2',
+    backgroundColor: colors.GRAY_100,
     borderRadius: 6,
   },
   pressedMarker: {
