@@ -14,4 +14,8 @@ const numbers = {
   },
 } as const;
 
-export {numbers};
+const zIndex = {
+  SAVED_MARKER: -1,
+} as const;
+
+export {numbers, zIndex};

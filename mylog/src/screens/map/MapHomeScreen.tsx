@@ -24,7 +24,7 @@ import useMoveMapView from '@/hooks/common/useMoveMapView';
 import {useGetMarkerLocations} from '@/hooks/queries/useMarker';
 import {mapNavigations, mainNavigations} from '@/constants/navigations';
 import {colors} from '@/constants/colors';
-import {numbers} from '@/constants/numbers';
+import {numbers, zIndex} from '@/constants/numbers';
 import useMarkerStore from '@/store/useMarkerStore';
 import getMapStyle from '@/style/mapStyle';
 
@@ -102,6 +102,7 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
           <CustomMarker
             key={id}
             color={color}
+            style={{zIndex: zIndex.SAVED_MARKER}}
             coordinate={coordinate}
             onPress={() => handlePressMarker(id, coordinate)}
           />
