@@ -1,6 +1,11 @@
 import React, {useState} from 'react';
 import {Alert, Pressable, StyleSheet, View} from 'react-native';
-import {LatLng, LongPressEvent, PROVIDER_GOOGLE} from 'react-native-maps';
+import {
+  Callout,
+  LatLng,
+  LongPressEvent,
+  PROVIDER_GOOGLE,
+} from 'react-native-maps';
 import type {StackScreenProps} from '@react-navigation/stack';
 import type {DrawerScreenProps} from '@react-navigation/drawer';
 import type {CompositeScreenProps} from '@react-navigation/native';
@@ -101,7 +106,11 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
             onPress={() => handlePressMarker(id, coordinate)}
           />
         ))}
-        {selectLocation && <CustomMarker coordinate={selectLocation} />}
+        {selectLocation && (
+          <Callout>
+            <CustomMarker coordinate={selectLocation} />
+          </Callout>
+        )}
       </MapView>
 
       <Pressable
