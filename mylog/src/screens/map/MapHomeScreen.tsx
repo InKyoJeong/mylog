@@ -1,15 +1,12 @@
 import React, {useState} from 'react';
 import {Alert, Pressable, StyleSheet, View} from 'react-native';
-import MapView, {
-  LatLng,
-  LongPressEvent,
-  PROVIDER_GOOGLE,
-} from 'react-native-maps';
+import {LatLng, LongPressEvent, PROVIDER_GOOGLE} from 'react-native-maps';
 import type {StackScreenProps} from '@react-navigation/stack';
 import type {DrawerScreenProps} from '@react-navigation/drawer';
 import type {CompositeScreenProps} from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import MapView from 'react-native-map-clustering';
 
 import type {MapStackParamList} from '@/navigations/stack/MapStackNavigator';
 import type {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
@@ -18,7 +15,7 @@ import CustomMarker from '@/components/common/CustomMarker';
 import usePermissions from '@/hooks/common/usePermission';
 import useUserLocation from '@/hooks/common/useUserLocation';
 import useMoveMapView from '@/hooks/common/useMoveMapView';
-import MarkerModal from '@/components/modal/MarkerModal';
+// import MarkerModal from '@/components/modal/MarkerModal';
 import {useGetMarkerLocations} from '@/hooks/queries/useMarker';
 import {mapNavigations, mainNavigations} from '@/constants/navigations';
 import {colors} from '@/constants/colors';
@@ -51,7 +48,7 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
 
   const handlePressMarker = (markerId: number, coordinate: LatLng) => {
     showModal(markerId);
-    moveMapView(coordinate);
+    moveMapView(coordinate); // 모달이 한번더 열리고 멈추는 이슈
   };
 
   const handlePressAddLocation = () => {
@@ -87,6 +84,7 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
         showsMyLocationButton={false}
         followsUserLocation={true}
         customMapStyle={getMapStyle('light')}
+        clusterColor={colors.PINK_700}
         region={{
           latitude: userLocation.latitude,
           longitude: userLocation.longitude,
@@ -120,8 +118,6 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
           <MaterialIcons name={'my-location'} color={colors.WHITE} size={25} />
         </MapButton>
       </View>
-
-      <MarkerModal />
     </View>
   );
 }

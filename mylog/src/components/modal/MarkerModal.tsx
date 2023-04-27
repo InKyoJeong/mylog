@@ -19,9 +19,7 @@ function MarkerModal() {
         <CompoundModal.Card>
           <View style={styles.cardAlign}>
             <View style={styles.infoAlign}>
-              <CompoundModal.CardImage
-                uri={'https://reactnative.dev/img/tiny_logo.png'}
-              />
+              <CompoundModal.CardImage uri={''} />
               <CompoundModal.MarkerInfo
                 address={marker.address}
                 title={marker.title}
