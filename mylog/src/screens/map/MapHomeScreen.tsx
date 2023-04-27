@@ -6,12 +6,12 @@ import {
   LongPressEvent,
   PROVIDER_GOOGLE,
 } from 'react-native-maps';
+import MapView from 'react-native-map-clustering';
 import type {StackScreenProps} from '@react-navigation/stack';
 import type {DrawerScreenProps} from '@react-navigation/drawer';
 import type {CompositeScreenProps} from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import MapView from 'react-native-map-clustering';
 
 import type {MapStackParamList} from '@/navigations/stack/MapStackNavigator';
 import type {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
