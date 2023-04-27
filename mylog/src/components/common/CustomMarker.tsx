@@ -39,9 +39,9 @@ function CustomMarker({
 
 const styles = StyleSheet.create({
   marker: {
-    width: 30,
-    height: 30,
-    borderRadius: 30,
+    width: 28,
+    height: 28,
+    borderRadius: 28,
     borderBottomRightRadius: 1,
     borderWidth: 1,
     borderColor: colors.GRAY_700,

@@ -10,7 +10,7 @@ function OptionModal() {
 
   return (
     <CompoundModal isVisible={isVisible} hideModal={hideOption}>
-      <CompoundModal.OptionContainer>
+      <CompoundModal.OptionBackground>
         <View style={styles.container}>
           <CompoundModal.OptionButtonList>
             <CompoundModal.OptionButton onPress={() => {}} isDanger>
@@ -28,7 +28,7 @@ function OptionModal() {
             </CompoundModal.OptionButton>
           </CompoundModal.OptionButtonList>
         </View>
-      </CompoundModal.OptionContainer>
+      </CompoundModal.OptionBackground>
     </CompoundModal>
   );
 }

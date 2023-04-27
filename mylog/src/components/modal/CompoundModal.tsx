@@ -5,14 +5,14 @@ import {
   ModalProps,
   Pressable,
   StyleSheet,
-  ScrollView,
   Text,
   View,
-  Dimensions,
   Image,
   SafeAreaView,
+  Dimensions,
 } from 'react-native';
 import Octicons from 'react-native-vector-icons/Octicons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import {colors} from '@/constants/colors';
 
@@ -54,7 +54,7 @@ function ModalMain({
   );
 }
 
-function DialogContainer({children}: PropsWithChildren) {
+function CardBackground({children}: PropsWithChildren) {
   const modalContext = useContext(ModalContext);
 
   return (
@@ -64,7 +64,7 @@ function DialogContainer({children}: PropsWithChildren) {
   );
 }
 
-function OptionContainer({children}: PropsWithChildren) {
+function OptionBackground({children}: PropsWithChildren) {
   const modalContext = useContext(ModalContext);
 
   return (
@@ -76,25 +76,12 @@ function OptionContainer({children}: PropsWithChildren) {
   );
 }
 
-function Scroll({children}: PropsWithChildren) {
+function Card({children}: PropsWithChildren) {
   return (
-    <ScrollView style={styles.modalScroll}>
-      <View style={styles.modalInner}>{children}</View>
-    </ScrollView>
-  );
-}
-
-function Address({children}: PropsWithChildren) {
-  return (
-    <View style={styles.addressContainer}>
-      <Octicons name="location" size={10} color={colors.GRAY_500} />
-      <Text style={styles.addressText}>{children}</Text>
+    <View style={styles.cardContainer}>
+      <View style={styles.cardInner}>{children}</View>
     </View>
   );
-}
-
-function Description({children}: PropsWithChildren) {
-  return <Text style={styles.descriptionText}>{children}</Text>;
 }
 
 interface GoNextButtonProps {
@@ -103,11 +90,9 @@ interface GoNextButtonProps {
 
 function GoNextButton({onPress}: GoNextButtonProps) {
   return (
-    <View style={styles.goNextButtonContainer}>
-      <Pressable style={styles.goNextButton} onPress={onPress}>
-        <Octicons name="arrow-right" size={30} color={colors.WHITE} />
-      </Pressable>
-    </View>
+    <Pressable style={styles.goNextButton} onPress={onPress}>
+      <MaterialIcons name="arrow-forward-ios" size={20} color={colors.BLACK} />
+    </Pressable>
   );
 }
 
@@ -132,42 +117,51 @@ function OptionButton({
   );
 }
 
-interface MarkerInfoProps {
-  imageUrl?: string;
-  date: string;
-  title: string;
+interface CardImageProps {
+  uri?: string;
 }
 
-function MarkerInfo({imageUrl, date, title}: MarkerInfoProps) {
+function CardImage({uri}: CardImageProps) {
   return (
-    <View style={styles.infoContainer}>
-      <View style={styles.imageContainer}>
-        <Image
-          source={
-            imageUrl ? {uri: imageUrl} : require('@/assets/modal-default.png')
-          }
-          style={styles.image}
-        />
+    <View style={styles.imageContainer}>
+      <Image
+        source={uri ? {uri} : require('@/assets/modal-default.png')}
+        style={styles.image}
+      />
+    </View>
+  );
+}
+
+interface MarkerInfoProps {
+  address: string;
+  title: string;
+  date: string;
+}
+
+function MarkerInfo({address, date, title}: MarkerInfoProps) {
+  return (
+    <View style={styles.markerInfoContainer}>
+      <View style={styles.addressContainer}>
+        <Octicons name="location" size={10} color={colors.GRAY_500} />
+        <Text style={styles.addressText} ellipsizeMode="tail" numberOfLines={1}>
+          {address}
+        </Text>
       </View>
-      <View style={styles.titleContainer}>
-        <Text style={styles.dateText}>{date}</Text>
-        <Text style={styles.titleText}>{title}</Text>
-      </View>
+      <Text style={styles.titleText}>{title}</Text>
+      <Text style={styles.dateText}>{date}</Text>
     </View>
   );
 }
 
 export const CompoundModal = Object.assign(ModalMain, {
-  DialogContainer,
-  OptionContainer,
+  CardBackground,
+  OptionBackground,
+  Card,
+  CardImage,
+  MarkerInfo,
   OptionButtonList,
   OptionButton,
-  Scroll,
-  Date,
-  Address,
-  Description,
   GoNextButton,
-  MarkerInfo,
 });
 
 const styles = StyleSheet.create({
@@ -178,23 +172,18 @@ const styles = StyleSheet.create({
   optionContainer: {
     backgroundColor: 'rgba(0 0 0 / 0.5)',
   },
-  modalScroll: {
-    maxHeight: Dimensions.get('screen').height / 4,
+  cardContainer: {
     backgroundColor: colors.WHITE,
     marginHorizontal: 10,
-    marginBottom: 20,
+    marginBottom: 30,
     borderRadius: 25,
-    borderWidth: 1,
-    borderColor: colors.GRAY_500,
+    shadowColor: colors.BLACK,
+    shadowOffset: {width: 1, height: 2},
+    shadowOpacity: 0.5,
+    elevation: 2,
   },
-  modalInner: {
+  cardInner: {
     padding: 20,
-  },
-  infoContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
   },
   imageContainer: {
     width: 70,
@@ -206,48 +195,38 @@ const styles = StyleSheet.create({
     height: '100%',
     borderRadius: 35,
   },
-  titleContainer: {
-    gap: 8,
-    marginLeft: 20,
+  markerInfoContainer: {
+    width: Dimensions.get('screen').width / 2,
+    marginLeft: 15,
+    gap: 5,
   },
   addressContainer: {
     gap: 5,
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 10,
   },
   addressText: {
     color: colors.GRAY_500,
     fontSize: 10,
   },
   titleText: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: 'bold',
   },
   dateText: {
-    fontSize: 14,
+    fontSize: 12,
     fontWeight: 'bold',
     color: colors.PINK_700,
   },
   descriptionText: {
     fontSize: 14,
   },
-  goNextButtonContainer: {
-    alignItems: 'flex-end',
-    marginRight: 15,
-    marginBottom: 5,
-  },
   goNextButton: {
-    backgroundColor: colors.PINK_700,
     width: 40,
     height: 40,
     borderRadius: 40,
-    alignItems: 'center',
+    alignItems: 'flex-end',
     justifyContent: 'center',
-    shadowColor: colors.BLACK,
-    shadowOffset: {width: 1, height: 1},
-    shadowOpacity: 0.5,
-    elevation: 2,
   },
   optionButtonContainer: {
     borderRadius: 15,

@@ -103,7 +103,7 @@ function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
               {...addLocation.getTextInputProps('description')}
               error={addLocation.errors.description}
               touched={addLocation.touched.description}
-              placeholder="기록하고 싶은 내용을 입력하세요. (선택)"
+              placeholder="기록하고 싶은 내용을 입력하세요. (선택)"
               maxLength={1000}
               returnKeyType="next"
               multiline
@@ -130,33 +130,6 @@ const styles = StyleSheet.create({
   inputContainer: {
     gap: 20,
     marginBottom: 20,
-  },
-  markerInputContainer: {
-    borderWidth: 1,
-    borderColor: colors.GRAY_200,
-    paddingVertical: 15,
-  },
-  markerInputScroll: {
-    flexDirection: 'row',
-    gap: 20,
-    marginHorizontal: 15,
-  },
-  markerLabel: {
-    marginLeft: 15,
-    marginBottom: 15,
-    color: colors.GRAY_700,
-  },
-  markerBox: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 50,
-    height: 50,
-    backgroundColor: '#f2f2f2',
-    borderRadius: 6,
-  },
-  pressedMarker: {
-    borderWidth: 2,
-    borderColor: colors.RED_500,
   },
 });
 

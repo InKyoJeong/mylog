@@ -1,6 +1,13 @@
-import React, {ForwardedRef, ReactNode, forwardRef, useRef} from 'react';
+import React, {
+  ForwardedRef,
+  ReactNode,
+  forwardRef,
+  useEffect,
+  useRef,
+} from 'react';
 import {
   Dimensions,
+  LayoutAnimation,
   Pressable,
   StyleSheet,
   Text,
@@ -31,6 +38,12 @@ const InputField = forwardRef(
     const handlePressInput = () => {
       innerRef.current?.focus();
     };
+
+    useEffect(() => {
+      if (touched && error) {
+        LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+      }
+    }, [error, touched]);
 
     return (
       <Pressable onPress={handlePressInput}>

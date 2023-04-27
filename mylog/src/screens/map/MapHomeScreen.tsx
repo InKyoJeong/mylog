@@ -1,10 +1,12 @@
 import React, {useState} from 'react';
 import {Alert, Pressable, StyleSheet, View} from 'react-native';
-import MapView, {
+import {
+  Callout,
   LatLng,
   LongPressEvent,
   PROVIDER_GOOGLE,
 } from 'react-native-maps';
+import MapView from 'react-native-map-clustering';
 import type {StackScreenProps} from '@react-navigation/stack';
 import type {DrawerScreenProps} from '@react-navigation/drawer';
 import type {CompositeScreenProps} from '@react-navigation/native';
@@ -18,11 +20,11 @@ import CustomMarker from '@/components/common/CustomMarker';
 import usePermissions from '@/hooks/common/usePermission';
 import useUserLocation from '@/hooks/common/useUserLocation';
 import useMoveMapView from '@/hooks/common/useMoveMapView';
-import MarkerModal from '@/components/modal/MarkerModal';
+// import MarkerModal from '@/components/modal/MarkerModal';
 import {useGetMarkerLocations} from '@/hooks/queries/useMarker';
 import {mapNavigations, mainNavigations} from '@/constants/navigations';
 import {colors} from '@/constants/colors';
-import {numbers} from '@/constants/numbers';
+import {numbers, zIndex} from '@/constants/numbers';
 import useMarkerStore from '@/store/useMarkerStore';
 import getMapStyle from '@/style/mapStyle';
 
@@ -51,7 +53,7 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
 
   const handlePressMarker = (markerId: number, coordinate: LatLng) => {
     showModal(markerId);
-    moveMapView(coordinate);
+    moveMapView(coordinate); // 모달이 한번더 열리고 멈추는 이슈
   };
 
   const handlePressAddLocation = () => {
@@ -87,6 +89,7 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
         showsMyLocationButton={false}
         followsUserLocation={true}
         customMapStyle={getMapStyle('light')}
+        clusterColor={colors.PINK_700}
         region={{
           latitude: userLocation.latitude,
           longitude: userLocation.longitude,
@@ -99,11 +102,16 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
           <CustomMarker
             key={id}
             color={color}
+            style={{zIndex: zIndex.SAVED_MARKER}}
             coordinate={coordinate}
             onPress={() => handlePressMarker(id, coordinate)}
           />
         ))}
-        {selectLocation && <CustomMarker coordinate={selectLocation} />}
+        {selectLocation && (
+          <Callout>
+            <CustomMarker coordinate={selectLocation} />
+          </Callout>
+        )}
       </MapView>
 
       <Pressable
@@ -120,8 +128,6 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
           <MaterialIcons name={'my-location'} color={colors.WHITE} size={25} />
         </MapButton>
       </View>
-
-      <MarkerModal />
     </View>
   );
 }
