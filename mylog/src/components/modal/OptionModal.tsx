@@ -3,7 +3,6 @@ import {StyleSheet, View} from 'react-native';
 
 import {CompoundModal} from './CompoundModal';
 import useOptionStore from '@/store/useOptionStore';
-import {colors} from '@/constants/colors';
 
 function OptionModal() {
   const {isVisible, hideOption} = useOptionStore();
@@ -16,7 +15,7 @@ function OptionModal() {
             <CompoundModal.OptionButton onPress={() => {}} isDanger>
               {/* 삭제하기 */}
             </CompoundModal.OptionButton>
-            <View style={styles.border} />
+            <CompoundModal.OptionBorder />
             <CompoundModal.OptionButton onPress={() => {}}>
               {/* 수정하기 */}
             </CompoundModal.OptionButton>
@@ -36,10 +35,6 @@ function OptionModal() {
 const styles = StyleSheet.create({
   container: {
     gap: 10,
-  },
-  border: {
-    borderBottomColor: colors.GRAY_300,
-    borderBottomWidth: 1,
   },
 });
 

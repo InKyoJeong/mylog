@@ -117,6 +117,10 @@ function OptionButton({
   );
 }
 
+function OptionBorder() {
+  return <View style={styles.border} />;
+}
+
 interface CardImageProps {
   uri?: string;
 }
@@ -161,6 +165,7 @@ export const CompoundModal = Object.assign(ModalMain, {
   MarkerInfo,
   OptionButtonList,
   OptionButton,
+  OptionBorder,
   GoNextButton,
 });
 
@@ -175,7 +180,7 @@ const styles = StyleSheet.create({
   cardContainer: {
     backgroundColor: colors.WHITE,
     marginHorizontal: 10,
-    marginBottom: 30,
+    marginBottom: 40,
     borderRadius: 25,
     shadowColor: colors.BLACK,
     shadowOffset: {width: 1, height: 2},
@@ -232,11 +237,16 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     marginHorizontal: 10,
     backgroundColor: colors.GRAY_100,
+    overflow: 'hidden',
   },
   optionButton: {
     alignItems: 'center',
     justifyContent: 'center',
     height: 50,
+  },
+  border: {
+    borderBottomColor: colors.GRAY_300,
+    borderBottomWidth: 1,
   },
   dangerText: {
     color: colors.RED_500,
