@@ -1,5 +1,5 @@
 import React from 'react';
-import {StatusBar} from 'react-native';
+import {Platform, StatusBar, UIManager} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {QueryClientProvider} from '@tanstack/react-query';
 
@@ -11,6 +11,13 @@ if (__DEV__) {
   import('react-query-native-devtools').then(({addPlugin}) => {
     addPlugin({queryClient});
   });
+}
+
+if (
+  Platform.OS === 'android' &&
+  UIManager.setLayoutAnimationEnabledExperimental
+) {
+  UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
 function App() {

@@ -20,7 +20,6 @@ import CustomMarker from '@/components/common/CustomMarker';
 import usePermissions from '@/hooks/common/usePermission';
 import useUserLocation from '@/hooks/common/useUserLocation';
 import useMoveMapView from '@/hooks/common/useMoveMapView';
-// import MarkerModal from '@/components/modal/MarkerModal';
 import {useGetMarkerLocations} from '@/hooks/queries/useMarker';
 import {mapNavigations, mainNavigations} from '@/constants/navigations';
 import {colors} from '@/constants/colors';
@@ -53,7 +52,7 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
 
   const handlePressMarker = (markerId: number, coordinate: LatLng) => {
     showModal(markerId);
-    moveMapView(coordinate); // 모달이 한번더 열리고 멈추는 이슈
+    moveMapView(coordinate);
   };
 
   const handlePressAddLocation = () => {
@@ -72,7 +71,7 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
 
   const handlePressUserLocation = () => {
     if (isUserLocationError) {
-      console.log('위치 권한을 허용해주세요.'); // toast
+      console.log('위치 권한을 허용해주세요.');
       return;
     }
 

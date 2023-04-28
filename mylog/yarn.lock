@@ -4890,10 +4890,10 @@ jsonfile@^4.0.0:
     array-includes "^3.1.5"
     object.assign "^4.1.3"
 
-kdbush@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/kdbush/-/kdbush-3.0.0.tgz#f8484794d47004cc2d85ed3a79353dbe0abc2bf0"
-  integrity sha512-hRkd6/XW4HTsA9vjVpY9tuXJYLSlelnkTmVFu4M9/7MIYQtFcHpbugAU7UbOfjOiVSVYl2fqgBuJ32JUmRo5Ew==
+kdbush@^4.0.2:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/kdbush/-/kdbush-4.0.2.tgz#2f7b7246328b4657dd122b6c7f025fbc2c868e39"
+  integrity sha512-WbCVYJ27Sz8zi9Q7Q0xHC+05iwkm3Znipc2XTlrnJbsHMYktW4hPhXUE8Ys1engBrvffoSCqbil1JQAa7clRpA==
 
 kind-of@^3.0.2, kind-of@^3.0.3, kind-of@^3.2.0:
   version "3.2.2"
@@ -6172,13 +6172,12 @@ react-native-gradle-plugin@^0.71.16:
   resolved "https://registry.yarnpkg.com/react-native-gradle-plugin/-/react-native-gradle-plugin-0.71.16.tgz#822bb0c680e03b5df5aa65f2e5ffc2bc2930854a"
   integrity sha512-H2BjG2zk7B7Wii9sXvd9qhCVRQYDAHSWdMw9tscmZBqSP62DkIWEQSk4/B2GhQ4aK9ydVXgtqR6tBeg3yy8TSA==
 
-react-native-map-clustering@^3.4.2:
+"react-native-map-clustering@git+https://github.com/InKyoJeong/react-native-map-clustering.git":
   version "3.4.2"
-  resolved "https://registry.yarnpkg.com/react-native-map-clustering/-/react-native-map-clustering-3.4.2.tgz#9ecdd489bfd7f22fc558f48c2b7a3e8a1807933f"
-  integrity sha512-7VN3ZmOG6gH2THY1VCkrklJmLVxoaY3SyQHuPlNG1CPmL/unPkyAyfDxFoZahf+UxRYIWSbLa9C3oI3Lcswi+Q==
+  resolved "git+https://github.com/InKyoJeong/react-native-map-clustering.git#8c162ff24f34840e57f80efca75af44fae9841c9"
   dependencies:
     "@mapbox/geo-viewport" "^0.4.1"
-    supercluster "^7.1.0"
+    supercluster "^8.0.0"
 
 react-native-maps@^1.5.0:
   version "1.5.0"
@@ -6968,12 +6967,12 @@ sudo-prompt@^9.0.0:
   resolved "https://registry.yarnpkg.com/sudo-prompt/-/sudo-prompt-9.2.1.tgz#77efb84309c9ca489527a4e749f287e6bdd52afd"
   integrity sha512-Mu7R0g4ig9TUuGSxJavny5Rv0egCEtpZRNMrZaYS1vxkiIxGiGUwoezU3LazIQ+KE04hTrTfNPgxU5gzi7F5Pw==
 
-supercluster@^7.1.0:
-  version "7.1.5"
-  resolved "https://registry.yarnpkg.com/supercluster/-/supercluster-7.1.5.tgz#65a6ce4a037a972767740614c19051b64b8be5a3"
-  integrity sha512-EulshI3pGUM66o6ZdH3ReiFcvHpM3vAigyK+vcxdjpJyEbIIrtbmBdY23mGgnI24uXiGFvrGq9Gkum/8U7vJWg==
+supercluster@^8.0.0:
+  version "8.0.1"
+  resolved "https://registry.yarnpkg.com/supercluster/-/supercluster-8.0.1.tgz#9946ba123538e9e9ab15de472531f604e7372df5"
+  integrity sha512-IiOea5kJ9iqzD2t7QJq/cREyLHTtSmUT6gQsweojg9WH2sYJqZK9SswTu6jrscO6D1G5v5vYZ9ru/eq85lXeZQ==
   dependencies:
-    kdbush "^3.0.0"
+    kdbush "^4.0.2"
 
 supports-color@^5.3.0:
   version "5.5.0"
