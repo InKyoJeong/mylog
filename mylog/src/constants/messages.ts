@@ -7,6 +7,7 @@ const errorMessages = {
   INVALID_PASSWORD_LENGTH: `비밀번호는 ${numbers.MIN_PASSWORD_LENGTH}~${numbers.MAX_PASSWORD_LENGTH}자 이내로 입력해주세요.`,
   NOT_MATCH_PASSWORD: '비밀번호가 일치하지 않습니다.',
   INVALID_TITLE_LENGTH: `제목은 ${numbers.MIN_TITLE_LENGTH}글자 이상 입력해주세요.`,
+  CANNOT_GET_ADDRESS: '주소를 알 수 없습니다.',
 } as const;
 
 export {errorMessages};

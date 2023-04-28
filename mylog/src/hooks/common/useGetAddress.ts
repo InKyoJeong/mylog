@@ -3,6 +3,8 @@ import {useEffect, useState} from 'react';
 import type {LatLng} from 'react-native-maps';
 import Config from 'react-native-config';
 
+import {errorMessages} from '@/constants/messages';
+
 function useGetAddress(location: LatLng) {
   const {latitude, longitude} = location;
   const [result, setResult] = useState('');
@@ -19,7 +21,7 @@ function useGetAddress(location: LatLng) {
 
         setResult(address);
       } catch {
-        setResult('주소를 알 수 없습니다.');
+        setResult(errorMessages.CANNOT_GET_ADDRESS);
       }
     })();
   }, [latitude, longitude]);
