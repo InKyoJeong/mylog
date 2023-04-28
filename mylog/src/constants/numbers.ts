@@ -16,6 +16,7 @@ const numbers = {
 
 const zIndex = {
   SAVED_MARKER: -1,
+  NEW_MARKER: 100,
 } as const;
 
 export {numbers, zIndex};
