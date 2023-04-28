@@ -6146,6 +6146,11 @@ react-native-codegen@^0.71.5:
     jscodeshift "^0.13.1"
     nullthrows "^1.1.1"
 
+react-native-config@^1.5.0:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/react-native-config/-/react-native-config-1.5.0.tgz#ff5a78fbbc2c2a0525788e5f3c86101110651ba4"
+  integrity sha512-slecooA/0tCwhb+RuWEbwLqtKirGh9vWPRpgDfH7uPAraCciqHNH2XjS9ylW+Spn4FUrHg5KWTqUGs9BdBADHg==
+
 react-native-encrypted-storage@^4.0.3:
   version "4.0.3"
   resolved "https://registry.yarnpkg.com/react-native-encrypted-storage/-/react-native-encrypted-storage-4.0.3.tgz#2a4d65459870511e8f4ccd22f02433dab7fa5e91"
@@ -6174,7 +6179,7 @@ react-native-gradle-plugin@^0.71.16:
 
 "react-native-map-clustering@git+https://github.com/InKyoJeong/react-native-map-clustering.git":
   version "3.4.2"
-  resolved "git+https://github.com/InKyoJeong/react-native-map-clustering.git#8c162ff24f34840e57f80efca75af44fae9841c9"
+  resolved "git+https://github.com/InKyoJeong/react-native-map-clustering.git#46b90a21e04becb7f9180ae97f670be125ffd838"
   dependencies:
     "@mapbox/geo-viewport" "^0.4.1"
     supercluster "^8.0.0"
