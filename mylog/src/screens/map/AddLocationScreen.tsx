@@ -30,13 +30,13 @@ type AddLocationScreenProps = StackScreenProps<
 function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
   const {location} = route.params;
   const address = useGetAddress(location);
-  const markerMutation = useCreateMarker();
   const addLocation = useForm({
     initialValue: {title: '', description: ''},
     validate: validateAddLocation,
   });
   const [marker, setMarker] = useState<MarkerColor>('RED');
   const descriptionRef = useRef<TextInput | null>(null);
+  const markerMutation = useCreateMarker();
 
   const handleSubmit = useCallback(() => {
     markerMutation.mutate(
@@ -103,6 +103,7 @@ function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
               {...addLocation.getTextInputProps('description')}
               error={addLocation.errors.description}
               touched={addLocation.touched.description}
+              ref={descriptionRef}
               placeholder="기록하고 싶은 내용을 입력하세요. (선택)"
               maxLength={1000}
               returnKeyType="next"
