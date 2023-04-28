@@ -111,8 +111,15 @@ function OptionButton({
   onPress,
 }: PropsWithChildren<OptionButtonProps>) {
   return (
-    <Pressable style={styles.optionButton} onPress={onPress}>
-      <Text style={isDanger && styles.dangerText}>{children}</Text>
+    <Pressable
+      style={({pressed}) => [
+        pressed && styles.optionButtonPressed,
+        styles.optionButton,
+      ]}
+      onPress={onPress}>
+      <Text style={[styles.optionText, isDanger && styles.dangerText]}>
+        {children}
+      </Text>
     </Pressable>
   );
 }
@@ -236,6 +243,7 @@ const styles = StyleSheet.create({
   optionButtonContainer: {
     borderRadius: 15,
     marginHorizontal: 10,
+    marginBottom: 10,
     backgroundColor: colors.GRAY_100,
     overflow: 'hidden',
   },
@@ -243,6 +251,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     height: 50,
+  },
+  optionButtonPressed: {
+    opacity: 0.4,
+  },
+  optionText: {
+    fontSize: 16,
   },
   border: {
     borderBottomColor: colors.GRAY_300,
