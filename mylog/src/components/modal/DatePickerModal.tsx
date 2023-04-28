@@ -21,23 +21,21 @@ function DatePickerModal({
   return (
     <CompoundModal isVisible={isVisible} hideModal={() => {}}>
       <CompoundModal.OptionBackground>
-        <View style={{gap: 10}}>
-          <CompoundModal.OptionButtonList>
-            <View style={styles.pickerContainer}>
-              <DatePicker
-                mode="date"
-                textColor={colors.BLACK}
-                date={date}
-                onDateChange={onChangeDate}
-              />
-            </View>
-          </CompoundModal.OptionButtonList>
-          <CompoundModal.OptionButtonList>
-            <CompoundModal.OptionButton onPress={onConfirmDate}>
-              선택완료
-            </CompoundModal.OptionButton>
-          </CompoundModal.OptionButtonList>
-        </View>
+        <CompoundModal.OptionButtonList>
+          <View style={styles.pickerContainer}>
+            <DatePicker
+              mode="date"
+              textColor={colors.BLACK}
+              date={date}
+              onDateChange={onChangeDate}
+            />
+          </View>
+        </CompoundModal.OptionButtonList>
+        <CompoundModal.OptionButtonList>
+          <CompoundModal.OptionButton onPress={onConfirmDate}>
+            선택완료
+          </CompoundModal.OptionButton>
+        </CompoundModal.OptionButtonList>
       </CompoundModal.OptionBackground>
     </CompoundModal>
   );
