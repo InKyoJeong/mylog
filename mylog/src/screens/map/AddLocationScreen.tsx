@@ -14,6 +14,8 @@ import InputField from '@/components/common/InputField';
 import CustomKeyboardAvoidingView from '@/components/keyboard/CustomKeyboardAvoidingView';
 import MarkerSelector from '@/components/MarkerSelector';
 import AddLocationRightHeader from '@/components/AddLocationRightHeader';
+import CustomButton from '@/components/common/CustomButton';
+import DatePickerModal from '@/components/modal/DatePickerModal';
 import {useCreateMarker} from '@/hooks/queries/useMarker';
 import useGetAddress from '@/hooks/common/useGetAddress';
 import useForm from '@/hooks/common/useForm';
@@ -35,6 +37,9 @@ function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
     validate: validateAddLocation,
   });
   const [marker, setMarker] = useState<MarkerColor>('RED');
+  const [isVisibleDatePicker, setIsVisibleDatePicker] = useState(false);
+  const [pickedDate, setPickedDate] = useState(new Date());
+  const [isPickedDate, setIsPickedDate] = useState(false);
   const descriptionRef = useRef<TextInput | null>(null);
   const markerMutation = useCreateMarker();
 
@@ -65,6 +70,19 @@ function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
     setMarker(name);
   };
 
+  const showDatePickerModal = () => {
+    setIsVisibleDatePicker(true);
+  };
+
+  const handleChangeDate = (date: Date) => {
+    setPickedDate(date);
+  };
+
+  const handleConfirmDate = () => {
+    setIsPickedDate(true);
+    setIsVisibleDatePicker(false);
+  };
+
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () =>
@@ -86,8 +104,12 @@ function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
                 <Octicons name="location" size={16} color={colors.GRAY_500} />
               }
             />
+            <CustomButton
+              variant="outlined"
+              label={isPickedDate ? `${pickedDate}` : '날짜 선택'}
+              onPress={showDatePickerModal}
+            />
             <InputField
-              autoFocus
               {...addLocation.getTextInputProps('title')}
               error={addLocation.errors.title}
               touched={addLocation.touched.title}
@@ -112,6 +134,12 @@ function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
             <MarkerSelector
               marker={marker}
               onPressMarker={handleSelectMarker}
+            />
+            <DatePickerModal
+              isVisible={isVisibleDatePicker}
+              date={pickedDate}
+              onChangeDate={handleChangeDate}
+              onConfirmDate={handleConfirmDate}
             />
           </View>
         </ScrollView>
