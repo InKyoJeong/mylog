@@ -40,6 +40,12 @@ export class Marker extends BaseEntity {
   @Column()
   description: string;
 
+  @Column({
+    type: 'timestamp with time zone',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  date: Date;
+
   @CreateDateColumn()
   createdAt: Date;
 

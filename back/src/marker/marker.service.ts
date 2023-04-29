@@ -33,7 +33,7 @@ export class MarkerService {
       .getOne();
 
     if (!foundMarker) {
-      throw new NotFoundException('존재하지 않는 피드입니다.');
+      throw new NotFoundException('존재하지 않는 데이터입니다.');
     }
 
     return foundMarker;
@@ -43,7 +43,7 @@ export class MarkerService {
     createMarkerDto: CreateMarkerDto,
     user: User,
   ): Promise<Marker> {
-    const { latitude, longitude, color, address, title, description } =
+    const { latitude, longitude, color, address, title, description, date } =
       createMarkerDto;
     const marker = this.markerRepository.create({
       latitude,
@@ -52,10 +52,11 @@ export class MarkerService {
       address,
       title,
       description,
+      date,
       user,
     });
-
     await this.markerRepository.save(marker);
+
     return marker;
   }
 
@@ -69,7 +70,7 @@ export class MarkerService {
       .execute();
 
     if (result.affected === 0) {
-      throw new NotFoundException('존재하지 않는 피드입니다.');
+      throw new NotFoundException('존재하지 않는 데이터입니다.');
     }
   }
 
@@ -79,12 +80,14 @@ export class MarkerService {
     user: User,
   ): Promise<Marker> {
     const marker = await this.getMarkerById(id, user);
-    const { latitude, longitude, title, description, color } = createMarkerDto;
+    const { latitude, longitude, title, description, color, date } =
+      createMarkerDto;
     marker.latitude = latitude;
     marker.longitude = longitude;
     marker.title = title;
     marker.description = description;
     marker.color = color;
+    marker.date = date;
     await this.markerRepository.save(marker);
 
     return marker;
