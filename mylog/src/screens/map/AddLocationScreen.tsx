@@ -33,9 +33,9 @@ type AddLocationScreenProps = StackScreenProps<
 
 function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
   const {location} = route.params;
+  const markerMutation = useCreateMarker();
   const descriptionRef = useRef<TextInput | null>(null);
   const [marker, setMarker] = useState<MarkerColor>('RED');
-  const markerMutation = useCreateMarker();
   const datePicker = useDatePicker(new Date());
   const address = useGetAddress(location);
   const addLocation = useForm({
@@ -131,8 +131,8 @@ function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
             <DatePickerModal
               isVisible={datePicker.isVisible}
               date={datePicker.date}
-              onChangeDate={datePicker.onChange}
-              onConfirmDate={datePicker.onConfirm}
+              onChangeDate={datePicker.handleChange}
+              onConfirmDate={datePicker.handleConfirm}
             />
           </View>
         </ScrollView>
