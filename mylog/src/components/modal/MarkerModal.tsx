@@ -23,7 +23,7 @@ function MarkerModal() {
               <CompoundModal.MarkerInfo
                 address={marker.address}
                 title={marker.title}
-                date="2023.04.26"
+                date={marker.date}
               />
             </View>
             <CompoundModal.GoNextButton onPress={() => {}} />

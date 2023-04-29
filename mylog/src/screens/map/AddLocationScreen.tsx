@@ -14,10 +14,14 @@ import InputField from '@/components/common/InputField';
 import CustomKeyboardAvoidingView from '@/components/keyboard/CustomKeyboardAvoidingView';
 import MarkerSelector from '@/components/MarkerSelector';
 import AddLocationRightHeader from '@/components/AddLocationRightHeader';
+import CustomButton from '@/components/common/CustomButton';
+import DatePickerModal from '@/components/modal/DatePickerModal';
 import {useCreateMarker} from '@/hooks/queries/useMarker';
 import useGetAddress from '@/hooks/common/useGetAddress';
+import useDatePicker from '@/hooks/common/useDatePicker';
 import useForm from '@/hooks/common/useForm';
 import {validateAddLocation} from '@/utils/validate';
+import {getDateWithSeparator} from '@/utils/date';
 import {mapNavigations} from '@/constants/navigations';
 import {colors} from '@/constants/colors';
 import type {MarkerColor} from '@/types/api';
@@ -29,14 +33,15 @@ type AddLocationScreenProps = StackScreenProps<
 
 function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
   const {location} = route.params;
+  const descriptionRef = useRef<TextInput | null>(null);
+  const [marker, setMarker] = useState<MarkerColor>('RED');
+  const markerMutation = useCreateMarker();
+  const datePicker = useDatePicker(new Date());
   const address = useGetAddress(location);
   const addLocation = useForm({
     initialValue: {title: '', description: ''},
     validate: validateAddLocation,
   });
-  const [marker, setMarker] = useState<MarkerColor>('RED');
-  const descriptionRef = useRef<TextInput | null>(null);
-  const markerMutation = useCreateMarker();
 
   const handleSubmit = useCallback(() => {
     markerMutation.mutate(
@@ -47,6 +52,7 @@ function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
         title: addLocation.values.title,
         description: addLocation.values.description,
         address,
+        date: datePicker.date,
       },
       {
         onSuccess: () => navigation.goBack(),
@@ -58,6 +64,7 @@ function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
     marker,
     addLocation.values,
     address,
+    datePicker.date,
     navigation,
   ]);
 
@@ -86,8 +93,16 @@ function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
                 <Octicons name="location" size={16} color={colors.GRAY_500} />
               }
             />
+            <CustomButton
+              variant="outlined"
+              label={
+                datePicker.isPicked
+                  ? `${getDateWithSeparator(datePicker.date, '. ')}`
+                  : '날짜 선택'
+              }
+              onPress={datePicker.showModal}
+            />
             <InputField
-              autoFocus
               {...addLocation.getTextInputProps('title')}
               error={addLocation.errors.title}
               touched={addLocation.touched.title}
@@ -112,6 +127,12 @@ function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
             <MarkerSelector
               marker={marker}
               onPressMarker={handleSelectMarker}
+            />
+            <DatePickerModal
+              isVisible={datePicker.isVisible}
+              date={datePicker.date}
+              onChangeDate={datePicker.onChange}
+              onConfirmDate={datePicker.onConfirm}
             />
           </View>
         </ScrollView>

@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsDateString, IsNotEmpty, IsString } from 'class-validator';
 import { MarkerColor } from '../marker-color.enum';
 
 export class CreateMarkerDto {
@@ -19,4 +19,7 @@ export class CreateMarkerDto {
 
   @IsString()
   description: string;
+
+  @IsDateString()
+  date: Date;
 }

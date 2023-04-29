@@ -62,10 +62,11 @@ function SignupScreen() {
               touched={signup.touched.password}
               ref={passwordRef}
               placeholder="비밀번호"
-              textContentType="newPassword"
+              textContentType="oneTimeCode"
               maxLength={20}
               secureTextEntry
               returnKeyType="next"
+              blurOnSubmit={false}
               onSubmitEditing={() => {
                 passwordConfirmRef.current?.focus();
               }}

@@ -14,6 +14,7 @@ import {
 import Octicons from 'react-native-vector-icons/Octicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
+import {getDateWithSeparator} from '@/utils/date';
 import {colors} from '@/constants/colors';
 
 interface ModalContextValue {
@@ -111,10 +112,21 @@ function OptionButton({
   onPress,
 }: PropsWithChildren<OptionButtonProps>) {
   return (
-    <Pressable style={styles.optionButton} onPress={onPress}>
-      <Text style={isDanger && styles.dangerText}>{children}</Text>
+    <Pressable
+      style={({pressed}) => [
+        pressed && styles.optionButtonPressed,
+        styles.optionButton,
+      ]}
+      onPress={onPress}>
+      <Text style={[styles.optionText, isDanger && styles.dangerText]}>
+        {children}
+      </Text>
     </Pressable>
   );
+}
+
+function OptionBorder() {
+  return <View style={styles.border} />;
 }
 
 interface CardImageProps {
@@ -135,7 +147,7 @@ function CardImage({uri}: CardImageProps) {
 interface MarkerInfoProps {
   address: string;
   title: string;
-  date: string;
+  date: Date | string;
 }
 
 function MarkerInfo({address, date, title}: MarkerInfoProps) {
@@ -148,7 +160,7 @@ function MarkerInfo({address, date, title}: MarkerInfoProps) {
         </Text>
       </View>
       <Text style={styles.titleText}>{title}</Text>
-      <Text style={styles.dateText}>{date}</Text>
+      <Text style={styles.dateText}>{getDateWithSeparator(date, '.')}</Text>
     </View>
   );
 }
@@ -161,6 +173,7 @@ export const CompoundModal = Object.assign(ModalMain, {
   MarkerInfo,
   OptionButtonList,
   OptionButton,
+  OptionBorder,
   GoNextButton,
 });
 
@@ -175,7 +188,7 @@ const styles = StyleSheet.create({
   cardContainer: {
     backgroundColor: colors.WHITE,
     marginHorizontal: 10,
-    marginBottom: 30,
+    marginBottom: 40,
     borderRadius: 25,
     shadowColor: colors.BLACK,
     shadowOffset: {width: 1, height: 2},
@@ -231,12 +244,24 @@ const styles = StyleSheet.create({
   optionButtonContainer: {
     borderRadius: 15,
     marginHorizontal: 10,
+    marginBottom: 10,
     backgroundColor: colors.GRAY_100,
+    overflow: 'hidden',
   },
   optionButton: {
     alignItems: 'center',
     justifyContent: 'center',
     height: 50,
+  },
+  optionButtonPressed: {
+    opacity: 0.4,
+  },
+  optionText: {
+    fontSize: 16,
+  },
+  border: {
+    borderBottomColor: colors.GRAY_300,
+    borderBottomWidth: 1,
   },
   dangerText: {
     color: colors.RED_500,

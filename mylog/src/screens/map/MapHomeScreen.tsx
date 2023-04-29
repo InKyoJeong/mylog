@@ -4,6 +4,7 @@ import {
   Callout,
   LatLng,
   LongPressEvent,
+  Marker,
   PROVIDER_GOOGLE,
 } from 'react-native-maps';
 import MapView from 'react-native-map-clustering';
@@ -108,7 +109,11 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
         ))}
         {selectLocation && (
           <Callout>
-            <CustomMarker coordinate={selectLocation} />
+            <Marker
+              pinColor={colors.RED_500}
+              style={{zIndex: zIndex.NEW_MARKER}}
+              coordinate={selectLocation}
+            />
           </Callout>
         )}
       </MapView>
