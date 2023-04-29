@@ -18,6 +18,7 @@ import CustomButton from '@/components/common/CustomButton';
 import DatePickerModal from '@/components/modal/DatePickerModal';
 import {useCreateMarker} from '@/hooks/queries/useMarker';
 import useGetAddress from '@/hooks/common/useGetAddress';
+import useDatePicker from '@/hooks/common/useDatePicker';
 import useForm from '@/hooks/common/useForm';
 import {validateAddLocation} from '@/utils/validate';
 import {getDateWithSeparator} from '@/utils/date';
@@ -32,17 +33,15 @@ type AddLocationScreenProps = StackScreenProps<
 
 function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
   const {location} = route.params;
+  const descriptionRef = useRef<TextInput | null>(null);
+  const [marker, setMarker] = useState<MarkerColor>('RED');
+  const markerMutation = useCreateMarker();
+  const datePicker = useDatePicker(new Date());
   const address = useGetAddress(location);
   const addLocation = useForm({
     initialValue: {title: '', description: ''},
     validate: validateAddLocation,
   });
-  const [marker, setMarker] = useState<MarkerColor>('RED');
-  const [isVisibleDatePicker, setIsVisibleDatePicker] = useState(false);
-  const [date, setDate] = useState(new Date());
-  const [isDatePicked, setIsDatePicked] = useState(false);
-  const descriptionRef = useRef<TextInput | null>(null);
-  const markerMutation = useCreateMarker();
 
   const handleSubmit = useCallback(() => {
     markerMutation.mutate(
@@ -53,7 +52,7 @@ function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
         title: addLocation.values.title,
         description: addLocation.values.description,
         address,
-        date,
+        date: datePicker.date,
       },
       {
         onSuccess: () => navigation.goBack(),
@@ -65,25 +64,12 @@ function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
     marker,
     addLocation.values,
     address,
-    date,
+    datePicker.date,
     navigation,
   ]);
 
   const handleSelectMarker = (name: MarkerColor) => {
     setMarker(name);
-  };
-
-  const showDatePickerModal = () => {
-    setIsVisibleDatePicker(true);
-  };
-
-  const handleChangeDate = (pickedDate: Date) => {
-    setDate(pickedDate);
-  };
-
-  const handleConfirmDate = () => {
-    setIsDatePicked(true);
-    setIsVisibleDatePicker(false);
   };
 
   useLayoutEffect(() => {
@@ -110,11 +96,11 @@ function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
             <CustomButton
               variant="outlined"
               label={
-                isDatePicked
-                  ? `${getDateWithSeparator(date, '. ')}`
+                datePicker.isPicked
+                  ? `${getDateWithSeparator(datePicker.date, '. ')}`
                   : '날짜 선택'
               }
-              onPress={showDatePickerModal}
+              onPress={datePicker.showModal}
             />
             <InputField
               {...addLocation.getTextInputProps('title')}
@@ -143,10 +129,10 @@ function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
               onPressMarker={handleSelectMarker}
             />
             <DatePickerModal
-              isVisible={isVisibleDatePicker}
-              date={date}
-              onChangeDate={handleChangeDate}
-              onConfirmDate={handleConfirmDate}
+              isVisible={datePicker.isVisible}
+              date={datePicker.date}
+              onChangeDate={datePicker.onChange}
+              onConfirmDate={datePicker.onConfirm}
             />
           </View>
         </ScrollView>
