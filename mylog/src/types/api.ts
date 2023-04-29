@@ -8,6 +8,7 @@ interface Marker {
   title: string;
   description: string;
   address: string;
+  date: Date;
 }
 
 export type {MarkerColor, Marker};

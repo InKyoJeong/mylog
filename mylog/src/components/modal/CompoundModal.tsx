@@ -14,6 +14,7 @@ import {
 import Octicons from 'react-native-vector-icons/Octicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
+import {getDateWithSeparator} from '@/utils/date';
 import {colors} from '@/constants/colors';
 
 interface ModalContextValue {
@@ -146,7 +147,7 @@ function CardImage({uri}: CardImageProps) {
 interface MarkerInfoProps {
   address: string;
   title: string;
-  date: string;
+  date: Date;
 }
 
 function MarkerInfo({address, date, title}: MarkerInfoProps) {
@@ -159,7 +160,7 @@ function MarkerInfo({address, date, title}: MarkerInfoProps) {
         </Text>
       </View>
       <Text style={styles.titleText}>{title}</Text>
-      <Text style={styles.dateText}>{date}</Text>
+      <Text style={styles.dateText}>{getDateWithSeparator(date, '.')}</Text>
     </View>
   );
 }

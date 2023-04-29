@@ -20,6 +20,7 @@ import {useCreateMarker} from '@/hooks/queries/useMarker';
 import useGetAddress from '@/hooks/common/useGetAddress';
 import useForm from '@/hooks/common/useForm';
 import {validateAddLocation} from '@/utils/validate';
+import {getDateWithSeparator} from '@/utils/date';
 import {mapNavigations} from '@/constants/navigations';
 import {colors} from '@/constants/colors';
 import type {MarkerColor} from '@/types/api';
@@ -38,8 +39,8 @@ function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
   });
   const [marker, setMarker] = useState<MarkerColor>('RED');
   const [isVisibleDatePicker, setIsVisibleDatePicker] = useState(false);
-  const [pickedDate, setPickedDate] = useState(new Date());
-  const [isPickedDate, setIsPickedDate] = useState(false);
+  const [date, setDate] = useState(new Date());
+  const [isDatePicked, setIsDatePicked] = useState(false);
   const descriptionRef = useRef<TextInput | null>(null);
   const markerMutation = useCreateMarker();
 
@@ -52,6 +53,7 @@ function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
         title: addLocation.values.title,
         description: addLocation.values.description,
         address,
+        date,
       },
       {
         onSuccess: () => navigation.goBack(),
@@ -63,6 +65,7 @@ function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
     marker,
     addLocation.values,
     address,
+    date,
     navigation,
   ]);
 
@@ -74,12 +77,12 @@ function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
     setIsVisibleDatePicker(true);
   };
 
-  const handleChangeDate = (date: Date) => {
-    setPickedDate(date);
+  const handleChangeDate = (pickedDate: Date) => {
+    setDate(pickedDate);
   };
 
   const handleConfirmDate = () => {
-    setIsPickedDate(true);
+    setIsDatePicked(true);
     setIsVisibleDatePicker(false);
   };
 
@@ -106,7 +109,11 @@ function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
             />
             <CustomButton
               variant="outlined"
-              label={isPickedDate ? `${pickedDate}` : '날짜 선택'}
+              label={
+                isDatePicked
+                  ? `${getDateWithSeparator(date, '. ')}`
+                  : '날짜 선택'
+              }
               onPress={showDatePickerModal}
             />
             <InputField
@@ -137,7 +144,7 @@ function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
             />
             <DatePickerModal
               isVisible={isVisibleDatePicker}
-              date={pickedDate}
+              date={date}
               onChangeDate={handleChangeDate}
               onConfirmDate={handleConfirmDate}
             />
