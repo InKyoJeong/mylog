@@ -147,7 +147,7 @@ function CardImage({uri}: CardImageProps) {
 interface MarkerInfoProps {
   address: string;
   title: string;
-  date: Date;
+  date: Date | string;
 }
 
 function MarkerInfo({address, date, title}: MarkerInfoProps) {

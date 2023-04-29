@@ -1,7 +1,8 @@
 import {months} from '@/constants/numbers';
 import type {Locale} from '@/types';
 
-function getDateDetails(date: Date) {
+function getDateDetails(dateString: Date | string) {
+  const date = new Date(dateString);
   const year = date.getFullYear();
   const month = date.getMonth() + 1;
   const day = date.getDate();
@@ -9,8 +10,11 @@ function getDateDetails(date: Date) {
   return {year, month, day};
 }
 
-function getDateWithSeparator(date: Date, separator: string = '') {
-  const {year, month, day} = getDateDetails(date);
+function getDateWithSeparator(
+  dateString: Date | string,
+  separator: string = '',
+) {
+  const {year, month, day} = getDateDetails(dateString);
 
   return [
     String(year),
@@ -19,8 +23,8 @@ function getDateWithSeparator(date: Date, separator: string = '') {
   ].join(separator);
 }
 
-function getDateLocaleFormat(date: Date, locale: Locale = 'ko') {
-  const {year, month, day} = getDateDetails(date);
+function getDateLocaleFormat(dateString: Date | string, locale: Locale = 'ko') {
+  const {year, month, day} = getDateDetails(dateString);
 
   switch (locale) {
     case 'ko': {
