@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Pressable,
   ScrollView,
@@ -10,35 +10,40 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import ImagePicker from 'react-native-image-crop-picker';
 
-import {colors} from '@/constants/colors';
 import {useUploadMarkerImages} from '@/hooks/queries/useMarker';
+import {colors} from '@/constants/colors';
 
 function InputImagesViewer() {
+  const [previews, setPreviews] = useState<{uri: string}[]>([]);
+
   const imageMutation = useUploadMarkerImages();
 
   const handleChange = () => {
     ImagePicker.openPicker({
       mediaType: 'photo',
       multiple: true,
-      // includeBase64: true,
+      includeBase64: true,
     }).then(images => {
       const formData = new FormData();
+      const previewImage: {uri: string}[] = [];
 
       images.forEach(img => {
+        previewImage.push({uri: `data:${img.mime};base64,${img.data}`});
+
         const file = {
           uri: img.path,
           type: img.mime,
           name: img.path.split('/').pop(),
         };
-
         console.log('images', file);
         formData.append('images', file);
       });
 
-      console.log('formData', formData);
-
       imageMutation.mutate(formData, {
-        onSuccess: data => console.log('success data', data),
+        onSuccess: data => {
+          console.log('success data', data);
+          setPreviews(previewImage);
+        },
       });
     });
   };
@@ -46,17 +51,23 @@ function InputImagesViewer() {
   return (
     <ScrollView horizontal showsHorizontalScrollIndicator={false}>
       <View style={styles.container}>
-        <Pressable style={styles.imageInput} onPress={handleChange}>
+        <Pressable
+          style={({pressed}) => [
+            pressed && styles.imageInputPressed,
+            styles.imageInput,
+          ]}
+          onPress={handleChange}>
           <Ionicons name="camera-outline" size={20} color={colors.GRAY_500} />
           <Text style={styles.text}>사진 추가</Text>
         </Pressable>
 
-        <View style={styles.imageContainer}>
-          <Image
-            source={require('@/assets/modal-default.png')}
-            style={styles.image}
-          />
-        </View>
+        {previews.map(preview => {
+          return (
+            <View key={preview.uri} style={styles.imageContainer}>
+              <Image style={styles.image} source={preview} />
+            </View>
+          );
+        })}
       </View>
     </ScrollView>
   );
@@ -76,6 +87,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 5,
+  },
+  imageInputPressed: {
+    opacity: 0.5,
   },
   text: {
     fontSize: 12,
