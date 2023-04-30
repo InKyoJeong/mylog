@@ -11,6 +11,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import ImagePicker from 'react-native-image-crop-picker';
 
 import {useUploadMarkerImages} from '@/hooks/queries/useMarker';
+import {getFormDataImages, getPreviewImages} from '@/utils/image';
 import {colors} from '@/constants/colors';
 
 function InputImagesViewer() {
@@ -24,25 +25,13 @@ function InputImagesViewer() {
       multiple: true,
       includeBase64: true,
     }).then(images => {
-      const formData = new FormData();
-      const previewImage: {uri: string}[] = [];
-
-      images.forEach(img => {
-        previewImage.push({uri: `data:${img.mime};base64,${img.data}`});
-
-        const file = {
-          uri: img.path,
-          type: img.mime,
-          name: img.path.split('/').pop(),
-        };
-        console.log('images', file);
-        formData.append('images', file);
-      });
+      const formData = getFormDataImages(images, 'images');
+      const previewImages = getPreviewImages(images);
 
       imageMutation.mutate(formData, {
         onSuccess: data => {
-          console.log('success data', data);
-          setPreviews(previewImage);
+          console.log('success upload data', data);
+          setPreviews(previewImages);
         },
       });
     });
