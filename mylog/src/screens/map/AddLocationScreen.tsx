@@ -16,6 +16,7 @@ import MarkerSelector from '@/components/MarkerSelector';
 import AddLocationRightHeader from '@/components/AddLocationRightHeader';
 import CustomButton from '@/components/common/CustomButton';
 import DatePickerModal from '@/components/modal/DatePickerModal';
+import InputImagesViewer from '@/components/InputImagesViewer';
 import {useCreateMarker} from '@/hooks/queries/useMarker';
 import useGetAddress from '@/hooks/common/useGetAddress';
 import useDatePicker from '@/hooks/common/useDatePicker';
@@ -134,6 +135,7 @@ function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
               onChangeDate={datePicker.handleChange}
               onConfirmDate={datePicker.handleConfirm}
             />
+            <InputImagesViewer />
           </View>
         </ScrollView>
       </CustomKeyboardAvoidingView>
@@ -144,10 +146,10 @@ function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    margin: 20,
   },
   contentContainer: {
     flex: 1,
+    padding: 20,
   },
   inputContainer: {
     gap: 20,
