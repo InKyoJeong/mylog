@@ -11,12 +11,13 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import ImagePicker from 'react-native-image-crop-picker';
 
 import {useUploadMarkerImages} from '@/hooks/queries/useMarker';
+import useImageUriStore from '@/store/useImageUriStore';
 import {getFormDataImages, getPreviewImages} from '@/utils/image';
 import {colors} from '@/constants/colors';
 
 function InputImagesViewer() {
   const [previews, setPreviews] = useState<{uri: string}[]>([]);
-
+  const {setImageUris} = useImageUriStore();
   const imageMutation = useUploadMarkerImages();
 
   const handleChange = () => {
@@ -30,8 +31,8 @@ function InputImagesViewer() {
 
       imageMutation.mutate(formData, {
         onSuccess: data => {
-          console.log('success upload data', data);
           setPreviews(previewImages);
+          setImageUris(data);
         },
       });
     });

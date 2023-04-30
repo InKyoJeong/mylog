@@ -1,5 +1,10 @@
 type MarkerColor = 'RED' | 'YELLOW' | 'GREEN' | 'BLUE' | 'PURPLE';
 
+interface ImageUri {
+  id: number;
+  uri: string;
+}
+
 interface Marker {
   id: number;
   latitude: number;
@@ -9,6 +14,7 @@ interface Marker {
   description: string;
   address: string;
   date: Date | string;
+  // imageUris: ImageUri[]
 }
 
-export type {MarkerColor, Marker};
+export type {MarkerColor, Marker, ImageUri};
