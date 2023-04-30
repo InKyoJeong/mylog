@@ -24,6 +24,7 @@ import { CreateMarkerDto } from './dto/create-marker.dto';
 import { Marker } from './marker.entity';
 import { MarkerService } from './marker.service';
 import { FilesInterceptor } from '@nestjs/platform-express';
+import { numbers } from 'src/constants';
 
 try {
   fs.readdirSync('uploads');
@@ -83,7 +84,7 @@ export class MarkerController {
   }
 
   @UseInterceptors(
-    FilesInterceptor('images', 5, {
+    FilesInterceptor('images', numbers.MAX_IMAGE_COUNT, {
       storage: diskStorage({
         destination(req, file, cb) {
           cb(null, 'uploads/');
@@ -93,7 +94,7 @@ export class MarkerController {
           cb(null, basename(file.originalname, ext) + Date.now() + ext);
         },
       }),
-      limits: { fileSize: 10 * 1024 * 1024 }, // 10MB
+      limits: { fileSize: numbers.MAX_IMAGE_SIZE },
     }),
   )
   @Post('/images')
