@@ -102,6 +102,7 @@ android {
         versionCode 1
         versionName "1.0"
          resValue "string", "build_config_package", "com.mylog"
+        vectorDrawables.useSupportLibrary = true
     }
 
     splits {

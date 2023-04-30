@@ -28,8 +28,8 @@ function useDatePicker(initialDate: Date = new Date()) {
     isPicked,
     showModal,
     hideModal,
-    onChange: handleChange,
-    onConfirm: handleConfirm,
+    handleChange,
+    handleConfirm,
   };
 }
 

@@ -17,7 +17,7 @@ function useUserLocation(initialLocation: LatLng) {
         setIsUserLocationError(false);
       },
       error => {
-        console.log('사용자 위치 권한 에러', error);
+        console.log('userLocation error', error);
         setIsUserLocationError(true);
       },
       {

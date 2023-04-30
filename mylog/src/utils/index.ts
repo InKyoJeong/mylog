@@ -1,16 +1,13 @@
-import {ForwardedRef, MutableRefObject} from 'react';
+import type {ForwardedRef} from 'react';
 
-function getObjectWithValue<T, K>(
-  array: (keyof T)[],
-  value: K,
-): Record<keyof T, K> {
+function getObjectWithValue<T, K>(array: (keyof T)[], value: K) {
   return array.reduce(
     (acc, cur) => ({...acc, [cur]: value}),
     {} as Record<keyof T, K>,
   );
 }
 
-function mergeRefs<T>(...refs: (MutableRefObject<T> | ForwardedRef<T>)[]) {
+function mergeRefs<T>(...refs: ForwardedRef<T>[]) {
   return (node: T) => {
     refs.forEach(ref => {
       if (typeof ref === 'function') {

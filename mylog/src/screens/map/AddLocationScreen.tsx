@@ -16,6 +16,7 @@ import MarkerSelector from '@/components/MarkerSelector';
 import AddLocationRightHeader from '@/components/AddLocationRightHeader';
 import CustomButton from '@/components/common/CustomButton';
 import DatePickerModal from '@/components/modal/DatePickerModal';
+import InputImagesViewer from '@/components/InputImagesViewer';
 import {useCreateMarker} from '@/hooks/queries/useMarker';
 import useGetAddress from '@/hooks/common/useGetAddress';
 import useDatePicker from '@/hooks/common/useDatePicker';
@@ -33,9 +34,9 @@ type AddLocationScreenProps = StackScreenProps<
 
 function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
   const {location} = route.params;
+  const markerMutation = useCreateMarker();
   const descriptionRef = useRef<TextInput | null>(null);
   const [marker, setMarker] = useState<MarkerColor>('RED');
-  const markerMutation = useCreateMarker();
   const datePicker = useDatePicker(new Date());
   const address = useGetAddress(location);
   const addLocation = useForm({
@@ -107,7 +108,7 @@ function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
               error={addLocation.errors.title}
               touched={addLocation.touched.title}
               placeholder="제목을 입력하세요."
-              maxLength={20}
+              maxLength={30}
               returnKeyType="next"
               blurOnSubmit={false}
               onSubmitEditing={() => {
@@ -129,11 +130,12 @@ function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
               onPressMarker={handleSelectMarker}
             />
             <DatePickerModal
-              isVisible={datePicker.isVisible}
               date={datePicker.date}
-              onChangeDate={datePicker.onChange}
-              onConfirmDate={datePicker.onConfirm}
+              isVisible={datePicker.isVisible}
+              onChangeDate={datePicker.handleChange}
+              onConfirmDate={datePicker.handleConfirm}
             />
+            <InputImagesViewer />
           </View>
         </ScrollView>
       </CustomKeyboardAvoidingView>
@@ -144,10 +146,11 @@ function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    margin: 20,
   },
   contentContainer: {
     flex: 1,
+    padding: 20,
+    marginBottom: 10,
   },
   inputContainer: {
     gap: 20,
