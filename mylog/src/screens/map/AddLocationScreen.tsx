@@ -150,6 +150,7 @@ const styles = StyleSheet.create({
   contentContainer: {
     flex: 1,
     padding: 20,
+    marginBottom: 10,
   },
   inputContainer: {
     gap: 20,

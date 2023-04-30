@@ -5,6 +5,7 @@ import {
   createMarker,
   getMarker,
   getMarkers,
+  uploadMarkerImages,
 } from '@/api/marker';
 import queryKeys from '@/constants/queryKeys';
 import {ErrorResponse, UseMutationCustomOptions} from '@/types';
@@ -72,4 +73,16 @@ function useCreateMarker(mutationOptions?: UseMutationCustomOptions) {
   });
 }
 
-export {useGetMarkers, useGetMarker, useGetMarkerLocations, useCreateMarker};
+function useUploadMarkerImages(mutationOptions?: UseMutationCustomOptions) {
+  return useMutation(uploadMarkerImages, {
+    ...mutationOptions,
+  });
+}
+
+export {
+  useGetMarkers,
+  useGetMarker,
+  useGetMarkerLocations,
+  useCreateMarker,
+  useUploadMarkerImages,
+};
