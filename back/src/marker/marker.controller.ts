@@ -7,33 +7,47 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  UploadedFiles,
   UseGuards,
+  UseInterceptors,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import * as fs from 'fs';
+import { diskStorage } from 'multer';
+import { extname, basename } from 'path';
+
 import { User } from 'src/auth/user.entity';
 import { GetUser } from 'src/common/decorators/get-user.decorator';
 import { CreateMarkerDto } from './dto/create-marker.dto';
 import { Marker } from './marker.entity';
 import { MarkerService } from './marker.service';
+import { FilesInterceptor } from '@nestjs/platform-express';
 
-@Controller()
+try {
+  fs.readdirSync('uploads');
+} catch (error) {
+  console.error('uploads 폴더가 없어 uploads 폴더를 생성합니다.');
+  fs.mkdirSync('uploads');
+}
+
+@Controller('markers')
 @UseGuards(AuthGuard())
 export class MarkerController {
   constructor(private markerService: MarkerService) {}
 
-  // @Get('/markers')
+  // @Get('')
   // getAllMarker(): Promise<Marker[]> {
   //   return this.markerService.getAllMarker();
   // }
 
-  @Get('/markers/my')
+  @Get('/my')
   getAllMyMarkers(@GetUser() user: User): Promise<Marker[]> {
     return this.markerService.getAllMyMarkers(user);
   }
 
-  @Get('/markers/:id')
+  @Get('/:id')
   getMarkerById(
     @Param('id', ParseIntPipe) id: number,
     @GetUser() user: User,
@@ -41,7 +55,7 @@ export class MarkerController {
     return this.markerService.getMarkerById(id, user);
   }
 
-  @Post('/markers')
+  @Post()
   @UsePipes(ValidationPipe)
   createMarker(
     @Body() createMarkerDto: CreateMarkerDto,
@@ -50,7 +64,7 @@ export class MarkerController {
     return this.markerService.createMarker(createMarkerDto, user);
   }
 
-  @Delete('/markers/:id')
+  @Delete('/:id')
   deleteMarker(
     @Param('id', ParseIntPipe) id: number,
     @GetUser() user: User,
@@ -58,7 +72,7 @@ export class MarkerController {
     return this.markerService.deleteMarker(id, user);
   }
 
-  @Patch('/markers/:id')
+  @Patch('/:id')
   @UsePipes(ValidationPipe)
   updateMarker(
     @Param('id', ParseIntPipe) id: number,
@@ -66,5 +80,24 @@ export class MarkerController {
     @GetUser() user: User,
   ) {
     return this.markerService.updateMarker(id, createMarkerDto, user);
+  }
+
+  @UseInterceptors(
+    FilesInterceptor('images', 5, {
+      storage: diskStorage({
+        destination(req, file, cb) {
+          cb(null, 'uploads/');
+        },
+        filename(req, file, cb) {
+          const ext = extname(file.originalname);
+          cb(null, basename(file.originalname, ext) + Date.now() + ext);
+        },
+      }),
+      limits: { fileSize: 10 * 1024 * 1024 }, // 10MB
+    }),
+  )
+  @Post('/images')
+  uploadMarkerImages(@UploadedFiles() files: Express.Multer.File[]) {
+    console.log('files', files);
   }
 }
