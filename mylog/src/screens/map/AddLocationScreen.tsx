@@ -107,7 +107,7 @@ function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
               error={addLocation.errors.title}
               touched={addLocation.touched.title}
               placeholder="제목을 입력하세요."
-              maxLength={20}
+              maxLength={30}
               returnKeyType="next"
               blurOnSubmit={false}
               onSubmitEditing={() => {
@@ -129,8 +129,8 @@ function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
               onPressMarker={handleSelectMarker}
             />
             <DatePickerModal
-              isVisible={datePicker.isVisible}
               date={datePicker.date}
+              isVisible={datePicker.isVisible}
               onChangeDate={datePicker.handleChange}
               onConfirmDate={datePicker.handleConfirm}
             />

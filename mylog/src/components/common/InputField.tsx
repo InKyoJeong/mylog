@@ -51,6 +51,7 @@ const InputField = forwardRef(
           style={[
             styles.container,
             disabled && styles.disabled,
+            props.multiline && styles.multiLine,
             touched && !!error && styles.inputError,
           ]}>
           <View style={!!icon && styles.innerContainer}>
@@ -80,6 +81,9 @@ const styles = StyleSheet.create({
     borderColor: colors.GRAY_200,
     paddingVertical: deviceHeight > 640 ? 15 : 10,
     paddingHorizontal: deviceHeight > 640 ? 15 : 10,
+  },
+  multiLine: {
+    paddingBottom: deviceHeight > 640 ? 45 : 30,
   },
   input: {
     fontSize: 16,
