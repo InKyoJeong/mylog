@@ -1,4 +1,11 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Marker } from 'src/marker/marker.entity';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class Image extends BaseEntity {
@@ -7,4 +14,7 @@ export class Image extends BaseEntity {
 
   @Column()
   uri: string;
+
+  @ManyToOne(() => Marker, (marker) => marker.images)
+  marker: Marker;
 }
