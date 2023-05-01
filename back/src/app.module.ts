@@ -4,6 +4,7 @@ import { LoggerMiddleware } from './middlewares/logger.middleware';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MarkerModule } from './marker/marker.module';
 import { AuthModule } from './auth/auth.module';
+import { ImageModule } from './image/image.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { AuthModule } from './auth/auth.module';
     }),
     MarkerModule,
     AuthModule,
+    ImageModule,
   ],
   providers: [ConfigService],
 })

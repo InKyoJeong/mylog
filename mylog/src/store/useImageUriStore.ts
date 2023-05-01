@@ -1,21 +1,19 @@
 import {create} from 'zustand';
 
-import type {ImageUri} from '@/types/api';
-
 interface ImageUriState {
-  imageUris: ImageUri[];
-  setImageUris: (newImageUris: ImageUri[]) => void;
-  deleteImageUri: (imageId: number) => void;
+  imageUris: string[];
+  setImageUris: (newImageUris: string[]) => void;
+  deleteImageUri: (uri: string) => void;
 }
 
 const useImageUriStore = create<ImageUriState>(set => ({
   imageUris: [],
-  setImageUris: (newImageUris: ImageUri[]) => {
+  setImageUris: (newImageUris: string[]) => {
     set({imageUris: newImageUris});
   },
-  deleteImageUri: (imageId: number) => {
+  deleteImageUri: (uri: string) => {
     set(state => ({
-      imageUris: state.imageUris.filter(image => image.id !== imageId),
+      imageUris: state.imageUris.filter(image => image !== uri),
     }));
   },
 }));
