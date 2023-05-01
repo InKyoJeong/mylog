@@ -25,17 +25,19 @@ function InputImagesViewer() {
       mediaType: 'photo',
       multiple: true,
       includeBase64: true,
-    }).then(images => {
-      const formData = getFormDataImages(images, 'images');
-      const previewImages = getPreviewImages(images);
+    })
+      .then(images => {
+        const formData = getFormDataImages('images', images);
+        const previewImages = getPreviewImages(images);
 
-      imageMutation.mutate(formData, {
-        onSuccess: data => {
-          setPreviews(previewImages);
-          setImageUris(data);
-        },
-      });
-    });
+        imageMutation.mutate(formData, {
+          onSuccess: data => {
+            setPreviews(previewImages);
+            setImageUris(data);
+          },
+        });
+      })
+      .catch(err => console.log('이미지 선택 취소', err));
   };
 
   return (

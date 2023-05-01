@@ -1,6 +1,6 @@
 import axiosInstance from '.';
 
-import type {Marker} from '@/types/api';
+import type {Marker} from '@/types/domain';
 
 export type ResponseMarker = Marker;
 

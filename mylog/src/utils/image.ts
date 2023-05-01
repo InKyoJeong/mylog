@@ -1,6 +1,6 @@
 import type {Image} from 'react-native-image-crop-picker';
 
-function getFormDataImages(images: Image[], key: string = 'images') {
+function getFormDataImages(key: string = 'images', images: Image[]) {
   const formData = new FormData();
 
   images.forEach(({path, mime}) => {

@@ -3,7 +3,7 @@ import {StyleSheet, View} from 'react-native';
 import {LatLng, Marker, MyMapMarkerProps} from 'react-native-maps';
 
 import {colors} from '@/constants/colors';
-import type {MarkerColor} from '@/types/api';
+import type {MarkerColor} from '@/types/domain';
 
 interface CustomMarkerProps extends MyMapMarkerProps {
   coordinate?: LatLng;
