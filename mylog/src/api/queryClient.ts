@@ -9,6 +9,9 @@ const queryClient = new QueryClient({
       staleTime: 60000,
       retry: false,
     },
+    mutations: {
+      retry: false,
+    },
   },
 });
 

@@ -10,7 +10,7 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import ImagePicker from 'react-native-image-crop-picker';
 
-import {useUploadMarkerImages} from '@/hooks/queries/useMarker';
+import {useUploadImages} from '@/hooks/queries/useImage';
 import useImageUriStore from '@/store/useImageUriStore';
 import {getFormDataImages, getPreviewImages} from '@/utils/image';
 import {colors} from '@/constants/colors';
@@ -18,7 +18,7 @@ import {colors} from '@/constants/colors';
 function InputImagesViewer() {
   const [previews, setPreviews] = useState<{uri: string}[]>([]);
   const {setImageUris} = useImageUriStore();
-  const imageMutation = useUploadMarkerImages();
+  const imageMutation = useUploadImages();
 
   const handleChange = () => {
     ImagePicker.openPicker({

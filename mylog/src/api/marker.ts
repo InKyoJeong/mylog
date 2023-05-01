@@ -1,6 +1,6 @@
 import axiosInstance from '.';
 
-import {Marker} from '@/types/api';
+import type {Marker} from '@/types/api';
 
 export type ResponseMarker = Marker;
 
@@ -24,10 +24,4 @@ const createMarker = async (body: RequestCreateMarker) => {
   return data;
 };
 
-const uploadMarkerImages = async (body: FormData) => {
-  const {data} = await axiosInstance.post('/markers/images', body);
-
-  return data;
-};
-
-export {getMarkers, getMarker, createMarker, uploadMarkerImages};
+export {getMarkers, getMarker, createMarker};
