@@ -29,7 +29,7 @@ import { numbers } from 'src/constants';
 try {
   fs.readdirSync('uploads');
 } catch (error) {
-  console.error('uploads 폴더가 없어 uploads 폴더를 생성합니다.');
+  console.error('uploads 폴더 생성');
   fs.mkdirSync('uploads');
 }
 
@@ -56,7 +56,7 @@ export class MarkerController {
     return this.markerService.getMarkerById(id, user);
   }
 
-  @Post()
+  @Post('/')
   @UsePipes(ValidationPipe)
   createMarker(
     @Body() createMarkerDto: CreateMarkerDto,
@@ -99,6 +99,8 @@ export class MarkerController {
   )
   @Post('/images')
   uploadMarkerImages(@UploadedFiles() files: Express.Multer.File[]) {
-    console.log('files', files);
+    const uris = files.map((file) => file.filename);
+
+    return uris;
   }
 }
