@@ -14,7 +14,6 @@ interface Marker {
   description: string;
   address: string;
   date: Date | string;
-  imageUris: ImageUri[];
 }
 
 export type {MarkerColor, Marker, ImageUri};

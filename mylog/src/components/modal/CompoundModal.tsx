@@ -13,9 +13,11 @@ import {
 } from 'react-native';
 import Octicons from 'react-native-vector-icons/Octicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import Config from 'react-native-config';
 
 import {getDateWithSeparator} from '@/utils/date';
 import {colors} from '@/constants/colors';
+import type {ImageUri} from '@/types/domain';
 
 interface ModalContextValue {
   onClickOutSide?: (event: GestureResponderEvent) => void;
@@ -130,14 +132,18 @@ function OptionBorder() {
 }
 
 interface CardImageProps {
-  uri?: string;
+  imageUris: ImageUri[];
 }
 
-function CardImage({uri}: CardImageProps) {
+function CardImage({imageUris}: CardImageProps) {
   return (
     <View style={styles.imageContainer}>
       <Image
-        source={uri ? {uri} : require('@/assets/modal-default.png')}
+        source={
+          imageUris.length
+            ? {uri: `${Config.BACK_URL}/${imageUris[0].uri}`}
+            : require('@/assets/modal-default.png')
+        }
         style={styles.image}
       />
     </View>
