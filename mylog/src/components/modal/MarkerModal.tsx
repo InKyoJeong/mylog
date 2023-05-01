@@ -19,7 +19,7 @@ function MarkerModal() {
         <CompoundModal.Card>
           <View style={styles.cardAlign}>
             <View style={styles.infoAlign}>
-              <CompoundModal.CardImage uri={''} />
+              <CompoundModal.CardImage imageUris={marker.images} />
               <CompoundModal.MarkerInfo
                 address={marker.address}
                 title={marker.title}

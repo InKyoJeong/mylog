@@ -10,4 +10,11 @@ const errorMessages = {
   CANNOT_GET_ADDRESS: '주소를 알 수 없습니다.',
 } as const;
 
-export {errorMessages};
+const alerts = {
+  EXCEED_IMAGE_COUNT: {
+    TITLE: '이미지 개수 초과',
+    DESCRIPTION: `추가 가능한 이미지는 최대 ${numbers.MAX_UPLOADER_IMAGE}개입니다.`,
+  },
+};
+
+export {errorMessages, alerts};

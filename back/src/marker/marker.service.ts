@@ -69,9 +69,7 @@ export class MarkerService {
       date,
       user,
     });
-    const images = imageUris.map((uris) =>
-      this.imageRepository.create({ uri: uris.uri }),
-    );
+    const images = imageUris.map((uri) => this.imageRepository.create(uri));
     marker.images = images;
 
     await this.imageRepository.save(images);

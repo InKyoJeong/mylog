@@ -22,10 +22,11 @@ import usePermissions from '@/hooks/common/usePermission';
 import useUserLocation from '@/hooks/common/useUserLocation';
 import useMoveMapView from '@/hooks/common/useMoveMapView';
 import {useGetMarkerLocations} from '@/hooks/queries/useMarker';
+import useMarkerStore from '@/store/useMarkerStore';
+import useImageUriStore from '@/store/useImageUriStore';
 import {mapNavigations, mainNavigations} from '@/constants/navigations';
 import {colors} from '@/constants/colors';
 import {numbers, zIndex} from '@/constants/numbers';
-import useMarkerStore from '@/store/useMarkerStore';
 import getMapStyle from '@/style/mapStyle';
 
 type MapHomeScreenProps = CompositeScreenProps<
@@ -44,6 +45,7 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
   });
   const [selectLocation, setSelectLocation] = useState<LatLng | null>(null);
   const {data: markers = []} = useGetMarkerLocations();
+  const {clearImageUris} = useImageUriStore();
   const {showModal} = useMarkerStore();
   usePermissions();
 
@@ -67,6 +69,7 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
     navigation.navigate(mapNavigations.ADD_LOCATION, {
       location: selectLocation,
     });
+    clearImageUris();
     setSelectLocation(null);
   };
 

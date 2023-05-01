@@ -1,8 +1,8 @@
 import axiosInstance from '.';
 
-import type {Marker} from '@/types/api';
+import type {ImageUri, Marker} from '@/types/domain';
 
-export type ResponseMarker = Marker;
+export type ResponseMarker = Marker & {images: ImageUri[]};
 
 const getMarkers = async (): Promise<ResponseMarker[]> => {
   const {data} = await axiosInstance.get('/markers/my');
@@ -16,7 +16,7 @@ const getMarker = async (id: number): Promise<ResponseMarker> => {
   return data;
 };
 
-export type RequestCreateMarker = Omit<Marker, 'id'>;
+export type RequestCreateMarker = Omit<Marker, 'id'> & {imageUris: ImageUri[]};
 
 const createMarker = async (body: RequestCreateMarker) => {
   const {data} = await axiosInstance.post('/markers', body);

@@ -16,16 +16,18 @@ import MarkerSelector from '@/components/MarkerSelector';
 import AddLocationRightHeader from '@/components/AddLocationRightHeader';
 import CustomButton from '@/components/common/CustomButton';
 import DatePickerModal from '@/components/modal/DatePickerModal';
-import InputImagesViewer from '@/components/InputImagesViewer';
+import ImageUploader from '@/components/ImageUploader';
+import ImagesPreview from '@/components/ImagesPreview';
 import {useCreateMarker} from '@/hooks/queries/useMarker';
 import useGetAddress from '@/hooks/common/useGetAddress';
 import useDatePicker from '@/hooks/common/useDatePicker';
 import useForm from '@/hooks/common/useForm';
+import useImageUriStore from '@/store/useImageUriStore';
 import {validateAddLocation} from '@/utils/validate';
 import {getDateWithSeparator} from '@/utils/date';
 import {mapNavigations} from '@/constants/navigations';
 import {colors} from '@/constants/colors';
-import type {MarkerColor} from '@/types/api';
+import type {MarkerColor} from '@/types/domain';
 
 type AddLocationScreenProps = StackScreenProps<
   MapStackParamList,
@@ -35,6 +37,7 @@ type AddLocationScreenProps = StackScreenProps<
 function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
   const {location} = route.params;
   const markerMutation = useCreateMarker();
+  const {imageUris} = useImageUriStore();
   const descriptionRef = useRef<TextInput | null>(null);
   const [marker, setMarker] = useState<MarkerColor>('RED');
   const datePicker = useDatePicker(new Date());
@@ -54,9 +57,11 @@ function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
         description: addLocation.values.description,
         address,
         date: datePicker.date,
+        imageUris,
       },
       {
         onSuccess: () => navigation.goBack(),
+        onError: err => console.log(err.response?.data.message),
       },
     );
   }, [
@@ -67,6 +72,7 @@ function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
     address,
     datePicker.date,
     navigation,
+    imageUris,
   ]);
 
   const handleSelectMarker = (name: MarkerColor) => {
@@ -135,7 +141,10 @@ function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
               onChangeDate={datePicker.handleChange}
               onConfirmDate={datePicker.handleConfirm}
             />
-            <InputImagesViewer />
+            <View style={styles.imagesViewer}>
+              <ImageUploader />
+              <ImagesPreview />
+            </View>
           </View>
         </ScrollView>
       </CustomKeyboardAvoidingView>
@@ -155,6 +164,9 @@ const styles = StyleSheet.create({
   inputContainer: {
     gap: 20,
     marginBottom: 20,
+  },
+  imagesViewer: {
+    flexDirection: 'row',
   },
 });
 
