@@ -4,12 +4,15 @@ import { User } from 'src/auth/user.entity';
 import { Repository } from 'typeorm';
 import { CreateMarkerDto } from './dto/create-marker.dto';
 import { Marker } from './marker.entity';
+import { Image } from 'src/image/image.entity';
 
 @Injectable()
 export class MarkerService {
   constructor(
     @InjectRepository(Marker)
     private markerRepository: Repository<Marker>,
+    @InjectRepository(Image)
+    private imageRepository: Repository<Image>,
   ) {}
 
   // async getAllMarker(): Promise<Marker[]> {
@@ -19,6 +22,7 @@ export class MarkerService {
   async getAllMyMarkers(user: User): Promise<Marker[]> {
     const markers = await this.markerRepository
       .createQueryBuilder('marker')
+      .leftJoinAndSelect('marker.images', 'image')
       .where('marker.userId = :userId', { userId: user.id })
       .getMany();
 
@@ -28,8 +32,9 @@ export class MarkerService {
   async getMarkerById(id: number, user: User): Promise<Marker> {
     const foundMarker = await this.markerRepository
       .createQueryBuilder('marker')
+      .leftJoinAndSelect('marker.images', 'image')
       .where('marker.userId = :userId', { userId: user.id })
-      .andWhere('id = :id', { id })
+      .andWhere('marker.id = :id', { id })
       .getOne();
 
     if (!foundMarker) {
@@ -43,8 +48,17 @@ export class MarkerService {
     createMarkerDto: CreateMarkerDto,
     user: User,
   ): Promise<Marker> {
-    const { latitude, longitude, color, address, title, description, date } =
-      createMarkerDto;
+    const {
+      latitude,
+      longitude,
+      color,
+      address,
+      title,
+      description,
+      date,
+      imageUris,
+    } = createMarkerDto;
+
     const marker = this.markerRepository.create({
       latitude,
       longitude,
@@ -55,6 +69,12 @@ export class MarkerService {
       date,
       user,
     });
+    const images = imageUris.map((uris) =>
+      this.imageRepository.create({ uri: uris.uri }),
+    );
+    marker.images = images;
+
+    await this.imageRepository.save(images);
     await this.markerRepository.save(marker);
 
     return marker;
