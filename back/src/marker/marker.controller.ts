@@ -7,31 +7,16 @@ import {
   ParseIntPipe,
   Patch,
   Post,
-  UploadedFiles,
   UseGuards,
-  UseInterceptors,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import * as fs from 'fs';
-import { diskStorage } from 'multer';
-import { extname, basename } from 'path';
-
 import { User } from 'src/auth/user.entity';
 import { GetUser } from 'src/common/decorators/get-user.decorator';
 import { CreateMarkerDto } from './dto/create-marker.dto';
 import { Marker } from './marker.entity';
 import { MarkerService } from './marker.service';
-import { FilesInterceptor } from '@nestjs/platform-express';
-import { numbers } from 'src/constants';
-
-try {
-  fs.readdirSync('uploads');
-} catch (error) {
-  console.error('uploads 폴더 생성');
-  fs.mkdirSync('uploads');
-}
 
 @Controller('markers')
 @UseGuards(AuthGuard())
@@ -81,26 +66,5 @@ export class MarkerController {
     @GetUser() user: User,
   ) {
     return this.markerService.updateMarker(id, createMarkerDto, user);
-  }
-
-  @UseInterceptors(
-    FilesInterceptor('images', numbers.MAX_IMAGE_COUNT, {
-      storage: diskStorage({
-        destination(req, file, cb) {
-          cb(null, 'uploads/');
-        },
-        filename(req, file, cb) {
-          const ext = extname(file.originalname);
-          cb(null, basename(file.originalname, ext) + Date.now() + ext);
-        },
-      }),
-      limits: { fileSize: numbers.MAX_IMAGE_SIZE },
-    }),
-  )
-  @Post('/images')
-  uploadMarkerImages(@UploadedFiles() files: Express.Multer.File[]) {
-    const uris = files.map((file) => file.filename);
-
-    return uris;
   }
 }
