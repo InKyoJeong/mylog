@@ -26,6 +26,7 @@ import useMarkerStore from '@/store/useMarkerStore';
 import useImageUriStore from '@/store/useImageUriStore';
 import {mapNavigations, mainNavigations} from '@/constants/navigations';
 import {colors} from '@/constants/colors';
+import {alerts} from '@/constants/messages';
 import {numbers, zIndex} from '@/constants/numbers';
 import getMapStyle from '@/style/mapStyle';
 
@@ -61,8 +62,8 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
   const handlePressAddLocation = () => {
     if (!selectLocation) {
       return Alert.alert(
-        '추가할 위치를 선택해주세요',
-        '지도를 길게 누르면 위치가 선택됩니다.',
+        alerts.NOT_SELECTED_LOCATION.TITLE,
+        alerts.NOT_SELECTED_LOCATION.DESCRIPTION,
       );
     }
 
