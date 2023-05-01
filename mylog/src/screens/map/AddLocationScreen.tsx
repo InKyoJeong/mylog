@@ -36,7 +36,7 @@ type AddLocationScreenProps = StackScreenProps<
 function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
   const {location} = route.params;
   const markerMutation = useCreateMarker();
-  const {imageUris, clearImageUris} = useImageUriStore();
+  const {imageUris} = useImageUriStore();
   const descriptionRef = useRef<TextInput | null>(null);
   const [marker, setMarker] = useState<MarkerColor>('RED');
   const datePicker = useDatePicker(new Date());
@@ -59,10 +59,7 @@ function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
         imageUris,
       },
       {
-        onSuccess: () => {
-          clearImageUris();
-          navigation.goBack();
-        },
+        onSuccess: () => navigation.goBack(),
         onError: err => console.log(err.response?.data.message),
       },
     );
@@ -75,7 +72,6 @@ function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
     datePicker.date,
     navigation,
     imageUris,
-    clearImageUris,
   ]);
 
   const handleSelectMarker = (name: MarkerColor) => {

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {
   Pressable,
   ScrollView,
@@ -9,15 +9,15 @@ import {
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import ImagePicker from 'react-native-image-crop-picker';
+import Config from 'react-native-config';
 
 import {useUploadImages} from '@/hooks/queries/useImage';
 import useImageUriStore from '@/store/useImageUriStore';
-import {getFormDataImages, getPreviewImages} from '@/utils/image';
+import {getFormDataImages} from '@/utils/image';
 import {colors} from '@/constants/colors';
 
 function InputImagesViewer() {
-  const [previews, setPreviews] = useState<{uri: string}[]>([]);
-  const {setImageUris} = useImageUriStore();
+  const {imageUris, addImageUris, deleteImageUri} = useImageUriStore();
   const imageMutation = useUploadImages();
 
   const handleChange = () => {
@@ -28,13 +28,9 @@ function InputImagesViewer() {
     })
       .then(images => {
         const formData = getFormDataImages('images', images);
-        const previewImages = getPreviewImages(images);
 
         imageMutation.mutate(formData, {
-          onSuccess: data => {
-            setPreviews(previewImages);
-            setImageUris(data);
-          },
+          onSuccess: data => addImageUris(data),
         });
       })
       .catch(err => console.log('이미지 선택 취소', err));
@@ -53,10 +49,19 @@ function InputImagesViewer() {
           <Text style={styles.text}>사진 추가</Text>
         </Pressable>
 
-        {previews.map(preview => {
+        {imageUris.map(({uri}) => {
           return (
-            <View key={preview.uri} style={styles.imageContainer}>
-              <Image style={styles.image} source={preview} />
+            <View key={uri} style={styles.imageContainer}>
+              <Pressable
+                style={styles.cancelBtn}
+                onPress={() => deleteImageUri(uri)}>
+                <Ionicons name="close-circle" size={20} color={colors.BLACK} />
+              </Pressable>
+
+              <Image
+                style={styles.image}
+                source={{uri: `${Config.BACK_URL}/${uri}`}}
+              />
             </View>
           );
         })}
@@ -68,6 +73,7 @@ function InputImagesViewer() {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
+    marginTop: 10,
     gap: 12,
   },
   imageInput: {
@@ -94,6 +100,14 @@ const styles = StyleSheet.create({
   image: {
     width: '100%',
     height: '100%',
+  },
+  cancelBtn: {
+    position: 'absolute',
+    top: -10,
+    right: -10,
+    backgroundColor: colors.WHITE,
+    borderRadius: 10,
+    zIndex: 10,
   },
 });
 
