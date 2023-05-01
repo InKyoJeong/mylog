@@ -7,6 +7,7 @@ import {useUploadImages} from '@/hooks/queries/useImage';
 import useImageUriStore from '@/store/useImageUriStore';
 import {getFormDataImages} from '@/utils/image';
 import {colors} from '@/constants/colors';
+import {numbers} from '@/constants/numbers';
 
 function ImageUploader() {
   const {addImageUris} = useImageUriStore();
@@ -17,6 +18,7 @@ function ImageUploader() {
       mediaType: 'photo',
       multiple: true,
       includeBase64: true,
+      maxFiles: numbers.MAX_UPLOADER_IMAGE,
     })
       .then(images => {
         const formData = getFormDataImages('images', images);

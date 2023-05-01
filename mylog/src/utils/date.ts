@@ -1,4 +1,4 @@
-import {months} from '@/constants/numbers';
+import {months} from '@/constants/date';
 import type {Locale} from '@/types';
 
 function getDateDetails(dateString: Date | string) {

@@ -1,4 +1,8 @@
 import {create} from 'zustand';
+import {Alert} from 'react-native';
+
+import {numbers} from '@/constants/numbers';
+import {alerts} from '@/constants/messages';
 
 interface ImageUriState {
   imageUris: {uri: string}[];
@@ -7,13 +11,19 @@ interface ImageUriState {
   clearImageUris: () => void;
 }
 
-const useImageUriStore = create<ImageUriState>(set => ({
+const useImageUriStore = create<ImageUriState>((set, get) => ({
   imageUris: [],
   addImageUris: (uris: string[]) => {
-    const newImageUris = uris.map(uri => ({uri}));
+    if (get().imageUris.length + uris.length > numbers.MAX_UPLOADER_IMAGE) {
+      Alert.alert(
+        alerts.EXCEED_IMAGE_COUNT.TITLE,
+        alerts.EXCEED_IMAGE_COUNT.DESCRIPTION,
+      );
+      return;
+    }
 
     set(state => ({
-      imageUris: [...state.imageUris, ...newImageUris],
+      imageUris: [...state.imageUris, ...uris.map(uri => ({uri}))],
     }));
   },
   deleteImageUri: (uri: string) => {
