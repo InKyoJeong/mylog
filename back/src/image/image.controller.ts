@@ -10,7 +10,6 @@ import * as fs from 'fs';
 import { diskStorage } from 'multer';
 import { extname, basename } from 'path';
 
-import { ImageService } from './image.service';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { numbers } from 'src/constants';
 
@@ -24,8 +23,6 @@ try {
 @Controller('images')
 @UseGuards(AuthGuard())
 export class ImageController {
-  constructor(private imageService: ImageService) {}
-
   @UseInterceptors(
     FilesInterceptor('images', numbers.MAX_IMAGE_COUNT, {
       storage: diskStorage({
