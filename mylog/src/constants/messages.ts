@@ -20,11 +20,11 @@ const alerts = {
     DESCRIPTION: '지도를 길게 누르면 위치가 선택됩니다.',
   },
   LOCATION_PERMISSION: {
-    TITLE: '위치 권한 허용이 필요합니다.',
+    TITLE: '위치 권한 허용이 필요합니다',
     DESCRIPTION: '설정 화면에서 위치 권한을 허용해주세요.',
   },
   PHOTO_PERMISSION: {
-    TITLE: '사진 접근 권한이 필요합니다.',
+    TITLE: '사진 접근 권한이 필요합니다',
     DESCRIPTION: '설정 화면에서 사진 접근 권한을 허용해주세요.',
   },
 };

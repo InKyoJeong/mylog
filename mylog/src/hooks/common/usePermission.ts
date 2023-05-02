@@ -58,7 +58,7 @@ function usePermissions(type: PermissionType) {
             openPermissionAlert();
             return;
           }
-          request(permissionOS[type]);
+          await request(permissionOS[type]);
           break;
         case RESULTS.LIMITED:
         case RESULTS.BLOCKED:
