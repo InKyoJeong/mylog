@@ -19,6 +19,8 @@ function ImageUploader() {
       multiple: true,
       includeBase64: true,
       maxFiles: numbers.MAX_UPLOADER_IMAGE,
+      cropperChooseText: '완료',
+      cropperCancelText: '취소',
     })
       .then(images => {
         const formData = getFormDataImages('images', images);
@@ -27,7 +29,12 @@ function ImageUploader() {
           onSuccess: data => addImageUris(data),
         });
       })
-      .catch(err => console.log('이미지 선택 취소', err));
+      .catch(err =>
+        console.log(
+          '갤러리를 열 수 없습니다. 권한을 허용했는지 확인해주세요.',
+          err,
+        ),
+      );
   };
 
   return (

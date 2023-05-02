@@ -1,5 +1,6 @@
 import React from 'react';
 import {Pressable, ScrollView, View, StyleSheet, Image} from 'react-native';
+import Animated, {FadeInRight, FadeOutLeft} from 'react-native-reanimated';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Config from 'react-native-config';
 
@@ -14,7 +15,11 @@ function ImagesPreview() {
       <View style={styles.container}>
         {imageUris.map(({uri}) => {
           return (
-            <View key={uri} style={styles.imageContainer}>
+            <Animated.View
+              key={uri}
+              style={styles.imageContainer}
+              entering={FadeInRight}
+              exiting={FadeOutLeft}>
               <Pressable
                 style={styles.cancelButton}
                 onPress={() => deleteImageUri(uri)}>
@@ -24,7 +29,7 @@ function ImagesPreview() {
                 style={styles.image}
                 source={{uri: `${Config.BACK_URL}/${uri}`}}
               />
-            </View>
+            </Animated.View>
           );
         })}
       </View>

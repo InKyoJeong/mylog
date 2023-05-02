@@ -16,14 +16,11 @@ function useUserLocation(initialLocation: LatLng) {
         setUserLocation({latitude, longitude});
         setIsUserLocationError(false);
       },
-      error => {
-        console.log('userLocation error', error);
+      () => {
         setIsUserLocationError(true);
       },
       {
         enableHighAccuracy: true,
-        timeout: 20000,
-        maximumAge: 20000,
       },
     );
   }, [isComeback]);
