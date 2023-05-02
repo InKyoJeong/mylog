@@ -19,6 +19,8 @@ function ImageUploader() {
       multiple: true,
       includeBase64: true,
       maxFiles: numbers.MAX_UPLOADER_IMAGE,
+      cropperChooseText: '완료',
+      cropperCancelText: '취소',
     })
       .then(images => {
         const formData = getFormDataImages('images', images);
