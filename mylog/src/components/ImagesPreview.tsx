@@ -1,6 +1,6 @@
 import React from 'react';
 import {Pressable, ScrollView, View, StyleSheet, Image} from 'react-native';
-import Animated, {SlideInRight, SlideOutLeft} from 'react-native-reanimated';
+import Animated, {FadeInRight, FadeOutLeft} from 'react-native-reanimated';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Config from 'react-native-config';
 
@@ -18,8 +18,8 @@ function ImagesPreview() {
             <Animated.View
               key={uri}
               style={styles.imageContainer}
-              entering={SlideInRight}
-              exiting={SlideOutLeft}>
+              entering={FadeInRight}
+              exiting={FadeOutLeft}>
               <Pressable
                 style={styles.cancelButton}
                 onPress={() => deleteImageUri(uri)}>

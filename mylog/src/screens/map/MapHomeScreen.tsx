@@ -48,7 +48,7 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
   const {data: markers = []} = useGetMarkerLocations();
   const {clearImageUris} = useImageUriStore();
   const {showModal} = useMarkerStore();
-  usePermissions();
+  usePermissions('LOCATION');
 
   const handleLongPressLocation = ({nativeEvent}: LongPressEvent) => {
     setSelectLocation(nativeEvent.coordinate);
