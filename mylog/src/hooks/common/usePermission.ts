@@ -26,7 +26,7 @@ const iosPermissions: PermissionOS = {
   PHOTO: PERMISSIONS.IOS.PHOTO_LIBRARY,
 };
 
-const permissionAlert: AlertButton[] = [
+const alertOption: AlertButton[] = [
   {
     text: '설정하기',
     onPress: () => Linking.openSettings(),
@@ -44,17 +44,25 @@ function usePermissions(type: PermissionType) {
         Platform.OS === 'ios' ? iosPermissions : androidPermissions;
       const checked = await check(permissionOS[type]);
 
+      const openPermissionAlert = () => {
+        Alert.alert(
+          alerts[`${type}_PERMISSION`].TITLE,
+          alerts[`${type}_PERMISSION`].DESCRIPTION,
+          alertOption,
+        );
+      };
+
       switch (checked) {
         case RESULTS.DENIED:
+          if (Platform.OS === 'android') {
+            openPermissionAlert();
+            return;
+          }
           request(permissionOS[type]);
           break;
         case RESULTS.LIMITED:
         case RESULTS.BLOCKED:
-          Alert.alert(
-            alerts[`${type}_PERMISSION`].TITLE,
-            alerts[`${type}_PERMISSION`].DESCRIPTION,
-            permissionAlert,
-          );
+          openPermissionAlert();
           break;
         default:
           break;
