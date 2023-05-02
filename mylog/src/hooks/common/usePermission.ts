@@ -40,8 +40,8 @@ const alertOption: AlertButton[] = [
 function usePermission(type: PermissionType) {
   useEffect(() => {
     (async () => {
-      const permissionOS =
-        Platform.OS === 'ios' ? iosPermissions : androidPermissions;
+      const isAndroid = Platform.OS === 'android';
+      const permissionOS = isAndroid ? androidPermissions : iosPermissions;
       const checked = await check(permissionOS[type]);
 
       const openPermissionAlert = () => {
@@ -54,7 +54,7 @@ function usePermission(type: PermissionType) {
 
       switch (checked) {
         case RESULTS.DENIED:
-          if (Platform.OS === 'android') {
+          if (isAndroid) {
             openPermissionAlert();
             return;
           }
