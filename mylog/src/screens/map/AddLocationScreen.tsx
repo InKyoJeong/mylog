@@ -22,7 +22,7 @@ import {useCreateMarker} from '@/hooks/queries/useMarker';
 import useGetAddress from '@/hooks/common/useGetAddress';
 import useDatePicker from '@/hooks/common/useDatePicker';
 import useForm from '@/hooks/common/useForm';
-import usePermissions from '@/hooks/common/usePermission';
+import usePermission from '@/hooks/common/usePermission';
 import useImageUriStore from '@/store/useImageUriStore';
 import {validateAddLocation} from '@/utils/validate';
 import {getDateWithSeparator} from '@/utils/date';
@@ -47,7 +47,7 @@ function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
     initialValue: {title: '', description: ''},
     validate: validateAddLocation,
   });
-  usePermissions('PHOTO');
+  usePermission('PHOTO');
 
   const handleSubmit = useCallback(() => {
     markerMutation.mutate(

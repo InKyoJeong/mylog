@@ -37,7 +37,7 @@ const alertOption: AlertButton[] = [
   },
 ];
 
-function usePermissions(type: PermissionType) {
+function usePermission(type: PermissionType) {
   useEffect(() => {
     (async () => {
       const permissionOS =
@@ -71,4 +71,4 @@ function usePermissions(type: PermissionType) {
   }, [type]);
 }
 
-export default usePermissions;
+export default usePermission;

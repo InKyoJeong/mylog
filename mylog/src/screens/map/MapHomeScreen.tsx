@@ -18,7 +18,7 @@ import type {MapStackParamList} from '@/navigations/stack/MapStackNavigator';
 import type {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
 import MapButton from '@/components/MapButton';
 import CustomMarker from '@/components/common/CustomMarker';
-import usePermissions from '@/hooks/common/usePermission';
+import usePermission from '@/hooks/common/usePermission';
 import useUserLocation from '@/hooks/common/useUserLocation';
 import useMoveMapView from '@/hooks/common/useMoveMapView';
 import {useGetMarkerLocations} from '@/hooks/queries/useMarker';
@@ -48,7 +48,7 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
   const {data: markers = []} = useGetMarkerLocations();
   const {clearImageUris} = useImageUriStore();
   const {showModal} = useMarkerStore();
-  usePermissions('LOCATION');
+  usePermission('LOCATION');
 
   const handleLongPressLocation = ({nativeEvent}: LongPressEvent) => {
     setSelectLocation(nativeEvent.coordinate);
