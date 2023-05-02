@@ -19,6 +19,15 @@ const alerts = {
     TITLE: '추가할 위치를 선택해주세요',
     DESCRIPTION: '지도를 길게 누르면 위치가 선택됩니다.',
   },
+  LOCATION_PERMISSION: {
+    TITLE: '위치 권한 허용이 필요합니다.',
+    DESCRIPTION:
+      '설정 화면에서 [앱을 사용하는 동안] 또는 [항상 허용]으로 바꿔주세요.',
+  },
+  PHOTO_PERMISSION: {
+    TITLE: '사진 접근 권한이 필요합니다.',
+    DESCRIPTION: '설정 화면에서 사진 접근 권한을 허용해주세요.',
+  },
 };
 
 export {errorMessages, alerts};
