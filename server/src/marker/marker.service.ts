@@ -56,6 +56,7 @@ export class MarkerService {
       title,
       description,
       date,
+      score,
       imageUris,
     } = createMarkerDto;
 
@@ -67,6 +68,7 @@ export class MarkerService {
       title,
       description,
       date,
+      score,
       user,
     });
     const images = imageUris.map((uri) => this.imageRepository.create(uri));
@@ -98,7 +100,7 @@ export class MarkerService {
     user: User,
   ): Promise<Marker> {
     const marker = await this.getMarkerById(id, user);
-    const { latitude, longitude, title, description, color, date } =
+    const { latitude, longitude, title, description, color, date, score } =
       createMarkerDto;
     marker.latitude = latitude;
     marker.longitude = longitude;
@@ -106,6 +108,7 @@ export class MarkerService {
     marker.description = description;
     marker.color = color;
     marker.date = date;
+    marker.score = score;
     await this.markerRepository.save(marker);
 
     return marker;

@@ -1,4 +1,10 @@
-import { IsArray, IsDateString, IsNotEmpty, IsString } from 'class-validator';
+import {
+  IsArray,
+  IsDateString,
+  IsNotEmpty,
+  IsNumber,
+  IsString,
+} from 'class-validator';
 import { MarkerColor } from '../marker-color.enum';
 
 export class CreateMarkerDto {
@@ -22,6 +28,9 @@ export class CreateMarkerDto {
 
   @IsDateString()
   date: Date;
+
+  @IsNumber()
+  score: number;
 
   @IsArray()
   imageUris: { uri: string }[];
