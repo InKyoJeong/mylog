@@ -142,7 +142,7 @@ function CardImage({imageUris}: CardImageProps) {
         source={
           imageUris.length
             ? {uri: `${Config.BACK_URL}/${imageUris[0].uri}`}
-            : require('@/assets/modal-default.png')
+            : require('@/assets/modal-marker-default.png')
         }
         style={styles.image}
       />
