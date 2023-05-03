@@ -48,6 +48,9 @@ export class Marker extends BaseEntity {
   })
   date: Date;
 
+  @Column()
+  score: number;
+
   @CreateDateColumn()
   createdAt: Date;
 
