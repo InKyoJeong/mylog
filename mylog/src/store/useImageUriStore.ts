@@ -3,12 +3,14 @@ import {Alert} from 'react-native';
 
 import {numbers} from '@/constants/numbers';
 import {alerts} from '@/constants/messages';
+import type {ImageUri} from '@/types/domain';
 
 interface ImageUriState {
-  imageUris: {uri: string}[];
+  imageUris: ImageUri[];
   addImageUris: (uris: string[]) => void;
   deleteImageUri: (uri: string) => void;
   clearImageUris: () => void;
+  setImageUris: (imageUris: ImageUri[]) => void;
 }
 
 const useImageUriStore = create<ImageUriState>((set, get) => ({
@@ -33,6 +35,9 @@ const useImageUriStore = create<ImageUriState>((set, get) => ({
   },
   clearImageUris: () => {
     set({imageUris: []});
+  },
+  setImageUris: (imageUris: ImageUri[]) => {
+    set({imageUris});
   },
 }));
 
