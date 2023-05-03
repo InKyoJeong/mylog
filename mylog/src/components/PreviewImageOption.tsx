@@ -10,16 +10,12 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import {colors} from '@/constants/colors';
 
-interface PreviewOptionButtonProps extends PressableProps {
+interface PreviewImageOptionProps extends PressableProps {
   name: string;
   style: StyleProp<ViewStyle>;
 }
 
-function PreviewOptionButton({
-  name,
-  style,
-  ...props
-}: PreviewOptionButtonProps) {
+function PreviewImageOption({name, style, ...props}: PreviewImageOptionProps) {
   return (
     <Pressable style={[styles.imageButton, style]} {...props}>
       <Ionicons name={name} size={16} color={colors.WHITE} />
@@ -35,4 +31,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PreviewOptionButton;
+export default PreviewImageOption;

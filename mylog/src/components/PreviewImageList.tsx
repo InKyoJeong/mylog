@@ -9,7 +9,7 @@ import {
 import Animated, {FadeInRight, FadeOutLeft} from 'react-native-reanimated';
 import Config from 'react-native-config';
 
-import PreviewOptionButton from './PreviewOptionButton';
+import PreviewImageOption from './PreviewImageOption';
 import useImageUriStore from '@/store/useImageUriStore';
 
 function PreviewImageList() {
@@ -39,20 +39,20 @@ function PreviewImageList() {
                 source={{uri: `${Config.BACK_URL}/${uri}`}}
               />
 
-              <PreviewOptionButton
+              <PreviewImageOption
                 name="close"
                 style={styles.cancelButton}
                 onPress={() => deleteImageUri(uri)}
               />
               {index > 0 && (
-                <PreviewOptionButton
+                <PreviewImageOption
                   name="arrow-back-outline"
                   style={styles.moveLeftButton}
                   onPress={() => changeOrder(index, index - 1)}
                 />
               )}
               {index < imageUris.length - 1 && (
-                <PreviewOptionButton
+                <PreviewImageOption
                   style={styles.moveRightButton}
                   onPress={() => changeOrder(index, index + 1)}
                   name="arrow-forward-outline"
