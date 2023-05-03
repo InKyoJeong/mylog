@@ -102,10 +102,11 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
         }}
         onLongPress={handleLongPressLocation}
         onRegionChangeComplete={handleChangeDelta}>
-        {markers.map(({id, color, ...coordinate}) => (
+        {markers.map(({id, color, score, ...coordinate}) => (
           <CustomMarker
             key={id}
             color={color}
+            score={score}
             style={{zIndex: zIndex.SAVED_MARKER}}
             coordinate={coordinate}
             onPress={() => handlePressMarker(id, coordinate)}
