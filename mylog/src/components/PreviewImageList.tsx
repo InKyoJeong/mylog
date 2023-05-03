@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  Pressable,
   ScrollView,
   View,
   StyleSheet,
@@ -8,13 +7,12 @@ import {
   LayoutAnimation,
 } from 'react-native';
 import Animated, {FadeInRight, FadeOutLeft} from 'react-native-reanimated';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import Config from 'react-native-config';
 
+import PreviewOptionButton from './PreviewOptionButton';
 import useImageUriStore from '@/store/useImageUriStore';
-import {colors} from '@/constants/colors';
 
-function ImagesPreview() {
+function PreviewImageList() {
   const {imageUris, deleteImageUri, setImageUris} = useImageUriStore();
 
   const changeOrder = (fromIndex: number, toIndex: number) => {
@@ -41,32 +39,24 @@ function ImagesPreview() {
                 source={{uri: `${Config.BACK_URL}/${uri}`}}
               />
 
-              <Pressable
+              <PreviewOptionButton
+                name="close"
                 style={styles.cancelButton}
-                onPress={() => deleteImageUri(uri)}>
-                <Ionicons name="close" size={16} color={colors.WHITE} />
-              </Pressable>
+                onPress={() => deleteImageUri(uri)}
+              />
               {index > 0 && (
-                <Pressable
+                <PreviewOptionButton
+                  name="arrow-back-outline"
                   style={styles.moveLeftButton}
-                  onPress={() => changeOrder(index, index - 1)}>
-                  <Ionicons
-                    name="arrow-back-outline"
-                    size={16}
-                    color={colors.WHITE}
-                  />
-                </Pressable>
+                  onPress={() => changeOrder(index, index - 1)}
+                />
               )}
               {index < imageUris.length - 1 && (
-                <Pressable
+                <PreviewOptionButton
                   style={styles.moveRightButton}
-                  onPress={() => changeOrder(index, index + 1)}>
-                  <Ionicons
-                    name="arrow-forward-outline"
-                    size={16}
-                    color={colors.WHITE}
-                  />
-                </Pressable>
+                  onPress={() => changeOrder(index, index + 1)}
+                  name="arrow-forward-outline"
+                />
               )}
             </Animated.View>
           );
@@ -91,27 +81,17 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   cancelButton: {
-    position: 'absolute',
     top: 0,
     right: 0,
-    backgroundColor: colors.BLACK,
-    zIndex: 1,
   },
   moveLeftButton: {
-    position: 'absolute',
     bottom: 0,
     left: 0,
-    backgroundColor: colors.BLACK,
-    zIndex: 1,
   },
-
   moveRightButton: {
-    position: 'absolute',
     bottom: 0,
     right: 0,
-    backgroundColor: colors.BLACK,
-    zIndex: 1,
   },
 });
 
-export default ImagesPreview;
+export default PreviewImageList;

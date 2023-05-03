@@ -17,7 +17,7 @@ import AddLocationRightHeader from '@/components/AddLocationRightHeader';
 import CustomButton from '@/components/common/CustomButton';
 import DatePickerModal from '@/components/modal/DatePickerModal';
 import ImageUploader from '@/components/ImageUploader';
-import ImagesPreview from '@/components/ImagesPreview';
+import PreviewImageList from '@/components/PreviewImageList';
 import {useCreateMarker} from '@/hooks/queries/useMarker';
 import useGetAddress from '@/hooks/common/useGetAddress';
 import useDatePicker from '@/hooks/common/useDatePicker';
@@ -145,7 +145,7 @@ function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
             />
             <View style={styles.imagesViewer}>
               <ImageUploader />
-              <ImagesPreview />
+              <PreviewImageList />
             </View>
           </View>
         </ScrollView>
