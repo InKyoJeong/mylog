@@ -9,7 +9,7 @@ import {getFormDataImages} from '@/utils/image';
 import {colors} from '@/constants/colors';
 import {numbers} from '@/constants/numbers';
 
-function ImageUploader() {
+function ImageInput() {
   const {addImageUris} = useImageUriStore();
   const imageMutation = useUploadImages();
 
@@ -70,4 +70,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ImageUploader;
+export default ImageInput;

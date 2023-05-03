@@ -38,7 +38,7 @@ export class ImageController {
     }),
   )
   @Post('/')
-  uploadMarkerImages(@UploadedFiles() files: Express.Multer.File[]) {
+  uploadImages(@UploadedFiles() files: Express.Multer.File[]) {
     const uris = files.map((file) => file.filename);
 
     return uris;

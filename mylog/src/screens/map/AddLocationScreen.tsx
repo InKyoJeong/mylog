@@ -16,13 +16,14 @@ import MarkerSelector from '@/components/MarkerSelector';
 import AddLocationRightHeader from '@/components/AddLocationRightHeader';
 import CustomButton from '@/components/common/CustomButton';
 import DatePickerModal from '@/components/modal/DatePickerModal';
-import ImageUploader from '@/components/ImageUploader';
-import ImagesPreview from '@/components/ImagesPreview';
+import ImageInput from '@/components/ImageInput';
+import PreviewImageList from '@/components/PreviewImageList';
+import ScoreInput from '@/components/ScoreInput';
 import {useCreateMarker} from '@/hooks/queries/useMarker';
 import useGetAddress from '@/hooks/common/useGetAddress';
 import useDatePicker from '@/hooks/common/useDatePicker';
 import useForm from '@/hooks/common/useForm';
-import usePermissions from '@/hooks/common/usePermission';
+import usePermission from '@/hooks/common/usePermission';
 import useImageUriStore from '@/store/useImageUriStore';
 import {validateAddLocation} from '@/utils/validate';
 import {getDateWithSeparator} from '@/utils/date';
@@ -41,13 +42,14 @@ function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
   const {imageUris} = useImageUriStore();
   const descriptionRef = useRef<TextInput | null>(null);
   const [marker, setMarker] = useState<MarkerColor>('RED');
+  const [score, setScore] = useState(5);
   const datePicker = useDatePicker(new Date());
   const address = useGetAddress(location);
   const addLocation = useForm({
     initialValue: {title: '', description: ''},
     validate: validateAddLocation,
   });
-  usePermissions('PHOTO');
+  usePermission('PHOTO');
 
   const handleSubmit = useCallback(() => {
     markerMutation.mutate(
@@ -57,8 +59,9 @@ function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
         color: marker,
         title: addLocation.values.title,
         description: addLocation.values.description,
-        address,
         date: datePicker.date,
+        address,
+        score,
         imageUris,
       },
       {
@@ -75,10 +78,15 @@ function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
     datePicker.date,
     navigation,
     imageUris,
+    score,
   ]);
 
   const handleSelectMarker = (name: MarkerColor) => {
     setMarker(name);
+  };
+
+  const handleChangeScore = (value: number) => {
+    setScore(value);
   };
 
   useLayoutEffect(() => {
@@ -137,16 +145,17 @@ function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
               marker={marker}
               onPressMarker={handleSelectMarker}
             />
+            <ScoreInput score={score} onChangeScore={handleChangeScore} />
+            <View style={styles.imagesViewer}>
+              <ImageInput />
+              <PreviewImageList />
+            </View>
             <DatePickerModal
               date={datePicker.date}
               isVisible={datePicker.isVisible}
               onChangeDate={datePicker.handleChange}
               onConfirmDate={datePicker.handleConfirm}
             />
-            <View style={styles.imagesViewer}>
-              <ImageUploader />
-              <ImagesPreview />
-            </View>
           </View>
         </ScrollView>
       </CustomKeyboardAvoidingView>

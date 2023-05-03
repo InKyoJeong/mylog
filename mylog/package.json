@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@react-native-community/geolocation": "^3.0.6",
+    "@react-native-community/slider": "^4.4.2",
     "@react-native-masked-view/masked-view": "^0.2.8",
     "@react-navigation/drawer": "^6.6.2",
     "@react-navigation/native": "^6.1.6",
@@ -67,5 +68,6 @@
   ],
   "jest": {
     "preset": "react-native"
-  }
+  },
+  "packageManager": "yarn@1.22.19"
 }
