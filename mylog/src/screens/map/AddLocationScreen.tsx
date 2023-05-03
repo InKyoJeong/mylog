@@ -16,8 +16,9 @@ import MarkerSelector from '@/components/MarkerSelector';
 import AddLocationRightHeader from '@/components/AddLocationRightHeader';
 import CustomButton from '@/components/common/CustomButton';
 import DatePickerModal from '@/components/modal/DatePickerModal';
-import ImageUploader from '@/components/ImageUploader';
+import ImageInput from '@/components/ImageInput';
 import PreviewImageList from '@/components/PreviewImageList';
+import ScoreInput from '@/components/ScoreInput';
 import {useCreateMarker} from '@/hooks/queries/useMarker';
 import useGetAddress from '@/hooks/common/useGetAddress';
 import useDatePicker from '@/hooks/common/useDatePicker';
@@ -41,6 +42,7 @@ function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
   const {imageUris} = useImageUriStore();
   const descriptionRef = useRef<TextInput | null>(null);
   const [marker, setMarker] = useState<MarkerColor>('RED');
+  const [score, setScore] = useState(5);
   const datePicker = useDatePicker(new Date());
   const address = useGetAddress(location);
   const addLocation = useForm({
@@ -57,8 +59,9 @@ function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
         color: marker,
         title: addLocation.values.title,
         description: addLocation.values.description,
-        address,
         date: datePicker.date,
+        address,
+        score,
         imageUris,
       },
       {
@@ -75,10 +78,15 @@ function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
     datePicker.date,
     navigation,
     imageUris,
+    score,
   ]);
 
   const handleSelectMarker = (name: MarkerColor) => {
     setMarker(name);
+  };
+
+  const handleChangeScore = (value: number) => {
+    setScore(value);
   };
 
   useLayoutEffect(() => {
@@ -137,16 +145,17 @@ function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
               marker={marker}
               onPressMarker={handleSelectMarker}
             />
+            <ScoreInput score={score} onChangeScore={handleChangeScore} />
+            <View style={styles.imagesViewer}>
+              <ImageInput />
+              <PreviewImageList />
+            </View>
             <DatePickerModal
               date={datePicker.date}
               isVisible={datePicker.isVisible}
               onChangeDate={datePicker.handleChange}
               onConfirmDate={datePicker.handleConfirm}
             />
-            <View style={styles.imagesViewer}>
-              <ImageUploader />
-              <PreviewImageList />
-            </View>
           </View>
         </ScrollView>
       </CustomKeyboardAvoidingView>

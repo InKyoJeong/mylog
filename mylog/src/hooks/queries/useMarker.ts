@@ -12,15 +12,16 @@ import queryClient from '@/api/queryClient';
 
 export type MarkerLocation = Pick<
   ResponseMarker,
-  'id' | 'latitude' | 'longitude' | 'color'
+  'id' | 'latitude' | 'longitude' | 'color' | 'score'
 >;
 
 const extractLocation = (markers: MarkerLocation[]) => {
-  return markers.map(({id, latitude, longitude, color}) => ({
+  return markers.map(({id, latitude, longitude, color, score}) => ({
     id,
     latitude,
     longitude,
     color,
+    score,
   }));
 };
 

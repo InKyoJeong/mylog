@@ -54,15 +54,13 @@ const styles = StyleSheet.create({
   markerInputContainer: {
     borderWidth: 1,
     borderColor: colors.GRAY_200,
-    paddingVertical: 15,
+    padding: 15,
   },
   markerInputScroll: {
     flexDirection: 'row',
     gap: 20,
-    marginHorizontal: 15,
   },
   markerLabel: {
-    marginLeft: 15,
     marginBottom: 15,
     color: colors.GRAY_700,
   },
