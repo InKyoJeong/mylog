@@ -42,7 +42,7 @@ function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
   const {imageUris} = useImageUriStore();
   const descriptionRef = useRef<TextInput | null>(null);
   const [marker, setMarker] = useState<MarkerColor>('RED');
-  const [score, setScore] = useState(5);
+  const [score, setScore] = useState(3);
   const datePicker = useDatePicker(new Date());
   const address = useGetAddress(location);
   const addLocation = useForm({
