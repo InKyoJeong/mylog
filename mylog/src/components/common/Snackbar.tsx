@@ -58,6 +58,13 @@ const styles = StyleSheet.create({
     backgroundColor: colors.GRAY_700,
     borderRadius: 10,
     padding: 15,
+    shadowColor: colors.BLACK,
+    shadowOffset: {
+      width: 1,
+      height: 1,
+    },
+    shadowOpacity: 0.6,
+    elevation: 1,
   },
   message: {
     textAlign: 'center',
