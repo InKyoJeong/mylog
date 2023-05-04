@@ -135,7 +135,6 @@ function CardImage({imageUris}: CardImageProps) {
   );
 }
 
-<<<<<<< HEAD
 interface GoNextButtonProps {
   onPress: () => void;
 }
@@ -151,13 +150,6 @@ function GoNextButton({onPress}: GoNextButtonProps) {
 export const CompoundModal = Object.assign(ModalMain, {
   CardBackground,
   OptionBackground,
-=======
-export const CompoundModal = Object.assign(ModalMain, {
-  CardBackground,
-  OptionBackground,
-  Card,
-  CardImage,
->>>>>>> dca7846d44ff246b91b293c869952491ac33793c
   OptionButtonList,
   OptionButton,
   OptionBorder,
