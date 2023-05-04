@@ -9,6 +9,7 @@ import useImageUriStore from '@/store/useImageUriStore';
 import {getFormDataImages} from '@/utils/image';
 import {colors} from '@/constants/colors';
 import {numbers} from '@/constants/numbers';
+import {errorMessages} from '@/constants/messages';
 
 function ImageInput() {
   const {addImageUris} = useImageUriStore();
@@ -33,9 +34,7 @@ function ImageInput() {
       })
       .catch(error => {
         if (error.code !== 'E_PICKER_CANCELLED') {
-          snackbar.show(
-            '갤러리를 열 수 없어요.\n권한을 허용했는지 확인해주세요.',
-          );
+          snackbar.show(errorMessages.CANNOT_ACCESS_PHOTO);
         }
       });
   };
