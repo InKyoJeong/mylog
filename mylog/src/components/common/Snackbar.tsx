@@ -2,10 +2,12 @@ import React, {useState, useEffect, useRef} from 'react';
 import {Text, StyleSheet, Animated} from 'react-native';
 
 import useSnackbarStore from '@/store/useSnackbarStore';
+import useKeyboardStatus from '@/hooks/common/useKeyboardStatus';
 import {colors} from '@/constants/colors';
 
 function Snackbar() {
   const snackbar = useSnackbarStore();
+  const {keyboardHeight} = useKeyboardStatus();
   const [position] = useState(new Animated.Value(-50));
   const timeoutIdRef = useRef<number | null>(null);
 
@@ -25,9 +27,10 @@ function Snackbar() {
     return () => {
       if (timeoutIdRef.current !== null) {
         clearTimeout(timeoutIdRef.current);
+        timeoutIdRef.current = null;
       }
     };
-  }, [position, snackbar.hide, snackbar.info]);
+  }, [position, snackbar.hide, snackbar.info.message]);
 
   return (
     <>
@@ -37,6 +40,7 @@ function Snackbar() {
             styles.container,
             {
               transform: [{translateY: position}],
+              bottom: keyboardHeight,
             },
           ]}>
           <Text style={styles.message}>{snackbar.info.message}</Text>
@@ -49,7 +53,6 @@ function Snackbar() {
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    bottom: 0,
     width: '70%',
     alignSelf: 'center',
     backgroundColor: colors.GRAY_700,
@@ -59,7 +62,7 @@ const styles = StyleSheet.create({
   message: {
     textAlign: 'center',
     color: colors.WHITE,
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: 'bold',
   },
 });
