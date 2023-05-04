@@ -1,76 +1,48 @@
 import React, {useState, useEffect, useRef} from 'react';
-import {
-  Text,
-  StyleSheet,
-  Animated,
-  PanResponder,
-  PanResponderInstance,
-  GestureResponderEvent,
-  PanResponderGestureState,
-} from 'react-native';
+import {Text, StyleSheet, Animated} from 'react-native';
 
+import useSnackbarStore from '@/store/useSnackbarStore';
 import {colors} from '@/constants/colors';
 
-interface SnackbarProps {
-  message: string;
-  onHide: () => void;
-}
-
-function Snackbar({message, onHide}: SnackbarProps) {
+function Snackbar() {
+  const snackbar = useSnackbarStore();
   const [position] = useState(new Animated.Value(-50));
-  const timeoutId = useRef<number | null>(null);
-  const panResponder = React.useRef<PanResponderInstance>(
-    PanResponder.create({
-      onMoveShouldSetPanResponder: () => true,
-      onPanResponderMove: Animated.event([null, {dy: position}], {
-        useNativeDriver: false,
-      }),
-      onPanResponderRelease: (
-        e: GestureResponderEvent,
-        gestureState: PanResponderGestureState,
-      ) => {
-        if (gestureState.dy > 0) {
-          hideSnackbar();
-        }
-      },
-    }),
-  ).current;
-
-  const hideSnackbar = () => {
-    Animated.timing(position, {
-      toValue: 100,
-      duration: 300,
-      useNativeDriver: true,
-    }).start(() => {
-      onHide();
-    });
-  };
+  const timeoutIdRef = useRef<number | null>(null);
 
   useEffect(() => {
     Animated.timing(position, {
       toValue: -50,
-      duration: 200,
       useNativeDriver: true,
     }).start();
 
-    timeoutId.current = setTimeout(() => {
-      hideSnackbar();
+    timeoutIdRef.current = setTimeout(() => {
+      Animated.timing(position, {
+        toValue: 100,
+        useNativeDriver: true,
+      }).start(snackbar.hide);
     }, 2500);
 
     return () => {
-      if (timeoutId.current) {
-        clearTimeout(timeoutId.current);
+      if (timeoutIdRef.current !== null) {
+        clearTimeout(timeoutIdRef.current);
       }
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [position, snackbar.hide, snackbar.info]);
 
   return (
-    <Animated.View
-      style={[styles.container, {transform: [{translateY: position}]}]}
-      {...panResponder.panHandlers}>
-      <Text style={styles.message}>{message}</Text>
-    </Animated.View>
+    <>
+      {snackbar.isVisible && (
+        <Animated.View
+          style={[
+            styles.container,
+            {
+              transform: [{translateY: position}],
+            },
+          ]}>
+          <Text style={styles.message}>{snackbar.info.message}</Text>
+        </Animated.View>
+      )}
+    </>
   );
 }
 
@@ -78,16 +50,17 @@ const styles = StyleSheet.create({
   container: {
     position: 'absolute',
     bottom: 0,
-    left: '10%',
-    right: '10%',
-    padding: 10,
+    width: '70%',
+    alignSelf: 'center',
     backgroundColor: colors.GRAY_700,
     borderRadius: 10,
+    padding: 15,
   },
   message: {
-    color: colors.WHITE,
-    fontSize: 14,
     textAlign: 'center',
+    color: colors.WHITE,
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
 
