@@ -9,13 +9,10 @@ import {
   View,
   Image,
   SafeAreaView,
-  Dimensions,
 } from 'react-native';
-import Octicons from 'react-native-vector-icons/Octicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Config from 'react-native-config';
 
-import {getDateWithSeparator} from '@/utils/date';
 import {colors} from '@/constants/colors';
 import type {ImageUri} from '@/types/domain';
 
@@ -79,26 +76,6 @@ function OptionBackground({children}: PropsWithChildren) {
   );
 }
 
-function Card({children}: PropsWithChildren) {
-  return (
-    <View style={styles.cardContainer}>
-      <View style={styles.cardInner}>{children}</View>
-    </View>
-  );
-}
-
-interface GoNextButtonProps {
-  onPress: () => void;
-}
-
-function GoNextButton({onPress}: GoNextButtonProps) {
-  return (
-    <Pressable style={styles.goNextButton} onPress={onPress}>
-      <MaterialIcons name="arrow-forward-ios" size={20} color={colors.BLACK} />
-    </Pressable>
-  );
-}
-
 function OptionButtonList({children}: PropsWithChildren) {
   return <View style={styles.optionButtonContainer}>{children}</View>;
 }
@@ -131,6 +108,14 @@ function OptionBorder() {
   return <View style={styles.border} />;
 }
 
+function Card({children}: PropsWithChildren) {
+  return (
+    <View style={styles.cardContainer}>
+      <View style={styles.cardInner}>{children}</View>
+    </View>
+  );
+}
+
 interface CardImageProps {
   imageUris: ImageUri[];
 }
@@ -150,36 +135,26 @@ function CardImage({imageUris}: CardImageProps) {
   );
 }
 
-interface MarkerInfoProps {
-  address: string;
-  title: string;
-  date: Date | string;
+interface GoNextButtonProps {
+  onPress: () => void;
 }
 
-function MarkerInfo({address, date, title}: MarkerInfoProps) {
+function GoNextButton({onPress}: GoNextButtonProps) {
   return (
-    <View style={styles.markerInfoContainer}>
-      <View style={styles.addressContainer}>
-        <Octicons name="location" size={10} color={colors.GRAY_500} />
-        <Text style={styles.addressText} ellipsizeMode="tail" numberOfLines={1}>
-          {address}
-        </Text>
-      </View>
-      <Text style={styles.titleText}>{title}</Text>
-      <Text style={styles.dateText}>{getDateWithSeparator(date, '.')}</Text>
-    </View>
+    <Pressable style={styles.goNextButton} onPress={onPress}>
+      <MaterialIcons name="arrow-forward-ios" size={20} color={colors.BLACK} />
+    </Pressable>
   );
 }
 
 export const CompoundModal = Object.assign(ModalMain, {
   CardBackground,
   OptionBackground,
-  Card,
-  CardImage,
-  MarkerInfo,
   OptionButtonList,
   OptionButton,
   OptionBorder,
+  Card,
+  CardImage,
   GoNextButton,
 });
 
@@ -213,32 +188,6 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     borderRadius: 35,
-  },
-  markerInfoContainer: {
-    width: Dimensions.get('screen').width / 2,
-    marginLeft: 15,
-    gap: 5,
-  },
-  addressContainer: {
-    gap: 5,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  addressText: {
-    color: colors.GRAY_500,
-    fontSize: 10,
-  },
-  titleText: {
-    fontSize: 15,
-    fontWeight: 'bold',
-  },
-  dateText: {
-    fontSize: 12,
-    fontWeight: 'bold',
-    color: colors.PINK_700,
-  },
-  descriptionText: {
-    fontSize: 14,
   },
   goNextButton: {
     width: 40,
