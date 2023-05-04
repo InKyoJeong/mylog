@@ -4,7 +4,7 @@ type SnackbarType = 'success' | 'fail';
 
 interface SnackbarState {
   isVisible: boolean;
-  info: {message: string; type?: 'success' | 'fail'};
+  info: {message: string; type: SnackbarType};
   show: (message: string, type?: SnackbarType) => void;
   hide: () => void;
 }

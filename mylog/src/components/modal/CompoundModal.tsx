@@ -9,13 +9,10 @@ import {
   View,
   Image,
   SafeAreaView,
-  Dimensions,
 } from 'react-native';
-import Octicons from 'react-native-vector-icons/Octicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Config from 'react-native-config';
 
-import {getDateWithSeparator} from '@/utils/date';
 import {colors} from '@/constants/colors';
 import type {ImageUri} from '@/types/domain';
 
@@ -150,33 +147,11 @@ function CardImage({imageUris}: CardImageProps) {
   );
 }
 
-interface MarkerInfoProps {
-  address: string;
-  title: string;
-  date: Date | string;
-}
-
-function MarkerInfo({address, date, title}: MarkerInfoProps) {
-  return (
-    <View style={styles.markerInfoContainer}>
-      <View style={styles.addressContainer}>
-        <Octicons name="location" size={10} color={colors.GRAY_500} />
-        <Text style={styles.addressText} ellipsizeMode="tail" numberOfLines={1}>
-          {address}
-        </Text>
-      </View>
-      <Text style={styles.titleText}>{title}</Text>
-      <Text style={styles.dateText}>{getDateWithSeparator(date, '.')}</Text>
-    </View>
-  );
-}
-
 export const CompoundModal = Object.assign(ModalMain, {
   CardBackground,
   OptionBackground,
   Card,
   CardImage,
-  MarkerInfo,
   OptionButtonList,
   OptionButton,
   OptionBorder,
@@ -213,32 +188,6 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     borderRadius: 35,
-  },
-  markerInfoContainer: {
-    width: Dimensions.get('screen').width / 2,
-    marginLeft: 15,
-    gap: 5,
-  },
-  addressContainer: {
-    gap: 5,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  addressText: {
-    color: colors.GRAY_500,
-    fontSize: 10,
-  },
-  titleText: {
-    fontSize: 15,
-    fontWeight: 'bold',
-  },
-  dateText: {
-    fontSize: 12,
-    fontWeight: 'bold',
-    color: colors.PINK_700,
-  },
-  descriptionText: {
-    fontSize: 14,
   },
   goNextButton: {
     width: 40,
