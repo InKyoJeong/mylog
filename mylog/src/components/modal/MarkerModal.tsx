@@ -3,14 +3,14 @@ import {Dimensions, StyleSheet, Text, View} from 'react-native';
 import Octicons from 'react-native-vector-icons/Octicons';
 
 import useMarkerStore from '@/store/useMarkerStore';
-import {useGetMarker} from '@/hooks/queries/useMarker';
+import {useGetPost} from '@/hooks/queries/usePost';
 import {CompoundModal} from './CompoundModal';
 import {getDateWithSeparator} from '@/utils/date';
 import {colors} from '@/constants/colors';
 
 function MarkerModal() {
   const {markerId, isVisible, hideModal} = useMarkerStore();
-  const {data: marker, isLoading, isError} = useGetMarker(markerId);
+  const {data: post, isLoading, isError} = useGetPost(markerId);
 
   if (isLoading || isError) {
     return <></>;
@@ -22,7 +22,7 @@ function MarkerModal() {
         <CompoundModal.Card>
           <View style={styles.cardAlign}>
             <View style={styles.infoAlign}>
-              <CompoundModal.CardImage imageUris={marker.images} />
+              <CompoundModal.CardImage imageUris={post.images} />
               <View style={styles.markerInfoContainer}>
                 <View style={styles.addressContainer}>
                   <Octicons name="location" size={10} color={colors.GRAY_500} />
@@ -30,12 +30,12 @@ function MarkerModal() {
                     style={styles.addressText}
                     ellipsizeMode="tail"
                     numberOfLines={1}>
-                    {marker.address}
+                    {post.address}
                   </Text>
                 </View>
-                <Text style={styles.titleText}>{marker.title}</Text>
+                <Text style={styles.titleText}>{post.title}</Text>
                 <Text style={styles.dateText}>
-                  {getDateWithSeparator(marker.date, '.')}
+                  {getDateWithSeparator(post.date, '.')}
                 </Text>
               </View>
             </View>

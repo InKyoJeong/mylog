@@ -17,11 +17,14 @@ interface Marker {
   latitude: number;
   longitude: number;
   color: MarkerColor;
-  title: string;
-  description: string;
-  address: string;
-  date: Date | string;
   score: number;
 }
 
-export type {MarkerColor, Marker, ImageUri};
+interface Post extends Marker {
+  title: string;
+  address: string;
+  date: Date | string;
+  description: string;
+}
+
+export type {MarkerColor, Marker, Post, ImageUri};
