@@ -1,4 +1,11 @@
-type MarkerColor = 'RED' | 'YELLOW' | 'GREEN' | 'BLUE' | 'PURPLE';
+type MarkerColor =
+  | 'RED'
+  | 'YELLOW'
+  | 'GREEN'
+  | 'BLUE'
+  | 'PURPLE'
+  | 'GRAY'
+  | 'PINK';
 
 interface ImageUri {
   id?: number;

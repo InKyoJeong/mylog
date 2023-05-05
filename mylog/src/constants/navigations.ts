@@ -15,8 +15,8 @@ const mapNavigations = {
 } as const;
 
 const feedNavigations = {
-  LOCATION_FEED: 'LocationFeed',
-  LOCATION_DETAIL: 'LocationDetail',
+  FEED_HOME: 'FeedHome',
+  FEED_DETAIL: 'FeedDetail',
 } as const;
 
 export {mainNavigations, authNavigations, mapNavigations, feedNavigations};

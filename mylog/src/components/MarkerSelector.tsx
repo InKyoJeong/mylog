@@ -40,7 +40,7 @@ const MarkerSelector = ({marker, onPressMarker}: MarkerSelectorProps) => {
                   marker === color && styles.pressedMarker,
                 ]}
                 onPress={() => onPressMarker(color)}>
-                <CustomMarker color={color} />
+                <CustomMarker color={color} showFeel={false} />
               </Pressable>
             );
           })}

@@ -4,15 +4,15 @@ import {
   createStackNavigator,
 } from '@react-navigation/stack';
 
-import FeedScreen from '@/screens/feed/FeedScreen';
-// import LocationDetailScreen from '@/screens/LocationDetailScreen';
+import FeedHomeScreen from '@/screens/feed/FeedHomeScreen';
+import FeedDetailScreen from '@/screens/feed/FeedDetailScreen';
 import {feedNavigations} from '@/constants/navigations';
 import FeedLeftHeader from '@/components/FeedLeftHeader';
 import {colors} from '@/constants/colors';
 
 export type FeedStackParamList = {
-  [feedNavigations.LOCATION_FEED]: undefined;
-  // [feedNavigations.LOCATION_DETAIL]: undefined;
+  [feedNavigations.FEED_HOME]: undefined;
+  [feedNavigations.FEED_DETAIL]: {id: number};
 };
 
 const Stack = createStackNavigator<FeedStackParamList>();
@@ -25,26 +25,31 @@ const feedStackOptions: StackNavigationOptions = {
     fontSize: 15,
   },
   headerTintColor: colors.BLACK,
-  // cardStyle: {
-  //   backgroundColor: colors.WHITE,
-  // },
+  cardStyle: {
+    backgroundColor: colors.WHITE,
+  },
 };
 
 function FeedStackNavigator() {
   return (
     <Stack.Navigator screenOptions={feedStackOptions}>
       <Stack.Screen
-        name={feedNavigations.LOCATION_FEED}
-        component={FeedScreen}
+        name={feedNavigations.FEED_HOME}
+        component={FeedHomeScreen}
         options={({navigation}) => ({
           headerTitle: '피드',
           headerLeft: () => FeedLeftHeader(navigation),
         })}
       />
-      {/* <Stack.Screen
-        name={feedNavigations.LOCATION_DETAIL}
-        component={LocationDetailScreen}
-      /> */}
+      <Stack.Screen
+        name={feedNavigations.FEED_DETAIL}
+        component={FeedDetailScreen}
+        options={{
+          cardStyle: {
+            backgroundColor: colors.GRAY_100,
+          },
+        }}
+      />
     </Stack.Navigator>
   );
 }
