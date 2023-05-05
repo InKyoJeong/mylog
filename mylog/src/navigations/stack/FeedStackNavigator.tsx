@@ -25,9 +25,9 @@ const feedStackOptions: StackNavigationOptions = {
     fontSize: 15,
   },
   headerTintColor: colors.BLACK,
-  // cardStyle: {
-  //   backgroundColor: colors.WHITE,
-  // },
+  cardStyle: {
+    backgroundColor: colors.WHITE,
+  },
 };
 
 function FeedStackNavigator() {
@@ -44,6 +44,11 @@ function FeedStackNavigator() {
       <Stack.Screen
         name={feedNavigations.FEED_DETAIL}
         component={FeedDetailScreen}
+        options={{
+          cardStyle: {
+            backgroundColor: colors.GRAY_100,
+          },
+        }}
       />
     </Stack.Navigator>
   );
