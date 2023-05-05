@@ -5,9 +5,8 @@ function useKeyboardStatus() {
   const [keyboardStatus, setKeyboardStatus] = useState(false);
   const [keyboardHeight, setKeyboardHeight] = useState(0);
 
-  const onKeyboardWillShow = (event: KeyboardEvent) => {
-    const {height} = event.endCoordinates;
-    setKeyboardHeight(height);
+  const onKeyboardWillShow = (e: KeyboardEvent) => {
+    setKeyboardHeight(e.endCoordinates.height);
     setKeyboardStatus(true);
   };
 
