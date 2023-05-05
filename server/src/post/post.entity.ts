@@ -14,7 +14,7 @@ import { ColumnNumericTransformer } from 'src/common/transformers/numeric.transf
 import { Image } from 'src/image/image.entity';
 
 @Entity()
-export class Marker extends BaseEntity {
+export class Post extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -57,9 +57,9 @@ export class Marker extends BaseEntity {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @ManyToOne(() => User, (user) => user.marker, { eager: false })
+  @ManyToOne(() => User, (user) => user.post, { eager: false })
   user: User;
 
-  @OneToMany(() => Image, (image) => image.marker)
+  @OneToMany(() => Image, (image) => image.post)
   images: Image[];
 }

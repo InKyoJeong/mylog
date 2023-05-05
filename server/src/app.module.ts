@@ -5,9 +5,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 
-import { MarkerModule } from './marker/marker.module';
 import { AuthModule } from './auth/auth.module';
 import { ImageModule } from './image/image.module';
+import { PostModule } from './post/post.module';
 
 @Module({
   imports: [
@@ -26,7 +26,7 @@ import { ImageModule } from './image/image.module';
       rootPath: join(__dirname, '..', 'uploads'),
       serveRoot: '/',
     }),
-    MarkerModule,
+    PostModule,
     AuthModule,
     ImageModule,
   ],
