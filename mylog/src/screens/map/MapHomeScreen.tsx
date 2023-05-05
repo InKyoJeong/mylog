@@ -24,9 +24,10 @@ import useMoveMapView from '@/hooks/common/useMoveMapView';
 import {useGetMarkerLocations} from '@/hooks/queries/useMarker';
 import useMarkerStore from '@/store/useMarkerStore';
 import useImageUriStore from '@/store/useImageUriStore';
+import useSnackbarStore from '@/store/useSnackbarStore';
 import {mapNavigations, mainNavigations} from '@/constants/navigations';
 import {colors} from '@/constants/colors';
-import {alerts} from '@/constants/messages';
+import {alerts, errorMessages} from '@/constants/messages';
 import {numbers, zIndex} from '@/constants/numbers';
 import getMapStyle from '@/style/mapStyle';
 
@@ -48,6 +49,7 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
   const {data: markers = []} = useGetMarkerLocations();
   const {clearImageUris} = useImageUriStore();
   const {showModal} = useMarkerStore();
+  const snackbar = useSnackbarStore();
   usePermission('LOCATION');
 
   const handleLongPressLocation = ({nativeEvent}: LongPressEvent) => {
@@ -76,7 +78,7 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
 
   const handlePressUserLocation = () => {
     if (isUserLocationError) {
-      console.log('위치 권한을 허용해주세요.');
+      snackbar.show(errorMessages.CANNOT_ACCESS_USER_LOCATION);
       return;
     }
 
@@ -162,7 +164,7 @@ const styles = StyleSheet.create({
   buttonList: {
     position: 'absolute',
     bottom: 50,
-    right: 10,
+    right: 15,
   },
 });
 

@@ -33,7 +33,6 @@ function CustomMarker({
           <View style={[styles.marker, {backgroundColor: colorHex[color]}]}>
             <View style={[styles.eye, styles.leftEye]} />
             <View style={[styles.eye, styles.rightEye]} />
-
             {score > 3 && <View style={[styles.mouth, styles.good]} />}
             {score === 3 && <View style={styles.soso} />}
             {score < 3 && <View style={[styles.mouth, styles.bad]} />}

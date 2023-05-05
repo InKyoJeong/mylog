@@ -8,6 +8,9 @@ const errorMessages = {
   NOT_MATCH_PASSWORD: '비밀번호가 일치하지 않습니다.',
   INVALID_TITLE_LENGTH: `제목은 ${numbers.MIN_TITLE_LENGTH}글자 이상 입력해주세요.`,
   CANNOT_GET_ADDRESS: '주소를 알 수 없습니다.',
+  CANNOT_ACCESS_PHOTO:
+    '갤러리를 열 수 없어요.\n권한을 허용했는지 확인해주세요.',
+  CANNOT_ACCESS_USER_LOCATION: '위치 권한을 허용해주세요.',
 } as const;
 
 const alerts = {
@@ -25,7 +28,7 @@ const alerts = {
   },
   PHOTO_PERMISSION: {
     TITLE: '사진 접근 권한이 필요합니다',
-    DESCRIPTION: '설정 화면에서 사진 접근 권한을 허용해주세요.',
+    DESCRIPTION: '설정 화면에서 사진 권한을 허용해주세요.',
   },
 } as const;
 

@@ -4,13 +4,16 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import ImagePicker from 'react-native-image-crop-picker';
 
 import {useUploadImages} from '@/hooks/queries/useImage';
+import useSnackbarStore from '@/store/useSnackbarStore';
 import useImageUriStore from '@/store/useImageUriStore';
 import {getFormDataImages} from '@/utils/image';
 import {colors} from '@/constants/colors';
 import {numbers} from '@/constants/numbers';
+import {errorMessages} from '@/constants/messages';
 
 function ImageInput() {
   const {addImageUris} = useImageUriStore();
+  const snackbar = useSnackbarStore();
   const imageMutation = useUploadImages();
 
   const handleChange = () => {
@@ -29,12 +32,11 @@ function ImageInput() {
           onSuccess: data => addImageUris(data),
         });
       })
-      .catch(err =>
-        console.log(
-          '갤러리를 열 수 없습니다. 권한을 허용했는지 확인해주세요.',
-          err,
-        ),
-      );
+      .catch(error => {
+        if (error.code !== 'E_PICKER_CANCELLED') {
+          snackbar.show(errorMessages.CANNOT_ACCESS_PHOTO);
+        }
+      });
   };
 
   return (
