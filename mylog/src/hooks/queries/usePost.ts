@@ -9,7 +9,7 @@ function useGetPosts(
   queryOptions?: UseQueryOptions<ResponsePost[], ErrorResponse>,
 ) {
   return useQuery<ResponsePost[], ErrorResponse>(
-    [queryKeys.POST, 'getPosts'],
+    [queryKeys.POST, queryKeys.GET_POSTS],
     () => getPosts(),
     {
       ...queryOptions,
@@ -22,7 +22,7 @@ function useGetPost(
   queryOptions?: UseQueryOptions<ResponsePost, ErrorResponse>,
 ) {
   return useQuery<ResponsePost, ErrorResponse>(
-    [queryKeys.POST, 'getPost', id],
+    [queryKeys.POST, queryKeys.GET_POST, id],
     () => getPost(id),
     {
       enabled: !!id,
@@ -34,8 +34,8 @@ function useGetPost(
 function useCreatePost(mutationOptions?: UseMutationCustomOptions) {
   return useMutation(createPost, {
     onSuccess: () => {
-      queryClient.invalidateQueries([queryKeys.MARKER, 'getMarkers']);
-      queryClient.invalidateQueries([queryKeys.POST, 'getPosts']);
+      queryClient.invalidateQueries([queryKeys.MARKER, queryKeys.GET_MARKERS]);
+      queryClient.invalidateQueries([queryKeys.POST, queryKeys.GET_POSTS]);
     },
     ...mutationOptions,
   });

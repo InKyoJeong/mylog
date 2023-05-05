@@ -9,7 +9,7 @@ function useGetMarkers(
   queryOptions?: UseQueryOptions<Marker[], ErrorResponse>,
 ) {
   return useQuery<Marker[], ErrorResponse>(
-    [queryKeys.MARKER, 'getMarkers', 'all'],
+    [queryKeys.MARKER, queryKeys.GET_MARKERS],
     () => getMarkers(),
     {
       ...queryOptions,
