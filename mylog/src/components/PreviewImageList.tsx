@@ -7,7 +7,7 @@ import {
   LayoutAnimation,
 } from 'react-native';
 import Animated, {FadeInRight, FadeOutLeft} from 'react-native-reanimated';
-import Config from 'react-native-config';
+// import Config from 'react-native-config';
 
 import PreviewImageOption from './PreviewImageOption';
 import useImageUriStore from '@/store/useImageUriStore';
@@ -36,7 +36,7 @@ function PreviewImageList() {
               exiting={FadeOutLeft}>
               <Image
                 style={styles.image}
-                source={{uri: `${Config.BACK_URL}/${uri}`}}
+                source={{uri: `http://192.168.0.55:3030/${uri}`}}
               />
 
               <PreviewImageOption

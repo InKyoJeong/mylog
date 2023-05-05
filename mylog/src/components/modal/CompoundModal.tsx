@@ -11,10 +11,12 @@ import {
   SafeAreaView,
 } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import Config from 'react-native-config';
+// import Config from 'react-native-config';
 
 import {colors} from '@/constants/colors';
 import type {ImageUri} from '@/types/domain';
+import CustomMarker from '../common/CustomMarker';
+import Conditional from '../common/Conditional';
 
 interface ModalContextValue {
   onClickOutSide?: (event: GestureResponderEvent) => void;
@@ -122,16 +124,27 @@ interface CardImageProps {
 
 function CardImage({imageUris}: CardImageProps) {
   return (
-    <View style={styles.imageContainer}>
-      <Image
-        source={
-          imageUris.length
-            ? {uri: `${Config.BACK_URL}/${imageUris[0].uri}`}
-            : require('@/assets/modal-marker-default.png')
-        }
-        style={styles.image}
-      />
-    </View>
+    <>
+      <Conditional condition={imageUris.length > 0}>
+        <View style={styles.imageContainer}>
+          <Image
+            source={{
+              uri: `http://192.168.0.55:3030/${imageUris[0]?.uri}`,
+            }}
+            style={styles.image}
+          />
+        </View>
+      </Conditional>
+      <Conditional condition={imageUris.length === 0}>
+        <View style={[styles.imageContainer, styles.emptyImageContainer]}>
+          <CustomMarker
+            size="small"
+            borderColor={colors.GRAY_200}
+            innerColor={colors.WHITE}
+          />
+        </View>
+      </Conditional>
+    </>
   );
 }
 
@@ -183,6 +196,13 @@ const styles = StyleSheet.create({
     width: 70,
     height: 70,
     borderRadius: 35,
+  },
+  emptyImageContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderColor: colors.GRAY_200,
+    borderRadius: 35,
+    borderWidth: 1,
   },
   image: {
     width: '100%',

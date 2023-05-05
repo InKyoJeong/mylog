@@ -15,6 +15,7 @@ function FeedItemList() {
       numColumns={2}
       scrollIndicatorInsets={{right: 1}}
       contentContainerStyle={styles.contentContainer}
+      indicatorStyle="black"
       //   onRefresh={refreshData}
       //   refreshing={isRefreshing}
       //   onEndReached={onEndReached}
