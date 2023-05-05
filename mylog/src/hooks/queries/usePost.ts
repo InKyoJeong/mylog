@@ -34,6 +34,7 @@ function useGetPost(
 function useCreatePost(mutationOptions?: UseMutationCustomOptions) {
   return useMutation(createPost, {
     onSuccess: () => {
+      queryClient.invalidateQueries([queryKeys.MARKER, 'getMarkers']);
       queryClient.invalidateQueries([queryKeys.POST, 'getPosts']);
     },
     ...mutationOptions,

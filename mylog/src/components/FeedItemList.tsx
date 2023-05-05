@@ -1,11 +1,11 @@
 import React from 'react';
 import {FlatList, StyleSheet} from 'react-native';
 
-import {useGetMarkers} from '@/hooks/queries/useMarker';
+import {useGetPosts} from '@/hooks/queries/usePost';
 import FeedItem from './FeedItem';
 
 function FeedItemList() {
-  const {data: posts = []} = useGetMarkers();
+  const {data: posts = []} = useGetPosts();
 
   return (
     <FlatList
