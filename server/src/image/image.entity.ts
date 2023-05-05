@@ -1,4 +1,4 @@
-import { Marker } from 'src/marker/marker.entity';
+import { Post } from 'src/post/post.entity';
 import {
   BaseEntity,
   Column,
@@ -15,6 +15,6 @@ export class Image extends BaseEntity {
   @Column()
   uri: string;
 
-  @ManyToOne(() => Marker, (marker) => marker.images)
-  marker: Marker;
+  @ManyToOne(() => Post, (post) => post.images)
+  post: Post;
 }

@@ -1,5 +1,5 @@
 import { Exclude } from 'class-transformer';
-import { Marker } from 'src/marker/marker.entity';
+import { Post } from 'src/post/post.entity';
 import {
   BaseEntity,
   Column,
@@ -37,6 +37,6 @@ export class User extends BaseEntity {
   @Exclude()
   hashedRefreshToken?: string;
 
-  @OneToMany(() => Marker, (marker) => marker.user, { eager: false })
-  marker: Marker[];
+  @OneToMany(() => Post, (post) => post.user, { eager: false })
+  post: Post[];
 }

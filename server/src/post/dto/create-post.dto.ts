@@ -7,7 +7,7 @@ import {
 } from 'class-validator';
 import { MarkerColor } from '../marker-color.enum';
 
-export class CreateMarkerDto {
+export class CreatePostDto {
   @IsNotEmpty()
   latitude: number;
 
