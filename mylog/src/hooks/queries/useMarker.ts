@@ -1,47 +1,14 @@
-import {UseQueryOptions, useMutation, useQuery} from '@tanstack/react-query';
+import {UseQueryOptions, useQuery} from '@tanstack/react-query';
 
-import {
-  ResponseMarker,
-  createMarker,
-  getMarker,
-  getMarkers,
-} from '@/api/marker';
+import {getMarkers} from '@/api/marker';
 import queryKeys from '@/constants/queryKeys';
-import {ErrorResponse, UseMutationCustomOptions} from '@/types';
-import queryClient from '@/api/queryClient';
-
-export type MarkerLocation = Pick<
-  ResponseMarker,
-  'id' | 'latitude' | 'longitude' | 'color' | 'score'
->;
-
-const extractLocation = (markers: MarkerLocation[]) => {
-  return markers.map(({id, latitude, longitude, color, score}) => ({
-    id,
-    latitude,
-    longitude,
-    color,
-    score,
-  }));
-};
-
-function useGetMarkerLocations(
-  queryOptions?: UseQueryOptions<MarkerLocation[], ErrorResponse>,
-) {
-  return useQuery<MarkerLocation[], ErrorResponse>(
-    [queryKeys.MARKER, 'getMarkers', 'locations'],
-    () => getMarkers(),
-    {
-      select: markers => extractLocation(markers),
-      ...queryOptions,
-    },
-  );
-}
+import {ErrorResponse} from '@/types';
+import {Marker} from '@/types/domain';
 
 function useGetMarkers(
-  queryOptions?: UseQueryOptions<ResponseMarker[], ErrorResponse>,
+  queryOptions?: UseQueryOptions<Marker[], ErrorResponse>,
 ) {
-  return useQuery<ResponseMarker[], ErrorResponse>(
+  return useQuery<Marker[], ErrorResponse>(
     [queryKeys.MARKER, 'getMarkers', 'all'],
     () => getMarkers(),
     {
@@ -50,27 +17,4 @@ function useGetMarkers(
   );
 }
 
-function useGetMarker(
-  markerId: number,
-  queryOptions?: UseQueryOptions<ResponseMarker, ErrorResponse>,
-) {
-  return useQuery<ResponseMarker, ErrorResponse>(
-    [queryKeys.MARKER, 'getMarker', markerId],
-    () => getMarker(markerId),
-    {
-      enabled: !!markerId,
-      ...queryOptions,
-    },
-  );
-}
-
-function useCreateMarker(mutationOptions?: UseMutationCustomOptions) {
-  return useMutation(createMarker, {
-    onSuccess: () => {
-      queryClient.invalidateQueries([queryKeys.MARKER, 'getMarkers']);
-    },
-    ...mutationOptions,
-  });
-}
-
-export {useGetMarkers, useGetMarker, useGetMarkerLocations, useCreateMarker};
+export {useGetMarkers};

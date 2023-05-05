@@ -21,7 +21,7 @@ import CustomMarker from '@/components/common/CustomMarker';
 import usePermission from '@/hooks/common/usePermission';
 import useUserLocation from '@/hooks/common/useUserLocation';
 import useMoveMapView from '@/hooks/common/useMoveMapView';
-import {useGetMarkerLocations} from '@/hooks/queries/useMarker';
+import {useGetMarkers} from '@/hooks/queries/useMarker';
 import useMarkerStore from '@/store/useMarkerStore';
 import useImageUriStore from '@/store/useImageUriStore';
 import useSnackbarStore from '@/store/useSnackbarStore';
@@ -46,7 +46,7 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
     longitude: numbers.INITIAL_LONGITUDE,
   });
   const [selectLocation, setSelectLocation] = useState<LatLng | null>(null);
-  const {data: markers = []} = useGetMarkerLocations();
+  const {data: markers = []} = useGetMarkers();
   const {clearImageUris} = useImageUriStore();
   const {showModal} = useMarkerStore();
   const snackbar = useSnackbarStore();

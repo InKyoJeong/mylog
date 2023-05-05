@@ -19,7 +19,7 @@ import DatePickerModal from '@/components/modal/DatePickerModal';
 import ImageInput from '@/components/ImageInput';
 import PreviewImageList from '@/components/PreviewImageList';
 import ScoreInput from '@/components/ScoreInput';
-import {useCreateMarker} from '@/hooks/queries/useMarker';
+import {useCreatePost} from '@/hooks/queries/usePost';
 import useGetAddress from '@/hooks/common/useGetAddress';
 import useDatePicker from '@/hooks/common/useDatePicker';
 import useForm from '@/hooks/common/useForm';
@@ -38,7 +38,7 @@ type AddLocationScreenProps = StackScreenProps<
 
 function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
   const {location} = route.params;
-  const markerMutation = useCreateMarker();
+  const postMutation = useCreatePost();
   const {imageUris} = useImageUriStore();
   const descriptionRef = useRef<TextInput | null>(null);
   const [marker, setMarker] = useState<MarkerColor>('RED');
@@ -52,7 +52,7 @@ function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
   usePermission('PHOTO');
 
   const handleSubmit = useCallback(() => {
-    markerMutation.mutate(
+    postMutation.mutate(
       {
         latitude: location.latitude,
         longitude: location.longitude,
@@ -70,7 +70,7 @@ function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
       },
     );
   }, [
-    markerMutation,
+    postMutation,
     location,
     marker,
     addLocation.values,
