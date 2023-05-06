@@ -20,7 +20,7 @@ export class PostService {
   //   return this.postRepository.find();
   // }
 
-  async getAllMyMarkers(user: User) {
+  async getMyMarkers(user: User) {
     const markers = await this.postRepository
       .createQueryBuilder('post')
       .where('post.userId = :userId', { userId: user.id })
@@ -36,9 +36,14 @@ export class PostService {
     return markers;
   }
 
-  async getAllMyPosts(user: User): Promise<Post[]> {
+  async getMyPosts(page: number, user: User): Promise<Post[]> {
+    const perPage = 10;
+    const offset = (page - 1) * perPage;
     const posts = await this.postRepository
       .createQueryBuilder('post')
+      .orderBy('post.date', 'DESC')
+      .skip(offset)
+      .take(perPage)
       .leftJoinAndSelect('post.images', 'image')
       .where('post.userId = :userId', { userId: user.id })
       .getMany();

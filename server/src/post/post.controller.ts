@@ -7,6 +7,7 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  Query,
   UseGuards,
   UsePipes,
   ValidationPipe,
@@ -34,12 +35,12 @@ export class PostController {
   ): Promise<
     Pick<PostEntity, 'id' | 'latitude' | 'longitude' | 'color' | 'score'>[]
   > {
-    return this.postService.getAllMyMarkers(user);
+    return this.postService.getMyMarkers(user);
   }
 
   @Get('/posts/my')
-  getAllMyPosts(@GetUser() user: User): Promise<PostEntity[]> {
-    return this.postService.getAllMyPosts(user);
+  async getMyPosts(@Query('page') page: number, @GetUser() user: User) {
+    return this.postService.getMyPosts(page, user);
   }
 
   @Get('/posts/:id')
