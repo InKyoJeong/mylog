@@ -2,18 +2,18 @@ import axiosInstance from '.';
 
 import {getEncryptStorage} from '@/utils/encryptStorage';
 
-export type UserRequest = {
+export type RequestUser = {
   username: string;
   password: string;
 };
 
-const postSignup = async ({username, password}: UserRequest): Promise<void> => {
+const postSignup = async ({username, password}: RequestUser): Promise<void> => {
   const {data} = await axiosInstance.post('/auth/signup', {username, password});
 
   return data;
 };
 
-export type TokenResponse = {
+export type ResponseToken = {
   accessToken: string;
   refreshToken: string;
 };
@@ -21,23 +21,23 @@ export type TokenResponse = {
 const postLogin = async ({
   username,
   password,
-}: UserRequest): Promise<TokenResponse> => {
+}: RequestUser): Promise<ResponseToken> => {
   const {data} = await axiosInstance.post('/auth/signin', {username, password});
 
   return data;
 };
 
-export type ProfileResponse = {
+export type ResponseProfile = {
   username: string;
 };
 
-const getProfile = async (): Promise<ProfileResponse> => {
+const getProfile = async (): Promise<ResponseProfile> => {
   const {data} = await axiosInstance.get('/auth/me');
 
   return data;
 };
 
-const getAccessToken = async (): Promise<TokenResponse> => {
+const getAccessToken = async (): Promise<ResponseToken> => {
   const refreshToken = await getEncryptStorage('refreshToken');
 
   const {data} = await axiosInstance.get('/auth/refresh', {

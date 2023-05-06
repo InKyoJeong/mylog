@@ -1,8 +1,6 @@
 import axiosInstance from '.';
 
-import type {ImageUri, Marker} from '@/types/domain';
-
-export type ResponseMarker = Marker & {images: ImageUri[]};
+import type {Marker} from '@/types/domain';
 
 const getMarkers = async (): Promise<Marker[]> => {
   const {data} = await axiosInstance.get('/markers/my');

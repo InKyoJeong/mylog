@@ -1,7 +1,7 @@
 import type {AxiosError} from 'axios';
 import type {UseMutationOptions} from '@tanstack/react-query';
 
-type ErrorResponse = AxiosError<{
+type ResponseError = AxiosError<{
   statusCode: number;
   message: string;
   error: string;
@@ -9,7 +9,7 @@ type ErrorResponse = AxiosError<{
 
 type UseMutationCustomOptions<TData = unknown> = UseMutationOptions<
   TData,
-  ErrorResponse,
+  ResponseError,
   unknown
 >;
 
@@ -26,7 +26,7 @@ type ThemeMode = 'light' | 'dark';
 type Locale = 'ko' | 'en';
 
 export type {
-  ErrorResponse,
+  ResponseError,
   UseMutationCustomOptions,
   AxiosCommonRequestHeaders,
   ThemeMode,
