@@ -17,9 +17,10 @@ import Conditional from './common/Conditional';
 import {getDateWithSeparator} from '@/utils/date';
 import {feedNavigations} from '@/constants/navigations';
 import {colors} from '@/constants/colors';
+import {ResponsePost} from '@/api/post';
 
 interface FeedItemProps {
-  post: any;
+  post: ResponsePost;
 }
 
 function FeedItem({post}: FeedItemProps) {

@@ -1,24 +1,42 @@
 import React from 'react';
-import {FlatList, StyleSheet} from 'react-native';
+import {FlatList, StyleSheet, Text, View} from 'react-native';
 
-import {useGetPosts} from '@/hooks/queries/usePost';
+import {useGetInifinitePosts} from '@/hooks/queries/usePost';
 import FeedItem from './FeedItem';
 
 function FeedItemList() {
-  const {data: posts = []} = useGetPosts();
+  const {
+    data: posts,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useGetInifinitePosts();
+
+  const renderEmptyList = () => (
+    <View>
+      <Text>No data found.</Text>
+    </View>
+  );
+
+  const handleEndReached = () => {
+    if (hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  };
 
   return (
     <FlatList
-      data={posts}
-      renderItem={({item: post}) => <FeedItem post={post} />}
+      data={posts?.pages?.flatMap(page => page) ?? []}
+      renderItem={({item}) => <FeedItem post={item} />}
       keyExtractor={item => String(item.id)}
       numColumns={2}
       scrollIndicatorInsets={{right: 1}}
       contentContainerStyle={styles.contentContainer}
       indicatorStyle="black"
+      ListEmptyComponent={renderEmptyList}
       //   onRefresh={refreshData}
       //   refreshing={isRefreshing}
-      //   onEndReached={onEndReached}
+      onEndReached={handleEndReached}
       //   onEndReachedThreshold={0.5}
     />
   );

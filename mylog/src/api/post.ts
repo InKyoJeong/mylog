@@ -3,8 +3,8 @@ import {ImageUri, Post} from '@/types/domain';
 
 export type ResponsePost = Post & {images: ImageUri[]};
 
-const getPosts = async (): Promise<ResponsePost[]> => {
-  const {data} = await axiosInstance.get('/posts/my');
+const getPosts = async (page = 1): Promise<ResponsePost[]> => {
+  const {data} = await axiosInstance.get(`/posts/my?page=${page}`);
 
   return data;
 };

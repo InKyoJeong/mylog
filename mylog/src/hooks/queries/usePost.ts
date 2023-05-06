@@ -1,17 +1,37 @@
-import {UseQueryOptions, useMutation, useQuery} from '@tanstack/react-query';
+import {
+  UseInfiniteQueryOptions,
+  UseQueryOptions,
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+} from '@tanstack/react-query';
 
 import {ResponsePost, createPost, getPost, getPosts} from '@/api/post';
 import {ResponseError, UseMutationCustomOptions} from '@/types';
 import queryKeys from '@/constants/queryKeys';
 import queryClient from '@/api/queryClient';
 
-function useGetPosts(
-  queryOptions?: UseQueryOptions<ResponsePost[], ResponseError>,
+function useGetInifinitePosts(
+  queryOptions?: Omit<
+    UseInfiniteQueryOptions<
+      ResponsePost[],
+      ResponseError,
+      ResponsePost[],
+      ResponsePost[],
+      [string, string]
+    >,
+    'queryKey' | 'queryFn'
+  >,
 ) {
-  return useQuery<ResponsePost[], ResponseError>(
+  return useInfiniteQuery(
     [queryKeys.POST, queryKeys.GET_POSTS],
-    () => getPosts(),
+    ({pageParam = 1}) => getPosts(pageParam),
     {
+      getNextPageParam: (lastPage, pages) => {
+        const lastPost = lastPage[lastPage.length - 1];
+
+        return lastPost ? pages.length + 1 : undefined;
+      },
       ...queryOptions,
     },
   );
@@ -41,4 +61,4 @@ function useCreatePost(mutationOptions?: UseMutationCustomOptions) {
   });
 }
 
-export {useGetPosts, useGetPost, useCreatePost};
+export {useGetInifinitePosts, useGetPost, useCreatePost};
