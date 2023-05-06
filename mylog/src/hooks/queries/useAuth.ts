@@ -27,6 +27,8 @@ function useLogin(mutationOptions?: UseMutationCustomOptions<ResponseToken>) {
     onSuccess: ({accessToken, refreshToken}) => {
       setHeader('Authorization', `Bearer ${accessToken}`);
       setEncryptStorage('refreshToken', refreshToken);
+      queryClient.removeQueries([queryKeys.MARKER]);
+      queryClient.removeQueries([queryKeys.POST]);
     },
     onSettled: () => {
       queryClient.refetchQueries([queryKeys.AUTH, queryKeys.GET_ACCESS_TOKEN]);
