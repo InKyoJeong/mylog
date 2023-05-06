@@ -41,7 +41,7 @@ export class PostService {
     const offset = (page - 1) * perPage;
     const posts = await this.postRepository
       .createQueryBuilder('post')
-      // .orderBy('id', 'DESC')
+      .orderBy('post.date', 'DESC')
       .skip(offset)
       .take(perPage)
       .leftJoinAndSelect('post.images', 'image')
