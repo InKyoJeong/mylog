@@ -112,6 +112,7 @@ function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
             />
             <CustomButton
               variant="outlined"
+              size="large"
               label={
                 datePicker.isPicked
                   ? `${getDateWithSeparator(datePicker.date, '. ')}`
