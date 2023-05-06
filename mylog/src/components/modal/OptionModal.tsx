@@ -13,7 +13,7 @@ function OptionModal() {
           <CompoundModal.OptionButton onPress={() => {}} isDanger>
             {/* 삭제하기 */}
           </CompoundModal.OptionButton>
-          <CompoundModal.OptionBorder />
+          <CompoundModal.OptionDivider />
           <CompoundModal.OptionButton onPress={() => {}}>
             {/* 수정하기 */}
           </CompoundModal.OptionButton>

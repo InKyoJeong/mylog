@@ -106,7 +106,7 @@ function OptionButton({
   );
 }
 
-function OptionBorder() {
+function OptionDivider() {
   return <View style={styles.border} />;
 }
 
@@ -165,7 +165,7 @@ export const CompoundModal = Object.assign(ModalMain, {
   OptionBackground,
   OptionButtonList,
   OptionButton,
-  OptionBorder,
+  OptionDivider,
   Card,
   CardImage,
   GoNextButton,
