@@ -1,15 +1,15 @@
 import {UseQueryOptions, useMutation, useQuery} from '@tanstack/react-query';
 
 import {
-  ProfileResponse,
-  TokenResponse,
+  ResponseProfile,
+  ResponseToken,
   getAccessToken,
   getProfile,
   logout,
   postLogin,
   postSignup,
 } from '@/api/auth';
-import type {ErrorResponse, UseMutationCustomOptions} from '@/types';
+import type {ResponseError, UseMutationCustomOptions} from '@/types';
 import queryClient from '@/api/queryClient';
 import {removeEncryptStorage, setEncryptStorage} from '@/utils/encryptStorage';
 import {removeHeader, setHeader} from '@/utils/axiosInstance';
@@ -22,7 +22,7 @@ function useSignup(mutationOptions?: UseMutationCustomOptions) {
   });
 }
 
-function useLogin(mutationOptions?: UseMutationCustomOptions<TokenResponse>) {
+function useLogin(mutationOptions?: UseMutationCustomOptions<ResponseToken>) {
   return useMutation(postLogin, {
     onSuccess: ({accessToken, refreshToken}) => {
       setHeader('Authorization', `Bearer ${accessToken}`);
@@ -50,9 +50,9 @@ function useLogout(mutationOptions?: UseMutationCustomOptions) {
 }
 
 function useRefreshToken(
-  queryOptions?: UseQueryOptions<TokenResponse, ErrorResponse>,
+  queryOptions?: UseQueryOptions<ResponseToken, ResponseError>,
 ) {
-  return useQuery<TokenResponse, ErrorResponse>(
+  return useQuery<ResponseToken, ResponseError>(
     [queryKeys.AUTH, queryKeys.GET_ACCESS_TOKEN],
     () => getAccessToken(),
     {
@@ -75,9 +75,9 @@ function useRefreshToken(
 }
 
 function useGetProfile(
-  queryOptions?: UseQueryOptions<ProfileResponse, ErrorResponse>,
+  queryOptions?: UseQueryOptions<ResponseProfile, ResponseError>,
 ) {
-  return useQuery<ProfileResponse, ErrorResponse>(
+  return useQuery<ResponseProfile, ResponseError>(
     [queryKeys.AUTH, queryKeys.GET_PROFILE],
     () => getProfile(),
     {

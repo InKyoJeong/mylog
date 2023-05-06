@@ -1,17 +1,37 @@
-import {UseQueryOptions, useMutation, useQuery} from '@tanstack/react-query';
+import {
+  UseInfiniteQueryOptions,
+  UseQueryOptions,
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+} from '@tanstack/react-query';
 
 import {ResponsePost, createPost, getPost, getPosts} from '@/api/post';
-import {ErrorResponse, UseMutationCustomOptions} from '@/types';
+import {ResponseError, UseMutationCustomOptions} from '@/types';
 import queryKeys from '@/constants/queryKeys';
 import queryClient from '@/api/queryClient';
 
-function useGetPosts(
-  queryOptions?: UseQueryOptions<ResponsePost[], ErrorResponse>,
+function useGetInifinitePosts(
+  queryOptions?: Omit<
+    UseInfiniteQueryOptions<
+      ResponsePost[],
+      ResponseError,
+      ResponsePost[],
+      ResponsePost[],
+      [string, string]
+    >,
+    'queryKey' | 'queryFn'
+  >,
 ) {
-  return useQuery<ResponsePost[], ErrorResponse>(
-    [queryKeys.POST, 'getPosts'],
-    () => getPosts(),
+  return useInfiniteQuery(
+    [queryKeys.POST, queryKeys.GET_POSTS],
+    ({pageParam = 1}) => getPosts(pageParam),
     {
+      getNextPageParam: (lastPage, pages) => {
+        const lastPost = lastPage[lastPage.length - 1];
+
+        return lastPost ? pages.length + 1 : undefined;
+      },
       ...queryOptions,
     },
   );
@@ -19,10 +39,10 @@ function useGetPosts(
 
 function useGetPost(
   id: number,
-  queryOptions?: UseQueryOptions<ResponsePost, ErrorResponse>,
+  queryOptions?: UseQueryOptions<ResponsePost, ResponseError>,
 ) {
-  return useQuery<ResponsePost, ErrorResponse>(
-    [queryKeys.POST, 'getPost', id],
+  return useQuery<ResponsePost, ResponseError>(
+    [queryKeys.POST, queryKeys.GET_POST, id],
     () => getPost(id),
     {
       enabled: !!id,
@@ -34,11 +54,11 @@ function useGetPost(
 function useCreatePost(mutationOptions?: UseMutationCustomOptions) {
   return useMutation(createPost, {
     onSuccess: () => {
-      queryClient.invalidateQueries([queryKeys.MARKER, 'getMarkers']);
-      queryClient.invalidateQueries([queryKeys.POST, 'getPosts']);
+      queryClient.invalidateQueries([queryKeys.MARKER, queryKeys.GET_MARKERS]);
+      queryClient.invalidateQueries([queryKeys.POST, queryKeys.GET_POSTS]);
     },
     ...mutationOptions,
   });
 }
 
-export {useGetPosts, useGetPost, useCreatePost};
+export {useGetInifinitePosts, useGetPost, useCreatePost};
