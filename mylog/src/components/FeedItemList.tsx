@@ -1,10 +1,21 @@
 import React, {useState} from 'react';
-import {FlatList, StyleSheet, Text, View} from 'react-native';
+import {FlatList, StyleSheet} from 'react-native';
 
-import {useGetInifinitePosts} from '@/hooks/queries/usePost';
 import FeedItem from './FeedItem';
+import InfoMessage from './common/InfoMessage';
+import {useGetInifinitePosts} from '@/hooks/queries/usePost';
+import {useNavigation} from '@react-navigation/native';
+import {DrawerNavigationProp} from '@react-navigation/drawer';
+import {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
+import {mainNavigations} from '@/constants/navigations';
 
 function FeedItemList() {
+  const navigation = useNavigation<DrawerNavigationProp<MainDrawerParamList>>();
+
+  // const handlePressFeed = () => {
+  //   navigation.navigate(feedNavigations.FEED_DETAIL, {id: post.id});
+  // };
+
   const {
     data: posts,
     fetchNextPage,
@@ -27,26 +38,30 @@ function FeedItemList() {
   };
 
   const renderEmptyList = () => (
-    <View>
-      <Text>No data found.</Text>
-    </View>
+    <InfoMessage
+      message="아직 등록된 위치가 없어요."
+      buttonLabel="홈으로 이동"
+      onPress={() => navigation.navigate(mainNavigations.HOME)}
+    />
   );
 
   return (
-    <FlatList
-      data={posts?.pages.flatMap(page => page)}
-      renderItem={({item}) => <FeedItem post={item} />}
-      keyExtractor={item => String(item.id)}
-      numColumns={2}
-      scrollIndicatorInsets={{right: 1}}
-      contentContainerStyle={styles.contentContainer}
-      indicatorStyle="black"
-      ListEmptyComponent={renderEmptyList}
-      refreshing={isRefreshing}
-      onRefresh={handleRefresh}
-      onEndReached={handleEndReached}
-      onEndReachedThreshold={0.5}
-    />
+    <>
+      <FlatList
+        data={posts?.pages.flatMap(page => page)}
+        renderItem={({item}) => <FeedItem post={item} />}
+        keyExtractor={item => String(item.id)}
+        numColumns={2}
+        scrollIndicatorInsets={{right: 1}}
+        contentContainerStyle={styles.contentContainer}
+        indicatorStyle="black"
+        ListEmptyComponent={renderEmptyList}
+        refreshing={isRefreshing}
+        onRefresh={handleRefresh}
+        onEndReached={handleEndReached}
+        onEndReachedThreshold={0.5}
+      />
+    </>
   );
 }
 
