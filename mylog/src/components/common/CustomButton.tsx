@@ -39,6 +39,7 @@ function CustomButton({
       style={({pressed}) => [
         pressed ? styles[`${variant}Pressed`] : styles[variant],
         styles.container,
+        styles[`${size}Container`],
         hasError && styles.inValidContainer,
       ]}
       {...props}>
@@ -55,6 +56,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 3,
   },
+  smallContainer: {},
+  mediumContainer: {
+    width: '50%',
+  },
+  largeContainer: {
+    width: '100%',
+  },
   inValidContainer: {
     opacity: 0.5,
   },
@@ -66,7 +74,6 @@ const styles = StyleSheet.create({
   medium: {
     alignItems: 'center',
     paddingVertical: deviceHeight > 640 ? 12 : 8,
-    width: '50%',
   },
   large: {
     alignItems: 'center',

@@ -45,6 +45,7 @@ function FeedStackNavigator() {
         name={feedNavigations.FEED_DETAIL}
         component={FeedDetailScreen}
         options={{
+          headerShown: false,
           cardStyle: {
             backgroundColor: colors.GRAY_100,
           },
