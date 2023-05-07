@@ -137,7 +137,7 @@ function AddPostScreen({route, navigation}: AddPostScreenProps) {
               touched={addPost.touched.description}
               ref={descriptionRef}
               placeholder="기록하고 싶은 내용을 입력하세요. (선택)"
-              maxLength={1000}
+              maxLength={3000}
               returnKeyType="next"
               multiline
             />
