@@ -43,15 +43,64 @@ const colorHex = {
 function FeedDetailScreen({route}: FeedDetailScreenProps) {
   const {id} = route.params;
   const insets = useSafeAreaInsets();
+  const [scrolled, setScrolled] = useState(false);
   const {data: post, isLoading, isError} = useGetPost(id);
 
   if (isLoading || isError) {
     return <></>;
   }
 
+  const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const offsetY = event.nativeEvent.contentOffset.y;
+    const isScrolled = offsetY > 100;
+
+    setScrolled(isScrolled);
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+  };
+
   return (
     <>
-      <ScrollView showsVerticalScrollIndicator={false}>
+      {!scrolled && (
+        <View
+          style={{
+            position: 'absolute',
+            top: 0,
+            marginTop: insets.top,
+            paddingHorizontal: 20,
+            paddingVertical: 5,
+            zIndex: 1,
+            width: '100%',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+          }}>
+          <Octicons name="arrow-left" size={25} color={colors.BLACK} />
+          <Ionicons name="ellipsis-vertical" size={20} color={colors.BLACK} />
+        </View>
+      )}
+      {scrolled && (
+        <SafeAreaView
+          style={{
+            position: 'absolute',
+            zIndex: 1,
+            backgroundColor: 'rgba(255, 255, 255, 0.9)',
+            width: '100%',
+          }}>
+          <View
+            style={{
+              paddingHorizontal: 20,
+              paddingVertical: 5,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+            }}>
+            <Octicons name="arrow-left" size={25} color={colors.BLACK} />
+            <Ionicons name="ellipsis-vertical" size={20} color={colors.BLACK} />
+          </View>
+        </SafeAreaView>
+      )}
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        // onScroll={handleScroll}
+        onScroll={handleScroll}>
         <Conditional condition={post.images.length > 0}>
           <View key={post.id} style={styles.imageContainer}>
             <Image
