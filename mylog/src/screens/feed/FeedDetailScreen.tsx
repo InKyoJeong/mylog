@@ -99,8 +99,8 @@ function FeedDetailScreen({route}: FeedDetailScreenProps) {
       )}
       <ScrollView
         showsVerticalScrollIndicator={false}
-        // onScroll={handleScroll}
-        onScroll={handleScroll}>
+        onScroll={handleScroll}
+        scrollEventThrottle={100}>
         <Conditional condition={post.images.length > 0}>
           <View key={post.id} style={styles.imageContainer}>
             <Image
