@@ -11,7 +11,7 @@ const authNavigations = {
 
 const mapNavigations = {
   MAP_HOME: 'MapHome',
-  ADD_LOCATION: 'AddLocation',
+  ADD_POST: 'AddPost',
 } as const;
 
 const feedNavigations = {

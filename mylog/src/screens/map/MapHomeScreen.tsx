@@ -61,7 +61,7 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
     moveMapView(coordinate);
   };
 
-  const handlePressAddLocation = () => {
+  const handlePressAddPost = () => {
     if (!selectLocation) {
       return Alert.alert(
         alerts.NOT_SELECTED_LOCATION.TITLE,
@@ -69,7 +69,7 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
       );
     }
 
-    navigation.navigate(mapNavigations.ADD_LOCATION, {
+    navigation.navigate(mapNavigations.ADD_POST, {
       location: selectLocation,
     });
     clearImageUris();
@@ -132,7 +132,7 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
       </Pressable>
 
       <View style={styles.buttonList}>
-        <MapButton onPress={handlePressAddLocation}>
+        <MapButton onPress={handlePressAddPost}>
           <MaterialIcons name={'add'} color={colors.WHITE} size={25} />
         </MapButton>
         <MapButton onPress={handlePressUserLocation}>

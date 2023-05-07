@@ -13,7 +13,7 @@ import type {MapStackParamList} from '@/navigations/stack/MapStackNavigator';
 import InputField from '@/components/common/InputField';
 import CustomKeyboardAvoidingView from '@/components/keyboard/CustomKeyboardAvoidingView';
 import MarkerSelector from '@/components/MarkerSelector';
-import AddLocationRightHeader from '@/components/AddLocationRightHeader';
+import AddPostRightHeader from '@/components/AddPostRightHeader';
 import CustomButton from '@/components/common/CustomButton';
 import DatePickerModal from '@/components/modal/DatePickerModal';
 import ImageInput from '@/components/ImageInput';
@@ -25,18 +25,18 @@ import useDatePicker from '@/hooks/common/useDatePicker';
 import useForm from '@/hooks/common/useForm';
 import usePermission from '@/hooks/common/usePermission';
 import useImageUriStore from '@/store/useImageUriStore';
-import {validateAddLocation} from '@/utils/validate';
+import {validateAddPost} from '@/utils/validate';
 import {getDateWithSeparator} from '@/utils/date';
 import {mapNavigations} from '@/constants/navigations';
 import {colors} from '@/constants/colors';
 import type {MarkerColor} from '@/types/domain';
 
-type AddLocationScreenProps = StackScreenProps<
+type AddPostScreenProps = StackScreenProps<
   MapStackParamList,
-  typeof mapNavigations.ADD_LOCATION
+  typeof mapNavigations.ADD_POST
 >;
 
-function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
+function AddPostScreen({route, navigation}: AddPostScreenProps) {
   const {location} = route.params;
   const postMutation = useCreatePost();
   const {imageUris} = useImageUriStore();
@@ -45,9 +45,9 @@ function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
   const [score, setScore] = useState(3);
   const datePicker = useDatePicker(new Date());
   const address = useGetAddress(location);
-  const addLocation = useForm({
+  const addPost = useForm({
     initialValue: {title: '', description: ''},
-    validate: validateAddLocation,
+    validate: validateAddPost,
   });
   usePermission('PHOTO');
 
@@ -57,8 +57,8 @@ function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
         latitude: location.latitude,
         longitude: location.longitude,
         color: marker,
-        title: addLocation.values.title,
-        description: addLocation.values.description,
+        title: addPost.values.title,
+        description: addPost.values.description,
         date: datePicker.date,
         address,
         score,
@@ -73,7 +73,7 @@ function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
     postMutation,
     location,
     marker,
-    addLocation.values,
+    addPost.values,
     address,
     datePicker.date,
     navigation,
@@ -91,10 +91,9 @@ function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerRight: () =>
-        AddLocationRightHeader(handleSubmit, addLocation.hasErrors),
+      headerRight: () => AddPostRightHeader(handleSubmit, addPost.hasErrors),
     });
-  }, [handleSubmit, navigation, addLocation.hasErrors]);
+  }, [handleSubmit, navigation, addPost.hasErrors]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -121,9 +120,9 @@ function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
               onPress={datePicker.showModal}
             />
             <InputField
-              {...addLocation.getTextInputProps('title')}
-              error={addLocation.errors.title}
-              touched={addLocation.touched.title}
+              {...addPost.getTextInputProps('title')}
+              error={addPost.errors.title}
+              touched={addPost.touched.title}
               placeholder="제목을 입력하세요."
               maxLength={30}
               returnKeyType="next"
@@ -133,9 +132,9 @@ function AddLocationScreen({route, navigation}: AddLocationScreenProps) {
               }}
             />
             <InputField
-              {...addLocation.getTextInputProps('description')}
-              error={addLocation.errors.description}
-              touched={addLocation.touched.description}
+              {...addPost.getTextInputProps('description')}
+              error={addPost.errors.description}
+              touched={addPost.touched.description}
               ref={descriptionRef}
               placeholder="기록하고 싶은 내용을 입력하세요. (선택)"
               maxLength={1000}
@@ -182,4 +181,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AddLocationScreen;
+export default AddPostScreen;
