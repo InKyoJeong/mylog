@@ -1,27 +1,19 @@
 import React from 'react';
 import {Dimensions, StyleSheet, Text, View} from 'react-native';
-import {
-  CompositeNavigationProp,
-  NavigatorScreenParams,
-  useNavigation,
-} from '@react-navigation/native';
-import {DrawerNavigationProp} from '@react-navigation/drawer';
+import {CompositeNavigationProp, useNavigation} from '@react-navigation/native';
 import Octicons from 'react-native-vector-icons/Octicons';
+import type {DrawerNavigationProp} from '@react-navigation/drawer';
+import type {StackNavigationProp} from '@react-navigation/stack';
 
-import useMarkerStore from '@/store/useMarkerStore';
-import {useGetPost} from '@/hooks/queries/usePost';
 import {CompoundModal} from './CompoundModal';
-import {getDateWithSeparator} from '@/utils/date';
-import {colors} from '@/constants/colors';
-import {StackNavigationProp} from '@react-navigation/stack';
+import {useGetPost} from '@/hooks/queries/usePost';
+import useMarkerStore from '@/store/useMarkerStore';
 import {FeedStackParamList} from '@/navigations/stack/FeedStackNavigator';
+import {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
+import {getDateWithSeparator} from '@/utils/date';
 import {feedNavigations} from '@/constants/navigations';
 import {mainNavigations} from '@/constants/navigations';
-
-export type MainDrawerParamList = {
-  [mainNavigations.HOME]: undefined;
-  [mainNavigations.FEED]: undefined;
-};
+import {colors} from '@/constants/colors';
 
 type Navigation = CompositeNavigationProp<
   DrawerNavigationProp<MainDrawerParamList>,

@@ -1,18 +1,20 @@
 import React from 'react';
 import {Dimensions} from 'react-native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
-import type {RouteProp} from '@react-navigation/native';
+import type {NavigatorScreenParams, RouteProp} from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import MapStackNavigator from '@/navigations/stack/MapStackNavigator';
-import FeedStackNavigator from '@/navigations/stack/FeedStackNavigator';
+import FeedStackNavigator, {
+  FeedStackParamList,
+} from '@/navigations/stack/FeedStackNavigator';
 import {mainNavigations} from '@/constants/navigations';
 import {colors} from '@/constants/colors';
 import CustomDrawerContent from './CustomDrawerContent';
 
 export type MainDrawerParamList = {
   [mainNavigations.HOME]: undefined;
-  [mainNavigations.FEED]: undefined;
+  [mainNavigations.FEED]: NavigatorScreenParams<FeedStackParamList>;
 };
 
 const Drawer = createDrawerNavigator<MainDrawerParamList>();
