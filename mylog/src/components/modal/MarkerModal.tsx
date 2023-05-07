@@ -1,5 +1,11 @@
 import React from 'react';
 import {Dimensions, StyleSheet, Text, View} from 'react-native';
+import {
+  CompositeNavigationProp,
+  NavigatorScreenParams,
+  useNavigation,
+} from '@react-navigation/native';
+import {DrawerNavigationProp} from '@react-navigation/drawer';
 import Octicons from 'react-native-vector-icons/Octicons';
 
 import useMarkerStore from '@/store/useMarkerStore';
@@ -7,14 +13,40 @@ import {useGetPost} from '@/hooks/queries/usePost';
 import {CompoundModal} from './CompoundModal';
 import {getDateWithSeparator} from '@/utils/date';
 import {colors} from '@/constants/colors';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {FeedStackParamList} from '@/navigations/stack/FeedStackNavigator';
+import {feedNavigations} from '@/constants/navigations';
+import {mainNavigations} from '@/constants/navigations';
+
+export type MainDrawerParamList = {
+  [mainNavigations.HOME]: undefined;
+  [mainNavigations.FEED]: undefined;
+};
+
+type Navigation = CompositeNavigationProp<
+  DrawerNavigationProp<MainDrawerParamList>,
+  StackNavigationProp<FeedStackParamList>
+>;
 
 function MarkerModal() {
+  const navigation = useNavigation<Navigation>();
   const {markerId, isVisible, hideModal} = useMarkerStore();
   const {data: post, isLoading, isError} = useGetPost(markerId);
 
   if (isLoading || isError) {
     return <></>;
   }
+
+  const handlePressGoButton = () => {
+    navigation.navigate(mainNavigations.FEED, {
+      screen: feedNavigations.FEED_DETAIL,
+      params: {
+        id: post.id,
+      },
+    });
+
+    hideModal();
+  };
 
   return (
     <CompoundModal isVisible={isVisible} hideModal={hideModal}>
@@ -39,7 +71,7 @@ function MarkerModal() {
                 </Text>
               </View>
             </View>
-            <CompoundModal.GoNextButton onPress={() => {}} />
+            <CompoundModal.GoNextButton onPress={handlePressGoButton} />
           </View>
         </CompoundModal.Card>
       </CompoundModal.CardBackground>
