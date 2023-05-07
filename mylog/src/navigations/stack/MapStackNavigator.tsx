@@ -3,7 +3,7 @@ import {
   StackNavigationOptions,
   createStackNavigator,
 } from '@react-navigation/stack';
-import {LatLng} from 'react-native-maps';
+import type {LatLng} from 'react-native-maps';
 
 import MapHomeScreen from '@/screens/map/MapHomeScreen';
 import AddPostScreen from '@/screens/map/AddPostScreen';

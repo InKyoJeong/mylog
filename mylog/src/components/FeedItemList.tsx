@@ -11,11 +11,6 @@ import {mainNavigations} from '@/constants/navigations';
 
 function FeedItemList() {
   const navigation = useNavigation<DrawerNavigationProp<MainDrawerParamList>>();
-
-  // const handlePressFeed = () => {
-  //   navigation.navigate(feedNavigations.FEED_DETAIL, {id: post.id});
-  // };
-
   const {
     data: posts,
     fetchNextPage,
