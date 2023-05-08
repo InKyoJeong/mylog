@@ -10,24 +10,29 @@ import {
   Text,
   View,
 } from 'react-native';
+import type {CompositeScreenProps} from '@react-navigation/native';
 import type {FeedStackParamList} from '@/navigations/stack/FeedStackNavigator';
 import type {StackScreenProps} from '@react-navigation/stack';
+import type {DrawerScreenProps} from '@react-navigation/drawer';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Octicons from 'react-native-vector-icons/Octicons';
 
+import type {MapStackParamList} from '@/navigations/stack/MapStackNavigator';
 import Conditional from '@/components/common/Conditional';
 import CustomMarker from '@/components/common/CustomMarker';
 import CustomButton from '@/components/common/CustomButton';
 import FeedDetailStickyHeader from '@/components/FeedDetailHeader';
 import CustomBottomTab from '@/components/common/CustomBottomTab';
+import useLocationStore from '@/store/useLocationStore';
 import {useGetPost} from '@/hooks/queries/usePost';
 import {getDateLocaleFormat} from '@/utils/date';
-import {feedNavigations} from '@/constants/navigations';
+import {feedNavigations, mapNavigations} from '@/constants/navigations';
 import {colorHex, colors} from '@/constants/colors';
+import {numbers} from '@/constants/numbers';
 
-type FeedDetailScreenProps = StackScreenProps<
-  FeedStackParamList,
-  typeof feedNavigations.FEED_DETAIL
+type FeedDetailScreenProps = CompositeScreenProps<
+  StackScreenProps<FeedStackParamList, typeof feedNavigations.FEED_DETAIL>,
+  DrawerScreenProps<MapStackParamList>
 >;
 
 function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
@@ -35,10 +40,15 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
   const insets = useSafeAreaInsets();
   const [isScrolled, setIsScrolled] = useState(false);
   const {data: post, isLoading, isError} = useGetPost(id);
+  const {setLocation} = useLocationStore();
+
+  if (isLoading || isError) {
+    return <></>;
+  }
 
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const offsetY = event.nativeEvent.contentOffset.y;
-    const isScrolledY = offsetY > 100;
+    const isScrolledY = offsetY > numbers.MIN_STICKY_HEADER_OFFSET;
 
     setIsScrolled(isScrolledY);
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
@@ -48,9 +58,10 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
     navigation.goBack();
   };
 
-  if (isLoading || isError) {
-    return <></>;
-  }
+  const handlePressLocation = () => {
+    setLocation({latitude: post.latitude, longitude: post.longitude});
+    navigation.navigate(mapNavigations.MAP_HOME);
+  };
 
   return (
     <>
@@ -62,7 +73,8 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
       <ScrollView
         showsVerticalScrollIndicator={false}
         onScroll={handleScroll}
-        scrollEventThrottle={100}>
+        scrollEventThrottle={100}
+        style={{marginBottom: insets.bottom + 50}}>
         <Conditional condition={post.images.length > 0}>
           <View key={post.id} style={styles.coverImageContainer}>
             <Image
@@ -127,17 +139,11 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
               </View>
             </View>
           </View>
-          <Text>{post.description}</Text>
+          <Text style={styles.descriptionText}>{post.description}</Text>
         </View>
 
         <Conditional condition={post.images.length > 0}>
-          <View
-            style={[
-              styles.imageContentsContainer,
-              {
-                marginBottom: 10 + insets.bottom + 15 + 40, // 15:버튼 paddingTop, 40:버튼 height
-              },
-            ]}>
+          <View style={styles.imageContentsContainer}>
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
               <View style={styles.imageScrollContainer}>
                 {post.images.map(({uri}, index) => (
@@ -159,7 +165,12 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
           <View style={styles.bookmarkContainer}>
             <Octicons name="star-fill" size={30} color={colors.GRAY_100} />
           </View>
-          <CustomButton label="위치보기" size="medium" variant="filled" />
+          <CustomButton
+            label="위치보기"
+            size="medium"
+            variant="filled"
+            onPress={handlePressLocation}
+          />
         </View>
       </CustomBottomTab>
     </>
@@ -221,10 +232,15 @@ const styles = StyleSheet.create({
     color: colors.GRAY_500,
     fontSize: 12,
   },
+  descriptionText: {
+    lineHeight: 25,
+    fontSize: 16,
+  },
   imageContentsContainer: {
     paddingVertical: 15,
     paddingHorizontal: 20,
     backgroundColor: colors.WHITE,
+    marginBottom: 10,
   },
   imageScrollContainer: {
     flexDirection: 'row',

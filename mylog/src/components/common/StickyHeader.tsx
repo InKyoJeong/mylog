@@ -3,6 +3,7 @@ import {SafeAreaView, StyleSheet, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 import Conditional from './Conditional';
+import {colors} from '@/constants/colors';
 
 interface StickyHeaderProps {
   isScrolled: boolean;
@@ -47,6 +48,8 @@ const styles = StyleSheet.create({
   },
   scrolledContainer: {
     backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderColor: colors.GRAY_300,
   },
 });
 
