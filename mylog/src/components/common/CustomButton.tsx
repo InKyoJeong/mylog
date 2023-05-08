@@ -13,7 +13,7 @@ import {
 import {colors} from '@/constants/colors';
 
 type Variant = 'standard' | 'outlined' | 'filled';
-type Size = 'default' | 'medium' | 'large';
+type Size = 'small' | 'medium' | 'large';
 
 interface CustomButtonProps extends PressableProps {
   label: string;
@@ -28,7 +28,7 @@ const deviceHeight = Dimensions.get('screen').height;
 function CustomButton({
   label,
   variant = 'standard',
-  size = 'default',
+  size = 'small',
   style = null,
   hasError = false,
   ...props
@@ -39,10 +39,11 @@ function CustomButton({
       style={({pressed}) => [
         pressed ? styles[`${variant}Pressed`] : styles[variant],
         styles.container,
+        styles[`${size}Container`],
         hasError && styles.inValidContainer,
       ]}
       {...props}>
-      <View style={[styles.view, styles[size], style]}>
+      <View style={[styles[size], style]}>
         <Text style={[styles.text, styles[`${variant}Text`]]}>{label}</Text>
       </View>
     </Pressable>
@@ -55,20 +56,28 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 3,
   },
+  smallContainer: {},
+  mediumContainer: {
+    width: '50%',
+  },
+  largeContainer: {
+    width: '100%',
+  },
   inValidContainer: {
     opacity: 0.5,
   },
-  view: {
+  small: {
     alignItems: 'center',
-    paddingVertical: deviceHeight > 640 ? 15 : 10,
-  },
-  default: {
+    paddingVertical: deviceHeight > 640 ? 10 : 6,
     paddingHorizontal: deviceHeight > 640 ? 15 : 10,
   },
   medium: {
-    width: '50%',
+    alignItems: 'center',
+    paddingVertical: deviceHeight > 640 ? 12 : 8,
   },
   large: {
+    alignItems: 'center',
+    paddingVertical: deviceHeight > 640 ? 15 : 10,
     width: '100%',
   },
   filled: {

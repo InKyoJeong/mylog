@@ -3,7 +3,7 @@ import {StyleSheet, View} from 'react-native';
 import {LatLng, Marker, MyMapMarkerProps} from 'react-native-maps';
 
 import Conditional from './Conditional';
-import {colors} from '@/constants/colors';
+import {colorHex, colors} from '@/constants/colors';
 import type {MarkerColor} from '@/types/domain';
 
 type Size = 'small' | 'medium' | 'large';
@@ -17,16 +17,6 @@ interface CustomMarkerProps extends MyMapMarkerProps {
   borderColor?: string;
   innerColor?: string;
 }
-
-const colorHex = {
-  RED: colors.PINK_400,
-  BLUE: colors.BLUE_400,
-  GREEN: colors.GREEN_400,
-  YELLOW: colors.YELLOW_400,
-  PURPLE: colors.PURPLE_400,
-  GRAY: colors.GRAY_200,
-  PINK: colors.PINK_700,
-};
 
 function CustomMarker({
   coordinate,

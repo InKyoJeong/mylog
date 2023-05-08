@@ -1,20 +1,44 @@
 import React from 'react';
 import {Dimensions, StyleSheet, Text, View} from 'react-native';
+import {CompositeNavigationProp, useNavigation} from '@react-navigation/native';
 import Octicons from 'react-native-vector-icons/Octicons';
+import type {DrawerNavigationProp} from '@react-navigation/drawer';
+import type {StackNavigationProp} from '@react-navigation/stack';
 
-import useMarkerStore from '@/store/useMarkerStore';
-import {useGetPost} from '@/hooks/queries/usePost';
 import {CompoundModal} from './CompoundModal';
+import {useGetPost} from '@/hooks/queries/usePost';
+import useMarkerStore from '@/store/useMarkerStore';
+import {FeedStackParamList} from '@/navigations/stack/FeedStackNavigator';
+import {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
 import {getDateWithSeparator} from '@/utils/date';
+import {feedNavigations} from '@/constants/navigations';
+import {mainNavigations} from '@/constants/navigations';
 import {colors} from '@/constants/colors';
 
+type Navigation = CompositeNavigationProp<
+  DrawerNavigationProp<MainDrawerParamList>,
+  StackNavigationProp<FeedStackParamList>
+>;
+
 function MarkerModal() {
+  const navigation = useNavigation<Navigation>();
   const {markerId, isVisible, hideModal} = useMarkerStore();
   const {data: post, isLoading, isError} = useGetPost(markerId);
 
   if (isLoading || isError) {
     return <></>;
   }
+
+  const handlePressGoButton = () => {
+    navigation.navigate(mainNavigations.FEED, {
+      screen: feedNavigations.FEED_DETAIL,
+      params: {
+        id: post.id,
+      },
+    });
+
+    hideModal();
+  };
 
   return (
     <CompoundModal isVisible={isVisible} hideModal={hideModal}>
@@ -39,7 +63,7 @@ function MarkerModal() {
                 </Text>
               </View>
             </View>
-            <CompoundModal.GoNextButton onPress={() => {}} />
+            <CompoundModal.GoNextButton onPress={handlePressGoButton} />
           </View>
         </CompoundModal.Card>
       </CompoundModal.CardBackground>

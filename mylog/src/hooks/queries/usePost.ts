@@ -27,10 +27,9 @@ function useGetInifinitePosts(
     [queryKeys.POST, queryKeys.GET_POSTS],
     ({pageParam = 1}) => getPosts(pageParam),
     {
-      getNextPageParam: (lastPage, pages) => {
+      getNextPageParam: (lastPage, allPages) => {
         const lastPost = lastPage[lastPage.length - 1];
-
-        return lastPost ? pages.length + 1 : undefined;
+        return lastPost ? allPages.length + 1 : undefined;
       },
       ...queryOptions,
     },

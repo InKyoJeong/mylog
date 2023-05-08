@@ -3,16 +3,16 @@ import {
   StackNavigationOptions,
   createStackNavigator,
 } from '@react-navigation/stack';
-import {LatLng} from 'react-native-maps';
+import type {LatLng} from 'react-native-maps';
 
 import MapHomeScreen from '@/screens/map/MapHomeScreen';
-import AddLocationScreen from '@/screens/map/AddLocationScreen';
+import AddPostScreen from '@/screens/map/AddPostScreen';
 import {mapNavigations} from '@/constants/navigations';
 import {colors} from '@/constants/colors';
 
 export type MapStackParamList = {
   [mapNavigations.MAP_HOME]: undefined;
-  [mapNavigations.ADD_LOCATION]: {location: LatLng};
+  [mapNavigations.ADD_POST]: {location: LatLng};
 };
 
 const Stack = createStackNavigator<MapStackParamList>();
@@ -42,8 +42,8 @@ function MapStackNavigator() {
         }}
       />
       <Stack.Screen
-        name={mapNavigations.ADD_LOCATION}
-        component={AddLocationScreen}
+        name={mapNavigations.ADD_POST}
+        component={AddPostScreen}
         options={{
           headerTitle: '장소 추가',
         }}

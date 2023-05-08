@@ -11,7 +11,7 @@ type SignupInfo = LoginInfo & {
   passwordConfirm: string;
 };
 
-type AddLocationInfo = {
+type AddPostInfo = {
   title: string;
   description: string;
 };
@@ -108,7 +108,7 @@ function validateSignup(values: SignupInfo) {
   return {...passwordConfirmErrors, ...userErrors};
 }
 
-function validateAddLocation(values: AddLocationInfo) {
+function validateAddPost(values: AddPostInfo) {
   const {title} = values;
 
   const errors = getObjectWithValue(Object.keys(values), '');
@@ -120,4 +120,4 @@ function validateAddLocation(values: AddLocationInfo) {
   return errors;
 }
 
-export {validateLogin, validateSignup, validateAddLocation};
+export {validateLogin, validateSignup, validateAddPost};
