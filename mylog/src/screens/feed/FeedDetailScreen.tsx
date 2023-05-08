@@ -10,24 +10,28 @@ import {
   Text,
   View,
 } from 'react-native';
+import type {CompositeScreenProps} from '@react-navigation/native';
 import type {FeedStackParamList} from '@/navigations/stack/FeedStackNavigator';
 import type {StackScreenProps} from '@react-navigation/stack';
+import type {DrawerScreenProps} from '@react-navigation/drawer';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Octicons from 'react-native-vector-icons/Octicons';
 
+import type {MapStackParamList} from '@/navigations/stack/MapStackNavigator';
 import Conditional from '@/components/common/Conditional';
 import CustomMarker from '@/components/common/CustomMarker';
 import CustomButton from '@/components/common/CustomButton';
 import FeedDetailStickyHeader from '@/components/FeedDetailHeader';
 import CustomBottomTab from '@/components/common/CustomBottomTab';
+import useLocationStore from '@/store/useLocationStore';
 import {useGetPost} from '@/hooks/queries/usePost';
 import {getDateLocaleFormat} from '@/utils/date';
-import {feedNavigations} from '@/constants/navigations';
+import {feedNavigations, mapNavigations} from '@/constants/navigations';
 import {colorHex, colors} from '@/constants/colors';
 
-type FeedDetailScreenProps = StackScreenProps<
-  FeedStackParamList,
-  typeof feedNavigations.FEED_DETAIL
+type FeedDetailScreenProps = CompositeScreenProps<
+  StackScreenProps<FeedStackParamList, typeof feedNavigations.FEED_DETAIL>,
+  DrawerScreenProps<MapStackParamList>
 >;
 
 function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
@@ -35,6 +39,11 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
   const insets = useSafeAreaInsets();
   const [isScrolled, setIsScrolled] = useState(false);
   const {data: post, isLoading, isError} = useGetPost(id);
+  const {setLocation} = useLocationStore();
+
+  if (isLoading || isError) {
+    return <></>;
+  }
 
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const offsetY = event.nativeEvent.contentOffset.y;
@@ -48,9 +57,10 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
     navigation.goBack();
   };
 
-  if (isLoading || isError) {
-    return <></>;
-  }
+  const handlePressLocation = () => {
+    setLocation({latitude: post.latitude, longitude: post.longitude});
+    navigation.navigate(mapNavigations.MAP_HOME);
+  };
 
   return (
     <>
@@ -159,7 +169,12 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
           <View style={styles.bookmarkContainer}>
             <Octicons name="star-fill" size={30} color={colors.GRAY_100} />
           </View>
-          <CustomButton label="위치보기" size="medium" variant="filled" />
+          <CustomButton
+            label="위치보기"
+            size="medium"
+            variant="filled"
+            onPress={handlePressLocation}
+          />
         </View>
       </CustomBottomTab>
     </>
