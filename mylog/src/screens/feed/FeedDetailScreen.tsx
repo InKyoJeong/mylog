@@ -5,7 +5,6 @@ import {
   LayoutAnimation,
   NativeScrollEvent,
   NativeSyntheticEvent,
-  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
@@ -15,15 +14,15 @@ import type {FeedStackParamList} from '@/navigations/stack/FeedStackNavigator';
 import type {StackScreenProps} from '@react-navigation/stack';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Octicons from 'react-native-vector-icons/Octicons';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import {useGetPost} from '@/hooks/queries/usePost';
-import {feedNavigations} from '@/constants/navigations';
 import Conditional from '@/components/common/Conditional';
 import CustomMarker from '@/components/common/CustomMarker';
-import {colors} from '@/constants/colors';
 import CustomButton from '@/components/common/CustomButton';
+import FeedDetailStickyHeader from '@/components/FeedDetailHeader';
+import {useGetPost} from '@/hooks/queries/usePost';
 import {getDateLocaleFormat} from '@/utils/date';
+import {feedNavigations} from '@/constants/navigations';
+import {colors} from '@/constants/colors';
 
 type FeedDetailScreenProps = StackScreenProps<
   FeedStackParamList,
@@ -40,63 +39,35 @@ const colorHex = {
   PINK: colors.PINK_700,
 };
 
-function FeedDetailScreen({route}: FeedDetailScreenProps) {
+function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
   const {id} = route.params;
   const insets = useSafeAreaInsets();
-  const [scrolled, setScrolled] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const {data: post, isLoading, isError} = useGetPost(id);
+
+  const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const offsetY = event.nativeEvent.contentOffset.y;
+    const isScrolledY = offsetY > 100;
+
+    setIsScrolled(isScrolledY);
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+  };
+
+  const handleGoBack = () => {
+    navigation.goBack();
+  };
 
   if (isLoading || isError) {
     return <></>;
   }
 
-  const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-    const offsetY = event.nativeEvent.contentOffset.y;
-    const isScrolled = offsetY > 100;
-
-    setScrolled(isScrolled);
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-  };
-
   return (
     <>
-      {!scrolled && (
-        <View
-          style={{
-            position: 'absolute',
-            top: 0,
-            marginTop: insets.top,
-            paddingHorizontal: 20,
-            paddingVertical: 5,
-            zIndex: 1,
-            width: '100%',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-          }}>
-          <Octicons name="arrow-left" size={25} color={colors.BLACK} />
-          <Ionicons name="ellipsis-vertical" size={20} color={colors.BLACK} />
-        </View>
-      )}
-      {scrolled && (
-        <SafeAreaView
-          style={{
-            position: 'absolute',
-            zIndex: 1,
-            backgroundColor: 'rgba(255, 255, 255, 0.9)',
-            width: '100%',
-          }}>
-          <View
-            style={{
-              paddingHorizontal: 20,
-              paddingVertical: 5,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-            }}>
-            <Octicons name="arrow-left" size={25} color={colors.BLACK} />
-            <Ionicons name="ellipsis-vertical" size={20} color={colors.BLACK} />
-          </View>
-        </SafeAreaView>
-      )}
+      <FeedDetailStickyHeader
+        isScrolled={isScrolled}
+        onPressLeft={handleGoBack}
+        onPressRight={() => {}}
+      />
       <ScrollView
         showsVerticalScrollIndicator={false}
         onScroll={handleScroll}
@@ -200,28 +171,31 @@ function FeedDetailScreen({route}: FeedDetailScreenProps) {
           <Text>{post.description}</Text>
         </View>
 
-        <View
-          style={{
-            paddingVertical: 15,
-            paddingHorizontal: 20,
-            backgroundColor: colors.WHITE,
-            marginBottom: 10 + insets.bottom + 15 + 40,
-            // 15:버튼위 패딩 40:버튼영역
-          }}>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            <View style={{flexDirection: 'row', gap: 6}}>
-              {post.images.map(({uri}, index) => (
-                <View key={index} style={{width: 60, height: 60}}>
-                  <Image
-                    style={styles.image}
-                    source={{uri: `http://192.168.0.55:3030/${uri}`}}
-                  />
-                </View>
-              ))}
-            </View>
-          </ScrollView>
-        </View>
+        <Conditional condition={post.images.length > 0}>
+          <View
+            style={{
+              paddingVertical: 15,
+              paddingHorizontal: 20,
+              backgroundColor: colors.WHITE,
+              marginBottom: 10 + insets.bottom + 15 + 40,
+              // 15: 버튼위 패딩 40: 버튼영역
+            }}>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+              <View style={{flexDirection: 'row', gap: 6}}>
+                {post.images.map(({uri}, index) => (
+                  <View key={index} style={{width: 60, height: 60}}>
+                    <Image
+                      style={styles.image}
+                      source={{uri: `http://192.168.0.55:3030/${uri}`}}
+                    />
+                  </View>
+                ))}
+              </View>
+            </ScrollView>
+          </View>
+        </Conditional>
       </ScrollView>
+
       <View
         style={{
           position: 'absolute',

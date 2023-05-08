@@ -4,14 +4,14 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 import Conditional from './Conditional';
 
-interface CustomStickyHeaderProps {
+interface StickyHeaderProps {
   isScrolled: boolean;
 }
 
-function CustomStickyHeader({
+function StickyHeader({
   isScrolled,
   children,
-}: PropsWithChildren<CustomStickyHeaderProps>) {
+}: PropsWithChildren<StickyHeaderProps>) {
   const insets = useSafeAreaInsets();
 
   return (
@@ -50,4 +50,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CustomStickyHeader;
+export default StickyHeader;
