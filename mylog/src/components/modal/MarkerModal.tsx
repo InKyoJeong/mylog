@@ -35,6 +35,7 @@ function MarkerModal() {
       params: {
         id: post.id,
       },
+      initial: false,
     });
 
     hideModal();
