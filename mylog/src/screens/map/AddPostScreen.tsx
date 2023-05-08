@@ -13,7 +13,7 @@ import type {MapStackParamList} from '@/navigations/stack/MapStackNavigator';
 import InputField from '@/components/common/InputField';
 import CustomKeyboardAvoidingView from '@/components/keyboard/CustomKeyboardAvoidingView';
 import MarkerSelector from '@/components/MarkerSelector';
-import AddPostRightHeader from '@/components/AddPostRightHeader';
+import AddPostHeaderRight from '@/components/AddPostHeaderRight';
 import CustomButton from '@/components/common/CustomButton';
 import DatePickerModal from '@/components/modal/DatePickerModal';
 import ImageInput from '@/components/ImageInput';
@@ -91,7 +91,7 @@ function AddPostScreen({route, navigation}: AddPostScreenProps) {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerRight: () => AddPostRightHeader(handleSubmit, addPost.hasErrors),
+      headerRight: () => AddPostHeaderRight(handleSubmit, addPost.hasErrors),
     });
   }, [handleSubmit, navigation, addPost.hasErrors]);
 

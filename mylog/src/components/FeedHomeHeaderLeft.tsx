@@ -9,12 +9,12 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {colors} from '@/constants/colors';
 import HeaderButton from './common/HeaderButton';
 
-type FeedLeftHeaderProps = CompositeNavigationProp<
+type FeedHomeHeaderLeftProps = CompositeNavigationProp<
   StackNavigationProp<FeedStackParamList>,
   DrawerNavigationProp<MainDrawerParamList>
 >;
 
-function FeedLeftHeader(navigation: FeedLeftHeaderProps) {
+function FeedHomeHeaderLeft(navigation: FeedHomeHeaderLeftProps) {
   return (
     <HeaderButton
       icon={<Ionicons name={'md-menu-sharp'} color={colors.BLACK} size={25} />}
@@ -23,4 +23,4 @@ function FeedLeftHeader(navigation: FeedLeftHeaderProps) {
   );
 }
 
-export default FeedLeftHeader;
+export default FeedHomeHeaderLeft;

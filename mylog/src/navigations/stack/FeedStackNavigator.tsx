@@ -7,7 +7,7 @@ import {
 import FeedHomeScreen from '@/screens/feed/FeedHomeScreen';
 import FeedDetailScreen from '@/screens/feed/FeedDetailScreen';
 import {feedNavigations} from '@/constants/navigations';
-import FeedLeftHeader from '@/components/FeedLeftHeader';
+import FeedHomeHeaderLeft from '@/components/FeedHomeHeaderLeft';
 import {colors} from '@/constants/colors';
 
 export type FeedStackParamList = {
@@ -38,7 +38,7 @@ function FeedStackNavigator() {
         component={FeedHomeScreen}
         options={({navigation}) => ({
           headerTitle: '피드',
-          headerLeft: () => FeedLeftHeader(navigation),
+          headerLeft: () => FeedHomeHeaderLeft(navigation),
         })}
       />
       <Stack.Screen
