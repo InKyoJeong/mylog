@@ -1,3 +1,4 @@
+import {colors} from '@/constants/colors';
 import React, {PropsWithChildren} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -18,9 +19,11 @@ const styles = StyleSheet.create({
     bottom: 0,
     width: '100%',
     alignItems: 'flex-end',
-    paddingTop: 15,
+    paddingTop: 10,
     paddingHorizontal: 20,
     backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderColor: colors.GRAY_300,
   },
 });
 

@@ -73,7 +73,7 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
         showsVerticalScrollIndicator={false}
         onScroll={handleScroll}
         scrollEventThrottle={100}
-        style={{marginBottom: insets.bottom + 55}}>
+        style={{marginBottom: insets.bottom + 50}}>
         <Conditional condition={post.images.length > 0}>
           <View key={post.id} style={styles.coverImageContainer}>
             <Image
