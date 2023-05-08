@@ -72,7 +72,8 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
       <ScrollView
         showsVerticalScrollIndicator={false}
         onScroll={handleScroll}
-        scrollEventThrottle={100}>
+        scrollEventThrottle={100}
+        style={{marginBottom: insets.bottom + 55}}>
         <Conditional condition={post.images.length > 0}>
           <View key={post.id} style={styles.coverImageContainer}>
             <Image
@@ -137,17 +138,11 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
               </View>
             </View>
           </View>
-          <Text>{post.description}</Text>
+          <Text style={styles.descriptionText}>{post.description}</Text>
         </View>
 
         <Conditional condition={post.images.length > 0}>
-          <View
-            style={[
-              styles.imageContentsContainer,
-              {
-                marginBottom: 10 + insets.bottom + 15 + 40, // 15:버튼 paddingTop, 40:버튼 height
-              },
-            ]}>
+          <View style={styles.imageContentsContainer}>
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
               <View style={styles.imageScrollContainer}>
                 {post.images.map(({uri}, index) => (
@@ -236,10 +231,15 @@ const styles = StyleSheet.create({
     color: colors.GRAY_500,
     fontSize: 12,
   },
+  descriptionText: {
+    lineHeight: 25,
+    fontSize: 16,
+  },
   imageContentsContainer: {
     paddingVertical: 15,
     paddingHorizontal: 20,
     backgroundColor: colors.WHITE,
+    marginBottom: 10,
   },
   imageScrollContainer: {
     flexDirection: 'row',
