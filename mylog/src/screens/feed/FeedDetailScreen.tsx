@@ -28,6 +28,7 @@ import {useGetPost} from '@/hooks/queries/usePost';
 import {getDateLocaleFormat} from '@/utils/date';
 import {feedNavigations, mapNavigations} from '@/constants/navigations';
 import {colorHex, colors} from '@/constants/colors';
+import {numbers} from '@/constants/numbers';
 
 type FeedDetailScreenProps = CompositeScreenProps<
   StackScreenProps<FeedStackParamList, typeof feedNavigations.FEED_DETAIL>,
@@ -47,7 +48,7 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
 
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const offsetY = event.nativeEvent.contentOffset.y;
-    const isScrolledY = offsetY > 100;
+    const isScrolledY = offsetY > numbers.MIN_STICKY_HEADER_OFFSET;
 
     setIsScrolled(isScrolledY);
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);

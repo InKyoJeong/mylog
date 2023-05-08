@@ -37,14 +37,12 @@ type MapHomeScreenProps = CompositeScreenProps<
 >;
 
 function MapHomeScreen({navigation}: MapHomeScreenProps) {
-  const {mapRef, moveMapView, handleChangeDelta} = useMoveMapView({
-    latitudeDelta: numbers.INITIAL_LATITUDE_DELTA,
-    longitudeDelta: numbers.INITIAL_LONGITUDE_DELTA,
-  });
-  const {userLocation, isUserLocationError} = useUserLocation({
-    latitude: numbers.INITIAL_LATITUDE,
-    longitude: numbers.INITIAL_LONGITUDE,
-  });
+  const {mapRef, moveMapView, handleChangeDelta} = useMoveMapView(
+    numbers.INITIAL_DELTA,
+  );
+  const {userLocation, isUserLocationError} = useUserLocation(
+    numbers.INITIAL_LOCATION,
+  );
   const [selectLocation, setSelectLocation] = useState<LatLng | null>(null);
   const {data: markers = []} = useGetMarkers();
   const {clearImageUris} = useImageUriStore();
@@ -96,12 +94,7 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
         followsUserLocation={true}
         customMapStyle={getMapStyle('light')}
         clusterColor={colors.PINK_700}
-        region={{
-          latitude: userLocation.latitude,
-          longitude: userLocation.longitude,
-          latitudeDelta: numbers.INITIAL_LATITUDE_DELTA,
-          longitudeDelta: numbers.INITIAL_LONGITUDE_DELTA,
-        }}
+        region={{...userLocation, ...numbers.INITIAL_DELTA}}
         onLongPress={handleLongPressLocation}
         onRegionChangeComplete={handleChangeDelta}>
         {markers.map(({id, color, score, ...coordinate}) => (

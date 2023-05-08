@@ -23,10 +23,7 @@ function useMoveMapView(initialDelta: Delta) {
   };
 
   useEffect(() => {
-    moveMapView(location, {
-      latitudeDelta: 0.006567527582639343,
-      longitudeDelta: 0.003826171159730052,
-    });
+    moveMapView(location);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
 
