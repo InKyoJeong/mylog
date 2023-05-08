@@ -19,25 +19,16 @@ import Conditional from '@/components/common/Conditional';
 import CustomMarker from '@/components/common/CustomMarker';
 import CustomButton from '@/components/common/CustomButton';
 import FeedDetailStickyHeader from '@/components/FeedDetailHeader';
+import CustomBottomTab from '@/components/common/CustomBottomTab';
 import {useGetPost} from '@/hooks/queries/usePost';
 import {getDateLocaleFormat} from '@/utils/date';
 import {feedNavigations} from '@/constants/navigations';
-import {colors} from '@/constants/colors';
+import {colorHex, colors} from '@/constants/colors';
 
 type FeedDetailScreenProps = StackScreenProps<
   FeedStackParamList,
   typeof feedNavigations.FEED_DETAIL
 >;
-
-const colorHex = {
-  RED: colors.PINK_400,
-  BLUE: colors.BLUE_400,
-  GREEN: colors.GREEN_400,
-  YELLOW: colors.YELLOW_400,
-  PURPLE: colors.PURPLE_400,
-  GRAY: colors.GRAY_200,
-  PINK: colors.PINK_700,
-};
 
 function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
   const {id} = route.params;
@@ -73,7 +64,7 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
         onScroll={handleScroll}
         scrollEventThrottle={100}>
         <Conditional condition={post.images.length > 0}>
-          <View key={post.id} style={styles.imageContainer}>
+          <View key={post.id} style={styles.coverImageContainer}>
             <Image
               source={{
                 uri: `http://192.168.0.55:3030/${post.images[0]?.uri}`,
@@ -83,7 +74,11 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
           </View>
         </Conditional>
         <Conditional condition={post.images.length === 0}>
-          <View style={[styles.imageContainer, styles.emptyImageContainer]}>
+          <View
+            style={[
+              styles.coverImageContainer,
+              styles.emptyCoverImageContainer,
+            ]}>
             <CustomMarker
               size="medium"
               borderColor={colors.GRAY_300}
@@ -92,13 +87,7 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
           </View>
         </Conditional>
 
-        <View
-          style={{
-            paddingVertical: 20,
-            paddingHorizontal: 20,
-            backgroundColor: colors.WHITE,
-            marginBottom: 10,
-          }}>
+        <View style={styles.contentsContainer}>
           <View style={styles.addressContainer}>
             <Octicons name="location" size={10} color={colors.GRAY_500} />
             <Text
@@ -108,82 +97,51 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
               {post.address}
             </Text>
           </View>
-          <Text style={{fontSize: 22, fontWeight: 'bold'}}>{post.title}</Text>
-
-          <View style={{marginVertical: 20, gap: 8}}>
-            <View style={{flexDirection: 'row'}}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  gap: 5,
-                  alignItems: 'center',
-                  flex: 1,
-                }}>
+          <Text style={styles.titleText}>{post.title}</Text>
+          <View style={styles.infoContainer}>
+            <View style={styles.infoRow}>
+              <View style={styles.infoColumn}>
                 <Text>방문날짜</Text>
                 <Text style={{color: colors.PINK_700}}>
                   {getDateLocaleFormat(post.date)}
                 </Text>
               </View>
-
-              <View
-                style={{
-                  flexDirection: 'row',
-                  gap: 5,
-                  alignItems: 'center',
-                  flex: 1,
-                }}>
+              <View style={styles.infoColumn}>
                 <Text>평점</Text>
                 <Text style={{color: colors.PINK_700}}>{post.score}점</Text>
               </View>
             </View>
-
-            <View style={{flexDirection: 'row'}}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  gap: 5,
-                  alignItems: 'center',
-                  flex: 1,
-                }}>
+            <View style={styles.infoRow}>
+              <View style={styles.infoColumn}>
                 <Text>마커색상</Text>
                 <View
-                  style={{
-                    backgroundColor: colorHex[post.color],
-                    width: 10,
-                    height: 10,
-                    borderRadius: 10,
-                  }}
+                  style={[
+                    styles.markerColor,
+                    {backgroundColor: colorHex[post.color]},
+                  ]}
                 />
               </View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  gap: 5,
-                  alignItems: 'center',
-                  flex: 1,
-                }}>
+              <View style={styles.infoColumn}>
                 <Text>태그</Text>
                 <Text style={{color: colors.PINK_700}}>식당</Text>
               </View>
             </View>
           </View>
-
           <Text>{post.description}</Text>
         </View>
 
         <Conditional condition={post.images.length > 0}>
           <View
-            style={{
-              paddingVertical: 15,
-              paddingHorizontal: 20,
-              backgroundColor: colors.WHITE,
-              marginBottom: 10 + insets.bottom + 15 + 40,
-              // 15: 버튼위 패딩 40: 버튼영역
-            }}>
+            style={[
+              styles.imageContentsContainer,
+              {
+                marginBottom: 10 + insets.bottom + 15 + 40, // 15:버튼 paddingTop, 40:버튼 height
+              },
+            ]}>
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-              <View style={{flexDirection: 'row', gap: 6}}>
+              <View style={styles.imageScrollContainer}>
                 {post.images.map(({uri}, index) => (
-                  <View key={index} style={{width: 60, height: 60}}>
+                  <View key={index} style={styles.imageContainer}>
                     <Image
                       style={styles.image}
                       source={{uri: `http://192.168.0.55:3030/${uri}`}}
@@ -196,37 +154,48 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
         </Conditional>
       </ScrollView>
 
-      <View
-        style={{
-          position: 'absolute',
-          bottom: 0,
-          width: '100%',
-          paddingTop: 15,
-          paddingBottom: insets.bottom,
-          paddingHorizontal: 20,
-          backgroundColor: 'rgba(255, 255, 255, 0.9)',
-          alignItems: 'flex-end',
-        }}>
-        <View style={{flexDirection: 'row', alignItems: 'center', gap: 10}}>
-          <View
-            style={{
-              backgroundColor: colors.PINK_700,
-              height: '100%',
-              paddingHorizontal: 5,
-              borderRadius: 3,
-              justifyContent: 'center',
-            }}>
+      <CustomBottomTab>
+        <View style={styles.tabContainer}>
+          <View style={styles.bookmarkContainer}>
             <Octicons name="star-fill" size={30} color={colors.GRAY_100} />
           </View>
           <CustomButton label="위치보기" size="medium" variant="filled" />
         </View>
-      </View>
+      </CustomBottomTab>
     </>
   );
 }
 
 const styles = StyleSheet.create({
-  imageContainer: {
+  titleText: {
+    fontSize: 22,
+    fontWeight: 'bold',
+  },
+  contentsContainer: {
+    paddingVertical: 20,
+    paddingHorizontal: 20,
+    backgroundColor: colors.WHITE,
+    marginBottom: 10,
+  },
+  infoContainer: {
+    marginVertical: 20,
+    gap: 8,
+  },
+  infoRow: {
+    flexDirection: 'row',
+  },
+  infoColumn: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
+  },
+  markerColor: {
+    width: 10,
+    height: 10,
+    borderRadius: 10,
+  },
+  coverImageContainer: {
     width: Dimensions.get('screen').width,
     height: Dimensions.get('screen').width,
   },
@@ -234,7 +203,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
-  emptyImageContainer: {
+  emptyCoverImageContainer: {
     height: Dimensions.get('screen').width / 1.5,
     justifyContent: 'center',
     alignItems: 'center',
@@ -251,6 +220,31 @@ const styles = StyleSheet.create({
   addressText: {
     color: colors.GRAY_500,
     fontSize: 12,
+  },
+  imageContentsContainer: {
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    backgroundColor: colors.WHITE,
+  },
+  imageScrollContainer: {
+    flexDirection: 'row',
+    gap: 6,
+  },
+  imageContainer: {
+    width: 60,
+    height: 60,
+  },
+  tabContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
+  bookmarkContainer: {
+    backgroundColor: colors.PINK_700,
+    height: '100%',
+    paddingHorizontal: 5,
+    borderRadius: 3,
+    justifyContent: 'center',
   },
 });
 
