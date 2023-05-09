@@ -37,12 +37,8 @@ type MapHomeScreenProps = CompositeScreenProps<
 >;
 
 function MapHomeScreen({navigation}: MapHomeScreenProps) {
-  const {mapRef, moveMapView, handleChangeDelta} = useMoveMapView(
-    numbers.INITIAL_DELTA,
-  );
-  const {userLocation, isUserLocationError} = useUserLocation(
-    numbers.INITIAL_LOCATION,
-  );
+  const {mapRef, moveMapView, handleChangeDelta} = useMoveMapView();
+  const {userLocation, isUserLocationError} = useUserLocation();
   const [selectLocation, setSelectLocation] = useState<LatLng | null>(null);
   const {data: markers = []} = useGetMarkers();
   const {clearImageUris} = useImageUriStore();

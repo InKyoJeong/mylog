@@ -3,9 +3,12 @@ import type {LatLng} from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
 
 import useAppState from './useAppState';
+import {numbers} from '@/constants/numbers';
 
-function useUserLocation(initialLocation: LatLng) {
-  const [userLocation, setUserLocation] = useState(initialLocation);
+function useUserLocation() {
+  const [userLocation, setUserLocation] = useState<LatLng>(
+    numbers.INITIAL_LOCATION,
+  );
   const [isUserLocationError, setIsUserLocationError] = useState(false);
   const {isComeback} = useAppState();
 

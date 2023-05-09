@@ -60,7 +60,7 @@ export class PostService {
       .getOne();
 
     if (!foundPost) {
-      throw new NotFoundException('존재하지 않는 데이터입니다.');
+      throw new NotFoundException('존재하지 않는 데이터입니다.');
     }
 
     return foundPost;
@@ -109,7 +109,7 @@ export class PostService {
       .execute();
 
     if (result.affected === 0) {
-      throw new NotFoundException('존재하지 않는 데이터입니다.');
+      throw new NotFoundException('존재하지 않는 데이터입니다.');
     }
   }
 
