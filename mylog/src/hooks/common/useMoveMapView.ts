@@ -24,16 +24,9 @@ function useMoveMapView() {
   };
 
   useEffect(() => {
-    moveMapView(location);
+    location && moveMapView(location);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
-
-  useEffect(() => {
-    mapRef.current?.animateToRegion({
-      ...numbers.INITIAL_LOCATION,
-      ...numbers.INITIAL_DELTA,
-    });
-  }, []);
 
   return {mapRef, moveMapView, handleChangeDelta};
 }

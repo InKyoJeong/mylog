@@ -59,7 +59,8 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
   };
 
   const handlePressLocation = () => {
-    setLocation({latitude: post.latitude, longitude: post.longitude});
+    const {latitude, longitude} = post;
+    setLocation({latitude, longitude});
     navigation.navigate(mapNavigations.MAP_HOME);
   };
 
