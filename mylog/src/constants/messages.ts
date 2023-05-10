@@ -30,6 +30,10 @@ const alerts = {
     TITLE: '사진 접근 권한이 필요합니다',
     DESCRIPTION: '설정 화면에서 사진 권한을 허용해주세요.',
   },
+  DELETE_POST: {
+    TITLE: '삭제하시겠습니까?',
+    DESCRIPTION: '피드와 지도에서 모두 삭제됩니다.',
+  },
 } as const;
 
 export {errorMessages, alerts};
