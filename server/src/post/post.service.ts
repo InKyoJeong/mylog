@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Brackets, Repository } from 'typeorm';
+import { Brackets, Repository, SelectQueryBuilder } from 'typeorm';
 
 import { User } from 'src/auth/user.entity';
 import { CreatePostDto } from './dto/create-post.dto';
@@ -36,41 +36,42 @@ export class PostService {
     return markers;
   }
 
+  private async getMyPostsBaseQuery(
+    user: User,
+  ): Promise<SelectQueryBuilder<Post>> {
+    return this.postRepository
+      .createQueryBuilder('post')
+      .orderBy('post.date', 'DESC')
+      .leftJoinAndSelect('post.images', 'image')
+      .where('post.userId = :userId', { userId: user.id });
+  }
+
   async getMyPosts(page: number, user: User): Promise<Post[]> {
     const perPage = 10;
     const offset = (page - 1) * perPage;
-    const posts = await this.postRepository
-      .createQueryBuilder('post')
-      .orderBy('post.date', 'DESC')
-      .skip(offset)
-      .take(perPage)
-      .leftJoinAndSelect('post.images', 'image')
-      .where('post.userId = :userId', { userId: user.id })
-      .getMany();
+    const queryBuilder = await this.getMyPostsBaseQuery(user);
+    const posts = await queryBuilder.skip(offset).take(perPage).getMany();
 
     return posts;
   }
 
-  async searchPostsByTitleAndAddress(
+  async searchMyPostsByTitleAndAddress(
     query: string,
     page: number,
     user: User,
   ): Promise<Post[]> {
     const perPage = 10;
     const offset = (page - 1) * perPage;
-    const posts = await this.postRepository
-      .createQueryBuilder('post')
-      .orderBy('post.date', 'DESC')
-      .skip(offset)
-      .take(perPage)
-      .leftJoinAndSelect('post.images', 'image')
-      .where('post.userId = :userId', { userId: user.id })
+    const queryBuilder = await this.getMyPostsBaseQuery(user);
+    const posts = await queryBuilder
       .andWhere(
         new Brackets((qb) => {
           qb.where('post.title like :query', { query: `%${query}%` });
           qb.orWhere('post.address like :query', { query: `%${query}%` });
         }),
       )
+      .skip(offset)
+      .take(perPage)
       .getMany();
 
     return posts;
