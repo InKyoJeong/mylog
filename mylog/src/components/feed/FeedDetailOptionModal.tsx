@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {CompoundModal} from './CompoundModal';
+import {CompoundModal} from '../@common/CompoundModal';
 
 interface FeedDetailOptionModalProps {
   isVisible: boolean;

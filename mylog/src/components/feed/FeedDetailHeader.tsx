@@ -2,7 +2,7 @@ import React from 'react';
 import Octicons from 'react-native-vector-icons/Octicons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import StickyHeader from './common/StickyHeader';
+import StickyHeader from '../@common/StickyHeader';
 import {colors} from '@/constants/colors';
 
 interface FeedDetailHeaderProps {

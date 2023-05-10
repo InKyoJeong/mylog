@@ -5,11 +5,11 @@ import Octicons from 'react-native-vector-icons/Octicons';
 import type {DrawerNavigationProp} from '@react-navigation/drawer';
 import type {StackNavigationProp} from '@react-navigation/stack';
 
-import {CompoundModal} from './CompoundModal';
+import type {FeedStackParamList} from '@/navigations/stack/FeedStackNavigator';
+import type {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
+import {CompoundModal} from '../@common/CompoundModal';
 import {useGetPost} from '@/hooks/queries/usePost';
 import useMarkerStore from '@/store/useMarkerStore';
-import {FeedStackParamList} from '@/navigations/stack/FeedStackNavigator';
-import {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
 import {getDateWithSeparator} from '@/utils/date';
 import {feedNavigations} from '@/constants/navigations';
 import {mainNavigations} from '@/constants/navigations';

@@ -1,10 +1,10 @@
 import React, {useRef} from 'react';
 import {View, TextInput, SafeAreaView, StyleSheet} from 'react-native';
 
-import InputField from '@/components/common/InputField';
-import CustomButton from '@/components/common/CustomButton';
-import KeyboardPersistView from '@/components/keyboard/KeyboardPersistView';
-import CustomKeyboardAvoidingView from '@/components/keyboard/CustomKeyboardAvoidingView';
+import InputField from '@/components/@common/InputField';
+import CustomButton from '@/components/@common/CustomButton';
+import KeyboardPersistView from '@/components/@keyboard/KeyboardPersistView';
+import CustomKeyboardAvoidingView from '@/components/@keyboard/CustomKeyboardAvoidingView';
 import useForm from '@/hooks/common/useForm';
 import useAuth from '@/hooks/queries/useAuth';
 import {validateLogin} from '@/utils/validate';

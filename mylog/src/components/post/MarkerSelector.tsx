@@ -8,7 +8,7 @@ import {
   ScrollView,
 } from 'react-native';
 
-import CustomMarker from './common/CustomMarker';
+import CustomMarker from '../@common/CustomMarker';
 import {colors} from '@/constants/colors';
 import type {MarkerColor} from '@/types/domain';
 

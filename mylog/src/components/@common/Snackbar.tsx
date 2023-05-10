@@ -4,6 +4,7 @@ import {Text, StyleSheet, Animated} from 'react-native';
 import useSnackbarStore from '@/store/useSnackbarStore';
 import useKeyboardStatus from '@/hooks/common/useKeyboardStatus';
 import {colors} from '@/constants/colors';
+import {numbers} from '@/constants/numbers';
 
 function Snackbar() {
   const snackbar = useSnackbarStore();
@@ -22,7 +23,7 @@ function Snackbar() {
         toValue: 100,
         useNativeDriver: true,
       }).start(snackbar.hide);
-    }, 2500);
+    }, numbers.SNAKBAR_DISPLAY_TIME);
 
     return () => {
       if (timeoutIdRef.current !== null) {

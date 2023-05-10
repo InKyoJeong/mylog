@@ -1,6 +1,6 @@
 import React from 'react';
 
-import HeaderButton from './common/HeaderButton';
+import HeaderButton from '../@common/HeaderButton';
 
 function AddPostHeaderRight(onSubmit: () => void, hasError: boolean) {
   return (

@@ -17,12 +17,12 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Octicons from 'react-native-vector-icons/Octicons';
 
 import type {MapStackParamList} from '@/navigations/stack/MapStackNavigator';
-import Conditional from '@/components/common/Conditional';
-import CustomMarker from '@/components/common/CustomMarker';
-import CustomButton from '@/components/common/CustomButton';
-import FeedDetailStickyHeader from '@/components/FeedDetailHeader';
-import CustomBottomTab from '@/components/common/CustomBottomTab';
-import FeedDetailOptionModal from '@/components/modal/FeedDetailOptionModal';
+import Conditional from '@/components/@common/Conditional';
+import CustomMarker from '@/components/@common/CustomMarker';
+import CustomButton from '@/components/@common/CustomButton';
+import CustomBottomTab from '@/components/@common/CustomBottomTab';
+import FeedDetailOptionModal from '@/components/feed/FeedDetailOptionModal';
+import FeedDetailHeader from '@/components/feed/FeedDetailHeader';
 import useLocationStore from '@/store/useLocationStore';
 import {useGetPost} from '@/hooks/queries/usePost';
 import useModal from '@/hooks/common/useModal';
@@ -62,7 +62,7 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
 
   return (
     <>
-      <FeedDetailStickyHeader
+      <FeedDetailHeader
         isScrolled={isScrolled}
         onPressLeft={() => navigation.goBack()}
         onPressRight={optionModal.show}

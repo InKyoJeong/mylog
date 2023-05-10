@@ -15,8 +15,8 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import {colors} from '@/constants/colors';
 import type {ImageUri} from '@/types/domain';
-import CustomMarker from '../common/CustomMarker';
-import Conditional from '../common/Conditional';
+import Conditional from './Conditional';
+import CustomMarker from './CustomMarker';
 
 interface ModalContextValue {
   onClickOutSide?: (event: GestureResponderEvent) => void;

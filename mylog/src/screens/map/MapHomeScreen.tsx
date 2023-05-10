@@ -16,8 +16,9 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import type {MapStackParamList} from '@/navigations/stack/MapStackNavigator';
 import type {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
-import MapButton from '@/components/MapButton';
-import CustomMarker from '@/components/common/CustomMarker';
+import CustomMarker from '@/components/@common/CustomMarker';
+import MapButton from '@/components/map/MapButton';
+import MarkerModal from '@/components/map/MarkerModal';
 import usePermission from '@/hooks/common/usePermission';
 import useUserLocation from '@/hooks/common/useUserLocation';
 import useMoveMapView from '@/hooks/common/useMoveMapView';
@@ -128,6 +129,8 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
           <MaterialIcons name={'my-location'} color={colors.WHITE} size={25} />
         </MapButton>
       </View>
+
+      <MarkerModal />
     </View>
   );
 }
