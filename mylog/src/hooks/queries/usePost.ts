@@ -7,9 +7,18 @@ import {
 } from '@tanstack/react-query';
 
 import queryClient from '@/api/queryClient';
-import {ResponsePost, createPost, getPost, getPosts} from '@/api/post';
-import {ResponseError, UseMutationCustomOptions} from '@/types';
+import {
+  ResponsePost,
+  createPost,
+  deletePost,
+  getPost,
+  getPosts,
+} from '@/api/post';
+import useDetailPostStore from '@/store/useDetailPostStore';
+import useImageUriStore from '@/store/useImageUriStore';
 import queryKeys from '@/constants/queryKeys';
+import type {ResponseError, UseMutationCustomOptions} from '@/types';
+import type {Marker} from '@/types/domain';
 
 function useGetInifinitePosts(
   queryOptions?: Omit<
@@ -40,11 +49,19 @@ function useGetPost(
   id: number,
   queryOptions?: UseQueryOptions<ResponsePost, ResponseError>,
 ) {
+  const {setImageUris} = useImageUriStore();
+  const {setDetailPost} = useDetailPostStore();
+
   return useQuery<ResponsePost, ResponseError>(
     [queryKeys.POST, queryKeys.GET_POST, id],
     () => getPost(id),
     {
       enabled: !!id,
+      onSuccess: data => {
+        const {images, ...detailPost} = data;
+        setImageUris(images);
+        setDetailPost(detailPost);
+      },
       ...queryOptions,
     },
   );
@@ -60,4 +77,17 @@ function useCreatePost(mutationOptions?: UseMutationCustomOptions) {
   });
 }
 
-export {useGetInifinitePosts, useGetPost, useCreatePost};
+function useDeletePost(mutationOptions?: UseMutationCustomOptions) {
+  return useMutation(deletePost, {
+    onSuccess: deletedId => {
+      queryClient.invalidateQueries([queryKeys.POST, queryKeys.GET_POSTS]);
+      queryClient.setQueryData<Marker[]>(
+        [queryKeys.MARKER, queryKeys.GET_MARKERS],
+        oldData => oldData?.filter(marker => marker.id !== deletedId),
+      );
+    },
+    ...mutationOptions,
+  });
+}
+
+export {useGetInifinitePosts, useGetPost, useCreatePost, useDeletePost};

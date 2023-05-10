@@ -19,11 +19,8 @@ function LoginScreen() {
 
   const handleSubmit = () => {
     loginMutation.mutate(login.values, {
-      onSuccess: () => {
-        console.log('로그인 완료');
-      },
       onError: error =>
-        console.log('error.response?.data', error.response?.data),
+        console.log('error.response?.data', error.response?.data.message),
     });
   };
 
