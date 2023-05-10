@@ -23,6 +23,8 @@ export class Image extends BaseEntity {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @ManyToOne(() => Post, (post) => post.images)
+  @ManyToOne(() => Post, (post) => post.images, {
+    onDelete: 'CASCADE',
+  })
   post: Post;
 }
