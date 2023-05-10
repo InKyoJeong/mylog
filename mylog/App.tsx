@@ -5,8 +5,7 @@ import {QueryClientProvider} from '@tanstack/react-query';
 
 import RootNavigator from '@/navigations/root/RootNavigator';
 import queryClient from '@/api/queryClient';
-import MarkerModal from '@/components/modal/MarkerModal';
-import Snackbar from '@/components/common/Snackbar';
+import Snackbar from '@/components/@common/Snackbar';
 
 if (__DEV__) {
   import('react-query-native-devtools').then(({addPlugin}) => {
@@ -27,7 +26,6 @@ function App() {
       <StatusBar barStyle={'dark-content'} />
       <NavigationContainer>
         <RootNavigator />
-        <MarkerModal />
         <Snackbar />
       </NavigationContainer>
     </QueryClientProvider>

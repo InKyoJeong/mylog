@@ -1,7 +1,8 @@
-import {colors} from '@/constants/colors';
 import React, {PropsWithChildren} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+
+import {colors} from '@/constants/colors';
 
 function CustomBottomTab({children}: PropsWithChildren) {
   const insets = useSafeAreaInsets();

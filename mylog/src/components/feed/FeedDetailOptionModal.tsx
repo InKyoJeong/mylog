@@ -1,27 +1,36 @@
 import React from 'react';
 
-import {CompoundModal} from './CompoundModal';
-import useOptionStore from '@/store/useOptionStore';
+import {CompoundModal} from '../@common/CompoundModal';
 
-function OptionModal() {
-  const {isVisible, hideOption} = useOptionStore();
+interface FeedDetailOptionModalProps {
+  isVisible: boolean;
+  hideOption: () => void;
+  onPressDelete: () => void;
+  onPressEdit: () => void;
+}
 
+function FeedDetailOptionModal({
+  isVisible,
+  hideOption,
+  onPressDelete,
+  onPressEdit,
+}: FeedDetailOptionModalProps) {
   return (
     <CompoundModal isVisible={isVisible} hideModal={hideOption}>
       <CompoundModal.OptionBackground>
         <CompoundModal.OptionButtonList>
-          <CompoundModal.OptionButton onPress={() => {}} isDanger>
-            {/* 삭제하기 */}
+          <CompoundModal.OptionButton onPress={onPressDelete} isDanger>
+            삭제하기
           </CompoundModal.OptionButton>
           <CompoundModal.OptionDivider />
-          <CompoundModal.OptionButton onPress={() => {}}>
-            {/* 수정하기 */}
+          <CompoundModal.OptionButton onPress={onPressEdit}>
+            수정하기
           </CompoundModal.OptionButton>
         </CompoundModal.OptionButtonList>
 
         <CompoundModal.OptionButtonList>
           <CompoundModal.OptionButton onPress={hideOption}>
-            {/* 취소하기 */}
+            취소
           </CompoundModal.OptionButton>
         </CompoundModal.OptionButtonList>
       </CompoundModal.OptionBackground>
@@ -29,4 +38,4 @@ function OptionModal() {
   );
 }
 
-export default OptionModal;
+export default FeedDetailOptionModal;

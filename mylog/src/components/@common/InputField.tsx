@@ -50,8 +50,8 @@ const InputField = forwardRef(
         <View
           style={[
             styles.container,
-            disabled && styles.disabled,
             props.multiline && styles.multiLine,
+            disabled && styles.disabled,
             touched && !!error && styles.inputError,
           ]}>
           <View style={!!icon && styles.innerContainer}>

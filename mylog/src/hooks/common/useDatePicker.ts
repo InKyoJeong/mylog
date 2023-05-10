@@ -1,35 +1,29 @@
 import {useState} from 'react';
 
+import useModal from './useModal';
+
 function useDatePicker(initialDate: Date = new Date()) {
   const [date, setDate] = useState(initialDate);
-  const [isVisible, setIsVisible] = useState(false);
   const [isPicked, setIsPicked] = useState(false);
-
-  const showModal = () => {
-    setIsVisible(true);
-  };
-
-  const hideModal = () => {
-    setIsVisible(false);
-  };
+  const datePickerModal = useModal();
 
   const handleChange = (pickedDate: Date) => {
     setDate(pickedDate);
   };
 
   const handleConfirm = () => {
-    hideModal();
     setIsPicked(true);
+    datePickerModal.hide();
   };
 
   return {
     date,
-    isVisible,
     isPicked,
-    showModal,
-    hideModal,
     handleChange,
     handleConfirm,
+    isVisible: datePickerModal.isVisible,
+    showModal: datePickerModal.show,
+    hideModal: datePickerModal.hide,
   };
 }
 

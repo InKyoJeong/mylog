@@ -4,6 +4,7 @@ const colors = {
   PINK_400: '#EC87A5',
   PINK_500: '#BF5C79',
   PINK_700: '#C63B64',
+  BLUE_500: '#0D8AFF',
   RED_500: '#FF5F5F',
   RED_300: '#FFB4B4',
   BLUE_400: '#B4E0FF',

@@ -2,7 +2,7 @@ import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import DatePicker from 'react-native-date-picker';
 
-import {CompoundModal} from './CompoundModal';
+import {CompoundModal} from '../@common/CompoundModal';
 import {colors} from '@/constants/colors';
 
 interface DatePickerModalProps {

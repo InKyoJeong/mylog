@@ -11,13 +11,13 @@ import {useNavigation} from '@react-navigation/native';
 // import Config from 'react-native-config';
 import {StackNavigationProp} from '@react-navigation/stack';
 
-import {FeedStackParamList} from '@/navigations/stack/FeedStackNavigator';
-import CustomMarker from './common/CustomMarker';
-import Conditional from './common/Conditional';
+import type {ResponsePost} from '@/api/post';
+import type {FeedStackParamList} from '@/navigations/stack/FeedStackNavigator';
+import CustomMarker from '../@common/CustomMarker';
+import Conditional from '../@common/Conditional';
 import {getDateWithSeparator} from '@/utils/date';
 import {feedNavigations} from '@/constants/navigations';
 import {colors} from '@/constants/colors';
-import {ResponsePost} from '@/api/post';
 
 interface FeedItemProps {
   post: ResponsePost;

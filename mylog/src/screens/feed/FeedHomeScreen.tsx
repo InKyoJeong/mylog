@@ -1,7 +1,7 @@
 import React from 'react';
 import {SafeAreaView, StyleSheet} from 'react-native';
 
-import FeedItemList from '@/components/FeedItemList';
+import FeedItemList from '@/components/feed/FeedItemList';
 
 function FeedScreen() {
   return (

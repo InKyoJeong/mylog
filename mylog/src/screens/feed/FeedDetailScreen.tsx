@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import {
   Dimensions,
   Image,
-  LayoutAnimation,
   NativeScrollEvent,
   NativeSyntheticEvent,
   ScrollView,
@@ -18,13 +17,15 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Octicons from 'react-native-vector-icons/Octicons';
 
 import type {MapStackParamList} from '@/navigations/stack/MapStackNavigator';
-import Conditional from '@/components/common/Conditional';
-import CustomMarker from '@/components/common/CustomMarker';
-import CustomButton from '@/components/common/CustomButton';
-import FeedDetailStickyHeader from '@/components/FeedDetailHeader';
-import CustomBottomTab from '@/components/common/CustomBottomTab';
+import Conditional from '@/components/@common/Conditional';
+import CustomMarker from '@/components/@common/CustomMarker';
+import CustomButton from '@/components/@common/CustomButton';
+import CustomBottomTab from '@/components/@common/CustomBottomTab';
+import FeedDetailOptionModal from '@/components/feed/FeedDetailOptionModal';
+import FeedDetailHeader from '@/components/feed/FeedDetailHeader';
 import useLocationStore from '@/store/useLocationStore';
 import {useGetPost} from '@/hooks/queries/usePost';
+import useModal from '@/hooks/common/useModal';
 import {getDateLocaleFormat} from '@/utils/date';
 import {feedNavigations, mapNavigations} from '@/constants/navigations';
 import {colorHex, colors} from '@/constants/colors';
@@ -41,6 +42,7 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const {data: post, isLoading, isError} = useGetPost(id);
   const {setLocation} = useLocationStore();
+  const optionModal = useModal();
 
   if (isLoading || isError) {
     return <></>;
@@ -49,13 +51,7 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const offsetY = event.nativeEvent.contentOffset.y;
     const isScrolledY = offsetY > numbers.MIN_STICKY_HEADER_OFFSET;
-
     setIsScrolled(isScrolledY);
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-  };
-
-  const handleGoBack = () => {
-    navigation.goBack();
   };
 
   const handlePressLocation = () => {
@@ -66,10 +62,10 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
 
   return (
     <>
-      <FeedDetailStickyHeader
+      <FeedDetailHeader
         isScrolled={isScrolled}
-        onPressLeft={handleGoBack}
-        onPressRight={() => {}}
+        onPressLeft={() => navigation.goBack()}
+        onPressRight={optionModal.show}
       />
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -174,6 +170,13 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
           />
         </View>
       </CustomBottomTab>
+
+      <FeedDetailOptionModal
+        isVisible={optionModal.isVisible}
+        hideOption={optionModal.hide}
+        onPressDelete={() => {}}
+        onPressEdit={() => {}}
+      />
     </>
   );
 }

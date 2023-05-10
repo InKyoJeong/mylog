@@ -15,8 +15,8 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import {colors} from '@/constants/colors';
 import type {ImageUri} from '@/types/domain';
-import CustomMarker from '../common/CustomMarker';
-import Conditional from '../common/Conditional';
+import Conditional from './Conditional';
+import CustomMarker from './CustomMarker';
 
 interface ModalContextValue {
   onClickOutSide?: (event: GestureResponderEvent) => void;
@@ -231,10 +231,12 @@ const styles = StyleSheet.create({
     height: 50,
   },
   optionButtonPressed: {
-    opacity: 0.4,
+    backgroundColor: colors.GRAY_300,
   },
   optionText: {
-    fontSize: 16,
+    fontSize: 17,
+    color: colors.BLUE_500,
+    fontWeight: '500',
   },
   border: {
     borderBottomColor: colors.GRAY_300,

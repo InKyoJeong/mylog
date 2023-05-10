@@ -6,8 +6,8 @@ import type {FeedStackParamList} from '@/navigations/stack/FeedStackNavigator';
 import type {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
+import HeaderButton from '../@common/HeaderButton';
 import {colors} from '@/constants/colors';
-import HeaderButton from './common/HeaderButton';
 
 type FeedHomeHeaderLeftProps = CompositeNavigationProp<
   StackNavigationProp<FeedStackParamList>,

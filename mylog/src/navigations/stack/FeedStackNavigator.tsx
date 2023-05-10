@@ -6,8 +6,8 @@ import {
 
 import FeedHomeScreen from '@/screens/feed/FeedHomeScreen';
 import FeedDetailScreen from '@/screens/feed/FeedDetailScreen';
+import FeedHomeHeaderLeft from '@/components/feed/FeedHomeHeaderLeft';
 import {feedNavigations} from '@/constants/navigations';
-import FeedHomeHeaderLeft from '@/components/FeedHomeHeaderLeft';
 import {colors} from '@/constants/colors';
 
 export type FeedStackParamList = {
