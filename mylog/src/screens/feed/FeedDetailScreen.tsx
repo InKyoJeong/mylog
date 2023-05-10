@@ -10,9 +10,9 @@ import {
   View,
 } from 'react-native';
 import type {CompositeScreenProps} from '@react-navigation/native';
-import type {FeedStackParamList} from '@/navigations/stack/FeedStackNavigator';
 import type {StackScreenProps} from '@react-navigation/stack';
 import type {DrawerScreenProps} from '@react-navigation/drawer';
+import type {FeedStackParamList} from '@/navigations/stack/FeedStackNavigator';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Octicons from 'react-native-vector-icons/Octicons';
 
@@ -24,7 +24,7 @@ import CustomBottomTab from '@/components/@common/CustomBottomTab';
 import FeedDetailOptionModal from '@/components/feed/FeedDetailOptionModal';
 import FeedDetailHeader from '@/components/feed/FeedDetailHeader';
 import useLocationStore from '@/store/useLocationStore';
-import {useDeletePost, useGetPost} from '@/hooks/queries/usePost';
+import {useGetPost} from '@/hooks/queries/usePost';
 import useModal from '@/hooks/common/useModal';
 import {getDateLocaleFormat} from '@/utils/date';
 import {feedNavigations, mapNavigations} from '@/constants/navigations';
@@ -39,11 +39,10 @@ type FeedDetailScreenProps = CompositeScreenProps<
 function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
   const {id} = route.params;
   const insets = useSafeAreaInsets();
-  const [isScrolled, setIsScrolled] = useState(false);
-  const {data: post, isLoading, isError} = useGetPost(id);
-  const deletePostMutation = useDeletePost();
-  const {setLocation} = useLocationStore();
   const optionModal = useModal();
+  const [isScrolled, setIsScrolled] = useState(false);
+  const {setLocation} = useLocationStore();
+  const {data: post, isLoading, isError} = useGetPost(id);
 
   if (isLoading || isError) {
     return <></>;
@@ -59,15 +58,6 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
     const {latitude, longitude} = post;
     setLocation({latitude, longitude});
     navigation.navigate(mapNavigations.MAP_HOME);
-  };
-
-  const handleDeletePost = () => {
-    deletePostMutation.mutate(id, {
-      onSuccess: () => {
-        optionModal.hide();
-        navigation.goBack();
-      },
-    });
   };
 
   return (
@@ -184,8 +174,6 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
       <FeedDetailOptionModal
         isVisible={optionModal.isVisible}
         hideOption={optionModal.hide}
-        onPressDelete={handleDeletePost}
-        onPressEdit={() => {}}
       />
     </>
   );
