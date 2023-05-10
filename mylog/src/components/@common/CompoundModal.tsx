@@ -234,7 +234,9 @@ const styles = StyleSheet.create({
     backgroundColor: colors.GRAY_300,
   },
   optionText: {
-    fontSize: 16,
+    fontSize: 17,
+    color: colors.BLUE_500,
+    fontWeight: '500',
   },
   border: {
     borderBottomColor: colors.GRAY_300,

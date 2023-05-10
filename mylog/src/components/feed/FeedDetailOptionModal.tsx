@@ -30,7 +30,7 @@ function FeedDetailOptionModal({
 
         <CompoundModal.OptionButtonList>
           <CompoundModal.OptionButton onPress={hideOption}>
-            취소하기
+            취소
           </CompoundModal.OptionButton>
         </CompoundModal.OptionButtonList>
       </CompoundModal.OptionBackground>
