@@ -99,7 +99,7 @@ export class PostService {
     return post;
   }
 
-  async deletePost(id: number, user: User): Promise<void> {
+  async deletePost(id: number, user: User): Promise<number> {
     const result = await this.postRepository
       .createQueryBuilder('post')
       .delete()
@@ -111,6 +111,8 @@ export class PostService {
     if (result.affected === 0) {
       throw new NotFoundException('존재하지 않는 데이터입니다.');
     }
+
+    return id;
   }
 
   async updatePost(
