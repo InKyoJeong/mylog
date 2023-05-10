@@ -24,7 +24,7 @@ import CustomBottomTab from '@/components/@common/CustomBottomTab';
 import FeedDetailOptionModal from '@/components/feed/FeedDetailOptionModal';
 import FeedDetailHeader from '@/components/feed/FeedDetailHeader';
 import useLocationStore from '@/store/useLocationStore';
-import {useGetPost} from '@/hooks/queries/usePost';
+import {useDeletePost, useGetPost} from '@/hooks/queries/usePost';
 import useModal from '@/hooks/common/useModal';
 import {getDateLocaleFormat} from '@/utils/date';
 import {feedNavigations, mapNavigations} from '@/constants/navigations';
@@ -41,6 +41,7 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
   const insets = useSafeAreaInsets();
   const [isScrolled, setIsScrolled] = useState(false);
   const {data: post, isLoading, isError} = useGetPost(id);
+  const deletePostMutation = useDeletePost();
   const {setLocation} = useLocationStore();
   const optionModal = useModal();
 
@@ -58,6 +59,15 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
     const {latitude, longitude} = post;
     setLocation({latitude, longitude});
     navigation.navigate(mapNavigations.MAP_HOME);
+  };
+
+  const handleDeletePost = () => {
+    deletePostMutation.mutate(id, {
+      onSuccess: () => {
+        optionModal.hide();
+        navigation.goBack();
+      },
+    });
   };
 
   return (
@@ -174,7 +184,7 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
       <FeedDetailOptionModal
         isVisible={optionModal.isVisible}
         hideOption={optionModal.hide}
-        onPressDelete={() => {}}
+        onPressDelete={handleDeletePost}
         onPressEdit={() => {}}
       />
     </>

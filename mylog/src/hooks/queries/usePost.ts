@@ -7,9 +7,16 @@ import {
 } from '@tanstack/react-query';
 
 import queryClient from '@/api/queryClient';
-import {ResponsePost, createPost, getPost, getPosts} from '@/api/post';
+import {
+  ResponsePost,
+  createPost,
+  deletePost,
+  getPost,
+  getPosts,
+} from '@/api/post';
 import {ResponseError, UseMutationCustomOptions} from '@/types';
 import queryKeys from '@/constants/queryKeys';
+import type {Marker} from '@/types/domain';
 
 function useGetInifinitePosts(
   queryOptions?: Omit<
@@ -60,4 +67,17 @@ function useCreatePost(mutationOptions?: UseMutationCustomOptions) {
   });
 }
 
-export {useGetInifinitePosts, useGetPost, useCreatePost};
+function useDeletePost(mutationOptions?: UseMutationCustomOptions) {
+  return useMutation(deletePost, {
+    onSuccess: deletedId => {
+      queryClient.invalidateQueries([queryKeys.POST, queryKeys.GET_POSTS]);
+      queryClient.setQueryData<Marker[]>(
+        [queryKeys.MARKER, queryKeys.GET_MARKERS],
+        oldData => oldData?.filter(marker => marker.id !== deletedId),
+      );
+    },
+    ...mutationOptions,
+  });
+}
+
+export {useGetInifinitePosts, useGetPost, useCreatePost, useDeletePost};
