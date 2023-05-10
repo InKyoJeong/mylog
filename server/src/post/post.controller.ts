@@ -64,7 +64,7 @@ export class PostController {
   deletePost(
     @Param('id', ParseIntPipe) id: number,
     @GetUser() user: User,
-  ): Promise<void> {
+  ): Promise<number> {
     return this.postService.deletePost(id, user);
   }
 
