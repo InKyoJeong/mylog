@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Brackets, Repository } from 'typeorm';
 
 import { User } from 'src/auth/user.entity';
 import { CreatePostDto } from './dto/create-post.dto';
@@ -46,6 +46,31 @@ export class PostService {
       .take(perPage)
       .leftJoinAndSelect('post.images', 'image')
       .where('post.userId = :userId', { userId: user.id })
+      .getMany();
+
+    return posts;
+  }
+
+  async searchPostsByTitleAndAddress(
+    query: string,
+    page: number,
+    user: User,
+  ): Promise<Post[]> {
+    const perPage = 10;
+    const offset = (page - 1) * perPage;
+    const posts = await this.postRepository
+      .createQueryBuilder('post')
+      .orderBy('post.date', 'DESC')
+      .skip(offset)
+      .take(perPage)
+      .leftJoinAndSelect('post.images', 'image')
+      .where('post.userId = :userId', { userId: user.id })
+      .andWhere(
+        new Brackets((qb) => {
+          qb.where('post.title like :query', { query: `%${query}%` });
+          qb.orWhere('post.address like :query', { query: `%${query}%` });
+        }),
+      )
       .getMany();
 
     return posts;

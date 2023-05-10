@@ -43,6 +43,15 @@ export class PostController {
     return this.postService.getMyPosts(page, user);
   }
 
+  @Get('/posts/my/search')
+  searchPostsByTitleAndAddress(
+    @Query('query') query: string,
+    @Query('page') page: number,
+    @GetUser() user: User,
+  ): Promise<PostEntity[]> {
+    return this.postService.searchPostsByTitleAndAddress(query, page, user);
+  }
+
   @Get('/posts/:id')
   getPostById(
     @Param('id', ParseIntPipe) id: number,
