@@ -231,7 +231,7 @@ const styles = StyleSheet.create({
     height: 50,
   },
   optionButtonPressed: {
-    opacity: 0.4,
+    backgroundColor: colors.GRAY_300,
   },
   optionText: {
     fontSize: 16,
