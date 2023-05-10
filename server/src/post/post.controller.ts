@@ -39,8 +39,17 @@ export class PostController {
   }
 
   @Get('/posts/my')
-  async getMyPosts(@Query('page') page: number, @GetUser() user: User) {
+  getMyPosts(@Query('page') page: number, @GetUser() user: User) {
     return this.postService.getMyPosts(page, user);
+  }
+
+  @Get('/posts/my/search')
+  searchMyPostsByTitleAndAddress(
+    @Query('query') query: string,
+    @Query('page') page: number,
+    @GetUser() user: User,
+  ): Promise<PostEntity[]> {
+    return this.postService.searchMyPostsByTitleAndAddress(query, page, user);
   }
 
   @Get('/posts/:id')

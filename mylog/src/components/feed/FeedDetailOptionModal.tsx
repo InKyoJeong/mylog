@@ -1,9 +1,11 @@
 import React from 'react';
+import {Alert} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 import {CompoundModal} from '../@common/CompoundModal';
 import {useDeletePost} from '@/hooks/queries/usePost';
 import useDetailPostStore from '@/store/useDetailPostStore';
+import {alerts} from '@/constants/messages';
 
 interface FeedDetailOptionModalProps {
   isVisible: boolean;
@@ -23,12 +25,23 @@ function FeedDetailOptionModal({
       return;
     }
 
-    deletePostMutation.mutate(detailPost.id, {
-      onSuccess: () => {
-        hideOption();
-        navigation.goBack();
+    Alert.alert(alerts.DELETE_POST.TITLE, alerts.DELETE_POST.DESCRIPTION, [
+      {
+        text: '삭제',
+        onPress: () =>
+          deletePostMutation.mutate(detailPost.id, {
+            onSuccess: () => {
+              hideOption();
+              navigation.goBack();
+            },
+          }),
+        style: 'destructive',
       },
-    });
+      {
+        text: '취소',
+        style: 'cancel',
+      },
+    ]);
   };
 
   const handleEditPost = () => {
