@@ -39,8 +39,8 @@ type AddPostScreenProps = StackScreenProps<
 function AddPostScreen({route, navigation}: AddPostScreenProps) {
   const {location} = route.params;
   const postMutation = useCreatePost();
-  const {imageUris} = useImageUriStore();
   const descriptionRef = useRef<TextInput | null>(null);
+  const {imageUris} = useImageUriStore();
   const [marker, setMarker] = useState<MarkerColor>('RED');
   const [score, setScore] = useState(3);
   const datePicker = useDatePicker(new Date());
