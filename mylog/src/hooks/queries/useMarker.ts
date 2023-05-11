@@ -2,8 +2,8 @@ import {UseQueryOptions, useQuery} from '@tanstack/react-query';
 
 import {getMarkers} from '@/api/marker';
 import queryKeys from '@/constants/queryKeys';
-import {ResponseError} from '@/types';
-import {Marker} from '@/types/domain';
+import type {Marker} from '@/types/domain';
+import type {ResponseError} from '@/types';
 
 function useGetMarkers(
   queryOptions?: UseQueryOptions<Marker[], ResponseError>,
