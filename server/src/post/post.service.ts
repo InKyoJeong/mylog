@@ -92,7 +92,7 @@ export class PostService {
     return foundPost;
   }
 
-  async createPost(createPostDto: CreatePostDto, user: User): Promise<Post> {
+  async createPost(createPostDto: CreatePostDto, user: User) {
     const {
       latitude,
       longitude,
@@ -122,7 +122,8 @@ export class PostService {
     await this.imageRepository.save(images);
     await this.postRepository.save(post);
 
-    return post;
+    const { user: _, ...postWithoutUser } = post;
+    return postWithoutUser;
   }
 
   async deletePost(id: number, user: User): Promise<number> {
