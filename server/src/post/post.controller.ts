@@ -62,10 +62,7 @@ export class PostController {
 
   @Post('/posts')
   @UsePipes(ValidationPipe)
-  createPost(
-    @Body() createPostDto: CreatePostDto,
-    @GetUser() user: User,
-  ): Promise<PostEntity> {
+  createPost(@Body() createPostDto: CreatePostDto, @GetUser() user: User) {
     return this.postService.createPost(createPostDto, user);
   }
 

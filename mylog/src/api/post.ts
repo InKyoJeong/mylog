@@ -17,7 +17,7 @@ const getPost = async (id: number): Promise<ResponsePost> => {
 
 export type RequestCreatePost = Omit<Post, 'id'> & {imageUris: ImageUri[]};
 
-const createPost = async (body: RequestCreatePost) => {
+const createPost = async (body: RequestCreatePost): Promise<ResponsePost> => {
   const {data} = await axiosInstance.post('/posts', body);
 
   return data;

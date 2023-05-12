@@ -9,12 +9,12 @@ import {
   postLogin,
   postSignup,
 } from '@/api/auth';
-import type {ResponseError, UseMutationCustomOptions} from '@/types';
 import queryClient from '@/api/queryClient';
 import {removeEncryptStorage, setEncryptStorage} from '@/utils/encryptStorage';
 import {removeHeader, setHeader} from '@/utils/axiosInstance';
 import {numbers} from '@/constants/numbers';
 import queryKeys from '@/constants/queryKeys';
+import type {ResponseError, UseMutationCustomOptions} from '@/types';
 
 function useSignup(mutationOptions?: UseMutationCustomOptions) {
   return useMutation(postSignup, {
@@ -27,8 +27,6 @@ function useLogin(mutationOptions?: UseMutationCustomOptions<ResponseToken>) {
     onSuccess: ({accessToken, refreshToken}) => {
       setHeader('Authorization', `Bearer ${accessToken}`);
       setEncryptStorage('refreshToken', refreshToken);
-      queryClient.removeQueries([queryKeys.MARKER]);
-      queryClient.removeQueries([queryKeys.POST]);
     },
     onSettled: () => {
       queryClient.refetchQueries([queryKeys.AUTH, queryKeys.GET_ACCESS_TOKEN]);
@@ -41,6 +39,8 @@ function useLogin(mutationOptions?: UseMutationCustomOptions<ResponseToken>) {
 function useLogout(mutationOptions?: UseMutationCustomOptions) {
   return useMutation(logout, {
     onSuccess: () => {
+      queryClient.removeQueries([queryKeys.MARKER]);
+      queryClient.removeQueries([queryKeys.POST]);
       removeHeader('Authorization');
       removeEncryptStorage('refreshToken');
     },
