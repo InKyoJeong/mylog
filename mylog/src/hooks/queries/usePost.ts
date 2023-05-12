@@ -69,9 +69,26 @@ function useGetPost(
 
 function useCreatePost(mutationOptions?: UseMutationCustomOptions) {
   return useMutation(createPost, {
-    onSuccess: () => {
+    onSuccess: data => {
       queryClient.invalidateQueries([queryKeys.POST, queryKeys.GET_POSTS]);
-      queryClient.invalidateQueries([queryKeys.MARKER, queryKeys.GET_MARKERS]);
+      queryClient.setQueryData<Marker[]>(
+        [queryKeys.MARKER, queryKeys.GET_MARKERS],
+        existingMarkers => {
+          const newMarker = {
+            id: data.id,
+            latitude: data.latitude,
+            longitude: data.longitude,
+            color: data.color,
+            score: data.score,
+          };
+
+          if (existingMarkers) {
+            return [...existingMarkers, newMarker];
+          }
+
+          return [newMarker];
+        },
+      );
     },
     ...mutationOptions,
   });
@@ -83,7 +100,8 @@ function useDeletePost(mutationOptions?: UseMutationCustomOptions) {
       queryClient.invalidateQueries([queryKeys.POST, queryKeys.GET_POSTS]);
       queryClient.setQueryData<Marker[]>(
         [queryKeys.MARKER, queryKeys.GET_MARKERS],
-        oldData => oldData?.filter(marker => marker.id !== deletedId),
+        existingMarkers =>
+          existingMarkers?.filter(marker => marker.id !== deletedId),
       );
     },
     ...mutationOptions,
