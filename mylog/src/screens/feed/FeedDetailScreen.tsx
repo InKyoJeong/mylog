@@ -237,7 +237,6 @@ const styles = StyleSheet.create({
   },
   imageContentsContainer: {
     paddingVertical: 15,
-    // paddingHorizontal: 20,
     backgroundColor: colors.WHITE,
     marginBottom: 10,
   },
