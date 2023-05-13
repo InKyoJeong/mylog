@@ -21,13 +21,13 @@ function FeedDetailHeader({
       <Octicons
         name="arrow-left"
         size={30}
-        color={colors.BLACK}
+        color={isScrolled ? colors.BLACK : colors.WHITE}
         onPress={onPressLeft}
       />
       <Ionicons
         name="ellipsis-vertical"
         size={25}
-        color={colors.BLACK}
+        color={isScrolled ? colors.BLACK : colors.WHITE}
         onPress={onPressRight}
       />
     </StickyHeader>

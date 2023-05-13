@@ -13,9 +13,8 @@ import {
   deletePost,
   getPost,
   getPosts,
+  updatePost,
 } from '@/api/post';
-import useDetailPostStore from '@/store/useDetailPostStore';
-import useImageUriStore from '@/store/useImageUriStore';
 import queryKeys from '@/constants/queryKeys';
 import type {ResponseError, UseMutationCustomOptions} from '@/types';
 import type {Marker} from '@/types/domain';
@@ -49,19 +48,11 @@ function useGetPost(
   id: number,
   queryOptions?: UseQueryOptions<ResponsePost, ResponseError>,
 ) {
-  const {setImageUris} = useImageUriStore();
-  const {setDetailPost} = useDetailPostStore();
-
   return useQuery<ResponsePost, ResponseError>(
     [queryKeys.POST, queryKeys.GET_POST, id],
     () => getPost(id),
     {
       enabled: !!id,
-      onSuccess: data => {
-        const {images, ...detailPost} = data;
-        setImageUris(images);
-        setDetailPost(detailPost);
-      },
       ...queryOptions,
     },
   );
@@ -69,17 +60,18 @@ function useGetPost(
 
 function useCreatePost(mutationOptions?: UseMutationCustomOptions) {
   return useMutation(createPost, {
-    onSuccess: data => {
+    onSuccess: newPost => {
       queryClient.invalidateQueries([queryKeys.POST, queryKeys.GET_POSTS]);
+
       queryClient.setQueryData<Marker[]>(
         [queryKeys.MARKER, queryKeys.GET_MARKERS],
         existingMarkers => {
           const newMarker = {
-            id: data.id,
-            latitude: data.latitude,
-            longitude: data.longitude,
-            color: data.color,
-            score: data.score,
+            id: newPost.id,
+            latitude: newPost.latitude,
+            longitude: newPost.longitude,
+            color: newPost.color,
+            score: newPost.score,
           };
 
           if (existingMarkers) {
@@ -98,14 +90,53 @@ function useDeletePost(mutationOptions?: UseMutationCustomOptions) {
   return useMutation(deletePost, {
     onSuccess: deletedId => {
       queryClient.invalidateQueries([queryKeys.POST, queryKeys.GET_POSTS]);
+
       queryClient.setQueryData<Marker[]>(
         [queryKeys.MARKER, queryKeys.GET_MARKERS],
-        existingMarkers =>
-          existingMarkers?.filter(marker => marker.id !== deletedId),
+        existingMarkers => {
+          return existingMarkers?.filter(marker => marker.id !== deletedId);
+        },
       );
     },
     ...mutationOptions,
   });
 }
 
-export {useGetInifinitePosts, useGetPost, useCreatePost, useDeletePost};
+function useUpdatePost(mutationOptions?: UseMutationCustomOptions) {
+  return useMutation(updatePost, {
+    onSuccess: newPost => {
+      queryClient.invalidateQueries([queryKeys.POST, queryKeys.GET_POSTS]);
+
+      queryClient.setQueryData(
+        [queryKeys.POST, queryKeys.GET_POST, newPost.id],
+        newPost,
+      );
+
+      queryClient.setQueryData<Marker[]>(
+        [queryKeys.MARKER, queryKeys.GET_MARKERS],
+        existingMarkers => {
+          const newMarker = {
+            id: newPost.id,
+            latitude: newPost.latitude,
+            longitude: newPost.longitude,
+            color: newPost.color,
+            score: newPost.score,
+          };
+
+          return existingMarkers?.map(marker =>
+            marker.id === newPost.id ? newMarker : marker,
+          );
+        },
+      );
+    },
+    ...mutationOptions,
+  });
+}
+
+export {
+  useGetInifinitePosts,
+  useGetPost,
+  useCreatePost,
+  useDeletePost,
+  useUpdatePost,
+};

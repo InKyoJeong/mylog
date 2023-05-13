@@ -78,9 +78,10 @@ export class PostController {
   @UsePipes(ValidationPipe)
   updatePost(
     @Param('id', ParseIntPipe) id: number,
-    @Body() createPostDto: CreatePostDto,
+    @Body()
+    updatePostDto: Omit<CreatePostDto, 'latitude' | 'longitude' | 'address'>,
     @GetUser() user: User,
   ) {
-    return this.postService.updatePost(id, createPostDto, user);
+    return this.postService.updatePost(id, updatePostDto, user);
   }
 }
