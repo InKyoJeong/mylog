@@ -53,7 +53,10 @@ function FeedDetailOptionModal({
     }
 
     navigation.navigate(feedNavigations.EDIT_POST, {
-      id: detailPost?.id,
+      location: {
+        latitude: detailPost.latitude,
+        longitude: detailPost.longitude,
+      },
     });
     hideOption();
   };
