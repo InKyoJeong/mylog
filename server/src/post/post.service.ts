@@ -43,7 +43,8 @@ export class PostService {
       .createQueryBuilder('post')
       .orderBy('post.date', 'DESC')
       .leftJoinAndSelect('post.images', 'image')
-      .where('post.userId = :userId', { userId: user.id });
+      .where('post.userId = :userId', { userId: user.id })
+      .addOrderBy('image.id', 'ASC');
   }
 
   async getMyPosts(page: number, user: User): Promise<Post[]> {
