@@ -1,11 +1,14 @@
 import React from 'react';
 import {Alert} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import type {StackNavigationProp} from '@react-navigation/stack';
 
+import type {FeedStackParamList} from '@/navigations/stack/FeedStackNavigator';
 import {CompoundModal} from '../@common/CompoundModal';
 import {useDeletePost} from '@/hooks/queries/usePost';
 import useDetailPostStore from '@/store/useDetailPostStore';
 import {alerts} from '@/constants/messages';
+import {feedNavigations} from '@/constants/navigations';
 
 interface FeedDetailOptionModalProps {
   isVisible: boolean;
@@ -16,7 +19,7 @@ function FeedDetailOptionModal({
   isVisible,
   hideOption,
 }: FeedDetailOptionModalProps) {
-  const navigation = useNavigation();
+  const navigation = useNavigation<StackNavigationProp<FeedStackParamList>>();
   const {detailPost} = useDetailPostStore();
   const deletePostMutation = useDeletePost();
 
@@ -45,7 +48,8 @@ function FeedDetailOptionModal({
   };
 
   const handleEditPost = () => {
-    //
+    navigation.navigate(feedNavigations.EDIT_POST);
+    hideOption();
   };
 
   return (

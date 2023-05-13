@@ -10,7 +10,7 @@ import {
   View,
 } from 'react-native';
 import Config from 'react-native-config';
-import type {CompositeScreenProps} from '@react-navigation/native';
+import {CompositeScreenProps} from '@react-navigation/native';
 import type {StackScreenProps} from '@react-navigation/stack';
 import type {DrawerScreenProps} from '@react-navigation/drawer';
 import type {FeedStackParamList} from '@/navigations/stack/FeedStackNavigator';

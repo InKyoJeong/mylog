@@ -1,85 +1,42 @@
-import React, {useCallback, useLayoutEffect, useRef, useState} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  TextInput,
-  View,
-} from 'react-native';
-import type {StackScreenProps} from '@react-navigation/stack';
+import React, {useRef, useState} from 'react';
+import {ScrollView, TextInput} from 'react-native';
+import {SafeAreaView} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import Octicons from 'react-native-vector-icons/Octicons';
 
-import type {MapStackParamList} from '@/navigations/stack/MapStackNavigator';
-import InputField from '@/components/@common/InputField';
 import CustomKeyboardAvoidingView from '@/components/@keyboard/CustomKeyboardAvoidingView';
-import AddPostHeaderRight from '@/components/post/AddPostHeaderRight';
+import InputField from '@/components/@common/InputField';
 import CustomButton from '@/components/@common/CustomButton';
+import PreviewImageList from '@/components/post/PreviewImageList';
 import MarkerSelector from '@/components/post/MarkerSelector';
 import ScoreInput from '@/components/post/ScoreInput';
 import ImageInput from '@/components/post/ImageInput';
-import PreviewImageList from '@/components/post/PreviewImageList';
 import DatePickerModal from '@/components/post/DatePickerModal';
-import {useCreatePost} from '@/hooks/queries/usePost';
-import useGetAddress from '@/hooks/common/useGetAddress';
+import useDetailPostStore from '@/store/useDetailPostStore';
+import usePermission from '@/hooks/common/usePermission';
 import useDatePicker from '@/hooks/common/useDatePicker';
 import useForm from '@/hooks/common/useForm';
-import usePermission from '@/hooks/common/usePermission';
-import useImageUriStore from '@/store/useImageUriStore';
-import {validateAddPost} from '@/utils/validate';
 import {getDateWithSeparator} from '@/utils/date';
-import {mapNavigations} from '@/constants/navigations';
+import {validateAddPost} from '@/utils/validate';
 import {colors} from '@/constants/colors';
-import type {MarkerColor} from '@/types/domain';
+import {MarkerColor} from '@/types/domain';
 
-type AddPostScreenProps = StackScreenProps<
-  MapStackParamList,
-  typeof mapNavigations.ADD_POST
->;
+interface EditPostScreenProps {}
 
-function AddPostScreen({route, navigation}: AddPostScreenProps) {
-  const {location} = route.params;
+function EditPostScreen({}: EditPostScreenProps) {
+  const {detailPost} = useDetailPostStore();
   const descriptionRef = useRef<TextInput | null>(null);
-  const [marker, setMarker] = useState<MarkerColor>('RED');
-  const [score, setScore] = useState(3);
-  const datePicker = useDatePicker(new Date());
-  const createPostMutation = useCreatePost();
-  const {imageUris} = useImageUriStore();
-  const address = useGetAddress(location);
+  const [marker, setMarker] = useState<MarkerColor>(detailPost?.color ?? 'RED');
+  const [score, setScore] = useState(detailPost?.score ?? 3);
+  const datePicker = useDatePicker(new Date(String(detailPost?.date)));
   const addPost = useForm({
-    initialValue: {title: '', description: ''},
+    initialValue: {
+      title: detailPost?.title ?? '',
+      description: detailPost?.description ?? '',
+    },
     validate: validateAddPost,
   });
   usePermission('PHOTO');
-
-  const handleSubmit = useCallback(() => {
-    createPostMutation.mutate(
-      {
-        latitude: location.latitude,
-        longitude: location.longitude,
-        color: marker,
-        title: addPost.values.title,
-        description: addPost.values.description,
-        date: datePicker.date,
-        address,
-        score,
-        imageUris,
-      },
-      {
-        onSuccess: () => navigation.goBack(),
-        onError: err => console.log(err.response?.data.message),
-      },
-    );
-  }, [
-    createPostMutation,
-    location,
-    marker,
-    addPost.values,
-    address,
-    datePicker.date,
-    navigation,
-    imageUris,
-    score,
-  ]);
 
   const handleSelectMarker = (name: MarkerColor) => {
     setMarker(name);
@@ -89,12 +46,6 @@ function AddPostScreen({route, navigation}: AddPostScreenProps) {
     setScore(value);
   };
 
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerRight: () => AddPostHeaderRight(handleSubmit, addPost.hasErrors),
-    });
-  }, [handleSubmit, navigation, addPost.hasErrors]);
-
   return (
     <SafeAreaView style={styles.container}>
       <CustomKeyboardAvoidingView>
@@ -103,7 +54,7 @@ function AddPostScreen({route, navigation}: AddPostScreenProps) {
           scrollIndicatorInsets={{right: 1}}>
           <View style={styles.inputContainer}>
             <InputField
-              value={address}
+              value={detailPost?.address}
               disabled={true}
               icon={
                 <Octicons name="location" size={16} color={colors.GRAY_500} />
@@ -112,11 +63,7 @@ function AddPostScreen({route, navigation}: AddPostScreenProps) {
             <CustomButton
               variant="outlined"
               size="large"
-              label={
-                datePicker.isPicked
-                  ? `${getDateWithSeparator(datePicker.date, '. ')}`
-                  : '날짜 선택'
-              }
+              label={`${getDateWithSeparator(datePicker.date, '. ')}`}
               onPress={datePicker.showModal}
             />
             <InputField
@@ -181,4 +128,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AddPostScreen;
+export default EditPostScreen;
