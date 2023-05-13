@@ -145,19 +145,21 @@ export class PostService {
 
   async updatePost(
     id: number,
-    createPostDto: CreatePostDto,
+    updatePostDto: Omit<CreatePostDto, 'latitude' | 'longitude' | 'address'>,
     user: User,
   ): Promise<Post> {
     const post = await this.getPostById(id, user);
-    const { latitude, longitude, title, description, color, date, score } =
-      createPostDto;
-    post.latitude = latitude;
-    post.longitude = longitude;
+    const { title, description, color, date, score, imageUris } = updatePostDto;
     post.title = title;
     post.description = description;
     post.color = color;
     post.date = date;
     post.score = score;
+
+    const images = imageUris.map((uri) => this.imageRepository.create(uri));
+    post.images = images;
+
+    await this.imageRepository.save(images);
     await this.postRepository.save(post);
 
     return post;
