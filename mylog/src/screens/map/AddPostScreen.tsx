@@ -24,7 +24,7 @@ import useGetAddress from '@/hooks/common/useGetAddress';
 import useDatePicker from '@/hooks/common/useDatePicker';
 import useForm from '@/hooks/common/useForm';
 import usePermission from '@/hooks/common/usePermission';
-import useImageUriStore from '@/store/useImageUriStore';
+import useImageInput from '@/hooks/common/useImageInput';
 import {validateAddPost} from '@/utils/validate';
 import {getDateWithSeparator} from '@/utils/date';
 import {mapNavigations} from '@/constants/navigations';
@@ -43,8 +43,8 @@ function AddPostScreen({route, navigation}: AddPostScreenProps) {
   const [score, setScore] = useState(3);
   const datePicker = useDatePicker(new Date());
   const createPostMutation = useCreatePost();
-  const {imageUris} = useImageUriStore();
   const address = useGetAddress(location);
+  const imageInput = useImageInput();
   const addPost = useForm({
     initialValue: {title: '', description: ''},
     validate: validateAddPost,
@@ -62,7 +62,7 @@ function AddPostScreen({route, navigation}: AddPostScreenProps) {
         date: datePicker.date,
         address,
         score,
-        imageUris,
+        imageUris: imageInput.imageUris,
       },
       {
         onSuccess: () => navigation.goBack(),
@@ -73,12 +73,12 @@ function AddPostScreen({route, navigation}: AddPostScreenProps) {
     createPostMutation,
     location,
     marker,
-    addPost.values,
     address,
-    datePicker.date,
-    navigation,
-    imageUris,
     score,
+    addPost.values,
+    datePicker.date,
+    imageInput.imageUris,
+    navigation,
   ]);
 
   const handleSelectMarker = (name: MarkerColor) => {
@@ -147,8 +147,13 @@ function AddPostScreen({route, navigation}: AddPostScreenProps) {
             />
             <ScoreInput score={score} onChangeScore={handleChangeScore} />
             <View style={styles.imagesViewer}>
-              <ImageInput />
-              <PreviewImageList />
+              <ImageInput onChange={imageInput.handleChange} />
+              <PreviewImageList
+                imageUris={imageInput.imageUris}
+                onDelete={imageInput.delete}
+                onChangeOrder={imageInput.changeOrder}
+                showOption
+              />
             </View>
             <DatePickerModal
               date={datePicker.date}

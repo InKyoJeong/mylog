@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Dimensions,
   Image,
@@ -23,8 +23,10 @@ import CustomMarker from '@/components/@common/CustomMarker';
 import CustomButton from '@/components/@common/CustomButton';
 import CustomBottomTab from '@/components/@common/CustomBottomTab';
 import FeedDetailOptionModal from '@/components/feed/FeedDetailOptionModal';
+import PreviewImageList from '@/components/post/PreviewImageList';
 import FeedDetailHeader from '@/components/feed/FeedDetailHeader';
 import useLocationStore from '@/store/useLocationStore';
+import useDetailPostStore from '@/store/useDetailPostStore';
 import {useGetPost} from '@/hooks/queries/usePost';
 import useModal from '@/hooks/common/useModal';
 import {getDateLocaleFormat} from '@/utils/date';
@@ -43,7 +45,12 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
   const optionModal = useModal();
   const [isScrolled, setIsScrolled] = useState(false);
   const {setLocation} = useLocationStore();
+  const {setDetailPost} = useDetailPostStore();
   const {data: post, isLoading, isError} = useGetPost(id);
+
+  useEffect(() => {
+    post && setDetailPost(post);
+  }, [post, setDetailPost]);
 
   if (isLoading || isError) {
     return <></>;
@@ -132,7 +139,7 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
                 />
               </View>
               <View style={styles.infoColumn}>
-                <Text>태그</Text>
+                <Text>태그</Text>
                 <Text style={{color: colors.PINK_700}}>식당</Text>
               </View>
             </View>
@@ -142,18 +149,7 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
 
         <Conditional condition={post.images.length > 0}>
           <View style={styles.imageContentsContainer}>
-            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-              <View style={styles.imageScrollContainer}>
-                {post.images.map(({uri}, index) => (
-                  <View key={index} style={styles.imageContainer}>
-                    <Image
-                      style={styles.image}
-                      source={{uri: `${Config.BACK_URL}/${uri}`}}
-                    />
-                  </View>
-                ))}
-              </View>
-            </ScrollView>
+            <PreviewImageList imageUris={post.images} showOption={false} />
           </View>
         </Conditional>
       </ScrollView>
@@ -241,7 +237,7 @@ const styles = StyleSheet.create({
   },
   imageContentsContainer: {
     paddingVertical: 15,
-    paddingHorizontal: 20,
+    // paddingHorizontal: 20,
     backgroundColor: colors.WHITE,
     marginBottom: 10,
   },

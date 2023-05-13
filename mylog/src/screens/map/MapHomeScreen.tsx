@@ -24,7 +24,6 @@ import useUserLocation from '@/hooks/common/useUserLocation';
 import useMoveMapView from '@/hooks/common/useMoveMapView';
 import {useGetMarkers} from '@/hooks/queries/useMarker';
 import useMarkerStore from '@/store/useMarkerStore';
-import useImageUriStore from '@/store/useImageUriStore';
 import useSnackbarStore from '@/store/useSnackbarStore';
 import {mapNavigations, mainNavigations} from '@/constants/navigations';
 import {colors} from '@/constants/colors';
@@ -42,7 +41,6 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
   const {userLocation, isUserLocationError} = useUserLocation();
   const [selectLocation, setSelectLocation] = useState<LatLng | null>(null);
   const {data: markers = []} = useGetMarkers();
-  const {clearImageUris} = useImageUriStore();
   const {showModal} = useMarkerStore();
   const snackbar = useSnackbarStore();
   usePermission('LOCATION');
@@ -67,7 +65,6 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
     navigation.navigate(mapNavigations.ADD_POST, {
       location: selectLocation,
     });
-    clearImageUris();
     setSelectLocation(null);
   };
 

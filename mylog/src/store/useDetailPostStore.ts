@@ -1,15 +1,15 @@
 import {create} from 'zustand';
 
-import type {Post} from '@/types/domain';
+import {ResponsePost} from '@/api/post';
 
 interface DetailPostState {
-  detailPost: Post | null;
-  setDetailPost: (detailPost: Post) => void;
+  detailPost: ResponsePost | null;
+  setDetailPost: (detailPost: ResponsePost) => void;
 }
 
 const useDetailPostStore = create<DetailPostState>(set => ({
   detailPost: null,
-  setDetailPost: (detailPost: Post) => {
+  setDetailPost: (detailPost: ResponsePost) => {
     set({detailPost});
   },
 }));
