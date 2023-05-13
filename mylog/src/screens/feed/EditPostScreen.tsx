@@ -1,9 +1,15 @@
-import React, {useRef, useState} from 'react';
-import {ScrollView, TextInput} from 'react-native';
-import {SafeAreaView} from 'react-native';
-import {StyleSheet, View} from 'react-native';
+import React, {useCallback, useLayoutEffect, useRef, useState} from 'react';
+import {
+  ScrollView,
+  TextInput,
+  SafeAreaView,
+  StyleSheet,
+  View,
+} from 'react-native';
+import type {StackScreenProps} from '@react-navigation/stack';
 import Octicons from 'react-native-vector-icons/Octicons';
 
+import type {FeedStackParamList} from '@/navigations/stack/FeedStackNavigator';
 import CustomKeyboardAvoidingView from '@/components/@keyboard/CustomKeyboardAvoidingView';
 import InputField from '@/components/@common/InputField';
 import CustomButton from '@/components/@common/CustomButton';
@@ -12,23 +18,33 @@ import MarkerSelector from '@/components/post/MarkerSelector';
 import ScoreInput from '@/components/post/ScoreInput';
 import ImageInput from '@/components/post/ImageInput';
 import DatePickerModal from '@/components/post/DatePickerModal';
+import EditPostHeaderRight from '@/components/post/EditPostHeaderRight';
 import useDetailPostStore from '@/store/useDetailPostStore';
 import usePermission from '@/hooks/common/usePermission';
 import useDatePicker from '@/hooks/common/useDatePicker';
 import useForm from '@/hooks/common/useForm';
+import useImageInput from '@/hooks/common/useImageInput';
 import {getDateWithSeparator} from '@/utils/date';
 import {validateAddPost} from '@/utils/validate';
 import {colors} from '@/constants/colors';
 import {MarkerColor} from '@/types/domain';
+import {useUpdatePost} from '@/hooks/queries/usePost';
+import {feedNavigations} from '@/constants/navigations';
 
-interface EditPostScreenProps {}
+type EditPostScreenProps = StackScreenProps<
+  FeedStackParamList,
+  typeof feedNavigations.EDIT_POST
+>;
 
-function EditPostScreen({}: EditPostScreenProps) {
+function EditPostScreen({route, navigation}: EditPostScreenProps) {
+  const {id} = route.params;
   const {detailPost} = useDetailPostStore();
   const descriptionRef = useRef<TextInput | null>(null);
   const [marker, setMarker] = useState<MarkerColor>(detailPost?.color ?? 'RED');
   const [score, setScore] = useState(detailPost?.score ?? 3);
   const datePicker = useDatePicker(new Date(String(detailPost?.date)));
+  const updatePostMutation = useUpdatePost();
+  const imageInput = useImageInput(detailPost?.images ?? []);
   const addPost = useForm({
     initialValue: {
       title: detailPost?.title ?? '',
@@ -38,6 +54,34 @@ function EditPostScreen({}: EditPostScreenProps) {
   });
   usePermission('PHOTO');
 
+  const handleSubmit = useCallback(() => {
+    updatePostMutation.mutate(
+      {
+        id,
+        body: {
+          color: marker,
+          title: addPost.values.title,
+          description: addPost.values.description,
+          date: datePicker.date,
+          score,
+          imageUris: imageInput.imageUris,
+        },
+      },
+      {
+        onSuccess: () => navigation.goBack(),
+      },
+    );
+  }, [
+    id,
+    updatePostMutation,
+    addPost.values,
+    datePicker.date,
+    imageInput.imageUris,
+    marker,
+    score,
+    navigation,
+  ]);
+
   const handleSelectMarker = (name: MarkerColor) => {
     setMarker(name);
   };
@@ -45,6 +89,12 @@ function EditPostScreen({}: EditPostScreenProps) {
   const handleChangeScore = (value: number) => {
     setScore(value);
   };
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => EditPostHeaderRight(handleSubmit, addPost.hasErrors),
+    });
+  }, [handleSubmit, navigation, addPost.hasErrors]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -94,8 +144,13 @@ function EditPostScreen({}: EditPostScreenProps) {
             />
             <ScoreInput score={score} onChangeScore={handleChangeScore} />
             <View style={styles.imagesViewer}>
-              <ImageInput />
-              <PreviewImageList />
+              <ImageInput onChange={imageInput.handleChange} />
+              <PreviewImageList
+                imageUris={imageInput.imageUris}
+                onDelete={imageInput.delete}
+                onChangeOrder={imageInput.changeOrder}
+                showOption
+              />
             </View>
             <DatePickerModal
               date={datePicker.date}

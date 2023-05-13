@@ -23,11 +23,11 @@ function FeedDetailOptionModal({
   const {detailPost} = useDetailPostStore();
   const deletePostMutation = useDeletePost();
 
-  const handleDeletePost = () => {
-    if (!detailPost) {
-      return;
-    }
+  if (!detailPost) {
+    return;
+  }
 
+  const handleDeletePost = () => {
     Alert.alert(alerts.DELETE_POST.TITLE, alerts.DELETE_POST.DESCRIPTION, [
       {
         text: '삭제',
@@ -48,7 +48,9 @@ function FeedDetailOptionModal({
   };
 
   const handleEditPost = () => {
-    navigation.navigate(feedNavigations.EDIT_POST);
+    navigation.navigate(feedNavigations.EDIT_POST, {
+      id: detailPost?.id,
+    });
     hideOption();
   };
 

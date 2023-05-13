@@ -14,7 +14,7 @@ import EditPostScreen from '@/screens/feed/EditPostScreen';
 export type FeedStackParamList = {
   [feedNavigations.FEED_HOME]: undefined;
   [feedNavigations.FEED_DETAIL]: {id: number};
-  [feedNavigations.EDIT_POST]: undefined;
+  [feedNavigations.EDIT_POST]: {id: number};
 };
 
 const Stack = createStackNavigator<FeedStackParamList>();
