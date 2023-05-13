@@ -73,7 +73,7 @@ function PostEditor({isEdit, location}: PostEditorProps) {
   };
 
   const handleSubmit = useCallback(() => {
-    const commonBody = {
+    const body = {
       date: datePicker.date,
       title: addPost.values.title,
       description: addPost.values.description,
@@ -81,30 +81,16 @@ function PostEditor({isEdit, location}: PostEditorProps) {
       score,
       imageUris: imageInput.imageUris,
     };
+    const mutationOptions = {
+      onSuccess: () => navigation.goBack(),
+    };
 
     if (isEditMode) {
-      updatePostMutation.mutate(
-        {
-          id: detailPost.id,
-          body: commonBody,
-        },
-        {
-          onSuccess: () => navigation.goBack(),
-        },
-      );
-    } else {
-      createPostMutation.mutate(
-        {
-          address,
-          latitude: location.latitude,
-          longitude: location.longitude,
-          ...commonBody,
-        },
-        {
-          onSuccess: () => navigation.goBack(),
-        },
-      );
+      updatePostMutation.mutate({id: detailPost.id, body}, mutationOptions);
+      return;
     }
+
+    createPostMutation.mutate({address, ...location, ...body}, mutationOptions);
   }, [
     navigation,
     isEditMode,
