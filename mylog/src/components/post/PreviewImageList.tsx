@@ -1,29 +1,25 @@
 import React from 'react';
-import {
-  ScrollView,
-  View,
-  StyleSheet,
-  Image,
-  LayoutAnimation,
-} from 'react-native';
+import {ScrollView, View, StyleSheet, Image} from 'react-native';
 import Animated, {FadeInRight, FadeOutLeft} from 'react-native-reanimated';
 import Config from 'react-native-config';
 
+import Conditional from '../@common/Conditional';
 import PreviewImageOption from './PreviewImageOption';
-import useImageUriStore from '@/store/useImageUriStore';
+import {ImageUri} from '@/types/domain';
 
-function PreviewImageList() {
-  const {imageUris, deleteImageUri, setImageUris} = useImageUriStore();
+interface PreviewImageListProps {
+  imageUris: ImageUri[];
+  onDelete?: (uri: string) => void;
+  onChangeOrder?: (fromIndex: number, toIndex: number) => void;
+  showOption: boolean;
+}
 
-  const changeOrder = (fromIndex: number, toIndex: number) => {
-    const copyImageUris = [...imageUris];
-    const [removedImage] = copyImageUris.splice(fromIndex, 1);
-    copyImageUris.splice(toIndex, 0, removedImage);
-    setImageUris(copyImageUris);
-
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-  };
-
+function PreviewImageList({
+  imageUris,
+  onDelete,
+  onChangeOrder,
+  showOption = false,
+}: PreviewImageListProps) {
   return (
     <ScrollView horizontal showsHorizontalScrollIndicator={false}>
       <View style={styles.container}>
@@ -38,26 +34,31 @@ function PreviewImageList() {
                 style={styles.image}
                 source={{uri: `${Config.BACK_URL}/${uri}`}}
               />
-
-              <PreviewImageOption
-                name="close"
-                style={styles.cancelButton}
-                onPress={() => deleteImageUri(uri)}
-              />
-              {index > 0 && (
+              <Conditional condition={showOption}>
                 <PreviewImageOption
-                  name="arrow-back-outline"
-                  style={styles.moveLeftButton}
-                  onPress={() => changeOrder(index, index - 1)}
+                  name="close"
+                  style={styles.cancelButton}
+                  onPress={() => onDelete && onDelete(uri)}
                 />
-              )}
-              {index < imageUris.length - 1 && (
-                <PreviewImageOption
-                  style={styles.moveRightButton}
-                  onPress={() => changeOrder(index, index + 1)}
-                  name="arrow-forward-outline"
-                />
-              )}
+                {index > 0 && (
+                  <PreviewImageOption
+                    name="arrow-back-outline"
+                    style={styles.moveLeftButton}
+                    onPress={() =>
+                      onChangeOrder && onChangeOrder(index, index - 1)
+                    }
+                  />
+                )}
+                {index < imageUris.length - 1 && (
+                  <PreviewImageOption
+                    style={styles.moveRightButton}
+                    onPress={() =>
+                      onChangeOrder && onChangeOrder(index, index + 1)
+                    }
+                    name="arrow-forward-outline"
+                  />
+                )}
+              </Conditional>
             </Animated.View>
           );
         })}
