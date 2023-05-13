@@ -13,9 +13,8 @@ import {
   deletePost,
   getPost,
   getPosts,
+  updatePost,
 } from '@/api/post';
-import useDetailPostStore from '@/store/useDetailPostStore';
-import useImageUriStore from '@/store/useImageUriStore';
 import queryKeys from '@/constants/queryKeys';
 import type {ResponseError, UseMutationCustomOptions} from '@/types';
 import type {Marker} from '@/types/domain';
@@ -49,19 +48,11 @@ function useGetPost(
   id: number,
   queryOptions?: UseQueryOptions<ResponsePost, ResponseError>,
 ) {
-  const {setImageUris} = useImageUriStore();
-  const {setDetailPost} = useDetailPostStore();
-
   return useQuery<ResponsePost, ResponseError>(
     [queryKeys.POST, queryKeys.GET_POST, id],
     () => getPost(id),
     {
       enabled: !!id,
-      onSuccess: data => {
-        const {images, ...detailPost} = data;
-        setImageUris(images);
-        setDetailPost(detailPost);
-      },
       ...queryOptions,
     },
   );
@@ -108,4 +99,21 @@ function useDeletePost(mutationOptions?: UseMutationCustomOptions) {
   });
 }
 
-export {useGetInifinitePosts, useGetPost, useCreatePost, useDeletePost};
+function useUpdatePost(mutationOptions?: UseMutationCustomOptions) {
+  return useMutation(updatePost, {
+    onSuccess: () => {
+      queryClient.invalidateQueries([queryKeys.POST, queryKeys.GET_POSTS]);
+      queryClient.invalidateQueries([queryKeys.POST, queryKeys.GET_POST]);
+      queryClient.invalidateQueries([queryKeys.MARKER, queryKeys.GET_MARKERS]);
+    },
+    ...mutationOptions,
+  });
+}
+
+export {
+  useGetInifinitePosts,
+  useGetPost,
+  useCreatePost,
+  useDeletePost,
+  useUpdatePost,
+};
