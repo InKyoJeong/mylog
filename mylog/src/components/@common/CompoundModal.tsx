@@ -11,7 +11,7 @@ import {
   SafeAreaView,
 } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-// import Config from 'react-native-config';
+import Config from 'react-native-config';
 
 import {colors} from '@/constants/colors';
 import type {ImageUri} from '@/types/domain';
@@ -129,7 +129,7 @@ function CardImage({imageUris}: CardImageProps) {
         <View style={styles.imageContainer}>
           <Image
             source={{
-              uri: `http://192.168.0.55:3030/${imageUris[0]?.uri}`,
+              uri: `${Config.BACK_URL}/${imageUris[0]?.uri}`,
             }}
             style={styles.image}
           />

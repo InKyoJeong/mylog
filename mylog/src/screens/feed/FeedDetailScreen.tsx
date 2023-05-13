@@ -9,6 +9,7 @@ import {
   Text,
   View,
 } from 'react-native';
+import Config from 'react-native-config';
 import type {CompositeScreenProps} from '@react-navigation/native';
 import type {StackScreenProps} from '@react-navigation/stack';
 import type {DrawerScreenProps} from '@react-navigation/drawer';
@@ -76,7 +77,7 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
           <View key={post.id} style={styles.coverImageContainer}>
             <Image
               source={{
-                uri: `http://192.168.0.55:3030/${post.images[0]?.uri}`,
+                uri: `${Config.BACK_URL}/${post.images[0]?.uri}`,
               }}
               style={styles.image}
             />
@@ -147,7 +148,7 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
                   <View key={index} style={styles.imageContainer}>
                     <Image
                       style={styles.image}
-                      source={{uri: `http://192.168.0.55:3030/${uri}`}}
+                      source={{uri: `${Config.BACK_URL}/${uri}`}}
                     />
                   </View>
                 ))}

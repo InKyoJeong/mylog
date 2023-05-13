@@ -8,7 +8,7 @@ import {
   View,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-// import Config from 'react-native-config';
+import Config from 'react-native-config';
 import {StackNavigationProp} from '@react-navigation/stack';
 
 import type {ResponsePost} from '@/api/post';
@@ -38,7 +38,7 @@ function FeedItem({post}: FeedItemProps) {
             <View key={post.id} style={styles.imageContainer}>
               <Image
                 source={{
-                  uri: `http://192.168.0.55:3030/${post.images[0]?.uri}`,
+                  uri: `${Config.BACK_URL}/${post.images[0]?.uri}`,
                 }}
                 style={styles.image}
               />
