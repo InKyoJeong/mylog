@@ -29,10 +29,11 @@ import useImageInput from '@/hooks/common/useImageInput';
 import usePermission from '@/hooks/common/usePermission';
 import {useCreatePost, useUpdatePost} from '@/hooks/queries/usePost';
 import useDetailPostStore from '@/store/useDetailPostStore';
-import {MarkerColor} from '@/types/domain';
 import {validateAddPost} from '@/utils/validate';
 import {getDateWithSeparator} from '@/utils/date';
 import {colors} from '@/constants/colors';
+import type {MarkerColor} from '@/types/domain';
+import type {UseMutationCustomOptions} from '@/types';
 
 interface PostEditorProps {
   isEdit?: boolean;
@@ -81,7 +82,7 @@ function PostEditor({isEdit, location}: PostEditorProps) {
       score,
       imageUris: imageInput.imageUris,
     };
-    const mutationOptions = {
+    const mutationOptions: UseMutationCustomOptions = {
       onSuccess: () => navigation.goBack(),
     };
 
