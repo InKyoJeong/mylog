@@ -18,6 +18,10 @@ function LoginScreen() {
   const passwordRef = useRef<TextInput | null>(null);
 
   const handleSubmit = () => {
+    if (login.hasErrors) {
+      return;
+    }
+
     loginMutation.mutate(login.values, {
       onError: error =>
         console.log('error.response?.data', error.response?.data.message),
