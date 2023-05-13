@@ -60,17 +60,18 @@ function useGetPost(
 
 function useCreatePost(mutationOptions?: UseMutationCustomOptions) {
   return useMutation(createPost, {
-    onSuccess: data => {
+    onSuccess: newPost => {
       queryClient.invalidateQueries([queryKeys.POST, queryKeys.GET_POSTS]);
+
       queryClient.setQueryData<Marker[]>(
         [queryKeys.MARKER, queryKeys.GET_MARKERS],
         existingMarkers => {
           const newMarker = {
-            id: data.id,
-            latitude: data.latitude,
-            longitude: data.longitude,
-            color: data.color,
-            score: data.score,
+            id: newPost.id,
+            latitude: newPost.latitude,
+            longitude: newPost.longitude,
+            color: newPost.color,
+            score: newPost.score,
           };
 
           if (existingMarkers) {
@@ -89,10 +90,12 @@ function useDeletePost(mutationOptions?: UseMutationCustomOptions) {
   return useMutation(deletePost, {
     onSuccess: deletedId => {
       queryClient.invalidateQueries([queryKeys.POST, queryKeys.GET_POSTS]);
+
       queryClient.setQueryData<Marker[]>(
         [queryKeys.MARKER, queryKeys.GET_MARKERS],
-        existingMarkers =>
-          existingMarkers?.filter(marker => marker.id !== deletedId),
+        existingMarkers => {
+          return existingMarkers?.filter(marker => marker.id !== deletedId);
+        },
       );
     },
     ...mutationOptions,
@@ -101,10 +104,30 @@ function useDeletePost(mutationOptions?: UseMutationCustomOptions) {
 
 function useUpdatePost(mutationOptions?: UseMutationCustomOptions) {
   return useMutation(updatePost, {
-    onSuccess: () => {
+    onSuccess: newPost => {
       queryClient.invalidateQueries([queryKeys.POST, queryKeys.GET_POSTS]);
-      queryClient.invalidateQueries([queryKeys.POST, queryKeys.GET_POST]);
-      queryClient.invalidateQueries([queryKeys.MARKER, queryKeys.GET_MARKERS]);
+
+      queryClient.setQueryData(
+        [queryKeys.POST, queryKeys.GET_POST, newPost.id],
+        newPost,
+      );
+
+      queryClient.setQueryData<Marker[]>(
+        [queryKeys.MARKER, queryKeys.GET_MARKERS],
+        existingMarkers => {
+          const newMarker = {
+            id: newPost.id,
+            latitude: newPost.latitude,
+            longitude: newPost.longitude,
+            color: newPost.color,
+            score: newPost.score,
+          };
+
+          return existingMarkers?.map(marker =>
+            marker.id === newPost.id ? newMarker : marker,
+          );
+        },
+      );
     },
     ...mutationOptions,
   });
