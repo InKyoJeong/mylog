@@ -12,7 +12,7 @@ function useGetAddress(location: LatLng) {
   useEffect(() => {
     (async () => {
       try {
-        const {data} = await axios(
+        const {data} = await axios.get(
           `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&result_type=street_address|route|political&key=${Config.GOOGLE_MAPS_API_KEY}`,
         );
         const address = data.results.length
