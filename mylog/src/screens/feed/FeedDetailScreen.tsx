@@ -149,7 +149,7 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
 
         <Conditional condition={post.images.length > 0}>
           <View style={styles.imageContentsContainer}>
-            <PreviewImageList imageUris={post.images} showOption={false} />
+            <PreviewImageList imageUris={post.images} />
           </View>
         </Conditional>
       </ScrollView>

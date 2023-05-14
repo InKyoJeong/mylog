@@ -23,9 +23,7 @@ function useImagePicker(initialImages: ImageUri[] = []) {
       return;
     }
 
-    setImageUris(prev => {
-      return [...prev, ...uris.map(uri => ({uri}))];
-    });
+    setImageUris(prev => [...prev, ...uris.map(uri => ({uri}))]);
   };
 
   const deleteImageUri = (uri: string) => {

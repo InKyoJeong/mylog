@@ -176,7 +176,8 @@ function PostEditor({isEdit = false, location}: PostEditorProps) {
                 imageUris={imagePicker.imageUris}
                 onDelete={imagePicker.delete}
                 onChangeOrder={imagePicker.changeOrder}
-                showOption
+                showDeleteButton={true}
+                showOrderButton={!isEdit}
               />
             </View>
             <DatePickerModal
