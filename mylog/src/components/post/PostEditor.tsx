@@ -22,11 +22,11 @@ import PreviewImageList from './PreviewImageList';
 import DatePickerModal from './DatePickerModal';
 import AddPostHeaderRight from './AddPostHeaderRight';
 import EditPostHeaderRight from './EditPostHeaderRight';
-import useForm from '@/hooks/common/useForm';
-import useDatePicker from '@/hooks/common/useDatePicker';
-import useGetAddress from '@/hooks/common/useGetAddress';
-import useImageInput from '@/hooks/common/useImageInput';
-import usePermission from '@/hooks/common/usePermission';
+import useForm from '@/hooks/useForm';
+import useDatePicker from '@/hooks/useDatePicker';
+import useGetAddress from '@/hooks/useGetAddress';
+import useImagePicker from '@/hooks/useImagePicker';
+import usePermission from '@/hooks/usePermission';
 import {useCreatePost, useUpdatePost} from '@/hooks/queries/usePost';
 import useDetailPostStore from '@/store/useDetailPostStore';
 import {validateAddPost} from '@/utils/validate';
@@ -60,7 +60,7 @@ function PostEditor({isEdit, location}: PostEditorProps) {
     isEditMode ? detailPost.color : 'RED',
   );
   const [score, setScore] = useState(isEditMode ? detailPost.score : 3);
-  const imageInput = useImageInput(isEditMode ? detailPost.images : []);
+  const imageInput = useImagePicker(isEditMode ? detailPost.images : []);
   const createPostMutation = useCreatePost();
   const updatePostMutation = useUpdatePost();
   usePermission('PHOTO');

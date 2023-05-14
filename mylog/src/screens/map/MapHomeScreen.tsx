@@ -19,9 +19,9 @@ import type {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator
 import CustomMarker from '@/components/@common/CustomMarker';
 import MapButton from '@/components/map/MapButton';
 import MarkerModal from '@/components/map/MarkerModal';
-import usePermission from '@/hooks/common/usePermission';
-import useUserLocation from '@/hooks/common/useUserLocation';
-import useMoveMapView from '@/hooks/common/useMoveMapView';
+import usePermission from '@/hooks/usePermission';
+import useUserLocation from '@/hooks/useUserLocation';
+import useMoveMapView from '@/hooks/useMoveMapView';
 import {useGetMarkers} from '@/hooks/queries/useMarker';
 import useMarkerStore from '@/store/useMarkerStore';
 import useSnackbarStore from '@/store/useSnackbarStore';

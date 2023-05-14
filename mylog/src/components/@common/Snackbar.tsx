@@ -2,7 +2,7 @@ import React, {useState, useEffect, useRef} from 'react';
 import {Text, StyleSheet, Animated} from 'react-native';
 
 import useSnackbarStore from '@/store/useSnackbarStore';
-import useKeyboardStatus from '@/hooks/common/useKeyboardStatus';
+import useKeyboardStatus from '@/hooks/useKeyboardStatus';
 import {colors} from '@/constants/colors';
 import {numbers} from '@/constants/numbers';
 
