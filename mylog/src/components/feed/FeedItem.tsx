@@ -38,7 +38,7 @@ function FeedItem({post}: FeedItemProps) {
             <View key={post.id} style={styles.imageContainer}>
               <Image
                 source={{
-                  uri: `${Config.BACK_URL}/${post.images[0]?.uri}`,
+                  uri: `${Config.BASE_URL}/${post.images[0]?.uri}`,
                 }}
                 style={styles.image}
               />

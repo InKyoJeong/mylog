@@ -32,7 +32,7 @@ function PreviewImageList({
               exiting={FadeOutLeft}>
               <Image
                 style={styles.image}
-                source={{uri: `${Config.BACK_URL}/${uri}`}}
+                source={{uri: `${Config.BASE_URL}/${uri}`}}
               />
               <Conditional condition={showOption}>
                 <PreviewImageOption

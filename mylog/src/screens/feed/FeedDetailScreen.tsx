@@ -84,7 +84,7 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
           <View key={post.id} style={styles.coverImageContainer}>
             <Image
               source={{
-                uri: `${Config.BACK_URL}/${post.images[0]?.uri}`,
+                uri: `${Config.BASE_URL}/${post.images[0]?.uri}`,
               }}
               style={styles.image}
             />

@@ -41,7 +41,7 @@ interface PostEditorProps {
   location: LatLng;
 }
 
-function PostEditor({isEdit, location}: PostEditorProps) {
+function PostEditor({isEdit = false, location}: PostEditorProps) {
   const navigation = useNavigation<StackNavigationProp<FeedStackParamList>>();
   const {detailPost} = useDetailPostStore();
   const isEditMode = isEdit && detailPost;
