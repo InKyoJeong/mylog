@@ -32,6 +32,7 @@ import useDetailPostStore from '@/store/useDetailPostStore';
 import {validateAddPost} from '@/utils/validate';
 import {getDateWithSeparator} from '@/utils/date';
 import {colors} from '@/constants/colors';
+import {numbers} from '@/constants/numbers';
 import type {MarkerColor} from '@/types/domain';
 import type {UseMutationCustomOptions} from '@/types';
 
@@ -59,7 +60,9 @@ function PostEditor({isEdit, location}: PostEditorProps) {
   const [marker, setMarker] = useState<MarkerColor>(
     isEditMode ? detailPost.color : 'RED',
   );
-  const [score, setScore] = useState(isEditMode ? detailPost.score : 3);
+  const [score, setScore] = useState(
+    isEditMode ? detailPost.score : numbers.DEFAULT_SCORE,
+  );
   const imageInput = useImagePicker(isEditMode ? detailPost.images : []);
   const createPostMutation = useCreatePost();
   const updatePostMutation = useUpdatePost();
