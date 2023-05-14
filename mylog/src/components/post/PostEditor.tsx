@@ -63,7 +63,7 @@ function PostEditor({isEdit = false, location}: PostEditorProps) {
   const [score, setScore] = useState(
     isEditMode ? detailPost.score : numbers.DEFAULT_SCORE,
   );
-  const imageInput = useImagePicker(isEditMode ? detailPost.images : []);
+  const imagePicker = useImagePicker(isEditMode ? detailPost.images : []);
   const createPostMutation = useCreatePost();
   const updatePostMutation = useUpdatePost();
   usePermission('PHOTO');
@@ -83,7 +83,7 @@ function PostEditor({isEdit = false, location}: PostEditorProps) {
       description: addPost.values.description,
       color: marker,
       score,
-      imageUris: imageInput.imageUris,
+      imageUris: imagePicker.imageUris,
     };
     const mutationOptions: UseMutationCustomOptions = {
       onSuccess: () => navigation.goBack(),
@@ -105,7 +105,7 @@ function PostEditor({isEdit = false, location}: PostEditorProps) {
     datePicker.date,
     marker,
     score,
-    imageInput.imageUris,
+    imagePicker.imageUris,
     createPostMutation,
     updatePostMutation,
   ]);
@@ -171,11 +171,11 @@ function PostEditor({isEdit = false, location}: PostEditorProps) {
             />
             <ScoreInput score={score} onChangeScore={handleChangeScore} />
             <View style={styles.imagesViewer}>
-              <ImageInput onChange={imageInput.handleChange} />
+              <ImageInput onChange={imagePicker.handleChange} />
               <PreviewImageList
-                imageUris={imageInput.imageUris}
-                onDelete={imageInput.delete}
-                onChangeOrder={imageInput.changeOrder}
+                imageUris={imagePicker.imageUris}
+                onDelete={imagePicker.delete}
+                onChangeOrder={imagePicker.changeOrder}
                 showOption
               />
             </View>
