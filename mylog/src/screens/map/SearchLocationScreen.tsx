@@ -73,7 +73,15 @@ function SearchLocationScreen({navigation}: SearchLocationScreenProps) {
                 index === regionInfo.length - 1 && styles.noItemBorder,
               ]}
               onPress={() => handlePressRegionInfo(info.y, info.x)}>
-              <Text style={styles.placeText}>{info.place_name}</Text>
+              <View style={styles.placeNameContainer}>
+                <Octicons name="location" size={15} color={colors.PINK_700} />
+                <Text
+                  style={styles.placeText}
+                  ellipsizeMode="tail"
+                  numberOfLines={1}>
+                  {info.place_name}
+                </Text>
+              </View>
               <View style={styles.categoryContainer}>
                 <Text>{convertMeterToKilometer(info.distance)}km</Text>
                 <Text style={styles.subInfoText}>{info.category_name}</Text>
@@ -144,7 +152,13 @@ const styles = StyleSheet.create({
   scrollContainer: {
     padding: 10,
   },
+  placeNameContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
+  },
   placeText: {
+    flexShrink: 1,
     fontSize: 16,
     fontWeight: '600',
   },
