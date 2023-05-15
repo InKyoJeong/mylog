@@ -129,7 +129,7 @@ function CardImage({imageUris}: CardImageProps) {
         <View style={styles.imageContainer}>
           <Image
             source={{
-              uri: `${Config.BACK_URL}/${imageUris[0]?.uri}`,
+              uri: `${Config.BASE_URL}/${imageUris[0]?.uri}`,
             }}
             style={styles.image}
           />

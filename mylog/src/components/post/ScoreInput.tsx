@@ -3,6 +3,7 @@ import {StyleSheet, Text, View} from 'react-native';
 import Slider from '@react-native-community/slider';
 
 import {colors} from '@/constants/colors';
+import {numbers} from '@/constants/numbers';
 
 interface ScoreInputProps {
   score: number;
@@ -19,9 +20,9 @@ function ScoreInput({score, onChangeScore}: ScoreInputProps) {
       <Slider
         value={score}
         onValueChange={onChangeScore}
-        step={1}
-        minimumValue={1}
-        maximumValue={5}
+        step={numbers.SCORE_STEP}
+        minimumValue={numbers.MIN_SCORE}
+        maximumValue={numbers.MAX_SCORE}
         minimumTrackTintColor={colors.PINK_700}
         maximumTrackTintColor={colors.GRAY_300}
         thumbTintColor={colors.WHITE}

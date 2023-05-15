@@ -22,16 +22,17 @@ import PreviewImageList from './PreviewImageList';
 import DatePickerModal from './DatePickerModal';
 import AddPostHeaderRight from './AddPostHeaderRight';
 import EditPostHeaderRight from './EditPostHeaderRight';
-import useForm from '@/hooks/common/useForm';
-import useDatePicker from '@/hooks/common/useDatePicker';
-import useGetAddress from '@/hooks/common/useGetAddress';
-import useImageInput from '@/hooks/common/useImageInput';
-import usePermission from '@/hooks/common/usePermission';
+import useForm from '@/hooks/useForm';
+import useDatePicker from '@/hooks/useDatePicker';
+import useGetAddress from '@/hooks/useGetAddress';
+import useImagePicker from '@/hooks/useImagePicker';
+import usePermission from '@/hooks/usePermission';
 import {useCreatePost, useUpdatePost} from '@/hooks/queries/usePost';
 import useDetailPostStore from '@/store/useDetailPostStore';
 import {validateAddPost} from '@/utils/validate';
 import {getDateWithSeparator} from '@/utils/date';
 import {colors} from '@/constants/colors';
+import {numbers} from '@/constants/numbers';
 import type {MarkerColor} from '@/types/domain';
 import type {UseMutationCustomOptions} from '@/types';
 
@@ -40,7 +41,7 @@ interface PostEditorProps {
   location: LatLng;
 }
 
-function PostEditor({isEdit, location}: PostEditorProps) {
+function PostEditor({isEdit = false, location}: PostEditorProps) {
   const navigation = useNavigation<StackNavigationProp<FeedStackParamList>>();
   const {detailPost} = useDetailPostStore();
   const isEditMode = isEdit && detailPost;
@@ -59,8 +60,10 @@ function PostEditor({isEdit, location}: PostEditorProps) {
   const [marker, setMarker] = useState<MarkerColor>(
     isEditMode ? detailPost.color : 'RED',
   );
-  const [score, setScore] = useState(isEditMode ? detailPost.score : 3);
-  const imageInput = useImageInput(isEditMode ? detailPost.images : []);
+  const [score, setScore] = useState(
+    isEditMode ? detailPost.score : numbers.DEFAULT_SCORE,
+  );
+  const imagePicker = useImagePicker(isEditMode ? detailPost.images : []);
   const createPostMutation = useCreatePost();
   const updatePostMutation = useUpdatePost();
   usePermission('PHOTO');
@@ -80,7 +83,7 @@ function PostEditor({isEdit, location}: PostEditorProps) {
       description: addPost.values.description,
       color: marker,
       score,
-      imageUris: imageInput.imageUris,
+      imageUris: imagePicker.imageUris,
     };
     const mutationOptions: UseMutationCustomOptions = {
       onSuccess: () => navigation.goBack(),
@@ -102,7 +105,7 @@ function PostEditor({isEdit, location}: PostEditorProps) {
     datePicker.date,
     marker,
     score,
-    imageInput.imageUris,
+    imagePicker.imageUris,
     createPostMutation,
     updatePostMutation,
   ]);
@@ -168,12 +171,13 @@ function PostEditor({isEdit, location}: PostEditorProps) {
             />
             <ScoreInput score={score} onChangeScore={handleChangeScore} />
             <View style={styles.imagesViewer}>
-              <ImageInput onChange={imageInput.handleChange} />
+              <ImageInput onChange={imagePicker.handleChange} />
               <PreviewImageList
-                imageUris={imageInput.imageUris}
-                onDelete={imageInput.delete}
-                onChangeOrder={imageInput.changeOrder}
-                showOption
+                imageUris={imagePicker.imageUris}
+                onDelete={imagePicker.delete}
+                onChangeOrder={imagePicker.changeOrder}
+                showDeleteButton={true}
+                showOrderButton={!isEdit}
               />
             </View>
             <DatePickerModal

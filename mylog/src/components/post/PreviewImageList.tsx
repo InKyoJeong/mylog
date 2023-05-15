@@ -11,14 +11,16 @@ interface PreviewImageListProps {
   imageUris: ImageUri[];
   onDelete?: (uri: string) => void;
   onChangeOrder?: (fromIndex: number, toIndex: number) => void;
-  showOption: boolean;
+  showDeleteButton?: boolean;
+  showOrderButton?: boolean;
 }
 
 function PreviewImageList({
   imageUris,
   onDelete,
   onChangeOrder,
-  showOption = false,
+  showDeleteButton = false,
+  showOrderButton = false,
 }: PreviewImageListProps) {
   return (
     <ScrollView horizontal showsHorizontalScrollIndicator={false}>
@@ -32,14 +34,18 @@ function PreviewImageList({
               exiting={FadeOutLeft}>
               <Image
                 style={styles.image}
-                source={{uri: `${Config.BACK_URL}/${uri}`}}
+                source={{uri: `${Config.BASE_URL}/${uri}`}}
               />
-              <Conditional condition={showOption}>
+
+              <Conditional condition={showDeleteButton}>
                 <PreviewImageOption
                   name="close"
                   style={styles.cancelButton}
                   onPress={() => onDelete && onDelete(uri)}
                 />
+              </Conditional>
+
+              <Conditional condition={showOrderButton}>
                 {index > 0 && (
                   <PreviewImageOption
                     name="arrow-back-outline"

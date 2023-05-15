@@ -5,7 +5,7 @@ import InputField from '@/components/@common/InputField';
 import CustomButton from '@/components/@common/CustomButton';
 import KeyboardPersistView from '@/components/@keyboard/KeyboardPersistView';
 import CustomKeyboardAvoidingView from '@/components/@keyboard/CustomKeyboardAvoidingView';
-import useForm from '@/hooks/common/useForm';
+import useForm from '@/hooks/useForm';
 import useAuth from '@/hooks/queries/useAuth';
 import {validateLogin} from '@/utils/validate';
 

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Alert, Pressable, StyleSheet, View} from 'react-native';
 import {
   Callout,
@@ -19,9 +19,9 @@ import type {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator
 import CustomMarker from '@/components/@common/CustomMarker';
 import MapButton from '@/components/map/MapButton';
 import MarkerModal from '@/components/map/MarkerModal';
-import usePermission from '@/hooks/common/usePermission';
-import useUserLocation from '@/hooks/common/useUserLocation';
-import useMoveMapView from '@/hooks/common/useMoveMapView';
+import usePermission from '@/hooks/usePermission';
+import useUserLocation from '@/hooks/useUserLocation';
+import useMoveMapView from '@/hooks/useMoveMapView';
 import {useGetMarkers} from '@/hooks/queries/useMarker';
 import useMarkerStore from '@/store/useMarkerStore';
 import useSnackbarStore from '@/store/useSnackbarStore';
@@ -30,6 +30,7 @@ import {colors} from '@/constants/colors';
 import {alerts, errorMessages} from '@/constants/messages';
 import {numbers, zIndex} from '@/constants/numbers';
 import getMapStyle from '@/style/mapStyle';
+import useLocationStore from '@/store/useLocationStore';
 
 type MapHomeScreenProps = CompositeScreenProps<
   StackScreenProps<MapStackParamList, typeof mapNavigations.MAP_HOME>,
@@ -37,10 +38,10 @@ type MapHomeScreenProps = CompositeScreenProps<
 >;
 
 function MapHomeScreen({navigation}: MapHomeScreenProps) {
+  const {data: markers = []} = useGetMarkers();
   const {mapRef, moveMapView, handleChangeDelta} = useMoveMapView();
   const {userLocation, isUserLocationError} = useUserLocation();
-  const [selectLocation, setSelectLocation] = useState<LatLng | null>(null);
-  const {data: markers = []} = useGetMarkers();
+  const {selectLocation, setSelectLocation} = useLocationStore();
   const {showModal} = useMarkerStore();
   const snackbar = useSnackbarStore();
   usePermission('LOCATION');
@@ -66,6 +67,10 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
       location: selectLocation,
     });
     setSelectLocation(null);
+  };
+
+  const handlePressSearch = () => {
+    navigation.navigate(mapNavigations.SEARCH_LOCATION);
   };
 
   const handlePressUserLocation = () => {
@@ -121,6 +126,9 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
       <View style={styles.buttonList}>
         <MapButton onPress={handlePressAddPost}>
           <MaterialIcons name={'add'} color={colors.WHITE} size={25} />
+        </MapButton>
+        <MapButton onPress={handlePressSearch}>
+          <Ionicons name={'search'} color={colors.WHITE} size={25} />
         </MapButton>
         <MapButton onPress={handlePressUserLocation}>
           <MaterialIcons name={'my-location'} color={colors.WHITE} size={25} />

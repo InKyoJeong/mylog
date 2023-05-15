@@ -19,4 +19,14 @@ function mergeRefs<T>(...refs: ForwardedRef<T>[]) {
   };
 }
 
-export {getObjectWithValue, mergeRefs};
+function convertMeterToKilometer(
+  meter: number | string,
+  decimalPlace: number = 2,
+) {
+  const kilometer = Number(meter) / 1000;
+  const factor = Math.pow(10, decimalPlace);
+
+  return Math.round(kilometer * factor) / factor;
+}
+
+export {getObjectWithValue, mergeRefs, convertMeterToKilometer};

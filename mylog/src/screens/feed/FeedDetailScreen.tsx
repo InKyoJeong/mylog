@@ -27,8 +27,8 @@ import PreviewImageList from '@/components/post/PreviewImageList';
 import FeedDetailHeader from '@/components/feed/FeedDetailHeader';
 import useLocationStore from '@/store/useLocationStore';
 import useDetailPostStore from '@/store/useDetailPostStore';
+import useModal from '@/hooks/useModal';
 import {useGetPost} from '@/hooks/queries/usePost';
-import useModal from '@/hooks/common/useModal';
 import {getDateLocaleFormat} from '@/utils/date';
 import {feedNavigations, mapNavigations} from '@/constants/navigations';
 import {colorHex, colors} from '@/constants/colors';
@@ -41,12 +41,12 @@ type FeedDetailScreenProps = CompositeScreenProps<
 
 function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
   const {id} = route.params;
+  const {data: post, isLoading, isError} = useGetPost(id);
   const insets = useSafeAreaInsets();
   const optionModal = useModal();
   const [isScrolled, setIsScrolled] = useState(false);
-  const {setLocation} = useLocationStore();
+  const {setMoveLocation} = useLocationStore();
   const {setDetailPost} = useDetailPostStore();
-  const {data: post, isLoading, isError} = useGetPost(id);
 
   useEffect(() => {
     post && setDetailPost(post);
@@ -64,7 +64,7 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
 
   const handlePressLocation = () => {
     const {latitude, longitude} = post;
-    setLocation({latitude, longitude});
+    setMoveLocation({latitude, longitude});
     navigation.navigate(mapNavigations.MAP_HOME);
   };
 
@@ -84,7 +84,7 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
           <View key={post.id} style={styles.coverImageContainer}>
             <Image
               source={{
-                uri: `${Config.BACK_URL}/${post.images[0]?.uri}`,
+                uri: `${Config.BASE_URL}/${post.images[0]?.uri}`,
               }}
               style={styles.image}
             />
@@ -149,7 +149,7 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
 
         <Conditional condition={post.images.length > 0}>
           <View style={styles.imageContentsContainer}>
-            <PreviewImageList imageUris={post.images} showOption={false} />
+            <PreviewImageList imageUris={post.images} />
           </View>
         </Conditional>
       </ScrollView>

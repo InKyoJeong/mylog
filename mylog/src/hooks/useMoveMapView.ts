@@ -9,7 +9,7 @@ type Delta = Pick<Region, 'latitudeDelta' | 'longitudeDelta'>;
 function useMoveMapView() {
   const mapRef = useRef<MapView | null>(null);
   const [regionDelta, setRegionDelta] = useState<Delta>(numbers.INITIAL_DELTA);
-  const {location} = useLocationStore();
+  const {moveLocation} = useLocationStore();
 
   const handleChangeDelta = (region: Region) => {
     const {latitudeDelta, longitudeDelta} = region;
@@ -24,9 +24,9 @@ function useMoveMapView() {
   };
 
   useEffect(() => {
-    location && moveMapView(location);
+    moveLocation && moveMapView(moveLocation);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location]);
+  }, [moveLocation]);
 
   return {mapRef, moveMapView, handleChangeDelta};
 }

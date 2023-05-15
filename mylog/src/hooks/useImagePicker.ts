@@ -3,13 +3,13 @@ import {Alert, LayoutAnimation} from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 
 import useSnackbarStore from '@/store/useSnackbarStore';
-import {useUploadImages} from '../queries/useImage';
 import {getFormDataImages} from '@/utils/image';
+import {useUploadImages} from './queries/useImage';
 import {alerts, errorMessages} from '@/constants/messages';
 import {numbers} from '@/constants/numbers';
 import type {ImageUri} from '@/types/domain';
 
-function useImageInput(initialImages: ImageUri[] = []) {
+function useImagePicker(initialImages: ImageUri[] = []) {
   const [imageUris, setImageUris] = useState(initialImages);
   const snackbar = useSnackbarStore();
   const imageMutation = useUploadImages();
@@ -23,9 +23,7 @@ function useImageInput(initialImages: ImageUri[] = []) {
       return;
     }
 
-    setImageUris(prev => {
-      return [...prev, ...uris.map(uri => ({uri}))];
-    });
+    setImageUris(prev => [...prev, ...uris.map(uri => ({uri}))]);
   };
 
   const deleteImageUri = (uri: string) => {
@@ -74,4 +72,4 @@ function useImageInput(initialImages: ImageUri[] = []) {
   };
 }
 
-export default useImageInput;
+export default useImagePicker;
