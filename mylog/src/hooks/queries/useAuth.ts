@@ -13,7 +13,7 @@ import queryClient from '@/api/queryClient';
 import {removeEncryptStorage, setEncryptStorage} from '@/utils/encryptStorage';
 import {removeHeader, setHeader} from '@/utils/axiosInstance';
 import {numbers} from '@/constants/numbers';
-import queryKeys from '@/constants/queryKeys';
+import {queryKeys, storageKeys} from '@/constants/keys';
 import type {ResponseError, UseMutationCustomOptions} from '@/types';
 
 function useSignup(mutationOptions?: UseMutationCustomOptions) {
@@ -26,7 +26,7 @@ function useLogin(mutationOptions?: UseMutationCustomOptions<ResponseToken>) {
   return useMutation(postLogin, {
     onSuccess: ({accessToken, refreshToken}) => {
       setHeader('Authorization', `Bearer ${accessToken}`);
-      setEncryptStorage('refreshToken', refreshToken);
+      setEncryptStorage(storageKeys.REFRESH_TOKEN, refreshToken);
     },
     onSettled: () => {
       queryClient.refetchQueries([queryKeys.AUTH, queryKeys.GET_ACCESS_TOKEN]);
@@ -42,7 +42,7 @@ function useLogout(mutationOptions?: UseMutationCustomOptions) {
       queryClient.removeQueries([queryKeys.MARKER]);
       queryClient.removeQueries([queryKeys.POST]);
       removeHeader('Authorization');
-      removeEncryptStorage('refreshToken');
+      removeEncryptStorage(storageKeys.REFRESH_TOKEN);
     },
     onSettled: () => {
       queryClient.invalidateQueries([queryKeys.AUTH]);
@@ -60,11 +60,11 @@ function useRefreshToken(
     {
       onSuccess: ({accessToken, refreshToken}) => {
         setHeader('Authorization', `Bearer ${accessToken}`);
-        setEncryptStorage('refreshToken', refreshToken);
+        setEncryptStorage(storageKeys.REFRESH_TOKEN, refreshToken);
       },
       onError: () => {
         removeHeader('Authorization');
-        removeEncryptStorage('refreshToken');
+        removeEncryptStorage(storageKeys.REFRESH_TOKEN);
       },
       useErrorBoundary: false,
       staleTime: numbers.ACCESS_TOKEN_REFRESH_TIME,

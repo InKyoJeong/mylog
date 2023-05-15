@@ -25,6 +25,7 @@ import {convertMeterToKilometer} from '@/utils';
 import {mapNavigations} from '@/constants/navigations';
 import {colors} from '@/constants/colors';
 import {numbers} from '@/constants/numbers';
+import {storageKeys} from '@/constants/keys';
 
 type SearchLocationScreenProps = StackScreenProps<
   MapStackParamList,
@@ -60,8 +61,12 @@ function SearchLocationScreen({navigation}: SearchLocationScreenProps) {
   };
 
   const saveRecentSearchedList = async (searchKeyword: string) => {
-    const storedData = (await getAsyncStorage('searchLocation')) ?? [];
-    await setAsyncStorage('searchLocation', [searchKeyword, ...storedData]);
+    const storedData =
+      (await getAsyncStorage(storageKeys.SEARCH_LOCATION)) ?? [];
+    await setAsyncStorage(storageKeys.SEARCH_LOCATION, [
+      searchKeyword,
+      ...storedData,
+    ]);
   };
 
   return (
@@ -74,7 +79,7 @@ function SearchLocationScreen({navigation}: SearchLocationScreenProps) {
         maxLength={numbers.MAX_SEARCH_LOCATION_LENGTH}
         onPress={() => Keyboard.dismiss()}
       />
-      <RecentSearchedList storageKey="searchLocation" />
+      <RecentSearchedList storageKey={storageKeys.SEARCH_LOCATION} />
 
       <View style={styles.resultContainer}>
         <ScrollView
