@@ -1,16 +1,8 @@
 import React from 'react';
-import {
-  Dimensions,
-  StyleSheet,
-  TextInput,
-  TextInputProps,
-  View,
-} from 'react-native';
+import {StyleSheet, TextInput, TextInputProps, View} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import {colors} from '@/constants/colors';
-
-const deviceHeight = Dimensions.get('screen').height;
 
 interface SearchInputProps extends TextInputProps {
   onPress: () => void;
@@ -43,8 +35,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     borderWidth: 1,
     borderColor: colors.GRAY_200,
-    paddingVertical: deviceHeight > 640 ? 12 : 10,
-    paddingHorizontal: deviceHeight > 640 ? 12 : 10,
+    paddingVertical: 10,
+    paddingHorizontal: 10,
     borderRadius: 5,
   },
   input: {
