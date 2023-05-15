@@ -1,7 +1,7 @@
 import {useCallback, useEffect, useMemo, useState} from 'react';
 
 function useDebounce<T>(value: T, delay: number) {
-  const [debouncedValue, setDebouncedValue] = useState<T>(value);
+  const [debouncedValue, setDebouncedValue] = useState(value);
 
   const updateDebouncedValue = useCallback(() => {
     setDebouncedValue(value);
