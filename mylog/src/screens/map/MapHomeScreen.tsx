@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Alert, Pressable, StyleSheet, View} from 'react-native';
 import {
   Callout,
@@ -30,6 +30,7 @@ import {colors} from '@/constants/colors';
 import {alerts, errorMessages} from '@/constants/messages';
 import {numbers, zIndex} from '@/constants/numbers';
 import getMapStyle from '@/style/mapStyle';
+import useLocationStore from '@/store/useLocationStore';
 
 type MapHomeScreenProps = CompositeScreenProps<
   StackScreenProps<MapStackParamList, typeof mapNavigations.MAP_HOME>,
@@ -37,10 +38,10 @@ type MapHomeScreenProps = CompositeScreenProps<
 >;
 
 function MapHomeScreen({navigation}: MapHomeScreenProps) {
+  const {data: markers = []} = useGetMarkers();
   const {mapRef, moveMapView, handleChangeDelta} = useMoveMapView();
   const {userLocation, isUserLocationError} = useUserLocation();
-  const [selectLocation, setSelectLocation] = useState<LatLng | null>(null);
-  const {data: markers = []} = useGetMarkers();
+  const {selectLocation, setSelectLocation} = useLocationStore();
   const {showModal} = useMarkerStore();
   const snackbar = useSnackbarStore();
   usePermission('LOCATION');

@@ -16,11 +16,11 @@ import SearchInput from '@/components/@common/SearchInput';
 import Conditional from '@/components/@common/Conditional';
 import useSearchLocation from '@/hooks/useSearchLocation';
 import useUserLocation from '@/hooks/useUserLocation';
+import useLocationStore from '@/store/useLocationStore';
 import {convertMeterToKilometer} from '@/utils';
+import {mapNavigations} from '@/constants/navigations';
 import {colors} from '@/constants/colors';
 import {numbers} from '@/constants/numbers';
-import {mapNavigations} from '@/constants/navigations';
-import useLocationStore from '@/store/useLocationStore';
 
 type SearchLocationScreenProps = StackScreenProps<
   MapStackParamList,
@@ -30,7 +30,7 @@ type SearchLocationScreenProps = StackScreenProps<
 function SearchLocationScreen({navigation}: SearchLocationScreenProps) {
   const [keyword, setKeyword] = useState('');
   const {userLocation} = useUserLocation();
-  const {setLocation} = useLocationStore();
+  const {setMoveLocation, setSelectLocation} = useLocationStore();
   const {regionInfo, pageParam, fetchNextPage, fetchPrevPage, hasNextPage} =
     useSearchLocation(keyword, userLocation);
 
@@ -39,8 +39,14 @@ function SearchLocationScreen({navigation}: SearchLocationScreenProps) {
   };
 
   const handlePressRegionInfo = (latitude: string, longitude: string) => {
+    const regionLocation = {
+      latitude: Number(latitude),
+      longitude: Number(longitude),
+    };
+
     navigation.goBack();
-    setLocation({latitude: Number(latitude), longitude: Number(longitude)});
+    setMoveLocation(regionLocation);
+    setSelectLocation(regionLocation);
   };
 
   return (
@@ -167,6 +173,7 @@ const styles = StyleSheet.create({
   },
   noResultText: {
     color: colors.GRAY_300,
+    fontSize: 16,
   },
   pageButtonContainer: {
     flex: 1,

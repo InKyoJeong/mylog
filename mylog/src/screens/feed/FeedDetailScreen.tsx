@@ -41,12 +41,12 @@ type FeedDetailScreenProps = CompositeScreenProps<
 
 function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
   const {id} = route.params;
+  const {data: post, isLoading, isError} = useGetPost(id);
   const insets = useSafeAreaInsets();
   const optionModal = useModal();
   const [isScrolled, setIsScrolled] = useState(false);
-  const {setLocation} = useLocationStore();
+  const {setMoveLocation} = useLocationStore();
   const {setDetailPost} = useDetailPostStore();
-  const {data: post, isLoading, isError} = useGetPost(id);
 
   useEffect(() => {
     post && setDetailPost(post);
@@ -64,7 +64,7 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
 
   const handlePressLocation = () => {
     const {latitude, longitude} = post;
-    setLocation({latitude, longitude});
+    setMoveLocation({latitude, longitude});
     navigation.navigate(mapNavigations.MAP_HOME);
   };
 
