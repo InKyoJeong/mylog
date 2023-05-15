@@ -9,4 +9,9 @@ const queryKeys = {
   GET_POST: 'getPost',
 } as const;
 
-export default queryKeys;
+const storageKeys = {
+  REFRESH_TOKEN: 'refreshToken',
+  SEARCH_LOCATION: 'searchLocation',
+} as const;
+
+export {queryKeys, storageKeys};

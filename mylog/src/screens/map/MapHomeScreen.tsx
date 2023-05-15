@@ -25,12 +25,12 @@ import useMoveMapView from '@/hooks/useMoveMapView';
 import {useGetMarkers} from '@/hooks/queries/useMarker';
 import useMarkerStore from '@/store/useMarkerStore';
 import useSnackbarStore from '@/store/useSnackbarStore';
+import useLocationStore from '@/store/useLocationStore';
 import {mapNavigations, mainNavigations} from '@/constants/navigations';
 import {colors} from '@/constants/colors';
 import {alerts, errorMessages} from '@/constants/messages';
 import {numbers, zIndex} from '@/constants/numbers';
 import getMapStyle from '@/style/mapStyle';
-import useLocationStore from '@/store/useLocationStore';
 
 type MapHomeScreenProps = CompositeScreenProps<
   StackScreenProps<MapStackParamList, typeof mapNavigations.MAP_HOME>,
@@ -46,7 +46,7 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
   const snackbar = useSnackbarStore();
   usePermission('LOCATION');
 
-  const handleLongPressLocation = ({nativeEvent}: LongPressEvent) => {
+  const handleLongPressMapView = ({nativeEvent}: LongPressEvent) => {
     setSelectLocation(nativeEvent.coordinate);
   };
 
@@ -94,7 +94,7 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
         customMapStyle={getMapStyle('light')}
         clusterColor={colors.PINK_700}
         region={{...userLocation, ...numbers.INITIAL_DELTA}}
-        onLongPress={handleLongPressLocation}
+        onLongPress={handleLongPressMapView}
         onRegionChangeComplete={handleChangeDelta}>
         {markers.map(({id, color, score, ...coordinate}) => (
           <CustomMarker

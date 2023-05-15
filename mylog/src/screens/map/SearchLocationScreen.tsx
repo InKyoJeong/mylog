@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {
   Dimensions,
   Keyboard,
@@ -8,19 +8,24 @@ import {
   Text,
   View,
 } from 'react-native';
-import Octicons from 'react-native-vector-icons/Octicons';
+import type {LatLng} from 'react-native-maps';
 import type {StackScreenProps} from '@react-navigation/stack';
+import Octicons from 'react-native-vector-icons/Octicons';
 
 import type {MapStackParamList} from '@/navigations/stack/MapStackNavigator';
+import RecentSearchedList from '@/components/@common/RecentSearchedList';
 import SearchInput from '@/components/@common/SearchInput';
 import Conditional from '@/components/@common/Conditional';
 import useSearchLocation from '@/hooks/useSearchLocation';
 import useUserLocation from '@/hooks/useUserLocation';
 import useLocationStore from '@/store/useLocationStore';
+import useSearchStore from '@/store/useSearchStore';
+import {getAsyncStorage, setAsyncStorage} from '@/utils/asyncStorage';
 import {convertMeterToKilometer} from '@/utils';
 import {mapNavigations} from '@/constants/navigations';
 import {colors} from '@/constants/colors';
 import {numbers} from '@/constants/numbers';
+import {storageKeys} from '@/constants/keys';
 
 type SearchLocationScreenProps = StackScreenProps<
   MapStackParamList,
@@ -28,7 +33,7 @@ type SearchLocationScreenProps = StackScreenProps<
 >;
 
 function SearchLocationScreen({navigation}: SearchLocationScreenProps) {
-  const [keyword, setKeyword] = useState('');
+  const {keyword, setKeyword} = useSearchStore();
   const {userLocation} = useUserLocation();
   const {setMoveLocation, setSelectLocation} = useLocationStore();
   const {regionInfo, pageParam, fetchNextPage, fetchPrevPage, hasNextPage} =
@@ -44,9 +49,24 @@ function SearchLocationScreen({navigation}: SearchLocationScreenProps) {
       longitude: Number(longitude),
     };
 
+    moveToMap(regionLocation);
+    saveRecentSearchedList(keyword);
+  };
+
+  const moveToMap = (regionLocation: LatLng) => {
     navigation.goBack();
     setMoveLocation(regionLocation);
     setSelectLocation(regionLocation);
+    setKeyword('');
+  };
+
+  const saveRecentSearchedList = async (searchKeyword: string) => {
+    const storedData =
+      (await getAsyncStorage(storageKeys.SEARCH_LOCATION)) ?? [];
+    await setAsyncStorage(storageKeys.SEARCH_LOCATION, [
+      searchKeyword,
+      ...storedData,
+    ]);
   };
 
   return (
@@ -59,6 +79,8 @@ function SearchLocationScreen({navigation}: SearchLocationScreenProps) {
         maxLength={numbers.MAX_SEARCH_LOCATION_LENGTH}
         onPress={() => Keyboard.dismiss()}
       />
+      <RecentSearchedList storageKey={storageKeys.SEARCH_LOCATION} />
+
       <View style={styles.resultContainer}>
         <ScrollView
           onTouchStart={() => Keyboard.dismiss()}
@@ -99,19 +121,26 @@ function SearchLocationScreen({navigation}: SearchLocationScreenProps) {
       </View>
 
       <View style={styles.pageButtonContainer}>
-        <Pressable onPress={fetchPrevPage} style={styles.pageButton}>
+        <Pressable
+          onPress={fetchPrevPage}
+          style={styles.pageButton}
+          disabled={pageParam <= 1}>
           <Octicons
             name="arrow-left"
             size={15}
             color={pageParam > 1 ? colors.BLACK : colors.GRAY_300}
             onPress={fetchPrevPage}
+            disabled={pageParam <= 1}
           />
           <Text
             style={pageParam > 1 ? styles.pageText : styles.disabledPageText}>
             이전페이지
           </Text>
         </Pressable>
-        <Pressable onPress={fetchNextPage} style={styles.pageButton}>
+        <Pressable
+          onPress={fetchNextPage}
+          style={styles.pageButton}
+          disabled={regionInfo.length === 0 || !hasNextPage}>
           <Text
             style={
               regionInfo.length > 0 && hasNextPage
@@ -129,6 +158,7 @@ function SearchLocationScreen({navigation}: SearchLocationScreenProps) {
                 : colors.GRAY_300
             }
             onPress={fetchNextPage}
+            disabled={regionInfo.length === 0 || !hasNextPage}
           />
         </Pressable>
       </View>
@@ -183,10 +213,10 @@ const styles = StyleSheet.create({
   noResultContainer: {
     flex: 1,
     alignItems: 'center',
-    marginTop: 20,
+    marginTop: 50,
   },
   noResultText: {
-    color: colors.GRAY_300,
+    color: colors.GRAY_500,
     fontSize: 16,
   },
   pageButtonContainer: {
