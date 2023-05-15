@@ -11,8 +11,10 @@ import {
 import Octicons from 'react-native-vector-icons/Octicons';
 
 import SearchInput from '@/components/@common/SearchInput';
+import Conditional from '@/components/@common/Conditional';
 import useSearchLocation from '@/hooks/useSearchLocation';
 import useUserLocation from '@/hooks/useUserLocation';
+import {convertMeterToKilometer} from '@/utils';
 import {colors} from '@/constants/colors';
 import {numbers} from '@/constants/numbers';
 
@@ -51,12 +53,18 @@ function SearchLocationScreen() {
               ]}>
               <Text style={styles.placeText}>{info.place_name}</Text>
               <View style={styles.categoryContainer}>
-                <Text>{info.distance}</Text>
+                <Text>{convertMeterToKilometer(info.distance)}km</Text>
                 <Text style={styles.subInfoText}>{info.category_name}</Text>
               </View>
               <Text style={styles.subInfoText}>{info.road_address_name}</Text>
             </View>
           ))}
+
+          <Conditional condition={regionInfo.length === 0}>
+            <View style={styles.noResultContainer}>
+              <Text style={styles.noResultText}>검색 결과가 없습니다.</Text>
+            </View>
+          </Conditional>
         </ScrollView>
       </View>
 
@@ -135,6 +143,14 @@ const styles = StyleSheet.create({
   },
   noItemBorder: {
     borderBottomWidth: 0,
+  },
+  noResultContainer: {
+    flex: 1,
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  noResultText: {
+    color: colors.GRAY_300,
   },
   pageButtonContainer: {
     flex: 1,
