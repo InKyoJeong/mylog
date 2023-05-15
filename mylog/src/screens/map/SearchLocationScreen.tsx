@@ -9,7 +9,9 @@ import {
   View,
 } from 'react-native';
 import Octicons from 'react-native-vector-icons/Octicons';
+import type {StackScreenProps} from '@react-navigation/stack';
 
+import type {MapStackParamList} from '@/navigations/stack/MapStackNavigator';
 import SearchInput from '@/components/@common/SearchInput';
 import Conditional from '@/components/@common/Conditional';
 import useSearchLocation from '@/hooks/useSearchLocation';
@@ -17,15 +19,28 @@ import useUserLocation from '@/hooks/useUserLocation';
 import {convertMeterToKilometer} from '@/utils';
 import {colors} from '@/constants/colors';
 import {numbers} from '@/constants/numbers';
+import {mapNavigations} from '@/constants/navigations';
+import useLocationStore from '@/store/useLocationStore';
 
-function SearchLocationScreen() {
-  const {userLocation} = useUserLocation();
+type SearchLocationScreenProps = StackScreenProps<
+  MapStackParamList,
+  typeof mapNavigations.SEARCH_LOCATION
+>;
+
+function SearchLocationScreen({navigation}: SearchLocationScreenProps) {
   const [keyword, setKeyword] = useState('');
+  const {userLocation} = useUserLocation();
+  const {setLocation} = useLocationStore();
   const {regionInfo, pageParam, fetchNextPage, fetchPrevPage, hasNextPage} =
     useSearchLocation(keyword, userLocation);
 
   const handleChangeKeyword = (text: string) => {
     setKeyword(text);
+  };
+
+  const handlePressRegionInfo = (latitude: string, longitude: string) => {
+    navigation.goBack();
+    setLocation({latitude: Number(latitude), longitude: Number(longitude)});
   };
 
   return (
@@ -45,19 +60,20 @@ function SearchLocationScreen() {
           indicatorStyle="black"
           contentContainerStyle={styles.scrollContainer}>
           {regionInfo.map((info, index) => (
-            <View
+            <Pressable
               key={info.id}
               style={[
                 styles.itemBorder,
                 index === regionInfo.length - 1 && styles.noItemBorder,
-              ]}>
+              ]}
+              onPress={() => handlePressRegionInfo(info.y, info.x)}>
               <Text style={styles.placeText}>{info.place_name}</Text>
               <View style={styles.categoryContainer}>
                 <Text>{convertMeterToKilometer(info.distance)}km</Text>
                 <Text style={styles.subInfoText}>{info.category_name}</Text>
               </View>
               <Text style={styles.subInfoText}>{info.road_address_name}</Text>
-            </View>
+            </Pressable>
           ))}
 
           <Conditional condition={regionInfo.length === 0}>
