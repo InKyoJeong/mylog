@@ -4,23 +4,24 @@ import {Pressable, ScrollView, StyleSheet, Text, View} from 'react-native';
 import Conditional from './Conditional';
 import {getAsyncStorage, setAsyncStorage} from '@/utils/asyncStorage';
 import {colors} from '@/constants/colors';
+import RecentSearchedItem from './RecentSearchedItem';
 
 interface RecentSearchedListProps {
   storageKey: string;
 }
 
 function RecentSearchedList({storageKey}: RecentSearchedListProps) {
-  const [value, setValue] = useState([]);
+  const [searchedList, setSearchedList] = useState([]);
 
   const clearList = async () => {
     await setAsyncStorage(storageKey, []);
-    setValue([]);
+    setSearchedList([]);
   };
 
   useEffect(() => {
     (async () => {
       const storedData = (await getAsyncStorage(storageKey)) ?? [];
-      setValue(storedData);
+      setSearchedList(storedData);
     })();
   }, [storageKey]);
 
@@ -33,19 +34,17 @@ function RecentSearchedList({storageKey}: RecentSearchedListProps) {
         </Pressable>
       </View>
 
-      <Conditional condition={value.length > 0}>
+      <Conditional condition={searchedList.length > 0}>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           <View style={styles.listContainer}>
-            {value.map((item, index) => (
-              <View key={index} style={styles.listItem}>
-                <Text style={styles.itemText}>{item}</Text>
-              </View>
+            {searchedList.map((keyword, index) => (
+              <RecentSearchedItem key={index} keyword={keyword} />
             ))}
           </View>
         </ScrollView>
       </Conditional>
 
-      <Conditional condition={value.length === 0}>
+      <Conditional condition={searchedList.length === 0}>
         <Text style={styles.noRecentText}>최근 검색어가 없습니다.</Text>
       </Conditional>
     </View>

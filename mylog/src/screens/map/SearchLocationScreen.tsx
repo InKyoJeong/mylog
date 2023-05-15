@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {
   Dimensions,
   Keyboard,
@@ -19,6 +19,7 @@ import Conditional from '@/components/@common/Conditional';
 import useSearchLocation from '@/hooks/useSearchLocation';
 import useUserLocation from '@/hooks/useUserLocation';
 import useLocationStore from '@/store/useLocationStore';
+import useSearchStore from '@/store/useSearchStore';
 import {getAsyncStorage, setAsyncStorage} from '@/utils/asyncStorage';
 import {convertMeterToKilometer} from '@/utils';
 import {mapNavigations} from '@/constants/navigations';
@@ -31,7 +32,7 @@ type SearchLocationScreenProps = StackScreenProps<
 >;
 
 function SearchLocationScreen({navigation}: SearchLocationScreenProps) {
-  const [keyword, setKeyword] = useState('');
+  const {keyword, setKeyword} = useSearchStore();
   const {userLocation} = useUserLocation();
   const {setMoveLocation, setSelectLocation} = useLocationStore();
   const {regionInfo, pageParam, fetchNextPage, fetchPrevPage, hasNextPage} =
@@ -55,6 +56,7 @@ function SearchLocationScreen({navigation}: SearchLocationScreenProps) {
     navigation.goBack();
     setMoveLocation(regionLocation);
     setSelectLocation(regionLocation);
+    setKeyword('');
   };
 
   const saveRecentSearchedList = async (searchKeyword: string) => {
@@ -206,7 +208,7 @@ const styles = StyleSheet.create({
   noResultContainer: {
     flex: 1,
     alignItems: 'center',
-    marginTop: 20,
+    marginTop: 50,
   },
   noResultText: {
     color: colors.GRAY_500,
