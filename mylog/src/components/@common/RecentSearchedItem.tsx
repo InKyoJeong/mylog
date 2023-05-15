@@ -20,6 +20,7 @@ function RecentSearchedItem({keyword}: RecentSearchedItemProps) {
 
 const styles = StyleSheet.create({
   listItem: {
+    backgroundColor: colors.PINK_200,
     borderColor: colors.PINK_700,
     borderWidth: 1.5,
     borderRadius: 5,
