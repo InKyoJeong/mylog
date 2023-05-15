@@ -8,15 +8,18 @@ import {
   Text,
   View,
 } from 'react-native';
-import Octicons from 'react-native-vector-icons/Octicons';
+import type {LatLng} from 'react-native-maps';
 import type {StackScreenProps} from '@react-navigation/stack';
+import Octicons from 'react-native-vector-icons/Octicons';
 
 import type {MapStackParamList} from '@/navigations/stack/MapStackNavigator';
+import RecentSearchedList from '@/components/@common/RecentSearchedList';
 import SearchInput from '@/components/@common/SearchInput';
 import Conditional from '@/components/@common/Conditional';
 import useSearchLocation from '@/hooks/useSearchLocation';
 import useUserLocation from '@/hooks/useUserLocation';
 import useLocationStore from '@/store/useLocationStore';
+import {getAsyncStorage, setAsyncStorage} from '@/utils/asyncStorage';
 import {convertMeterToKilometer} from '@/utils';
 import {mapNavigations} from '@/constants/navigations';
 import {colors} from '@/constants/colors';
@@ -44,9 +47,19 @@ function SearchLocationScreen({navigation}: SearchLocationScreenProps) {
       longitude: Number(longitude),
     };
 
+    moveToMap(regionLocation);
+    saveRecentSearchedList(keyword);
+  };
+
+  const moveToMap = (regionLocation: LatLng) => {
     navigation.goBack();
     setMoveLocation(regionLocation);
     setSelectLocation(regionLocation);
+  };
+
+  const saveRecentSearchedList = async (searchKeyword: string) => {
+    const storedData = (await getAsyncStorage('searchLocation')) ?? [];
+    await setAsyncStorage('searchLocation', [searchKeyword, ...storedData]);
   };
 
   return (
@@ -59,6 +72,8 @@ function SearchLocationScreen({navigation}: SearchLocationScreenProps) {
         maxLength={numbers.MAX_SEARCH_LOCATION_LENGTH}
         onPress={() => Keyboard.dismiss()}
       />
+      <RecentSearchedList storageKey="searchLocation" />
+
       <View style={styles.resultContainer}>
         <ScrollView
           onTouchStart={() => Keyboard.dismiss()}
@@ -194,7 +209,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   noResultText: {
-    color: colors.GRAY_300,
+    color: colors.GRAY_500,
     fontSize: 16,
   },
   pageButtonContainer: {

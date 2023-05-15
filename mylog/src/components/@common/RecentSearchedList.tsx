@@ -25,14 +25,15 @@ function RecentSearchedList({storageKey}: RecentSearchedListProps) {
   }, [storageKey]);
 
   return (
-    <Conditional condition={value.length > 0}>
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <Text style={styles.headerTitle}>최근 검색어</Text>
-          <Pressable onPress={clearList}>
-            <Text style={styles.deleteAllText}>전체삭제</Text>
-          </Pressable>
-        </View>
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.headerTitle}>최근 검색어</Text>
+        <Pressable onPress={clearList}>
+          <Text style={styles.deleteAllText}>전체삭제</Text>
+        </Pressable>
+      </View>
+
+      <Conditional condition={value.length > 0}>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           <View style={styles.listContainer}>
             {value.map((item, index) => (
@@ -42,8 +43,12 @@ function RecentSearchedList({storageKey}: RecentSearchedListProps) {
             ))}
           </View>
         </ScrollView>
-      </View>
-    </Conditional>
+      </Conditional>
+
+      <Conditional condition={value.length === 0}>
+        <Text style={styles.noRecentText}>최근 검색어가 없습니다.</Text>
+      </Conditional>
+    </View>
   );
 }
 
@@ -79,6 +84,10 @@ const styles = StyleSheet.create({
   itemText: {
     color: colors.PINK_700,
     fontWeight: 'bold',
+  },
+  noRecentText: {
+    textAlign: 'center',
+    color: colors.GRAY_300,
   },
 });
 
