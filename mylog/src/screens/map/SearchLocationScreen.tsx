@@ -99,19 +99,26 @@ function SearchLocationScreen({navigation}: SearchLocationScreenProps) {
       </View>
 
       <View style={styles.pageButtonContainer}>
-        <Pressable onPress={fetchPrevPage} style={styles.pageButton}>
+        <Pressable
+          onPress={fetchPrevPage}
+          style={styles.pageButton}
+          disabled={pageParam <= 1}>
           <Octicons
             name="arrow-left"
             size={15}
             color={pageParam > 1 ? colors.BLACK : colors.GRAY_300}
             onPress={fetchPrevPage}
+            disabled={pageParam <= 1}
           />
           <Text
             style={pageParam > 1 ? styles.pageText : styles.disabledPageText}>
             이전페이지
           </Text>
         </Pressable>
-        <Pressable onPress={fetchNextPage} style={styles.pageButton}>
+        <Pressable
+          onPress={fetchNextPage}
+          style={styles.pageButton}
+          disabled={regionInfo.length === 0 || !hasNextPage}>
           <Text
             style={
               regionInfo.length > 0 && hasNextPage
@@ -129,6 +136,7 @@ function SearchLocationScreen({navigation}: SearchLocationScreenProps) {
                 : colors.GRAY_300
             }
             onPress={fetchNextPage}
+            disabled={regionInfo.length === 0 || !hasNextPage}
           />
         </Pressable>
       </View>

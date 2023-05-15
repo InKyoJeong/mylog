@@ -16,6 +16,7 @@ function SearchInput({onPress, ...props}: SearchInputProps) {
         autoCapitalize="none"
         placeholderTextColor={colors.GRAY_500}
         onSubmitEditing={onPress}
+        clearButtonMode="while-editing"
         {...props}
       />
       <Ionicons
