@@ -68,6 +68,10 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
     setSelectLocation(null);
   };
 
+  const handlePressSearch = () => {
+    navigation.navigate(mapNavigations.SEARCH_LOCATION);
+  };
+
   const handlePressUserLocation = () => {
     if (isUserLocationError) {
       snackbar.show(errorMessages.CANNOT_ACCESS_USER_LOCATION);
@@ -121,6 +125,9 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
       <View style={styles.buttonList}>
         <MapButton onPress={handlePressAddPost}>
           <MaterialIcons name={'add'} color={colors.WHITE} size={25} />
+        </MapButton>
+        <MapButton onPress={handlePressSearch}>
+          <Ionicons name={'search'} color={colors.WHITE} size={25} />
         </MapButton>
         <MapButton onPress={handlePressUserLocation}>
           <MaterialIcons name={'my-location'} color={colors.WHITE} size={25} />
