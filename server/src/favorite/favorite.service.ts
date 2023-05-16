@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Favorite } from './favorite.entity';
 import { User } from 'src/auth/user.entity';
-import { ToggleFavoriteDto } from './dto/toggle-favorite.dto';
 
 @Injectable()
 export class FavoriteService {
@@ -23,12 +22,7 @@ export class FavoriteService {
     return favorites.map((favorite) => favorite.post);
   }
 
-  async toggleFavorite(
-    toggleFavoriteDto: ToggleFavoriteDto,
-    user: User,
-  ): Promise<number> {
-    const { postId } = toggleFavoriteDto;
-
+  async toggleFavorite(postId: number, user: User): Promise<number> {
     if (!postId) {
       throw new BadRequestException('Invalid postId');
     }

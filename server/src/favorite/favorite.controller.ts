@@ -1,9 +1,15 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { FavoriteService } from './favorite.service';
 import { GetUser } from 'src/common/decorators/get-user.decorator';
 import { User } from 'src/auth/user.entity';
-import { AuthGuard } from '@nestjs/passport';
-import { ToggleFavoriteDto } from './dto/toggle-favorite.dto';
 
 @Controller('favorites')
 @UseGuards(AuthGuard())
@@ -15,11 +21,11 @@ export class FavoriteController {
     return this.favoriteService.getMyFavoritePosts(user);
   }
 
-  @Post()
+  @Post('/:id')
   toggleFavorite(
-    @Body() toggleFavoriteDto: ToggleFavoriteDto,
+    @Param('id', ParseIntPipe) id: number,
     @GetUser() user: User,
   ): Promise<number> {
-    return this.favoriteService.toggleFavorite(toggleFavoriteDto, user);
+    return this.favoriteService.toggleFavorite(id, user);
   }
 }
