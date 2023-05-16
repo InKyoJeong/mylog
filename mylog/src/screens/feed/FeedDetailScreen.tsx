@@ -4,6 +4,7 @@ import {
   Image,
   NativeScrollEvent,
   NativeSyntheticEvent,
+  Pressable,
   ScrollView,
   StyleSheet,
   Text,
@@ -25,12 +26,15 @@ import CustomBottomTab from '@/components/@common/CustomBottomTab';
 import FeedDetailOptionModal from '@/components/feed/FeedDetailOptionModal';
 import PreviewImageList from '@/components/post/PreviewImageList';
 import FeedDetailHeader from '@/components/feed/FeedDetailHeader';
-import useLocationStore from '@/store/useLocationStore';
-import useDetailPostStore from '@/store/useDetailPostStore';
+import {useUpdateFavoritePost} from '@/hooks/queries/useFavoritePost';
 import useModal from '@/hooks/useModal';
 import {useGetPost} from '@/hooks/queries/usePost';
+import useLocationStore from '@/store/useLocationStore';
+import useDetailPostStore from '@/store/useDetailPostStore';
+import useSnackbarStore from '@/store/useSnackbarStore';
 import {getDateLocaleFormat} from '@/utils/date';
 import {feedNavigations, mapNavigations} from '@/constants/navigations';
+import {successMessages} from '@/constants/messages';
 import {colorHex, colors} from '@/constants/colors';
 import {numbers} from '@/constants/numbers';
 
@@ -42,11 +46,13 @@ type FeedDetailScreenProps = CompositeScreenProps<
 function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
   const {id} = route.params;
   const {data: post, isLoading, isError} = useGetPost(id);
+  const favoriteMutation = useUpdateFavoritePost();
   const insets = useSafeAreaInsets();
   const optionModal = useModal();
   const [isScrolled, setIsScrolled] = useState(false);
   const {setMoveLocation} = useLocationStore();
   const {setDetailPost} = useDetailPostStore();
+  const snackbar = useSnackbarStore();
 
   useEffect(() => {
     post && setDetailPost(post);
@@ -66,6 +72,13 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
     const {latitude, longitude} = post;
     setMoveLocation({latitude, longitude});
     navigation.navigate(mapNavigations.MAP_HOME);
+  };
+
+  const handlePressFavorite = () => {
+    favoriteMutation.mutate(post.id, {
+      onSuccess: () =>
+        !post.isFavorite && snackbar.show(successMessages.SUCCESS_ADD_BOOKMARK),
+    });
   };
 
   return (
@@ -157,9 +170,18 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
 
       <CustomBottomTab>
         <View style={styles.tabContainer}>
-          <View style={styles.bookmarkContainer}>
-            <Octicons name="star-fill" size={30} color={colors.GRAY_100} />
-          </View>
+          <Pressable
+            style={({pressed}) => [
+              pressed && styles.bookmarkPressedContainer,
+              styles.bookmarkContainer,
+            ]}
+            onPress={handlePressFavorite}>
+            <Octicons
+              name="star-fill"
+              size={30}
+              color={post.isFavorite ? colors.YELLOW_500 : colors.GRAY_100}
+            />
+          </Pressable>
           <CustomButton
             label="위치보기"
             size="medium"
@@ -260,6 +282,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
     borderRadius: 3,
     justifyContent: 'center',
+  },
+  bookmarkPressedContainer: {
+    opacity: 0.5,
   },
 });
 
