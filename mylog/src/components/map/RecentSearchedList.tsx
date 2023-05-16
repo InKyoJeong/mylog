@@ -1,7 +1,7 @@
 import React, {memo, useEffect, useState} from 'react';
 import {Pressable, ScrollView, StyleSheet, Text, View} from 'react-native';
 
-import Conditional from './Conditional';
+import Conditional from '../@common/Conditional';
 import {getAsyncStorage, setAsyncStorage} from '@/utils/asyncStorage';
 import {colors} from '@/constants/colors';
 import RecentSearchedItem from './RecentSearchedItem';
