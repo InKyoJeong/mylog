@@ -91,6 +91,10 @@ function useDeletePost(mutationOptions?: UseMutationCustomOptions) {
   return useMutation(deletePost, {
     onSuccess: deletedId => {
       queryClient.invalidateQueries([queryKeys.POST, queryKeys.GET_POSTS]);
+      queryClient.invalidateQueries([
+        queryKeys.FAVORITE,
+        queryKeys.GET_FAVORITE_POSTS,
+      ]);
 
       queryClient.setQueryData<Marker[]>(
         [queryKeys.MARKER, queryKeys.GET_MARKERS],
