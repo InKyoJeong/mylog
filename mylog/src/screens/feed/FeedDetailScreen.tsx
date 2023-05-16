@@ -4,6 +4,7 @@ import {
   Image,
   NativeScrollEvent,
   NativeSyntheticEvent,
+  Pressable,
   ScrollView,
   StyleSheet,
   Text,
@@ -33,6 +34,7 @@ import {getDateLocaleFormat} from '@/utils/date';
 import {feedNavigations, mapNavigations} from '@/constants/navigations';
 import {colorHex, colors} from '@/constants/colors';
 import {numbers} from '@/constants/numbers';
+import {useUpdateFavoritePost} from '@/hooks/queries/useFavoritePost';
 
 type FeedDetailScreenProps = CompositeScreenProps<
   StackScreenProps<FeedStackParamList, typeof feedNavigations.FEED_DETAIL>,
@@ -42,6 +44,7 @@ type FeedDetailScreenProps = CompositeScreenProps<
 function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
   const {id} = route.params;
   const {data: post, isLoading, isError} = useGetPost(id);
+  const favoriteMutation = useUpdateFavoritePost();
   const insets = useSafeAreaInsets();
   const optionModal = useModal();
   const [isScrolled, setIsScrolled] = useState(false);
@@ -66,6 +69,10 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
     const {latitude, longitude} = post;
     setMoveLocation({latitude, longitude});
     navigation.navigate(mapNavigations.MAP_HOME);
+  };
+
+  const handlePressFavorite = () => {
+    favoriteMutation.mutate(post.id);
   };
 
   return (
@@ -157,9 +164,15 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
 
       <CustomBottomTab>
         <View style={styles.tabContainer}>
-          <View style={styles.bookmarkContainer}>
-            <Octicons name="star-fill" size={30} color={colors.GRAY_100} />
-          </View>
+          <Pressable
+            style={styles.bookmarkContainer}
+            onPress={handlePressFavorite}>
+            <Octicons
+              name="star-fill"
+              size={30}
+              color={post.isFavorite ? colors.YELLOW_400 : colors.GRAY_100}
+            />
+          </Pressable>
           <CustomButton
             label="위치보기"
             size="medium"
