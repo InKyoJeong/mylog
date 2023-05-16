@@ -13,6 +13,10 @@ const errorMessages = {
   CANNOT_ACCESS_USER_LOCATION: '위치 권한을 허용해주세요.',
 } as const;
 
+const successMessages = {
+  SUCCESS_ADD_BOOKMARK: '북마크 되었습니다.',
+} as const;
+
 const alerts = {
   EXCEED_IMAGE_COUNT: {
     TITLE: '이미지 개수 초과',
@@ -36,4 +40,4 @@ const alerts = {
   },
 } as const;
 
-export {errorMessages, alerts};
+export {errorMessages, successMessages, alerts};

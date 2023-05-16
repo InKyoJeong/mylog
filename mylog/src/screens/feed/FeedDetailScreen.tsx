@@ -26,15 +26,17 @@ import CustomBottomTab from '@/components/@common/CustomBottomTab';
 import FeedDetailOptionModal from '@/components/feed/FeedDetailOptionModal';
 import PreviewImageList from '@/components/post/PreviewImageList';
 import FeedDetailHeader from '@/components/feed/FeedDetailHeader';
-import useLocationStore from '@/store/useLocationStore';
-import useDetailPostStore from '@/store/useDetailPostStore';
+import {useUpdateFavoritePost} from '@/hooks/queries/useFavoritePost';
 import useModal from '@/hooks/useModal';
 import {useGetPost} from '@/hooks/queries/usePost';
+import useLocationStore from '@/store/useLocationStore';
+import useDetailPostStore from '@/store/useDetailPostStore';
+import useSnackbarStore from '@/store/useSnackbarStore';
 import {getDateLocaleFormat} from '@/utils/date';
 import {feedNavigations, mapNavigations} from '@/constants/navigations';
+import {successMessages} from '@/constants/messages';
 import {colorHex, colors} from '@/constants/colors';
 import {numbers} from '@/constants/numbers';
-import {useUpdateFavoritePost} from '@/hooks/queries/useFavoritePost';
 
 type FeedDetailScreenProps = CompositeScreenProps<
   StackScreenProps<FeedStackParamList, typeof feedNavigations.FEED_DETAIL>,
@@ -50,6 +52,7 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const {setMoveLocation} = useLocationStore();
   const {setDetailPost} = useDetailPostStore();
+  const snackbar = useSnackbarStore();
 
   useEffect(() => {
     post && setDetailPost(post);
@@ -72,7 +75,10 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
   };
 
   const handlePressFavorite = () => {
-    favoriteMutation.mutate(post.id);
+    favoriteMutation.mutate(post.id, {
+      onSuccess: () =>
+        !post.isFavorite && snackbar.show(successMessages.SUCCESS_ADD_BOOKMARK),
+    });
   };
 
   return (
