@@ -24,11 +24,6 @@ import { PostService } from './post.service';
 export class PostController {
   constructor(private postService: PostService) {}
 
-  // @Get('')
-  // getAllPosts(): Promise<PostEntity[]> {
-  //   return this.postService.getAllPosts();
-  // }
-
   @Get('/markers/my')
   getAllMyMarkers(
     @GetUser() user: User,

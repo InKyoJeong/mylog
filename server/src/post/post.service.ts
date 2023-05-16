@@ -16,10 +16,6 @@ export class PostService {
     private imageRepository: Repository<Image>,
   ) {}
 
-  // async getAllPost(): Promise<Post[]> {
-  //   return this.postRepository.find();
-  // }
-
   async getMyMarkers(user: User) {
     const markers = await this.postRepository
       .createQueryBuilder('post')
@@ -95,8 +91,6 @@ export class PostService {
     if (!foundPost) {
       throw new NotFoundException('존재하지 않는 데이터입니다.');
     }
-
-    console.log('foundPost', foundPost);
 
     return foundPost;
   }
