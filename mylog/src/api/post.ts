@@ -9,7 +9,9 @@ const getPosts = async (page = 1): Promise<ResponsePost[]> => {
   return data;
 };
 
-const getPost = async (id: number): Promise<ResponsePost> => {
+export type ResponseSinglePost = ResponsePost & {isFavorite: boolean};
+
+const getPost = async (id: number): Promise<ResponseSinglePost> => {
   const {data} = await axiosInstance.get(`/posts/${id}`);
 
   return data;

@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Favorite } from './favorite.entity';
 import { User } from 'src/auth/user.entity';
-import { ToggleFavoriteDto } from './dto/toggle-favorite.dto';
 
 @Injectable()
 export class FavoriteService {
@@ -12,23 +11,24 @@ export class FavoriteService {
     private favoriteRepository: Repository<Favorite>,
   ) {}
 
-  async getMyFavoritePosts(user: User) {
+  async getMyFavoritePosts(page: number, user: User) {
+    const perPage = 10;
+    const offset = (page - 1) * perPage;
     const favorites = await this.favoriteRepository
       .createQueryBuilder('favorite')
       .innerJoinAndSelect('favorite.post', 'post')
       .leftJoinAndSelect('post.images', 'image')
       .where('favorite.userId = :userId', { userId: user.id })
+      .orderBy('post.date', 'DESC')
+      .addOrderBy('image.id', 'ASC')
+      .skip(offset)
+      .take(perPage)
       .getMany();
 
     return favorites.map((favorite) => favorite.post);
   }
 
-  async toggleFavorite(
-    toggleFavoriteDto: ToggleFavoriteDto,
-    user: User,
-  ): Promise<number> {
-    const { postId } = toggleFavoriteDto;
-
+  async toggleFavorite(postId: number, user: User): Promise<number> {
     if (!postId) {
       throw new BadRequestException('Invalid postId');
     }

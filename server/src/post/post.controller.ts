@@ -48,10 +48,7 @@ export class PostController {
   }
 
   @Get('/posts/:id')
-  getPostById(
-    @Param('id', ParseIntPipe) id: number,
-    @GetUser() user: User,
-  ): Promise<PostEntity> {
+  getPostById(@Param('id', ParseIntPipe) id: number, @GetUser() user: User) {
     return this.postService.getPostById(id, user);
   }
 

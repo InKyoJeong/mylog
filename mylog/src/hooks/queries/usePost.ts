@@ -9,6 +9,7 @@ import {
 import queryClient from '@/api/queryClient';
 import {
   ResponsePost,
+  ResponseSinglePost,
   createPost,
   deletePost,
   getPost,
@@ -46,9 +47,9 @@ function useGetInifinitePosts(
 
 function useGetPost(
   id: number,
-  queryOptions?: UseQueryOptions<ResponsePost, ResponseError>,
+  queryOptions?: UseQueryOptions<ResponseSinglePost, ResponseError>,
 ) {
-  return useQuery<ResponsePost, ResponseError>(
+  return useQuery<ResponseSinglePost, ResponseError>(
     [queryKeys.POST, queryKeys.GET_POST, id],
     () => getPost(id),
     {
