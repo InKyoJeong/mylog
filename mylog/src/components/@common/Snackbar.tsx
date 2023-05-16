@@ -5,16 +5,18 @@ import useSnackbarStore from '@/store/useSnackbarStore';
 import useKeyboardStatus from '@/hooks/useKeyboardStatus';
 import {colors} from '@/constants/colors';
 import {numbers} from '@/constants/numbers';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 function Snackbar() {
+  const insets = useSafeAreaInsets();
   const snackbar = useSnackbarStore();
   const {keyboardHeight} = useKeyboardStatus();
-  const [position] = useState(new Animated.Value(-50));
+  const [position] = useState(new Animated.Value(-insets.bottom));
   const timeoutIdRef = useRef<number | null>(null);
 
   useEffect(() => {
     Animated.timing(position, {
-      toValue: -50,
+      toValue: -insets.bottom,
       useNativeDriver: true,
     }).start();
 
@@ -31,7 +33,7 @@ function Snackbar() {
         timeoutIdRef.current = null;
       }
     };
-  }, [position, snackbar.hide, snackbar.info.message]);
+  }, [insets.bottom, position, snackbar.hide, snackbar.info.message]);
 
   return (
     <>
