@@ -74,7 +74,7 @@ export class PostService {
     return posts;
   }
 
-  async getPostById(id: number, user: User): Promise<Post> {
+  async getPostById(id: number, user: User) {
     const foundPost = await this.postRepository
       .createQueryBuilder('post')
       .leftJoinAndSelect('post.images', 'image')
@@ -92,7 +92,10 @@ export class PostService {
       throw new NotFoundException('존재하지 않는 데이터입니다.');
     }
 
-    return foundPost;
+    const { favorites, ...rest } = foundPost;
+    const postWithIsFavorite = { ...rest, isFavorite: favorites.length > 0 };
+
+    return postWithIsFavorite;
   }
 
   async createPost(createPostDto: CreatePostDto, user: User) {
@@ -149,7 +152,7 @@ export class PostService {
     id: number,
     updatePostDto: Omit<CreatePostDto, 'latitude' | 'longitude' | 'address'>,
     user: User,
-  ): Promise<Post> {
+  ): Promise<any> {
     const post = await this.getPostById(id, user);
     const { title, description, color, date, score, imageUris } = updatePostDto;
     post.title = title;
