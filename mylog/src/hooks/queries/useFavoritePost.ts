@@ -47,13 +47,11 @@ function useUpdateFavoritePost(mutationOptions?: UseMutationCustomOptions) {
         queryKeys.POST,
         queryKeys.GET_POST,
         updatedId,
-      ]);
-      const newPost = {...existingPost};
-      newPost.isFavorite = !newPost.isFavorite;
+      ]) as ResponseSinglePost;
 
       queryClient.setQueryData<ResponseSinglePost>(
         [queryKeys.POST, queryKeys.GET_POST, updatedId],
-        newPost as ResponseSinglePost,
+        {...existingPost, isFavorite: !existingPost.isFavorite},
       );
     },
     ...mutationOptions,
