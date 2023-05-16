@@ -1,14 +1,14 @@
 import {create} from 'zustand';
 import type {LatLng} from 'react-native-maps';
 
-interface OptionState {
+interface LocationState {
   moveLocation: LatLng | null;
   setMoveLocation: (location: LatLng) => void;
   selectLocation: LatLng | null;
   setSelectLocation: (location: LatLng | null) => void;
 }
 
-const useLocationStore = create<OptionState>(set => ({
+const useLocationStore = create<LocationState>(set => ({
   moveLocation: null,
   selectLocation: null,
   setMoveLocation: (moveLocation: LatLng) => {

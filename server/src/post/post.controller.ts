@@ -84,4 +84,13 @@ export class PostController {
   ) {
     return this.postService.updatePost(id, updatePostDto, user);
   }
+
+  @Get('/posts')
+  getPostsByMonth(
+    @Query('year') year: number,
+    @Query('month') month: number,
+    @GetUser() user: User,
+  ) {
+    return this.postService.getPostsByMonth(year, month, user);
+  }
 }

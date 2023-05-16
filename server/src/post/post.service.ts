@@ -164,4 +164,16 @@ export class PostService {
 
     return post;
   }
+
+  async getPostsByMonth(year: number, month: number, user: User) {
+    const posts = await this.postRepository
+      .createQueryBuilder('post')
+      .where('post.userId = :userId', { userId: user.id })
+      .andWhere('extract(year from post.date) = :year', { year })
+      .andWhere('extract(month from post.date) = :month', { month })
+      .select(['post.id', 'post.title', 'post.address'])
+      .getMany();
+
+    return posts;
+  }
 }

@@ -44,6 +44,7 @@ function FeedItem({post}: FeedItemProps) {
               />
             </View>
           </Conditional>
+
           <Conditional condition={post.images.length === 0}>
             <View style={[styles.imageContainer, styles.emptyImageContainer]}>
               <CustomMarker
