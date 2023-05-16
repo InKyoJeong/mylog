@@ -171,12 +171,15 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
       <CustomBottomTab>
         <View style={styles.tabContainer}>
           <Pressable
-            style={styles.bookmarkContainer}
+            style={({pressed}) => [
+              pressed && styles.bookmarkPressedContainer,
+              styles.bookmarkContainer,
+            ]}
             onPress={handlePressFavorite}>
             <Octicons
               name="star-fill"
               size={30}
-              color={post.isFavorite ? colors.YELLOW_400 : colors.GRAY_100}
+              color={post.isFavorite ? colors.YELLOW_500 : colors.GRAY_100}
             />
           </Pressable>
           <CustomButton
@@ -279,6 +282,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
     borderRadius: 3,
     justifyContent: 'center',
+  },
+  bookmarkPressedContainer: {
+    opacity: 0.5,
   },
 });
 
