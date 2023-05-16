@@ -3,7 +3,7 @@ import { FavoriteService } from './favorite.service';
 import { GetUser } from 'src/common/decorators/get-user.decorator';
 import { User } from 'src/auth/user.entity';
 import { AuthGuard } from '@nestjs/passport';
-import { CreateFavoriteDto } from './dto/create-favorite.dto';
+import { ToggleFavoriteDto } from './dto/toggle-favorite.dto';
 
 @Controller('favorites')
 @UseGuards(AuthGuard())
@@ -16,10 +16,10 @@ export class FavoriteController {
   }
 
   @Post()
-  createFavorite(
-    @Body() createFavoriteDto: CreateFavoriteDto,
+  toggleFavorite(
+    @Body() toggleFavoriteDto: ToggleFavoriteDto,
     @GetUser() user: User,
-  ) {
-    return this.favoriteService.createFavorite(createFavoriteDto, user);
+  ): Promise<number> {
+    return this.favoriteService.toggleFavorite(toggleFavoriteDto, user);
   }
 }

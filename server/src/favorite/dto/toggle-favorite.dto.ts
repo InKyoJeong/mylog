@@ -1,6 +1,6 @@
 import { IsNotEmpty } from 'class-validator';
 
-export class CreateFavoriteDto {
+export class ToggleFavoriteDto {
   @IsNotEmpty()
   postId: number;
 }

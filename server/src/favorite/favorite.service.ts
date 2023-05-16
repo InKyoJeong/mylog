@@ -1,9 +1,9 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Favorite } from './favorite.entity';
 import { Repository } from 'typeorm';
+import { Favorite } from './favorite.entity';
 import { User } from 'src/auth/user.entity';
-import { CreateFavoriteDto } from './dto/create-favorite.dto';
+import { ToggleFavoriteDto } from './dto/toggle-favorite.dto';
 
 @Injectable()
 export class FavoriteService {
@@ -16,17 +16,31 @@ export class FavoriteService {
     const favorites = await this.favoriteRepository
       .createQueryBuilder('favorite')
       .innerJoinAndSelect('favorite.post', 'post')
+      .leftJoinAndSelect('post.images', 'image')
       .where('favorite.userId = :userId', { userId: user.id })
       .getMany();
 
-    return favorites;
+    return favorites.map((favorite) => favorite.post);
   }
 
-  async createFavorite(createFavoriteDto: CreateFavoriteDto, user: User) {
-    const { postId } = createFavoriteDto;
+  async toggleFavorite(
+    toggleFavoriteDto: ToggleFavoriteDto,
+    user: User,
+  ): Promise<number> {
+    const { postId } = toggleFavoriteDto;
 
     if (!postId) {
       throw new BadRequestException('Invalid postId');
+    }
+
+    const existingFavorite = await this.favoriteRepository.findOne({
+      where: { postId, userId: user.id },
+    });
+
+    if (existingFavorite) {
+      await this.favoriteRepository.delete(existingFavorite.id);
+
+      return existingFavorite.postId;
     }
 
     const favorite = this.favoriteRepository.create({
@@ -35,5 +49,7 @@ export class FavoriteService {
     });
 
     await this.favoriteRepository.save(favorite);
+
+    return favorite.postId;
   }
 }
