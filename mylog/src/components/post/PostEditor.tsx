@@ -57,7 +57,7 @@ function PostEditor({isEdit = false, location}: PostEditorProps) {
   const datePicker = useDatePicker(
     isEditMode ? new Date(String(detailPost.date)) : new Date(),
   );
-  const [marker, setMarker] = useState<MarkerColor>(
+  const [markerColor, setMarkerColor] = useState<MarkerColor>(
     isEditMode ? detailPost.color : 'RED',
   );
   const [score, setScore] = useState(
@@ -69,7 +69,7 @@ function PostEditor({isEdit = false, location}: PostEditorProps) {
   usePermission('PHOTO');
 
   const handleSelectMarker = (name: MarkerColor) => {
-    setMarker(name);
+    setMarkerColor(name);
   };
 
   const handleChangeScore = (value: number) => {
@@ -81,7 +81,7 @@ function PostEditor({isEdit = false, location}: PostEditorProps) {
       date: datePicker.date,
       title: addPost.values.title,
       description: addPost.values.description,
-      color: marker,
+      color: markerColor,
       score,
       imageUris: imagePicker.imageUris,
     };
@@ -103,7 +103,7 @@ function PostEditor({isEdit = false, location}: PostEditorProps) {
     addPost.values,
     detailPost?.id,
     datePicker.date,
-    marker,
+    markerColor,
     score,
     imagePicker.imageUris,
     createPostMutation,
@@ -166,7 +166,7 @@ function PostEditor({isEdit = false, location}: PostEditorProps) {
               multiline
             />
             <MarkerSelector
-              marker={marker}
+              markerColor={markerColor}
               onPressMarker={handleSelectMarker}
             />
             <ScoreInput score={score} onChangeScore={handleChangeScore} />

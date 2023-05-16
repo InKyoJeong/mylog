@@ -13,9 +13,9 @@ import type {StackScreenProps} from '@react-navigation/stack';
 import Octicons from 'react-native-vector-icons/Octicons';
 
 import type {MapStackParamList} from '@/navigations/stack/MapStackNavigator';
-import RecentSearchedList from '@/components/@common/RecentSearchedList';
 import SearchInput from '@/components/@common/SearchInput';
 import Conditional from '@/components/@common/Conditional';
+import RecentSearchedList from '@/components/map/RecentSearchedList';
 import useSearchLocation from '@/hooks/useSearchLocation';
 import useUserLocation from '@/hooks/useUserLocation';
 import useLocationStore from '@/store/useLocationStore';
@@ -49,15 +49,14 @@ function SearchLocationScreen({navigation}: SearchLocationScreenProps) {
       longitude: Number(longitude),
     };
 
-    moveToMap(regionLocation);
+    moveToMapScreen(regionLocation);
     saveRecentSearchedList(keyword);
   };
 
-  const moveToMap = (regionLocation: LatLng) => {
+  const moveToMapScreen = (regionLocation: LatLng) => {
     navigation.goBack();
     setMoveLocation(regionLocation);
     setSelectLocation(regionLocation);
-    setKeyword('');
   };
 
   const saveRecentSearchedList = async (searchKeyword: string) => {
@@ -67,6 +66,7 @@ function SearchLocationScreen({navigation}: SearchLocationScreenProps) {
       searchKeyword,
       ...storedData,
     ]);
+    setKeyword('');
   };
 
   return (

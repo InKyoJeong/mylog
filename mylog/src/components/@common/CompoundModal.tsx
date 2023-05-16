@@ -135,6 +135,7 @@ function CardImage({imageUris}: CardImageProps) {
           />
         </View>
       </Conditional>
+
       <Conditional condition={imageUris.length === 0}>
         <View style={[styles.imageContainer, styles.emptyImageContainer]}>
           <CustomMarker

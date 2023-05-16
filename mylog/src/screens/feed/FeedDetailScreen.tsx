@@ -90,6 +90,7 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
             />
           </View>
         </Conditional>
+
         <Conditional condition={post.images.length === 0}>
           <View
             style={[

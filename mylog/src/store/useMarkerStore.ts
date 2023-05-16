@@ -11,7 +11,7 @@ const useMarkerStore = create<MarkerState>(set => ({
   markerId: 0,
   isVisible: false,
   showModal: (id: number) => {
-    set({isVisible: true, markerId: id});
+    set({markerId: id, isVisible: true});
   },
   hideModal: () => {
     set(state => ({...state, isVisible: false}));
