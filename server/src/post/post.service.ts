@@ -152,7 +152,7 @@ export class PostService {
     id: number,
     updatePostDto: Omit<CreatePostDto, 'latitude' | 'longitude' | 'address'>,
     user: User,
-  ): Promise<any> {
+  ) {
     const post = await this.getPostById(id, user);
     const { title, description, color, date, score, imageUris } = updatePostDto;
     post.title = title;
