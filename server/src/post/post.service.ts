@@ -82,6 +82,12 @@ export class PostService {
     const foundPost = await this.postRepository
       .createQueryBuilder('post')
       .leftJoinAndSelect('post.images', 'image')
+      .leftJoinAndSelect(
+        'post.favorites',
+        'favorite',
+        'favorite.userId = :userId',
+        { userId: user.id },
+      )
       .where('post.userId = :userId', { userId: user.id })
       .andWhere('post.id = :id', { id })
       .getOne();
@@ -89,6 +95,8 @@ export class PostService {
     if (!foundPost) {
       throw new NotFoundException('존재하지 않는 데이터입니다.');
     }
+
+    console.log('foundPost', foundPost);
 
     return foundPost;
   }

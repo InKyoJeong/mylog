@@ -69,5 +69,5 @@ export class Post extends BaseEntity {
   images: Image[];
 
   @OneToMany(() => Favorite, (favorite) => favorite.post)
-  favorite: Favorite[];
+  favorites: Favorite[];
 }
