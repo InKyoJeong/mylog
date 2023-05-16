@@ -7,6 +7,8 @@ const queryKeys = {
   GET_MARKERS: 'getMarkers',
   GET_POSTS: 'getPosts',
   GET_POST: 'getPost',
+  FAVORITE: 'favorite',
+  GET_FAVORITE_POSTS: 'getFavoritePosts',
 } as const;
 
 const storageKeys = {
