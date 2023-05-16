@@ -16,10 +16,6 @@ export class PostService {
     private imageRepository: Repository<Image>,
   ) {}
 
-  // async getAllPost(): Promise<Post[]> {
-  //   return this.postRepository.find();
-  // }
-
   async getMyMarkers(user: User) {
     const markers = await this.postRepository
       .createQueryBuilder('post')
@@ -82,6 +78,12 @@ export class PostService {
     const foundPost = await this.postRepository
       .createQueryBuilder('post')
       .leftJoinAndSelect('post.images', 'image')
+      .leftJoinAndSelect(
+        'post.favorites',
+        'favorite',
+        'favorite.userId = :userId',
+        { userId: user.id },
+      )
       .where('post.userId = :userId', { userId: user.id })
       .andWhere('post.id = :id', { id })
       .getOne();

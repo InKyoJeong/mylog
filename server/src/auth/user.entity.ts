@@ -1,5 +1,3 @@
-import { Exclude } from 'class-transformer';
-import { Post } from 'src/post/post.entity';
 import {
   BaseEntity,
   Column,
@@ -11,6 +9,9 @@ import {
   Unique,
   UpdateDateColumn,
 } from 'typeorm';
+import { Exclude } from 'class-transformer';
+import { Favorite } from 'src/favorite/favorite.entity';
+import { Post } from 'src/post/post.entity';
 
 @Entity()
 @Unique(['username'])
@@ -39,4 +40,7 @@ export class User extends BaseEntity {
 
   @OneToMany(() => Post, (post) => post.user, { eager: false })
   post: Post[];
+
+  @OneToMany(() => Favorite, (favorite) => favorite.user)
+  favorite: Favorite[];
 }

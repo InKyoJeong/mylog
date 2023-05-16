@@ -6,7 +6,7 @@ const queryClient = new QueryClient({
       // suspense: true,
       // useErrorBoundary: true,
       // refetchOnWindowFocus: false,
-      staleTime: 60000,
+      staleTime: 300000,
       retry: false,
     },
     mutations: {
