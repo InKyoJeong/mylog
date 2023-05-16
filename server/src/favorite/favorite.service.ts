@@ -11,12 +11,18 @@ export class FavoriteService {
     private favoriteRepository: Repository<Favorite>,
   ) {}
 
-  async getMyFavoritePosts(user: User) {
+  async getMyFavoritePosts(page: number, user: User) {
+    const perPage = 10;
+    const offset = (page - 1) * perPage;
     const favorites = await this.favoriteRepository
       .createQueryBuilder('favorite')
       .innerJoinAndSelect('favorite.post', 'post')
       .leftJoinAndSelect('post.images', 'image')
       .where('favorite.userId = :userId', { userId: user.id })
+      .orderBy('post.date', 'DESC')
+      .addOrderBy('image.id', 'ASC')
+      .skip(offset)
+      .take(perPage)
       .getMany();
 
     return favorites.map((favorite) => favorite.post);
