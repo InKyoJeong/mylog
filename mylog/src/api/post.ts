@@ -41,7 +41,7 @@ export type RequestUpdatePost = {
 const updatePost = async ({
   id,
   body,
-}: RequestUpdatePost): Promise<ResponsePost> => {
+}: RequestUpdatePost): Promise<ResponseSinglePost> => {
   const {data} = await axiosInstance.patch(`/posts/${id}`, body);
 
   return data;
