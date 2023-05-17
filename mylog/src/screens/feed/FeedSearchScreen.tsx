@@ -1,16 +1,24 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {SafeAreaView, StyleSheet} from 'react-native';
+
+import {colors} from '@/constants/colors';
+import FeedSearchItemList from '@/components/feed/FeedSearchItemList';
 
 interface FeedSearchScreenProps {}
 
 function FeedSearchScreen({}: FeedSearchScreenProps) {
   return (
-    <View>
-      <Text>검색스크린</Text>
-    </View>
+    <SafeAreaView style={styles.container}>
+      <FeedSearchItemList />
+    </SafeAreaView>
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.WHITE,
+  },
+});
 
 export default FeedSearchScreen;
