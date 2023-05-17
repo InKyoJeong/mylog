@@ -5,17 +5,18 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {colors} from '@/constants/colors';
 
 interface SearchInputProps extends TextInputProps {
-  onPress: () => void;
+  onSubmit: () => void;
 }
 
-function SearchInput({onPress, ...props}: SearchInputProps) {
+function SearchInput({onSubmit, ...props}: SearchInputProps) {
   return (
     <View style={styles.container}>
       <TextInput
         style={styles.input}
         autoCapitalize="none"
         placeholderTextColor={colors.GRAY_500}
-        onSubmitEditing={onPress}
+        returnKeyType="search"
+        onSubmitEditing={onSubmit}
         clearButtonMode="while-editing"
         {...props}
       />
@@ -23,7 +24,7 @@ function SearchInput({onPress, ...props}: SearchInputProps) {
         name={'search'}
         color={colors.GRAY_700}
         size={25}
-        onPress={onPress}
+        onPress={onSubmit}
       />
     </View>
   );
