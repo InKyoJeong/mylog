@@ -92,7 +92,11 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
         showsVerticalScrollIndicator={false}
         onScroll={handleScroll}
         scrollEventThrottle={100}
-        style={{marginBottom: insets.bottom + 50}}>
+        style={
+          insets.bottom
+            ? {marginBottom: insets.bottom + 50}
+            : styles.scrollNoInsets
+        }>
         <Conditional condition={post.images.length > 0}>
           <View key={post.id} style={styles.coverImageContainer}>
             <Image
@@ -169,7 +173,11 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
       </ScrollView>
 
       <CustomBottomTab>
-        <View style={styles.tabContainer}>
+        <View
+          style={[
+            styles.tabContainer,
+            insets.bottom === 0 && styles.tabContainerNoInsets,
+          ]}>
           <Pressable
             style={({pressed}) => [
               pressed && styles.bookmarkPressedContainer,
@@ -200,6 +208,9 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
 }
 
 const styles = StyleSheet.create({
+  scrollNoInsets: {
+    marginBottom: 60,
+  },
   titleText: {
     fontSize: 22,
     fontWeight: 'bold',
@@ -275,6 +286,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 10,
+  },
+  tabContainerNoInsets: {
+    marginBottom: 10,
   },
   bookmarkContainer: {
     backgroundColor: colors.PINK_700,

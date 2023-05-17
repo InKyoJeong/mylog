@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
 import {FlatList, StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import type {DrawerNavigationProp} from '@react-navigation/drawer';
 
-import {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
+import type {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
 import FeedItem from './FeedItem';
 import InfoMessage from '../@common/InfoMessage';
 import {useGetInifinitePosts} from '@/hooks/queries/usePost';
-import {DrawerNavigationProp} from '@react-navigation/drawer';
 import {mainNavigations} from '@/constants/navigations';
 
 function FeedItemList() {

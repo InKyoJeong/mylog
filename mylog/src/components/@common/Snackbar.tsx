@@ -11,12 +11,12 @@ function Snackbar() {
   const insets = useSafeAreaInsets();
   const snackbar = useSnackbarStore();
   const {keyboardHeight} = useKeyboardStatus();
-  const [position] = useState(new Animated.Value(-insets.bottom));
+  const [position] = useState(new Animated.Value(-insets.bottom - 5));
   const timeoutIdRef = useRef<number | null>(null);
 
   useEffect(() => {
     Animated.timing(position, {
-      toValue: -insets.bottom,
+      toValue: -insets.bottom - 5,
       useNativeDriver: true,
     }).start();
 
