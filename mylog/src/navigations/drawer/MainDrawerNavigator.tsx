@@ -4,16 +4,15 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import type {NavigatorScreenParams, RouteProp} from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import type {FeedStackParamList} from '@/navigations/stack/FeedStackNavigator';
 import MapStackNavigator from '@/navigations/stack/MapStackNavigator';
-import FeedTabNavigator from '../tab/FeedTabNavigator';
+import FeedTabNavigator, {FeedTabParamList} from '../tab/FeedTabNavigator';
 import CustomDrawerContent from './CustomDrawerContent';
 import {mainNavigations} from '@/constants/navigations';
 import {colors} from '@/constants/colors';
 
 export type MainDrawerParamList = {
   [mainNavigations.HOME]: undefined;
-  [mainNavigations.FEED]: NavigatorScreenParams<FeedStackParamList>;
+  [mainNavigations.FEED]: NavigatorScreenParams<FeedTabParamList>;
 };
 
 const Drawer = createDrawerNavigator<MainDrawerParamList>();

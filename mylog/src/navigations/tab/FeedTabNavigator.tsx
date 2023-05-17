@@ -9,7 +9,11 @@ import FeedHomeHeaderLeft from '@/components/feed/FeedHomeHeaderLeft';
 import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
 
 export type FeedTabParamList = {
-  [feedTabNavigations.FEED_HOME]: undefined;
+  [feedTabNavigations.FEED_HOME]: {
+    screen: typeof feedNavigations.FEED_DETAIL;
+    params: {id: number};
+    initial: boolean;
+  };
   [feedTabNavigations.FEED_SEARCH]: undefined;
   [feedTabNavigations.FEED_FAVORITE]: undefined;
 };
@@ -43,7 +47,7 @@ function FeedTabNavigator() {
         name={feedTabNavigations.FEED_SEARCH}
         component={FeedSearchScreen}
         options={({navigation}) => ({
-          headerTitle: '피드',
+          headerTitle: '검색',
           headerLeft: () => FeedHomeHeaderLeft(navigation),
         })}
       />
