@@ -123,12 +123,12 @@ function useDeletePost(mutationOptions?: UseMutationCustomOptions) {
     onSuccess: deletedId => {
       queryClient.invalidateQueries([queryKeys.POST, queryKeys.GET_POSTS]);
       queryClient.invalidateQueries([
-        queryKeys.FAVORITE,
-        queryKeys.GET_FAVORITE_POSTS,
-      ]);
-      queryClient.invalidateQueries([
         queryKeys.POST,
         queryKeys.GET_SEARCH_POSTS,
+      ]);
+      queryClient.invalidateQueries([
+        queryKeys.FAVORITE,
+        queryKeys.GET_FAVORITE_POSTS,
       ]);
 
       queryClient.setQueryData<Marker[]>(
@@ -149,6 +149,10 @@ function useUpdatePost(mutationOptions?: UseMutationCustomOptions) {
       queryClient.invalidateQueries([
         queryKeys.POST,
         queryKeys.GET_SEARCH_POSTS,
+      ]);
+      queryClient.invalidateQueries([
+        queryKeys.FAVORITE,
+        queryKeys.GET_FAVORITE_POSTS,
       ]);
 
       queryClient.setQueryData(
