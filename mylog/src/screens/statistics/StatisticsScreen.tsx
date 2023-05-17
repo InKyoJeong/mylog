@@ -7,7 +7,7 @@ function StatisticsScreen({}: StatisticsScreenProps) {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
-        <Text style={{fontSize: 20}}>프로필 수정</Text>
+        <Text>통계페이지</Text>
       </ScrollView>
     </SafeAreaView>
   );

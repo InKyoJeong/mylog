@@ -32,6 +32,7 @@ const feedTabNavigations = {
 const settingNavigations = {
   SETTING_HOME: 'SettingHome',
   EDIT_PROFILE: 'EditProfile',
+  FEED_BACK: 'FeedBack',
 } as const;
 
 const statisticsNavigations = {

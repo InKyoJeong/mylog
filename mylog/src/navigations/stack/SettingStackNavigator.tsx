@@ -6,6 +6,7 @@ import {
 
 import SettingHomeScreen from '@/screens/setting/SettingHomeScreen';
 import EditProfileScreen from '@/screens/setting/EditProfileScreen';
+import FeedbackScreen from '@/screens/setting/FeedbackScreen';
 import SettingHeaderLeft from '@/components/setting/SettingHeaderLeft';
 import {settingNavigations} from '@/constants/navigations';
 import {colors} from '@/constants/colors';
@@ -13,6 +14,7 @@ import {colors} from '@/constants/colors';
 export type SettingStackParamList = {
   [settingNavigations.SETTING_HOME]: undefined;
   [settingNavigations.EDIT_PROFILE]: undefined;
+  [settingNavigations.FEED_BACK]: undefined;
 };
 
 const Stack = createStackNavigator<SettingStackParamList>();
@@ -43,6 +45,16 @@ function SettingStackNavigator() {
         component={EditProfileScreen}
         options={{
           headerTitle: '프로필 수정',
+        }}
+      />
+      <Stack.Screen
+        name={settingNavigations.FEED_BACK}
+        component={FeedbackScreen}
+        options={{
+          headerTitle: '의견 보내기',
+          cardStyle: {
+            backgroundColor: colors.WHITE,
+          },
         }}
       />
     </Stack.Navigator>
