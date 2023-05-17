@@ -14,6 +14,7 @@ import {
   deletePost,
   getPost,
   getPosts,
+  getSearchPosts,
   updatePost,
 } from '@/api/post';
 import {queryKeys} from '@/constants/keys';
@@ -35,6 +36,32 @@ function useGetInifinitePosts(
   return useInfiniteQuery(
     [queryKeys.POST, queryKeys.GET_POSTS],
     ({pageParam = 1}) => getPosts(pageParam),
+    {
+      getNextPageParam: (lastPage, allPages) => {
+        const lastPost = lastPage[lastPage.length - 1];
+        return lastPost ? allPages.length + 1 : undefined;
+      },
+      ...queryOptions,
+    },
+  );
+}
+
+function useGetInifiniteSearchPosts(
+  query: string,
+  queryOptions?: Omit<
+    UseInfiniteQueryOptions<
+      ResponsePost[],
+      ResponseError,
+      ResponsePost[],
+      ResponsePost[],
+      [string, string, string]
+    >,
+    'queryKey' | 'queryFn'
+  >,
+) {
+  return useInfiniteQuery(
+    [queryKeys.POST, queryKeys.GET_SEARCH_POSTS, query],
+    ({pageParam = 1}) => getSearchPosts(pageParam, query),
     {
       getNextPageParam: (lastPage, allPages) => {
         const lastPost = lastPage[lastPage.length - 1];
@@ -140,6 +167,7 @@ function useUpdatePost(mutationOptions?: UseMutationCustomOptions) {
 
 export {
   useGetInifinitePosts,
+  useGetInifiniteSearchPosts,
   useGetPost,
   useCreatePost,
   useDeletePost,

@@ -9,6 +9,17 @@ const getPosts = async (page = 1): Promise<ResponsePost[]> => {
   return data;
 };
 
+const getSearchPosts = async (
+  page = 1,
+  query: string,
+): Promise<ResponsePost[]> => {
+  const {data} = await axiosInstance.get(
+    `/posts/my/search?query=${query}&page=${page}`,
+  );
+
+  return data;
+};
+
 export type ResponseSinglePost = ResponsePost & {isFavorite: boolean};
 
 const getPost = async (id: number): Promise<ResponseSinglePost> => {
@@ -47,4 +58,4 @@ const updatePost = async ({
   return data;
 };
 
-export {getPosts, getPost, createPost, deletePost, updatePost};
+export {getPosts, getSearchPosts, getPost, createPost, deletePost, updatePost};

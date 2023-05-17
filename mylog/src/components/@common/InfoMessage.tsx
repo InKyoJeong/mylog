@@ -8,7 +8,7 @@ import {colors} from '@/constants/colors';
 interface InfoMessageProps {
   message: string;
   buttonLabel?: string;
-  onPress: () => void;
+  onPress?: () => void;
 }
 
 function InfoMessage({message, buttonLabel, onPress}: InfoMessageProps) {
