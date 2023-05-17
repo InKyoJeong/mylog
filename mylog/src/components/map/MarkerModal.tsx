@@ -4,20 +4,25 @@ import {CompositeNavigationProp, useNavigation} from '@react-navigation/native';
 import Octicons from 'react-native-vector-icons/Octicons';
 import type {DrawerNavigationProp} from '@react-navigation/drawer';
 import type {StackNavigationProp} from '@react-navigation/stack';
+import type {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 
-import type {FeedStackParamList} from '@/navigations/stack/FeedStackNavigator';
 import type {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
+import type {FeedStackParamList} from '@/navigations/stack/FeedStackNavigator';
+import type {FeedTabParamList} from '@/navigations/tab/FeedTabNavigator';
 import {CompoundModal} from '../@common/CompoundModal';
 import {useGetPost} from '@/hooks/queries/usePost';
 import useMarkerStore from '@/store/useMarkerStore';
 import {getDateWithSeparator} from '@/utils/date';
-import {feedNavigations} from '@/constants/navigations';
+import {feedNavigations, feedTabNavigations} from '@/constants/navigations';
 import {mainNavigations} from '@/constants/navigations';
 import {colors} from '@/constants/colors';
 
 type Navigation = CompositeNavigationProp<
   DrawerNavigationProp<MainDrawerParamList>,
-  StackNavigationProp<FeedStackParamList>
+  CompositeNavigationProp<
+    BottomTabNavigationProp<FeedTabParamList>,
+    StackNavigationProp<FeedStackParamList>
+  >
 >;
 
 function MarkerModal() {
@@ -31,11 +36,14 @@ function MarkerModal() {
 
   const handlePressGoButton = () => {
     navigation.navigate(mainNavigations.FEED, {
-      screen: feedNavigations.FEED_DETAIL,
+      screen: feedTabNavigations.FEED_HOME,
       params: {
-        id: post.id,
+        screen: feedNavigations.FEED_DETAIL,
+        params: {
+          id: post.id,
+        },
+        initial: false,
       },
-      initial: false,
     });
 
     hideModal();

@@ -1,16 +1,11 @@
 import React, {useState} from 'react';
-import {FlatList, StyleSheet} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import type {DrawerNavigationProp} from '@react-navigation/drawer';
+import {StyleSheet, FlatList} from 'react-native';
 
-import type {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
 import FeedItem from './FeedItem';
 import InfoMessage from '../@common/InfoMessage';
-import {useGetInifinitePosts} from '@/hooks/queries/usePost';
-import {mainNavigations} from '@/constants/navigations';
+import {useGetInifiniteFavoritePosts} from '@/hooks/queries/useFavoritePost';
 
-function FeedItemList() {
-  const navigation = useNavigation<DrawerNavigationProp<MainDrawerParamList>>();
+function FeedItemFavoriteList() {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const {
     data: posts,
@@ -18,7 +13,7 @@ function FeedItemList() {
     hasNextPage,
     isFetchingNextPage,
     refetch,
-  } = useGetInifinitePosts();
+  } = useGetInifiniteFavoritePosts();
 
   const handleRefresh = async () => {
     setIsRefreshing(true);
@@ -41,13 +36,7 @@ function FeedItemList() {
       scrollIndicatorInsets={{right: 1}}
       contentContainerStyle={styles.contentContainer}
       indicatorStyle="black"
-      ListEmptyComponent={
-        <InfoMessage
-          message="아직 등록된 위치가 없어요."
-          buttonLabel="홈으로 이동"
-          onPress={() => navigation.navigate(mainNavigations.HOME)}
-        />
-      }
+      ListEmptyComponent={<InfoMessage message="북마크한 장소가 없습니다." />}
       refreshing={isRefreshing}
       onRefresh={handleRefresh}
       onEndReached={handleEndReached}
@@ -62,4 +51,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default FeedItemList;
+export default FeedItemFavoriteList;

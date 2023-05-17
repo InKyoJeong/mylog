@@ -77,7 +77,7 @@ function SearchLocationScreen({navigation}: SearchLocationScreenProps) {
         onChangeText={handleChangeKeyword}
         placeholder="검색할 장소를 입력하세요."
         maxLength={numbers.MAX_SEARCH_LOCATION_LENGTH}
-        onPress={() => Keyboard.dismiss()}
+        onSubmit={() => Keyboard.dismiss()}
       />
       <RecentSearchedList storageKey={storageKeys.SEARCH_LOCATION} />
 

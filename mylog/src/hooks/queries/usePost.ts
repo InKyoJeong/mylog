@@ -14,6 +14,7 @@ import {
   deletePost,
   getPost,
   getPosts,
+  getSearchPosts,
   updatePost,
 } from '@/api/post';
 import {queryKeys} from '@/constants/keys';
@@ -45,6 +46,32 @@ function useGetInifinitePosts(
   );
 }
 
+function useGetInifiniteSearchPosts(
+  query: string,
+  queryOptions?: Omit<
+    UseInfiniteQueryOptions<
+      ResponsePost[],
+      ResponseError,
+      ResponsePost[],
+      ResponsePost[],
+      [string, string, string]
+    >,
+    'queryKey' | 'queryFn'
+  >,
+) {
+  return useInfiniteQuery(
+    [queryKeys.POST, queryKeys.GET_SEARCH_POSTS, query],
+    ({pageParam = 1}) => getSearchPosts(pageParam, query),
+    {
+      getNextPageParam: (lastPage, allPages) => {
+        const lastPost = lastPage[lastPage.length - 1];
+        return lastPost ? allPages.length + 1 : undefined;
+      },
+      ...queryOptions,
+    },
+  );
+}
+
 function useGetPost(
   id: number,
   queryOptions?: UseQueryOptions<ResponseSinglePost, ResponseError>,
@@ -63,6 +90,10 @@ function useCreatePost(mutationOptions?: UseMutationCustomOptions) {
   return useMutation(createPost, {
     onSuccess: newPost => {
       queryClient.invalidateQueries([queryKeys.POST, queryKeys.GET_POSTS]);
+      queryClient.invalidateQueries([
+        queryKeys.POST,
+        queryKeys.GET_SEARCH_POSTS,
+      ]);
 
       queryClient.setQueryData<Marker[]>(
         [queryKeys.MARKER, queryKeys.GET_MARKERS],
@@ -92,6 +123,10 @@ function useDeletePost(mutationOptions?: UseMutationCustomOptions) {
     onSuccess: deletedId => {
       queryClient.invalidateQueries([queryKeys.POST, queryKeys.GET_POSTS]);
       queryClient.invalidateQueries([
+        queryKeys.POST,
+        queryKeys.GET_SEARCH_POSTS,
+      ]);
+      queryClient.invalidateQueries([
         queryKeys.FAVORITE,
         queryKeys.GET_FAVORITE_POSTS,
       ]);
@@ -111,6 +146,14 @@ function useUpdatePost(mutationOptions?: UseMutationCustomOptions) {
   return useMutation(updatePost, {
     onSuccess: newPost => {
       queryClient.invalidateQueries([queryKeys.POST, queryKeys.GET_POSTS]);
+      queryClient.invalidateQueries([
+        queryKeys.POST,
+        queryKeys.GET_SEARCH_POSTS,
+      ]);
+      queryClient.invalidateQueries([
+        queryKeys.FAVORITE,
+        queryKeys.GET_FAVORITE_POSTS,
+      ]);
 
       queryClient.setQueryData(
         [queryKeys.POST, queryKeys.GET_POST, newPost.id],
@@ -140,6 +183,7 @@ function useUpdatePost(mutationOptions?: UseMutationCustomOptions) {
 
 export {
   useGetInifinitePosts,
+  useGetInifiniteSearchPosts,
   useGetPost,
   useCreatePost,
   useDeletePost,

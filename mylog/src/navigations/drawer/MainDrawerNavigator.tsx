@@ -5,26 +5,30 @@ import type {NavigatorScreenParams, RouteProp} from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import MapStackNavigator from '@/navigations/stack/MapStackNavigator';
-import FeedStackNavigator, {
-  FeedStackParamList,
-} from '@/navigations/stack/FeedStackNavigator';
+import FeedTabNavigator, {FeedTabParamList} from '../tab/FeedTabNavigator';
+import CustomDrawerContent from './CustomDrawerContent';
 import {mainNavigations} from '@/constants/navigations';
 import {colors} from '@/constants/colors';
-import CustomDrawerContent from './CustomDrawerContent';
 
 export type MainDrawerParamList = {
   [mainNavigations.HOME]: undefined;
-  [mainNavigations.FEED]: NavigatorScreenParams<FeedStackParamList>;
+  [mainNavigations.FEED]: NavigatorScreenParams<FeedTabParamList>;
 };
 
 const Drawer = createDrawerNavigator<MainDrawerParamList>();
 
 function DrawerIcons(route: RouteProp<MainDrawerParamList>, focused: boolean) {
   let iconName = '';
-  if (route.name === mainNavigations.HOME) {
-    iconName = 'map';
-  } else if (route.name === mainNavigations.FEED) {
-    iconName = 'ios-reader';
+
+  switch (route.name) {
+    case mainNavigations.HOME: {
+      iconName = 'map';
+      break;
+    }
+    case mainNavigations.FEED: {
+      iconName = 'ios-reader';
+      break;
+    }
   }
 
   return (
@@ -67,7 +71,7 @@ function MainDrawerNavigator() {
       />
       <Drawer.Screen
         name={mainNavigations.FEED}
-        component={FeedStackNavigator}
+        component={FeedTabNavigator}
         options={{title: '피드'}}
       />
     </Drawer.Navigator>

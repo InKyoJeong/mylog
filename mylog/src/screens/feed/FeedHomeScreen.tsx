@@ -3,7 +3,7 @@ import {SafeAreaView, StyleSheet} from 'react-native';
 
 import FeedItemList from '@/components/feed/FeedItemList';
 
-function FeedScreen() {
+function FeedHomeScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <FeedItemList />
@@ -17,4 +17,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default FeedScreen;
+export default FeedHomeScreen;
