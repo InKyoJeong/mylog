@@ -90,6 +90,10 @@ function useCreatePost(mutationOptions?: UseMutationCustomOptions) {
   return useMutation(createPost, {
     onSuccess: newPost => {
       queryClient.invalidateQueries([queryKeys.POST, queryKeys.GET_POSTS]);
+      queryClient.invalidateQueries([
+        queryKeys.POST,
+        queryKeys.GET_SEARCH_POSTS,
+      ]);
 
       queryClient.setQueryData<Marker[]>(
         [queryKeys.MARKER, queryKeys.GET_MARKERS],
@@ -122,6 +126,10 @@ function useDeletePost(mutationOptions?: UseMutationCustomOptions) {
         queryKeys.FAVORITE,
         queryKeys.GET_FAVORITE_POSTS,
       ]);
+      queryClient.invalidateQueries([
+        queryKeys.POST,
+        queryKeys.GET_SEARCH_POSTS,
+      ]);
 
       queryClient.setQueryData<Marker[]>(
         [queryKeys.MARKER, queryKeys.GET_MARKERS],
@@ -138,6 +146,10 @@ function useUpdatePost(mutationOptions?: UseMutationCustomOptions) {
   return useMutation(updatePost, {
     onSuccess: newPost => {
       queryClient.invalidateQueries([queryKeys.POST, queryKeys.GET_POSTS]);
+      queryClient.invalidateQueries([
+        queryKeys.POST,
+        queryKeys.GET_SEARCH_POSTS,
+      ]);
 
       queryClient.setQueryData(
         [queryKeys.POST, queryKeys.GET_POST, newPost.id],
