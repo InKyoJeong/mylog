@@ -11,6 +11,7 @@ import {mainNavigations} from '@/constants/navigations';
 
 function FeedItemList() {
   const navigation = useNavigation<DrawerNavigationProp<MainDrawerParamList>>();
+  const [isRefreshing, setIsRefreshing] = useState(false);
   const {
     data: posts,
     fetchNextPage,
@@ -18,7 +19,6 @@ function FeedItemList() {
     isFetchingNextPage,
     refetch,
   } = useGetInifinitePosts();
-  const [isRefreshing, setIsRefreshing] = useState(false);
 
   const handleRefresh = async () => {
     setIsRefreshing(true);
@@ -32,14 +32,6 @@ function FeedItemList() {
     }
   };
 
-  const renderEmptyList = () => (
-    <InfoMessage
-      message="아직 등록된 위치가 없어요."
-      buttonLabel="홈으로 이동"
-      onPress={() => navigation.navigate(mainNavigations.HOME)}
-    />
-  );
-
   return (
     <>
       <FlatList
@@ -50,7 +42,13 @@ function FeedItemList() {
         scrollIndicatorInsets={{right: 1}}
         contentContainerStyle={styles.contentContainer}
         indicatorStyle="black"
-        ListEmptyComponent={renderEmptyList}
+        ListEmptyComponent={
+          <InfoMessage
+            message="아직 등록된 위치가 없어요."
+            buttonLabel="홈으로 이동"
+            onPress={() => navigation.navigate(mainNavigations.HOME)}
+          />
+        }
         refreshing={isRefreshing}
         onRefresh={handleRefresh}
         onEndReached={handleEndReached}
