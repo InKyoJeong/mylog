@@ -37,9 +37,9 @@ export class PostService {
   ): Promise<SelectQueryBuilder<Post>> {
     return this.postRepository
       .createQueryBuilder('post')
+      .orderBy('post.date', 'DESC')
       .leftJoinAndSelect('post.images', 'image')
       .where('post.userId = :userId', { userId: user.id })
-      .orderBy('post.date', 'DESC')
       .addOrderBy('image.id', 'ASC');
   }
 
