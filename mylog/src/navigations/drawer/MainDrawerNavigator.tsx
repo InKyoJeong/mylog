@@ -5,6 +5,7 @@ import type {NavigatorScreenParams, RouteProp} from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import MapStackNavigator from '@/navigations/stack/MapStackNavigator';
+import StatisticsStackNavigator from '../stack/StatisticsStackNavigator';
 import SettingStackNavigator from '../stack/SettingStackNavigator';
 import FeedTabNavigator, {FeedTabParamList} from '../tab/FeedTabNavigator';
 import CustomDrawerContent from './CustomDrawerContent';
@@ -15,6 +16,7 @@ export type MainDrawerParamList = {
   [mainNavigations.HOME]: undefined;
   [mainNavigations.FEED]: NavigatorScreenParams<FeedTabParamList>;
   [mainNavigations.SETTING]: undefined;
+  [mainNavigations.STATISTICS]: undefined;
 };
 
 const Drawer = createDrawerNavigator<MainDrawerParamList>();
@@ -33,6 +35,10 @@ function DrawerIcons(route: RouteProp<MainDrawerParamList>, focused: boolean) {
     }
     case mainNavigations.SETTING: {
       iconName = 'settings';
+      break;
+    }
+    case mainNavigations.STATISTICS: {
+      iconName = 'pie-chart-outline';
       break;
     }
   }
@@ -85,6 +91,16 @@ function MainDrawerNavigator() {
         component={SettingStackNavigator}
         options={{
           title: '설정',
+          drawerItemStyle: {
+            height: 0,
+          },
+        }}
+      />
+      <Drawer.Screen
+        name={mainNavigations.STATISTICS}
+        component={StatisticsStackNavigator}
+        options={{
+          title: '통계',
           drawerItemStyle: {
             height: 0,
           },

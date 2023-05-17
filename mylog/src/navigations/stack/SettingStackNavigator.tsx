@@ -6,7 +6,7 @@ import {
 
 import SettingHomeScreen from '@/screens/setting/SettingHomeScreen';
 import EditProfileScreen from '@/screens/setting/EditProfileScreen';
-import SettingHomeHeaderLeft from '@/components/setting/SettingHomeHeaderLeft';
+import SettingHeaderLeft from '@/components/setting/SettingHeaderLeft';
 import {settingNavigations} from '@/constants/navigations';
 import {colors} from '@/constants/colors';
 
@@ -25,9 +25,6 @@ const settingStackOptions: StackNavigationOptions = {
     fontSize: 15,
   },
   headerTintColor: colors.BLACK,
-  cardStyle: {
-    backgroundColor: colors.WHITE,
-  },
 };
 
 function SettingStackNavigator() {
@@ -38,7 +35,7 @@ function SettingStackNavigator() {
         component={SettingHomeScreen}
         options={({navigation}) => ({
           headerTitle: '설정',
-          headerLeft: () => SettingHomeHeaderLeft(navigation),
+          headerLeft: () => SettingHeaderLeft(navigation),
         })}
       />
       <Stack.Screen

@@ -1,5 +1,11 @@
 import React from 'react';
-import {StyleSheet, Text, Pressable} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  Pressable,
+  SafeAreaView,
+  ScrollView,
+} from 'react-native';
 import type {DrawerScreenProps} from '@react-navigation/drawer';
 import type {CompositeScreenProps} from '@react-navigation/native';
 import type {StackScreenProps} from '@react-navigation/stack';
@@ -18,13 +24,21 @@ type SettingHomeScreenProps = CompositeScreenProps<
 
 function SettingHomeScreen({navigation}: SettingHomeScreenProps) {
   return (
-    <Pressable
-      onPress={() => navigation.navigate(settingNavigations.EDIT_PROFILE)}>
-      <Text>프로필 수정</Text>
-    </Pressable>
+    <SafeAreaView style={styles.container}>
+      <ScrollView>
+        <Pressable
+          onPress={() => navigation.navigate(settingNavigations.EDIT_PROFILE)}>
+          <Text style={{fontSize: 20}}>프로필 수정</Text>
+        </Pressable>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
 
 export default SettingHomeScreen;

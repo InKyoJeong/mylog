@@ -16,11 +16,21 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import useAuth from '@/hooks/queries/useAuth';
 import {colors} from '@/constants/colors';
-import {mainNavigations, settingNavigations} from '@/constants/navigations';
+import {
+  mainNavigations,
+  settingNavigations,
+  statisticsNavigations,
+} from '@/constants/navigations';
 
 function CustomDrawerContent(props: DrawerContentComponentProps) {
   const {getProfileQuery} = useAuth();
   const {username} = getProfileQuery.data || {};
+
+  const handlePressStatistics = () => {
+    props.navigation.navigate(mainNavigations.STATISTICS, {
+      screen: statisticsNavigations.STATISTICS_HOME,
+    });
+  };
 
   const handlePressSetting = () => {
     props.navigation.navigate(mainNavigations.SETTING, {
@@ -47,7 +57,7 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
       </DrawerContentScrollView>
 
       <View style={styles.bottomContainer}>
-        <Pressable onPress={() => {}}>
+        <Pressable onPress={handlePressStatistics}>
           <View style={styles.bottomMenu}>
             <Ionicons
               name={'pie-chart-outline'}
