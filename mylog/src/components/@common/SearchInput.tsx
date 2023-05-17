@@ -23,7 +23,7 @@ function SearchInput({onSubmit, ...props}: SearchInputProps) {
       <Ionicons
         name={'search'}
         color={colors.GRAY_700}
-        size={25}
+        size={20}
         onPress={onSubmit}
       />
     </View>
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     borderWidth: 1,
     borderColor: colors.GRAY_200,
-    paddingVertical: 10,
+    paddingVertical: 8,
     paddingHorizontal: 10,
     borderRadius: 5,
   },

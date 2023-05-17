@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
-import {Keyboard, Pressable, StyleSheet, View} from 'react-native';
-import {FlatList} from 'react-native-gesture-handler';
+import {Keyboard, FlatList, Pressable, StyleSheet, View} from 'react-native';
+import Animated, {SlideInRight} from 'react-native-reanimated';
 import {useNavigation} from '@react-navigation/native';
+import type {DrawerNavigationProp} from '@react-navigation/drawer';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import type {DrawerNavigationProp} from '@react-navigation/drawer';
 import type {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
 import SearchInput from '../@common/SearchInput';
 import InfoMessage from '../@common/InfoMessage';
@@ -30,9 +30,8 @@ function FeedSearchItemList({}: FeedSearchItemListProps) {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-    // refetch,
   } = useGetInifiniteSearchPosts(debouncedSearchText, {
-    enabled: Boolean(keyword.trim().length),
+    enabled: !!debouncedSearchText.trim().length,
   });
 
   const handleChangeKeyword = (searchKeyword: string) => {
@@ -57,7 +56,14 @@ function FeedSearchItemList({}: FeedSearchItemListProps) {
         indicatorStyle="black"
         ListEmptyComponent={<InfoMessage message="검색 결과가 없습니다." />}
         ListHeaderComponent={
-          <View style={{flexDirection: 'row', gap: 5}}>
+          <View
+            style={{
+              flexDirection: 'row',
+              gap: 5,
+              paddingHorizontal: 5,
+              paddingVertical: 5,
+              backgroundColor: colors.WHITE,
+            }}>
             <Pressable
               style={{
                 justifyContent: 'center',
@@ -70,17 +76,18 @@ function FeedSearchItemList({}: FeedSearchItemListProps) {
               <Ionicons name={'md-menu-sharp'} color={colors.BLACK} size={25} />
             </Pressable>
 
-            <View style={{flex: 1}}>
+            <Animated.View style={{flex: 1}} entering={SlideInRight}>
               <SearchInput
-                //   autoFocus
+                autoFocus
                 placeholder="주소 또는 제목으로 검색"
                 value={keyword}
                 onChangeText={handleChangeKeyword}
                 onSubmit={() => {}}
               />
-            </View>
+            </Animated.View>
           </View>
         }
+        stickyHeaderIndices={[0]}
         onEndReached={handleEndReached}
         onEndReachedThreshold={0.5}
         onScrollBeginDrag={() => Keyboard.dismiss()}
@@ -91,7 +98,7 @@ function FeedSearchItemList({}: FeedSearchItemListProps) {
 
 const styles = StyleSheet.create({
   contentContainer: {
-    padding: 15,
+    paddingHorizontal: 15,
   },
 });
 
