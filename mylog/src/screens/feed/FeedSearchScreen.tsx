@@ -1,15 +1,13 @@
 import React from 'react';
 import {SafeAreaView, StyleSheet} from 'react-native';
 
+import FeedItemSearchList from '@/components/feed/FeedItemSearchList';
 import {colors} from '@/constants/colors';
-import FeedSearchItemList from '@/components/feed/FeedSearchItemList';
 
-interface FeedSearchScreenProps {}
-
-function FeedSearchScreen({}: FeedSearchScreenProps) {
+function FeedSearchScreen() {
   return (
     <SafeAreaView style={styles.container}>
-      <FeedSearchItemList />
+      <FeedItemSearchList />
     </SafeAreaView>
   );
 }

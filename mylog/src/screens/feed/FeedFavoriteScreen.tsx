@@ -1,16 +1,21 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, SafeAreaView} from 'react-native';
 
-interface FeedFavoriteScreenProps {}
+import FeedItemFavoriteList from '@/components/feed/FeedItemFavoriteList';
+import {colors} from '@/constants/colors';
 
-function FeedFavoriteScreen({}: FeedFavoriteScreenProps) {
+function FeedFavoriteScreen() {
   return (
-    <View>
-      <Text>즐찾스크린</Text>
-    </View>
+    <SafeAreaView style={styles.container}>
+      <FeedItemFavoriteList />
+    </SafeAreaView>
   );
 }
 
-const styles = StyleSheet.create({});
-
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.WHITE,
+  },
+});
 export default FeedFavoriteScreen;

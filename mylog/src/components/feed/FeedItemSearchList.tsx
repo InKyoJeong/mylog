@@ -14,9 +14,7 @@ import useDebounce from '@/hooks/useDebounce';
 import {colors} from '@/constants/colors';
 import {numbers} from '@/constants/numbers';
 
-interface FeedSearchItemListProps {}
-
-function FeedSearchItemList({}: FeedSearchItemListProps) {
+function FeedItemSearchList() {
   const navigation = useNavigation<DrawerNavigationProp<MainDrawerParamList>>();
   const [keyword, setKeyword] = useState('');
   const debouncedSearchText = useDebounce(
@@ -43,42 +41,40 @@ function FeedSearchItemList({}: FeedSearchItemListProps) {
   };
 
   return (
-    <>
-      <FlatList
-        data={posts?.pages.flatMap(page => page)}
-        renderItem={({item}) => <FeedItem post={item} />}
-        keyExtractor={item => String(item.id)}
-        numColumns={2}
-        scrollIndicatorInsets={{right: 1}}
-        contentContainerStyle={styles.contentContainer}
-        indicatorStyle="black"
-        ListEmptyComponent={<InfoMessage message="검색 결과가 없습니다." />}
-        ListHeaderComponent={
-          <View style={styles.headerContainer}>
-            <Pressable
-              style={styles.drawerIconContainer}
-              onPress={() => navigation.openDrawer()}>
-              <Ionicons name={'md-menu-sharp'} color={colors.BLACK} size={25} />
-            </Pressable>
-            <Animated.View
-              style={styles.inputContainer}
-              entering={FadeInRight.duration(500)}>
-              <SearchInput
-                autoFocus
-                placeholder="주소 또는 제목으로 검색"
-                value={keyword}
-                onChangeText={handleChangeKeyword}
-                onSubmit={() => Keyboard.dismiss()}
-              />
-            </Animated.View>
-          </View>
-        }
-        stickyHeaderIndices={[0]}
-        onEndReached={handleEndReached}
-        onEndReachedThreshold={0.5}
-        onScrollBeginDrag={() => Keyboard.dismiss()}
-      />
-    </>
+    <FlatList
+      data={posts?.pages.flatMap(page => page)}
+      renderItem={({item}) => <FeedItem post={item} />}
+      keyExtractor={item => String(item.id)}
+      numColumns={2}
+      scrollIndicatorInsets={{right: 1}}
+      contentContainerStyle={styles.contentContainer}
+      indicatorStyle="black"
+      ListEmptyComponent={<InfoMessage message="검색 결과가 없습니다." />}
+      ListHeaderComponent={
+        <View style={styles.headerContainer}>
+          <Pressable
+            style={styles.drawerIconContainer}
+            onPress={() => navigation.openDrawer()}>
+            <Ionicons name={'md-menu-sharp'} color={colors.BLACK} size={25} />
+          </Pressable>
+          <Animated.View
+            style={styles.inputContainer}
+            entering={FadeInRight.duration(500)}>
+            <SearchInput
+              autoFocus
+              placeholder="주소 또는 제목으로 검색"
+              value={keyword}
+              onChangeText={handleChangeKeyword}
+              onSubmit={() => Keyboard.dismiss()}
+            />
+          </Animated.View>
+        </View>
+      }
+      stickyHeaderIndices={[0]}
+      onEndReached={handleEndReached}
+      onEndReachedThreshold={0.5}
+      onScrollBeginDrag={() => Keyboard.dismiss()}
+    />
   );
 }
 
@@ -106,4 +102,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default FeedSearchItemList;
+export default FeedItemSearchList;
