@@ -19,12 +19,10 @@ interface FeedSearchItemListProps {}
 function FeedSearchItemList({}: FeedSearchItemListProps) {
   const navigation = useNavigation<DrawerNavigationProp<MainDrawerParamList>>();
   const [keyword, setKeyword] = useState('');
-
   const debouncedSearchText = useDebounce(
     keyword,
     numbers.SEARCH_INPUT_DEBOUNCE_TIME,
   );
-
   const {
     data: posts,
     fetchNextPage,

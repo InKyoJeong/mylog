@@ -19,10 +19,16 @@ const Drawer = createDrawerNavigator<MainDrawerParamList>();
 
 function DrawerIcons(route: RouteProp<MainDrawerParamList>, focused: boolean) {
   let iconName = '';
-  if (route.name === mainNavigations.HOME) {
-    iconName = 'map';
-  } else if (route.name === mainNavigations.FEED) {
-    iconName = 'ios-reader';
+
+  switch (route.name) {
+    case mainNavigations.HOME: {
+      iconName = 'map';
+      break;
+    }
+    case mainNavigations.FEED: {
+      iconName = 'ios-reader';
+      break;
+    }
   }
 
   return (
