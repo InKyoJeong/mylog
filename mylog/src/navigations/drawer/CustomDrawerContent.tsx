@@ -1,25 +1,35 @@
 import React from 'react';
-import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
+import {
+  Image,
+  Pressable,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import {
   DrawerContentComponentProps,
   DrawerContentScrollView,
   DrawerItemList,
 } from '@react-navigation/drawer';
-import Octicons from 'react-native-vector-icons/Octicons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import useAuth from '@/hooks/queries/useAuth';
 import {colors} from '@/constants/colors';
+import {mainNavigations, settingNavigations} from '@/constants/navigations';
 
 function CustomDrawerContent(props: DrawerContentComponentProps) {
-  const {logoutMutation, getProfileQuery} = useAuth();
+  const {getProfileQuery} = useAuth();
   const {username} = getProfileQuery.data || {};
 
-  const handleLogout = () => {
-    logoutMutation.mutate(null);
+  const handlePressSetting = () => {
+    props.navigation.navigate(mainNavigations.SETTING, {
+      screen: settingNavigations.SETTING_HOME,
+    });
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <DrawerContentScrollView
         {...props}
         scrollEnabled={false}
@@ -37,14 +47,28 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
       </DrawerContentScrollView>
 
       <View style={styles.bottomContainer}>
-        <Pressable onPress={handleLogout}>
+        <Pressable onPress={() => {}}>
           <View style={styles.bottomMenu}>
-            <Octicons name={'sign-out'} color={colors.BLACK} size={18} />
-            <Text style={styles.bottomMenuText}>로그아웃</Text>
+            <Ionicons
+              name={'pie-chart-outline'}
+              color={colors.BLACK}
+              size={20}
+            />
+            <Text style={styles.bottomMenuText}>통계</Text>
+          </View>
+        </Pressable>
+        <Pressable onPress={handlePressSetting}>
+          <View style={styles.bottomMenu}>
+            <Ionicons
+              name={'settings-outline'}
+              color={colors.BLACK}
+              size={20}
+            />
+            <Text style={styles.bottomMenuText}>설정</Text>
           </View>
         </Pressable>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -57,7 +81,7 @@ const styles = StyleSheet.create({
   },
   userInfoContainer: {
     alignItems: 'center',
-    marginVertical: 30,
+    marginBottom: 30,
     marginHorizontal: 15,
   },
   userImageContainer: {
@@ -70,9 +94,11 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   bottomContainer: {
-    alignItems: 'flex-end',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    gap: 20,
     paddingHorizontal: 20,
-    paddingVertical: 25,
+    paddingVertical: 15,
     borderTopWidth: 1,
     borderTopColor: colors.GRAY_200,
   },
@@ -84,6 +110,7 @@ const styles = StyleSheet.create({
   bottomMenuText: {
     fontWeight: '600',
     marginLeft: 5,
+    fontSize: 15,
   },
 });
 
