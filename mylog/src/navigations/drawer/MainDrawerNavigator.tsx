@@ -5,6 +5,7 @@ import type {NavigatorScreenParams, RouteProp} from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import MapStackNavigator from '@/navigations/stack/MapStackNavigator';
+import SettingStackNavigator from '../stack/SettingStackNavigator';
 import FeedTabNavigator, {FeedTabParamList} from '../tab/FeedTabNavigator';
 import CustomDrawerContent from './CustomDrawerContent';
 import {mainNavigations} from '@/constants/navigations';
@@ -13,6 +14,7 @@ import {colors} from '@/constants/colors';
 export type MainDrawerParamList = {
   [mainNavigations.HOME]: undefined;
   [mainNavigations.FEED]: NavigatorScreenParams<FeedTabParamList>;
+  [mainNavigations.SETTING]: undefined;
 };
 
 const Drawer = createDrawerNavigator<MainDrawerParamList>();
@@ -27,6 +29,10 @@ function DrawerIcons(route: RouteProp<MainDrawerParamList>, focused: boolean) {
     }
     case mainNavigations.FEED: {
       iconName = 'ios-reader';
+      break;
+    }
+    case mainNavigations.SETTING: {
+      iconName = 'settings';
       break;
     }
   }
@@ -73,6 +79,16 @@ function MainDrawerNavigator() {
         name={mainNavigations.FEED}
         component={FeedTabNavigator}
         options={{title: '피드'}}
+      />
+      <Drawer.Screen
+        name={mainNavigations.SETTING}
+        component={SettingStackNavigator}
+        options={{
+          title: '설정',
+          drawerItemStyle: {
+            height: 0,
+          },
+        }}
       />
     </Drawer.Navigator>
   );
