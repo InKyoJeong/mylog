@@ -92,6 +92,12 @@ function useGetProfile(
 
 function useEditProfile(mutationOptions?: UseMutationCustomOptions) {
   return useMutation(editProfile, {
+    onSuccess: newProfile => {
+      queryClient.setQueryData(
+        [queryKeys.AUTH, queryKeys.GET_PROFILE],
+        newProfile,
+      );
+    },
     ...mutationOptions,
   });
 }

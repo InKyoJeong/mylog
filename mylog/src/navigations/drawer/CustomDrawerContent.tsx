@@ -24,7 +24,7 @@ import {
 
 function CustomDrawerContent(props: DrawerContentComponentProps) {
   const {getProfileQuery} = useAuth();
-  const {username} = getProfileQuery.data || {};
+  const {username, nickname} = getProfileQuery.data || {};
 
   const handlePressStatistics = () => {
     props.navigation.navigate(mainNavigations.STATISTICS, {
@@ -51,7 +51,7 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
               style={styles.userImage}
             />
           </View>
-          <Text>{username}</Text>
+          <Text>{nickname ?? username}</Text>
         </View>
         <DrawerItemList {...props} />
       </DrawerContentScrollView>
@@ -103,6 +103,7 @@ const styles = StyleSheet.create({
   userImage: {
     width: '100%',
     height: '100%',
+    borderRadius: 35,
   },
   bottomContainer: {
     flexDirection: 'row',
