@@ -66,4 +66,16 @@ const logout = async () => {
   await axiosInstance.post('/auth/logout');
 };
 
-export {postSignup, postLogin, getProfile, editProfile, getAccessToken, logout};
+const deleteAccount = async () => {
+  await axiosInstance.delete('/auth/me');
+};
+
+export {
+  postSignup,
+  postLogin,
+  getProfile,
+  editProfile,
+  getAccessToken,
+  logout,
+  deleteAccount,
+};
