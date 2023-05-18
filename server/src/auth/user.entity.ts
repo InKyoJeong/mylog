@@ -12,6 +12,7 @@ import {
 import { Exclude } from 'class-transformer';
 import { Favorite } from 'src/favorite/favorite.entity';
 import { Post } from 'src/post/post.entity';
+import { Feedback } from 'src/feedback/feedback.entity';
 
 @Entity()
 @Unique(['username'])
@@ -49,4 +50,7 @@ export class User extends BaseEntity {
 
   @OneToMany(() => Favorite, (favorite) => favorite.user)
   favorite: Favorite[];
+
+  @OneToMany(() => Feedback, (feedback) => feedback.user, { eager: false })
+  feedback: Feedback[];
 }
