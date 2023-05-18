@@ -6,6 +6,7 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { JwtStrategy } from './jwt.strategy';
 import { User } from './user.entity';
+import { AuthAdminGuard } from './guard/admin-auth.guard';
 
 @Module({
   imports: [
@@ -14,7 +15,7 @@ import { User } from './user.entity';
     TypeOrmModule.forFeature([User]),
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy],
+  providers: [AuthService, JwtStrategy, AuthAdminGuard],
   exports: [JwtStrategy, PassportModule],
 })
 export class AuthModule {}

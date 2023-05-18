@@ -1,7 +1,9 @@
 import {
   Body,
   Controller,
+  Get,
   Post,
+  SetMetadata,
   UseGuards,
   UsePipes,
   ValidationPipe,
@@ -11,11 +13,20 @@ import { FeedbackService } from './feedback.service';
 import { User } from 'src/auth/user.entity';
 import { GetUser } from 'src/common/decorators/get-user.decorator';
 import { CreateFeedbackDto } from './dto/create-feedback.dto';
+import { AuthAdminGuard } from 'src/auth/guard/admin-auth.guard';
+import { ADMIN_FLAG } from 'src/constants';
 
 @Controller('feedback')
 @UseGuards(AuthGuard())
 export class FeedbackController {
   constructor(private feedbackService: FeedbackService) {}
+
+  @Get()
+  @UseGuards(AuthGuard(), AuthAdminGuard)
+  @SetMetadata(ADMIN_FLAG, true)
+  getFeedbacks() {
+    return this.feedbackService.getFeedbacks();
+  }
 
   @Post()
   @UsePipes(ValidationPipe)
