@@ -24,6 +24,10 @@ function isBlank(value: string) {
   return value.trim() === '';
 }
 
+function hasBlankString(value: string) {
+  return value.includes(' ');
+}
+
 function isValidUsernameFormat(username: string) {
   return /^[a-zA-Z0-9]*$/.test(username);
 }
@@ -48,6 +52,13 @@ function isValidPasswordLength(password: string) {
 
 function isMatchPasswordConfirm(password: string, passwordConfirm: string) {
   return password === passwordConfirm;
+}
+
+function isValidNicknameLength(nickname: string) {
+  return (
+    nickname.length >= numbers.MIN_NICKNAME_LENGTH &&
+    nickname.length <= numbers.MAX_NICKNAME_LENGTH
+  );
 }
 
 function validateUser(
@@ -129,8 +140,8 @@ function validateEditProfile(values: EditProfileInfo) {
 
   const errors = getObjectWithValue(Object.keys(values), '');
 
-  if (isBlank(nickname)) {
-    errors.nickname = errorMessages.INVALID_NICKNAME_FORMAT;
+  if (hasBlankString(nickname) || !isValidNicknameLength(nickname)) {
+    errors.nickname = errorMessages.INVALID_NICKNAME;
   }
 
   return errors;

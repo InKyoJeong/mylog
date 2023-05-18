@@ -12,11 +12,13 @@ import type {ImageUri} from '@/types/domain';
 interface UseImagePickerProps {
   initialImages: ImageUri[];
   mode: 'multiple' | 'single';
+  onSettled?: () => void;
 }
 
 function useImagePicker({
   initialImages = [],
   mode = 'multiple',
+  onSettled,
 }: UseImagePickerProps) {
   const [imageUris, setImageUris] = useState(initialImages);
   const snackbar = useSnackbarStore();
@@ -75,6 +77,7 @@ function useImagePicker({
         imageMutation.mutate(formData, {
           onSuccess: data =>
             mode === 'multiple' ? addImageUris(data) : replaceImageUris(data),
+          onSettled: () => onSettled && onSettled(),
         });
       })
       .catch(error => {
@@ -86,7 +89,6 @@ function useImagePicker({
 
   return {
     imageUris,
-    add: addImageUris,
     delete: deleteImageUri,
     changeOrder: changeImageUrisOrder,
     handleChange,

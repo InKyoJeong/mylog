@@ -23,7 +23,7 @@ import Conditional from '@/components/@common/Conditional';
 import CustomMarker from '@/components/@common/CustomMarker';
 import CustomButton from '@/components/@common/CustomButton';
 import CustomBottomTab from '@/components/@common/CustomBottomTab';
-import FeedDetailOptionModal from '@/components/feed/FeedDetailOptionModal';
+import FeedDetailModal from '@/components/feed/FeedDetailModal';
 import PreviewImageList from '@/components/post/PreviewImageList';
 import FeedDetailHeader from '@/components/feed/FeedDetailHeader';
 import {useUpdateFavoritePost} from '@/hooks/queries/useFavoritePost';
@@ -199,7 +199,7 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
         </View>
       </CustomBottomTab>
 
-      <FeedDetailOptionModal
+      <FeedDetailModal
         isVisible={optionModal.isVisible}
         hideOption={optionModal.hide}
       />
