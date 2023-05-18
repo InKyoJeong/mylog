@@ -16,6 +16,10 @@ type AddPostInfo = {
   description: string;
 };
 
+type EditProfileInfo = {
+  nickname: string;
+};
+
 function isBlank(value: string) {
   return value.trim() === '';
 }
@@ -120,4 +124,16 @@ function validateAddPost(values: AddPostInfo) {
   return errors;
 }
 
-export {validateLogin, validateSignup, validateAddPost};
+function validateEditProfile(values: EditProfileInfo) {
+  const {nickname} = values;
+
+  const errors = getObjectWithValue(Object.keys(values), '');
+
+  if (isBlank(nickname)) {
+    errors.nickname = errorMessages.INVALID_NICKNAME_FORMAT;
+  }
+
+  return errors;
+}
+
+export {validateLogin, validateSignup, validateAddPost, validateEditProfile};
