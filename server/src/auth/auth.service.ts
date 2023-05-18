@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   ConflictException,
   ForbiddenException,
   Injectable,
@@ -128,5 +129,21 @@ export class AuthService {
     ]);
 
     return { accessToken, refreshToken };
+  }
+
+  async deleteAccount(user: User): Promise<void> {
+    try {
+      await this.userRepository
+        .createQueryBuilder('user')
+        .delete()
+        .from(User)
+        .where('id = :id', { id: user.id })
+        .execute();
+    } catch (error) {
+      console.log('error', error);
+      throw new BadRequestException(
+        '탈퇴할 수 없습니다. 게시글이 존재하는지 확인해주세요.',
+      );
+    }
   }
 }
