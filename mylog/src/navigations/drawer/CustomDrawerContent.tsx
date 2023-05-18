@@ -13,7 +13,9 @@ import {
   DrawerItemList,
 } from '@react-navigation/drawer';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import Config from 'react-native-config';
 
+import Conditional from '@/components/@common/Conditional';
 import useAuth from '@/hooks/queries/useAuth';
 import {colors} from '@/constants/colors';
 import {
@@ -24,7 +26,7 @@ import {
 
 function CustomDrawerContent(props: DrawerContentComponentProps) {
   const {getProfileQuery} = useAuth();
-  const {username, nickname} = getProfileQuery.data || {};
+  const {username, nickname, imageUri} = getProfileQuery.data || {};
 
   const handlePressStatistics = () => {
     props.navigation.navigate(mainNavigations.STATISTICS, {
@@ -46,10 +48,21 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
         contentContainerStyle={styles.contentContainer}>
         <View style={styles.userInfoContainer}>
           <View style={styles.userImageContainer}>
-            <Image
-              source={require('@/assets/user-default.png')}
-              style={styles.userImage}
-            />
+            <Conditional condition={imageUri === null}>
+              <Image
+                source={require('@/assets/user-default.png')}
+                style={styles.userImage}
+              />
+            </Conditional>
+
+            <Conditional condition={imageUri !== null}>
+              <Image
+                source={{
+                  uri: `${Config.BASE_URL}/${imageUri}`,
+                }}
+                style={styles.userImage}
+              />
+            </Conditional>
           </View>
           <Text>{nickname ?? username}</Text>
         </View>

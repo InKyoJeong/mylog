@@ -1,5 +1,5 @@
 import React, {useCallback, useLayoutEffect} from 'react';
-import {Image, Pressable, StyleSheet, View} from 'react-native';
+import {Image, Keyboard, Pressable, StyleSheet, View} from 'react-native';
 import type {StackScreenProps} from '@react-navigation/stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Config from 'react-native-config';
@@ -37,6 +37,11 @@ function EditProfileScreen({navigation}: EditProfileScreenProps) {
     validate: validateEditProfile,
   });
 
+  const handlePressImage = () => {
+    imageOption.show();
+    Keyboard.dismiss();
+  };
+
   const handleSubmit = useCallback(() => {
     if (editProfile.hasErrors) {
       return;
@@ -72,7 +77,7 @@ function EditProfileScreen({navigation}: EditProfileScreenProps) {
       <View style={styles.profileContainer}>
         <Pressable
           style={[styles.imageContainer, styles.emptyImageContainer]}
-          onPress={() => imageOption.show()}>
+          onPress={handlePressImage}>
           <Conditional condition={imagePicker.imageUris.length === 0}>
             <Ionicons name="camera-outline" size={30} color={colors.GRAY_500} />
           </Conditional>
@@ -84,6 +89,9 @@ function EditProfileScreen({navigation}: EditProfileScreenProps) {
               }}
               style={styles.image}
             />
+            <View style={styles.cameraButton}>
+              <Ionicons name="camera" size={18} color={colors.WHITE} />
+            </View>
           </Conditional>
         </Pressable>
       </View>
@@ -131,6 +139,17 @@ const styles = StyleSheet.create({
     borderColor: colors.GRAY_200,
     borderRadius: 50,
     borderWidth: 1,
+  },
+  cameraButton: {
+    position: 'absolute',
+    bottom: 1,
+    right: 1,
+    backgroundColor: colors.PINK_700,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 30,
+    height: 30,
+    borderRadius: 30,
   },
 });
 
