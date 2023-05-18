@@ -10,15 +10,12 @@ import useDetailPostStore from '@/store/useDetailPostStore';
 import {alerts} from '@/constants/messages';
 import {feedNavigations} from '@/constants/navigations';
 
-interface FeedDetailOptionModalProps {
+interface FeedDetailModalProps {
   isVisible: boolean;
   hideOption: () => void;
 }
 
-function FeedDetailOptionModal({
-  isVisible,
-  hideOption,
-}: FeedDetailOptionModalProps) {
+function FeedDetailModal({isVisible, hideOption}: FeedDetailModalProps) {
   const navigation = useNavigation<StackNavigationProp<FeedStackParamList>>();
   const {detailPost} = useDetailPostStore();
   const deletePostMutation = useDeletePost();
@@ -84,4 +81,4 @@ function FeedDetailOptionModal({
   );
 }
 
-export default FeedDetailOptionModal;
+export default FeedDetailModal;

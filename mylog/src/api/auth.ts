@@ -29,10 +29,23 @@ const postLogin = async ({
 
 export type ResponseProfile = {
   username: string;
+  nickname: string | null;
+  imageUri: string | null;
 };
 
 const getProfile = async (): Promise<ResponseProfile> => {
   const {data} = await axiosInstance.get('/auth/me');
+
+  return data;
+};
+
+export type RequestProfile = {
+  nickname: string | null;
+  imageUri: string | null;
+};
+
+const editProfile = async (body: RequestProfile): Promise<ResponseProfile> => {
+  const {data} = await axiosInstance.patch('/auth/me', body);
 
   return data;
 };
@@ -53,4 +66,4 @@ const logout = async () => {
   await axiosInstance.post('/auth/logout');
 };
 
-export {postSignup, postLogin, getProfile, getAccessToken, logout};
+export {postSignup, postLogin, getProfile, editProfile, getAccessToken, logout};

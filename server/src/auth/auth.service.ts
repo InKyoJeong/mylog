@@ -95,6 +95,8 @@ export class AuthService {
     profile.nickname = nickname;
     profile.imageUri = imageUri;
 
+    await this.userRepository.save(profile);
+
     return { username: profile.username, nickname, imageUri };
   }
 

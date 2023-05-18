@@ -63,7 +63,10 @@ function PostEditor({isEdit = false, location}: PostEditorProps) {
   const [score, setScore] = useState(
     isEditMode ? detailPost.score : numbers.DEFAULT_SCORE,
   );
-  const imagePicker = useImagePicker(isEditMode ? detailPost.images : []);
+  const imagePicker = useImagePicker({
+    initialImages: isEditMode ? detailPost.images : [],
+    mode: 'multiple',
+  });
   const createPostMutation = useCreatePost();
   const updatePostMutation = useUpdatePost();
   usePermission('PHOTO');

@@ -16,8 +16,16 @@ type AddPostInfo = {
   description: string;
 };
 
+type EditProfileInfo = {
+  nickname: string;
+};
+
 function isBlank(value: string) {
   return value.trim() === '';
+}
+
+function hasBlankString(value: string) {
+  return value.includes(' ');
 }
 
 function isValidUsernameFormat(username: string) {
@@ -44,6 +52,13 @@ function isValidPasswordLength(password: string) {
 
 function isMatchPasswordConfirm(password: string, passwordConfirm: string) {
   return password === passwordConfirm;
+}
+
+function isValidNicknameLength(nickname: string) {
+  return (
+    nickname.length >= numbers.MIN_NICKNAME_LENGTH &&
+    nickname.length <= numbers.MAX_NICKNAME_LENGTH
+  );
 }
 
 function validateUser(
@@ -120,4 +135,16 @@ function validateAddPost(values: AddPostInfo) {
   return errors;
 }
 
-export {validateLogin, validateSignup, validateAddPost};
+function validateEditProfile(values: EditProfileInfo) {
+  const {nickname} = values;
+
+  const errors = getObjectWithValue(Object.keys(values), '');
+
+  if (hasBlankString(nickname) || !isValidNicknameLength(nickname)) {
+    errors.nickname = errorMessages.INVALID_NICKNAME;
+  }
+
+  return errors;
+}
+
+export {validateLogin, validateSignup, validateAddPost, validateEditProfile};
