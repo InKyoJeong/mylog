@@ -1,6 +1,8 @@
 const mainNavigations = {
   HOME: 'Home',
   FEED: 'Feed',
+  SETTING: 'Setting',
+  STATISTICS: 'Statistics',
 } as const;
 
 const authNavigations = {
@@ -27,10 +29,22 @@ const feedTabNavigations = {
   FEED_FAVORITE: 'FeedFavorite',
 } as const;
 
+const settingNavigations = {
+  SETTING_HOME: 'SettingHome',
+  EDIT_PROFILE: 'EditProfile',
+  FEED_BACK: 'FeedBack',
+} as const;
+
+const statisticsNavigations = {
+  STATISTICS_HOME: 'StatisticsHome',
+} as const;
+
 export {
   mainNavigations,
   authNavigations,
   mapNavigations,
   feedNavigations,
   feedTabNavigations,
+  settingNavigations,
+  statisticsNavigations,
 };
