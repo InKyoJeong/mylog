@@ -11,11 +11,11 @@ import {validateLogin} from '@/utils/validate';
 
 function LoginScreen() {
   const {loginMutation} = useAuth();
+  const passwordRef = useRef<TextInput | null>(null);
   const login = useForm({
     initialValue: {username: '', password: ''},
     validate: validateLogin,
   });
-  const passwordRef = useRef<TextInput | null>(null);
 
   const handleSubmit = () => {
     if (login.hasErrors) {

@@ -11,13 +11,12 @@ import {validateSignup} from '@/utils/validate';
 
 function SignupScreen() {
   const {signupMutation, loginMutation} = useAuth();
+  const passwordRef = useRef<TextInput | null>(null);
+  const passwordConfirmRef = useRef<TextInput | null>(null);
   const signup = useForm({
     initialValue: {username: '', password: '', passwordConfirm: ''},
     validate: validateSignup,
   });
-
-  const passwordRef = useRef<TextInput | null>(null);
-  const passwordConfirmRef = useRef<TextInput | null>(null);
 
   const handleSubmit = () => {
     if (signup.hasErrors) {

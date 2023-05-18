@@ -155,10 +155,10 @@ function validateAddFeedback(values: RequestFeedback) {
   if (!isValidEmailFormat(email)) {
     errors.email = errorMessages.INVALID_EMAIL_FORMAT;
   }
-  if (!isValidFeedbackTitleLength(title)) {
+  if (isBlank(title) || !isValidFeedbackTitleLength(title)) {
     errors.title = errorMessages.INVALID_FEEDBACK_TITLE_LENGTH;
   }
-  if (!isValidFeedbackDescriptionLength(description)) {
+  if (isBlank(description) || !isValidFeedbackDescriptionLength(description)) {
     errors.description = errorMessages.INVALID_FEEDBACK_DESCRIPTION_LENGTH;
   }
 
