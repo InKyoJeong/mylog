@@ -1,6 +1,5 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { LoggerMiddleware } from './middlewares/logger.middleware';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
@@ -9,6 +8,8 @@ import { AuthModule } from './auth/auth.module';
 import { ImageModule } from './image/image.module';
 import { PostModule } from './post/post.module';
 import { FavoriteModule } from './favorite/favorite.module';
+import { FeedbackModule } from './feedback/feedback.module';
+import { LoggerMiddleware } from './middlewares/logger.middleware';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { FavoriteModule } from './favorite/favorite.module';
     AuthModule,
     ImageModule,
     FavoriteModule,
+    FeedbackModule,
   ],
   providers: [ConfigService],
 })
