@@ -1,11 +1,13 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {StyleSheet, FlatList} from 'react-native';
+import {useScrollToTop} from '@react-navigation/native';
 
 import FeedItem from './FeedItem';
 import InfoMessage from '../@common/InfoMessage';
 import {useGetInifiniteFavoritePosts} from '@/hooks/queries/useFavoritePost';
 
 function FeedItemFavoriteList() {
+  const scrollRef = useRef(null);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const {
     data: posts,
@@ -14,6 +16,7 @@ function FeedItemFavoriteList() {
     isFetchingNextPage,
     refetch,
   } = useGetInifiniteFavoritePosts();
+  useScrollToTop(scrollRef);
 
   const handleRefresh = async () => {
     setIsRefreshing(true);
@@ -29,6 +32,7 @@ function FeedItemFavoriteList() {
 
   return (
     <FlatList
+      ref={scrollRef}
       data={posts?.pages.flatMap(page => page)}
       renderItem={({item}) => <FeedItem post={item} />}
       keyExtractor={item => String(item.id)}

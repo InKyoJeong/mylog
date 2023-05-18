@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {FlatList, StyleSheet} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useScrollToTop} from '@react-navigation/native';
 import type {DrawerNavigationProp} from '@react-navigation/drawer';
 
 import type {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
@@ -10,6 +10,7 @@ import {useGetInifinitePosts} from '@/hooks/queries/usePost';
 import {mainNavigations} from '@/constants/navigations';
 
 function FeedItemList() {
+  const scrollRef = useRef(null);
   const navigation = useNavigation<DrawerNavigationProp<MainDrawerParamList>>();
   const [isRefreshing, setIsRefreshing] = useState(false);
   const {
@@ -19,6 +20,7 @@ function FeedItemList() {
     isFetchingNextPage,
     refetch,
   } = useGetInifinitePosts();
+  useScrollToTop(scrollRef);
 
   const handleRefresh = async () => {
     setIsRefreshing(true);
@@ -34,6 +36,7 @@ function FeedItemList() {
 
   return (
     <FlatList
+      ref={scrollRef}
       data={posts?.pages.flatMap(page => page)}
       renderItem={({item}) => <FeedItem post={item} />}
       keyExtractor={item => String(item.id)}
