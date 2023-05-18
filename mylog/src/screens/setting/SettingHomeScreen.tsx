@@ -42,7 +42,6 @@ function SettingHomeScreen({navigation}: SettingHomeScreenProps) {
         <SettingItem title="프로필 수정" onPress={handlePressEditProfile} />
         <SettingItem title="다크 모드" />
         <View style={styles.space} />
-        <SettingItem title="FAQ" />
         <SettingItem title="의견 보내기" onPress={handlePressFeedback} />
         <SettingItem title="버전정보" subTitle="0.1.0" />
         <View style={styles.space} />

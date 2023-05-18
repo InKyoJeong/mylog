@@ -1,5 +1,5 @@
 import React, {useCallback, useLayoutEffect} from 'react';
-import {Image, Keyboard, Pressable, StyleSheet, View} from 'react-native';
+import {Image, Keyboard, Pressable, StyleSheet, Text, View} from 'react-native';
 import type {StackScreenProps} from '@react-navigation/stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Config from 'react-native-config';
@@ -24,7 +24,7 @@ function EditProfileScreen({navigation}: EditProfileScreenProps) {
   const snackbar = useSnackbarStore();
   const imageOption = useModal();
   const {getProfileQuery, profileMutation} = useAuth();
-  const {nickname, imageUri} = getProfileQuery.data || {};
+  const {username, nickname, imageUri} = getProfileQuery.data || {};
   const imagePicker = useImagePicker({
     initialImages: imageUri ? [{uri: imageUri}] : [],
     mode: 'single',
@@ -94,6 +94,13 @@ function EditProfileScreen({navigation}: EditProfileScreenProps) {
             </View>
           </Conditional>
         </Pressable>
+
+        <View style={styles.idContainer}>
+          <View style={styles.idText}>
+            <Text>ID</Text>
+          </View>
+          <Text>{username}</Text>
+        </View>
       </View>
 
       <InputField
@@ -150,6 +157,19 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     borderRadius: 30,
+  },
+  idContainer: {
+    flexDirection: 'row',
+    gap: 7,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 10,
+  },
+  idText: {
+    backgroundColor: colors.GRAY_200,
+    paddingHorizontal: 5,
+    paddingVertical: 2,
+    borderRadius: 5,
   },
 });
 

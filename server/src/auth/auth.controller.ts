@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Patch,
   Post,
@@ -57,5 +58,11 @@ export class AuthController {
   @UseGuards(AuthGuard())
   logout(@GetUser() user: User) {
     return this.authService.deleteRefreshToken(user.id);
+  }
+
+  @Delete('/me')
+  @UseGuards(AuthGuard())
+  deleteAccount(@GetUser() user: User) {
+    return this.authService.deleteAccount(user);
   }
 }
