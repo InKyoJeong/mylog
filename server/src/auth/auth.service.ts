@@ -5,13 +5,15 @@ import {
   InternalServerErrorException,
   UnauthorizedException,
 } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcryptjs';
-import { AuthCredentialsDto } from './dto/auth-credential.dto';
+
 import { User } from './user.entity';
-import { JwtService } from '@nestjs/jwt';
-import { ConfigService } from '@nestjs/config';
+import { AuthCredentialsDto } from './dto/auth-credential.dto';
+import { EditProfileDto } from './dto/edit-profile.dto';
 
 @Injectable()
 export class AuthService {
@@ -78,9 +80,22 @@ export class AuthService {
   }
 
   getProfile(user: User) {
-    const { username } = user;
+    const { username, nickname, imageUri } = user;
 
-    return { username };
+    return { username, nickname, imageUri };
+  }
+
+  async editProfile(editProfileDto: EditProfileDto, user: User) {
+    const profile = await this.userRepository
+      .createQueryBuilder('user')
+      .where('user.id = :userId', { userId: user.id })
+      .getOne();
+
+    const { nickname, imageUri } = editProfileDto;
+    profile.nickname = nickname;
+    profile.imageUri = imageUri;
+
+    return { username: profile.username, nickname, imageUri };
   }
 
   async deleteRefreshToken(id: number) {

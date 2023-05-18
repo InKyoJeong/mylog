@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Patch,
   Post,
   UseGuards,
   ValidationPipe,
@@ -9,8 +10,9 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import { GetUser } from 'src/common/decorators/get-user.decorator';
 import { AuthService } from './auth.service';
-import { AuthCredentialsDto } from './dto/auth-credential.dto';
 import { User } from './user.entity';
+import { AuthCredentialsDto } from './dto/auth-credential.dto';
+import { EditProfileDto } from './dto/edit-profile.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -43,6 +45,12 @@ export class AuthController {
   @UseGuards(AuthGuard())
   getProfile(@GetUser() user: User) {
     return this.authService.getProfile(user);
+  }
+
+  @Patch('/me')
+  @UseGuards(AuthGuard())
+  editProfile(@Body() editProfileDto: EditProfileDto, @GetUser() user: User) {
+    return this.authService.editProfile(editProfileDto, user);
   }
 
   @Post('/logout')
