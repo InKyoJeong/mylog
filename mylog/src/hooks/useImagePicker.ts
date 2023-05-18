@@ -3,27 +3,47 @@ import {Alert, LayoutAnimation} from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 
 import useSnackbarStore from '@/store/useSnackbarStore';
-import {getFormDataImages} from '@/utils/image';
 import {useUploadImages} from './queries/useImage';
+import {getFormDataImages} from '@/utils/image';
 import {alerts, errorMessages} from '@/constants/messages';
 import {numbers} from '@/constants/numbers';
 import type {ImageUri} from '@/types/domain';
 
-function useImagePicker(initialImages: ImageUri[] = []) {
+interface UseImagePickerProps {
+  initialImages: ImageUri[];
+  mode: 'multiple' | 'single';
+}
+
+function useImagePicker({
+  initialImages = [],
+  mode = 'multiple',
+}: UseImagePickerProps) {
   const [imageUris, setImageUris] = useState(initialImages);
   const snackbar = useSnackbarStore();
   const imageMutation = useUploadImages();
 
   const addImageUris = (uris: string[]) => {
-    if (imageUris.length + uris.length > numbers.MAX_UPLOADER_IMAGE) {
+    if (imageUris.length + uris.length > numbers.MAX_UPLOADER_MULTIPLE_IMAGE) {
       Alert.alert(
-        alerts.EXCEED_IMAGE_COUNT.TITLE,
-        alerts.EXCEED_IMAGE_COUNT.DESCRIPTION,
+        alerts.EXCEED_MULTIPLE_IMAGE_COUNT.TITLE,
+        alerts.EXCEED_MULTIPLE_IMAGE_COUNT.DESCRIPTION,
       );
       return;
     }
 
     setImageUris(prev => [...prev, ...uris.map(uri => ({uri}))]);
+  };
+
+  const replaceImageUris = (uris: string[]) => {
+    if (uris.length > 1) {
+      Alert.alert(
+        alerts.EXCEED_SINGLE_IMAGE_COUNT.TITLE,
+        alerts.EXCEED_SINGLE_IMAGE_COUNT.DESCRIPTION,
+      );
+      return;
+    }
+
+    setImageUris([...uris.map(uri => ({uri}))]);
   };
 
   const deleteImageUri = (uri: string) => {
@@ -45,7 +65,7 @@ function useImagePicker(initialImages: ImageUri[] = []) {
       mediaType: 'photo',
       multiple: true,
       includeBase64: true,
-      maxFiles: numbers.MAX_UPLOADER_IMAGE,
+      maxFiles: mode === 'multiple' ? numbers.MAX_UPLOADER_MULTIPLE_IMAGE : 1,
       cropperChooseText: '완료',
       cropperCancelText: '취소',
     })
@@ -53,7 +73,8 @@ function useImagePicker(initialImages: ImageUri[] = []) {
         const formData = getFormDataImages('images', images);
 
         imageMutation.mutate(formData, {
-          onSuccess: data => addImageUris(data),
+          onSuccess: data =>
+            mode === 'multiple' ? addImageUris(data) : replaceImageUris(data),
         });
       })
       .catch(error => {
