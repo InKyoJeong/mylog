@@ -1,24 +1,9 @@
 import {getObjectWithValue} from '.';
+import {RequestFeedback} from '@/api/feedback';
+import {RequestUser} from '@/api/auth';
 import {errorMessages} from '@/constants/messages';
 import {numbers} from '@/constants/numbers';
-
-type LoginInfo = {
-  username: string;
-  password: string;
-};
-
-type SignupInfo = LoginInfo & {
-  passwordConfirm: string;
-};
-
-type AddPostInfo = {
-  title: string;
-  description: string;
-};
-
-type EditProfileInfo = {
-  nickname: string;
-};
+import {RequestCreatePost} from '@/api/post';
 
 function isBlank(value: string) {
   return value.trim() === '';
@@ -26,6 +11,10 @@ function isBlank(value: string) {
 
 function hasBlankString(value: string) {
   return value.includes(' ');
+}
+
+function isValidEmailFormat(email: string) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
 function isValidUsernameFormat(username: string) {
@@ -61,8 +50,15 @@ function isValidNicknameLength(nickname: string) {
   );
 }
 
+function isValidFeedbackTitleLength(title: string) {
+  return title.length >= numbers.MIN_FEEDBACK_TITLE_LENGTH;
+}
+
+function isValidFeedbackDescriptionLength(title: string) {
+  return title.length >= numbers.MIN_FEEDBACK_DESCRIPTION_LENGTH;
+}
 function validateUser(
-  errors: Record<keyof LoginInfo, string>,
+  errors: Record<keyof RequestUser, string>,
   username: string,
   password: string,
 ) {
@@ -82,6 +78,10 @@ function validateUser(
   return errors;
 }
 
+type SignupInfo = RequestUser & {
+  passwordConfirm: string;
+};
+
 function validatePasswordConfirm(
   errors: Record<keyof SignupInfo, string>,
   password: string,
@@ -100,7 +100,7 @@ function validatePasswordConfirm(
   return errors;
 }
 
-function validateLogin(values: LoginInfo) {
+function validateLogin(values: RequestUser) {
   const {username, password} = values;
 
   const errors = getObjectWithValue(Object.keys(values), '');
@@ -123,19 +123,19 @@ function validateSignup(values: SignupInfo) {
   return {...passwordConfirmErrors, ...userErrors};
 }
 
-function validateAddPost(values: AddPostInfo) {
+function validateAddPost(values: Pick<RequestCreatePost, 'title'>) {
   const {title} = values;
 
   const errors = getObjectWithValue(Object.keys(values), '');
 
   if (isBlank(title)) {
-    errors.title = errorMessages.INVALID_TITLE_LENGTH;
+    errors.title = errorMessages.INVALID_POST_TITLE_LENGTH;
   }
 
   return errors;
 }
 
-function validateEditProfile(values: EditProfileInfo) {
+function validateEditProfile(values: {nickname: string}) {
   const {nickname} = values;
 
   const errors = getObjectWithValue(Object.keys(values), '');
@@ -147,4 +147,28 @@ function validateEditProfile(values: EditProfileInfo) {
   return errors;
 }
 
-export {validateLogin, validateSignup, validateAddPost, validateEditProfile};
+function validateAddFeedback(values: RequestFeedback) {
+  const {email, title, description} = values;
+
+  const errors = getObjectWithValue(Object.keys(values), '');
+
+  if (!isValidEmailFormat(email)) {
+    errors.email = errorMessages.INVALID_EMAIL_FORMAT;
+  }
+  if (!isValidFeedbackTitleLength(title)) {
+    errors.title = errorMessages.INVALID_FEEDBACK_TITLE_LENGTH;
+  }
+  if (!isValidFeedbackDescriptionLength(description)) {
+    errors.description = errorMessages.INVALID_FEEDBACK_DESCRIPTION_LENGTH;
+  }
+
+  return errors;
+}
+
+export {
+  validateLogin,
+  validateSignup,
+  validateAddPost,
+  validateEditProfile,
+  validateAddFeedback,
+};

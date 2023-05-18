@@ -6,8 +6,11 @@ const errorMessages = {
   INVALID_PASSWORD_FORMAT: '비밀번호는 영어, 숫자, 특수문자만 입력가능합니다.',
   INVALID_PASSWORD_LENGTH: `비밀번호는 ${numbers.MIN_PASSWORD_LENGTH}~${numbers.MAX_PASSWORD_LENGTH}자 이내로 입력해주세요.`,
   INVALID_NICKNAME: `닉네임은 빈칸없이 ${numbers.MIN_NICKNAME_LENGTH}~${numbers.MAX_NICKNAME_LENGTH}자 이내로 입력해주세요.`,
+  INVALID_EMAIL_FORMAT: '올바른 이메일 형식이 아닙니다.',
   NOT_MATCH_PASSWORD: '비밀번호가 일치하지 않습니다.',
-  INVALID_TITLE_LENGTH: `제목은 ${numbers.MIN_TITLE_LENGTH}글자 이상 입력해주세요.`,
+  INVALID_POST_TITLE_LENGTH: `제목은 ${numbers.MIN_POST_TITLE_LENGTH}글자 이상 입력해주세요.`,
+  INVALID_FEEDBACK_TITLE_LENGTH: `제목은 ${numbers.MIN_FEEDBACK_TITLE_LENGTH}글자 이상 입력해주세요.`,
+  INVALID_FEEDBACK_DESCRIPTION_LENGTH: `내용은 ${numbers.MIN_FEEDBACK_DESCRIPTION_LENGTH}글자 이상 입력해주세요.`,
   CANNOT_GET_ADDRESS: '주소를 알 수 없습니다.',
   CANNOT_ACCESS_PHOTO:
     '갤러리를 열 수 없어요.\n권한을 허용했는지 확인해주세요.',
