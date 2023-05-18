@@ -1,14 +1,17 @@
 import React, {useRef} from 'react';
-import {SafeAreaView, ScrollView, StyleSheet, TextInput} from 'react-native';
+import {
+  View,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  TextInput,
+} from 'react-native';
 
 import InputField from '@/components/@common/InputField';
 import CustomButton from '@/components/@common/CustomButton';
-import {View} from 'react-native';
 import CustomKeyboardAvoidingView from '@/components/@keyboard/CustomKeyboardAvoidingView';
 
-interface FeedbackScreenProps {}
-
-function FeedbackScreen({}: FeedbackScreenProps) {
+function FeedbackScreen() {
   const titleRef = useRef<TextInput | null>(null);
   const descriptionRef = useRef<TextInput | null>(null);
 

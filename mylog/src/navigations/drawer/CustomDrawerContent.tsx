@@ -95,8 +95,9 @@ const styles = StyleSheet.create({
     marginHorizontal: 15,
   },
   userImageContainer: {
-    width: 50,
-    height: 50,
+    width: 70,
+    height: 70,
+    borderRadius: 35,
     marginBottom: 10,
   },
   userImage: {

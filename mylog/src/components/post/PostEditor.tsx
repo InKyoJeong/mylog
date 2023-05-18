@@ -7,7 +7,7 @@ import {
   View,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {StackNavigationProp} from '@react-navigation/stack';
+import type {StackNavigationProp} from '@react-navigation/stack';
 import type {LatLng} from 'react-native-maps';
 import Octicons from 'react-native-vector-icons/Octicons';
 
