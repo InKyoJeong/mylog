@@ -12,6 +12,10 @@ export class FeedbackService {
     private feedbackRepository: Repository<Feedback>,
   ) {}
 
+  async getFeedbacks() {
+    return this.feedbackRepository.find();
+  }
+
   async createFeedback(createFeedbackDto: CreateFeedbackDto, user: User) {
     const { email, title, description } = createFeedbackDto;
 
