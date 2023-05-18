@@ -3,6 +3,7 @@ import {UseQueryOptions, useMutation, useQuery} from '@tanstack/react-query';
 import {
   ResponseProfile,
   ResponseToken,
+  editProfile,
   getAccessToken,
   getProfile,
   logout,
@@ -89,6 +90,12 @@ function useGetProfile(
   );
 }
 
+function useEditProfile(mutationOptions?: UseMutationCustomOptions) {
+  return useMutation(editProfile, {
+    ...mutationOptions,
+  });
+}
+
 function useAuth() {
   const signupMutation = useSignup();
   const loginMutation = useLogin();
@@ -97,6 +104,7 @@ function useAuth() {
   const getProfileQuery = useGetProfile({
     enabled: refreshTokenQuery.isSuccess,
   });
+  const profileMutation = useEditProfile();
   const isLogin = getProfileQuery.isSuccess;
 
   return {
@@ -105,6 +113,7 @@ function useAuth() {
     logoutMutation,
     refreshTokenQuery,
     getProfileQuery,
+    profileMutation,
     isLogin,
   };
 }
