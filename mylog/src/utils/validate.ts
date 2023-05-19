@@ -1,9 +1,10 @@
 import {getObjectWithValue} from '.';
-import {RequestFeedback} from '@/api/feedback';
-import {RequestUser} from '@/api/auth';
+import type {RequestFeedback} from '@/api/feedback';
+import type {RequestUser} from '@/api/auth';
 import {errorMessages} from '@/constants/messages';
 import {numbers} from '@/constants/numbers';
-import {RequestCreatePost} from '@/api/post';
+import type {RequestCreatePost} from '@/api/post';
+import type {Category} from '@/types/domain';
 
 function isBlank(value: string) {
   return value.trim() === '';
@@ -165,10 +166,17 @@ function validateAddFeedback(values: RequestFeedback) {
   return errors;
 }
 
+function validateCategory(values: Category) {
+  const errors = getObjectWithValue(Object.keys(values), '');
+
+  return errors;
+}
+
 export {
   validateLogin,
   validateSignup,
   validateAddPost,
   validateEditProfile,
   validateAddFeedback,
+  validateCategory,
 };

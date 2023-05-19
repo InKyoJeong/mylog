@@ -7,6 +7,7 @@ import {
 import SettingHomeScreen from '@/screens/setting/SettingHomeScreen';
 import EditProfileScreen from '@/screens/setting/EditProfileScreen';
 import FeedbackScreen from '@/screens/setting/FeedbackScreen';
+import EditCategoryScreen from '@/screens/setting/EditCategoryScreen';
 import SettingHeaderLeft from '@/components/setting/SettingHeaderLeft';
 import {settingNavigations} from '@/constants/navigations';
 import {colors} from '@/constants/colors';
@@ -14,6 +15,7 @@ import {colors} from '@/constants/colors';
 export type SettingStackParamList = {
   [settingNavigations.SETTING_HOME]: undefined;
   [settingNavigations.EDIT_PROFILE]: undefined;
+  [settingNavigations.EDIT_CATEGORY]: undefined;
   [settingNavigations.FEED_BACK]: undefined;
 };
 
@@ -45,6 +47,16 @@ function SettingStackNavigator() {
         component={EditProfileScreen}
         options={{
           headerTitle: '프로필 수정',
+          cardStyle: {
+            backgroundColor: colors.WHITE,
+          },
+        }}
+      />
+      <Stack.Screen
+        name={settingNavigations.EDIT_CATEGORY}
+        component={EditCategoryScreen}
+        options={{
+          headerTitle: '카테고리 설정',
           cardStyle: {
             backgroundColor: colors.WHITE,
           },
