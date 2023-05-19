@@ -37,6 +37,7 @@ import {feedNavigations, mapNavigations} from '@/constants/navigations';
 import {successMessages} from '@/constants/messages';
 import {colorHex, colors} from '@/constants/colors';
 import {numbers} from '@/constants/numbers';
+import useAuth from '@/hooks/queries/useAuth';
 
 type FeedDetailScreenProps = CompositeScreenProps<
   StackScreenProps<FeedStackParamList, typeof feedNavigations.FEED_DETAIL>,
@@ -46,6 +47,9 @@ type FeedDetailScreenProps = CompositeScreenProps<
 function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
   const {id} = route.params;
   const {data: post, isLoading, isError} = useGetPost(id);
+  const {getProfileQuery} = useAuth();
+  const {RED, YELLOW, GREEN, BLUE, PURPLE} = getProfileQuery.data || {};
+  const category = {RED, YELLOW, GREEN, BLUE, PURPLE};
   const favoriteMutation = useUpdateFavoritePost();
   const insets = useSafeAreaInsets();
   const optionModal = useModal();
@@ -159,7 +163,9 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
                 </View>
                 <View style={styles.infoColumn}>
                   <Text style={styles.infoColumnText}>카테고리</Text>
-                  <Text style={{color: colors.PINK_700}}>식당</Text>
+                  <Text style={{color: colors.PINK_700}}>
+                    {category[post.color] || '없음'}
+                  </Text>
                 </View>
               </View>
             </View>
