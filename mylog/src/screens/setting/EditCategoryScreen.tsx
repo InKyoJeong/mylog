@@ -20,7 +20,6 @@ import useSnackbarStore from '@/store/useSnackbarStore';
 import {validateCategory} from '@/utils/validate';
 import {colorHex, colors} from '@/constants/colors';
 import type {MarkerColor} from '@/types/domain';
-import Conditional from '@/components/@common/Conditional';
 
 type EditCategoryScreenProps = StackScreenProps<SettingStackParamList>;
 
@@ -66,16 +65,14 @@ function EditCategoryScreen({navigation}: EditCategoryScreenProps) {
         <ScrollView
           style={styles.contentContainer}
           scrollIndicatorInsets={{right: 1}}>
-          <Conditional condition={Object.values(category.values).includes('')}>
-            <Animated.View entering={BounceInUp} style={styles.infoContainer}>
-              <Text style={styles.infoText}>
-                마커 색상의 카테고리를 설정해주세요.
-              </Text>
-              <Text style={styles.infoText}>
-                마커 필터링, 범례 표시에 사용할 수 있어요.
-              </Text>
-            </Animated.View>
-          </Conditional>
+          <Animated.View entering={BounceInUp} style={styles.infoContainer}>
+            <Text style={styles.infoText}>
+              마커 색상의 카테고리를 설정해주세요.
+            </Text>
+            <Text style={styles.infoText}>
+              마커 필터링, 범례 표시에 사용할 수 있어요.
+            </Text>
+          </Animated.View>
 
           <View style={styles.formContainer}>
             {['RED', 'YELLOW', 'GREEN', 'BLUE', 'PURPLE'].map((color, i) => {
@@ -90,10 +87,11 @@ function EditCategoryScreen({navigation}: EditCategoryScreenProps) {
                   <View style={styles.inputContainer}>
                     <InputField
                       {...category.getTextInputProps(color as MarkerColor)}
-                      error={category.errors.color}
-                      touched={category.touched.color}
                       autoFocus={color === 'RED'}
+                      error={category.errors[color]}
+                      touched={category.touched[color]}
                       ref={refArray[i]}
+                      maxLength={8}
                       returnKeyType="next"
                       blurOnSubmit={false}
                       onSubmitEditing={() => {

@@ -4,7 +4,7 @@ import type {RequestUser} from '@/api/auth';
 import {errorMessages} from '@/constants/messages';
 import {numbers} from '@/constants/numbers';
 import type {RequestCreatePost} from '@/api/post';
-import type {Category} from '@/types/domain';
+import type {Category, MarkerColor} from '@/types/domain';
 
 function isBlank(value: string) {
   return value.trim() === '';
@@ -12,6 +12,10 @@ function isBlank(value: string) {
 
 function hasBlankString(value: string) {
   return value.includes(' ');
+}
+
+function isStartsWithWhitespace(str: string) {
+  return /^\s/.test(str);
 }
 
 function isValidEmailFormat(email: string) {
@@ -168,6 +172,12 @@ function validateAddFeedback(values: RequestFeedback) {
 
 function validateCategory(values: Category) {
   const errors = getObjectWithValue(Object.keys(values), '');
+
+  (Object.keys(values) as MarkerColor[]).map(value => {
+    if (isStartsWithWhitespace(values[value])) {
+      errors[value] = errorMessages.INVALID_CATEGORY_FORMAT;
+    }
+  });
 
   return errors;
 }
