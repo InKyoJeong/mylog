@@ -20,6 +20,7 @@ import useSnackbarStore from '@/store/useSnackbarStore';
 import {validateCategory} from '@/utils/validate';
 import {colorHex, colors} from '@/constants/colors';
 import {successMessages} from '@/constants/messages';
+import {numbers} from '@/constants/numbers';
 import type {MarkerColor} from '@/types/domain';
 
 type EditCategoryScreenProps = StackScreenProps<SettingStackParamList>;
@@ -85,7 +86,7 @@ function EditCategoryScreen({navigation}: EditCategoryScreenProps) {
                       error={category.errors[color]}
                       touched={category.touched[color]}
                       ref={el => (refArray.current[i] = el)}
-                      maxLength={8}
+                      maxLength={numbers.MAX_CATEGORY_LENGTH}
                       returnKeyType="next"
                       blurOnSubmit={false}
                       onSubmitEditing={() => {

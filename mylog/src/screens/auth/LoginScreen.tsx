@@ -8,6 +8,7 @@ import CustomKeyboardAvoidingView from '@/components/@keyboard/CustomKeyboardAvo
 import useForm from '@/hooks/useForm';
 import useAuth from '@/hooks/queries/useAuth';
 import {validateLogin} from '@/utils/validate';
+import {numbers} from '@/constants/numbers';
 
 function LoginScreen() {
   const {loginMutation} = useAuth();
@@ -39,7 +40,7 @@ function LoginScreen() {
               error={login.errors.username}
               touched={login.touched.username}
               placeholder="아이디"
-              maxLength={20}
+              maxLength={numbers.MAX_USERNAME_LENGTH}
               inputMode="email"
               returnKeyType="next"
               blurOnSubmit={false}
@@ -53,7 +54,7 @@ function LoginScreen() {
               touched={login.touched.password}
               ref={passwordRef}
               placeholder="비밀번호"
-              maxLength={20}
+              maxLength={numbers.MAX_PASSWORD_LENGTH}
               returnKeyType="join"
               secureTextEntry
               onSubmitEditing={handleSubmit}
