@@ -80,7 +80,10 @@ function FeedTabNavigator() {
               getFocusedRouteNameFromRoute(tabRoute) ??
               feedNavigations.FEED_HOME;
 
-            if (routeName === feedNavigations.FEED_DETAIL) {
+            if (
+              routeName === feedNavigations.FEED_DETAIL ||
+              routeName === feedNavigations.EDIT_POST
+            ) {
               return {display: 'none'};
             }
             return;
