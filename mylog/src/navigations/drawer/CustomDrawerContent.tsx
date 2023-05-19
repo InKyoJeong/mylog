@@ -64,7 +64,7 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
               />
             </Conditional>
           </View>
-          <Text>{nickname ?? username}</Text>
+          <Text style={styles.nameText}>{nickname ?? username}</Text>
         </View>
         <DrawerItemList {...props} />
       </DrawerContentScrollView>
@@ -75,7 +75,7 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
             <Ionicons
               name={'pie-chart-outline'}
               color={colors.BLACK}
-              size={20}
+              size={18}
             />
             <Text style={styles.bottomMenuText}>통계</Text>
           </View>
@@ -85,7 +85,7 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
             <Ionicons
               name={'settings-outline'}
               color={colors.BLACK}
-              size={20}
+              size={18}
             />
             <Text style={styles.bottomMenuText}>설정</Text>
           </View>
@@ -102,8 +102,12 @@ const styles = StyleSheet.create({
   contentContainer: {
     backgroundColor: colors.WHITE,
   },
+  nameText: {
+    color: colors.BLACK,
+  },
   userInfoContainer: {
     alignItems: 'center',
+    marginTop: 15,
     marginBottom: 30,
     marginHorizontal: 15,
   },
@@ -136,6 +140,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     marginLeft: 5,
     fontSize: 15,
+    color: colors.BLACK,
   },
 });
 
