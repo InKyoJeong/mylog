@@ -13,6 +13,7 @@ import type {DrawerScreenProps} from '@react-navigation/drawer';
 import type {CompositeScreenProps} from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 import type {MapStackParamList} from '@/navigations/stack/MapStackNavigator';
 import type {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
@@ -38,6 +39,7 @@ type MapHomeScreenProps = CompositeScreenProps<
 >;
 
 function MapHomeScreen({navigation}: MapHomeScreenProps) {
+  const insets = useSafeAreaInsets();
   const {data: markers = []} = useGetMarkers();
   const {mapRef, moveMapView, handleChangeDelta} = useMoveMapView();
   const {userLocation, isUserLocationError} = useUserLocation();
@@ -91,6 +93,7 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
         showsUserLocation={true}
         showsMyLocationButton={false}
         followsUserLocation={true}
+        toolbarEnabled={false}
         customMapStyle={getMapStyle('light')}
         clusterColor={colors.PINK_700}
         region={{...userLocation, ...numbers.INITIAL_DELTA}}
@@ -118,7 +121,7 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
       </MapView>
 
       <Pressable
-        style={styles.drawerButton}
+        style={[styles.drawerButton, {top: insets.top || 20}]}
         onPress={() => navigation.openDrawer()}>
         <Ionicons name={'md-menu-sharp'} color={colors.WHITE} size={30} />
       </Pressable>
@@ -147,16 +150,15 @@ const styles = StyleSheet.create({
   drawerButton: {
     position: 'absolute',
     left: 0,
-    top: 50,
     paddingVertical: 10,
     paddingHorizontal: 12,
     borderTopRightRadius: 50,
     borderBottomRightRadius: 50,
     backgroundColor: colors.PINK_700,
     shadowColor: colors.BLACK,
-    shadowOffset: {width: 2, height: 1},
+    shadowOffset: {width: 1, height: 1},
     shadowOpacity: 0.5,
-    elevation: 2,
+    elevation: 4,
   },
   buttonList: {
     position: 'absolute',

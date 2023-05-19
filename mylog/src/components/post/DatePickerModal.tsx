@@ -28,6 +28,7 @@ function DatePickerModal({
               textColor={colors.BLACK}
               date={date}
               onDateChange={onChangeDate}
+              locale="ko"
             />
           </View>
         </CompoundModal.OptionButtonList>

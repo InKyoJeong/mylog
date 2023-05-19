@@ -16,6 +16,7 @@ import useForm from '@/hooks/useForm';
 import {useFeedback} from '@/hooks/queries/useFeedback';
 import useSnackbarStore from '@/store/useSnackbarStore';
 import {validateAddFeedback} from '@/utils/validate';
+import {successMessages} from '@/constants/messages';
 
 type FeedbackScreenProps = StackScreenProps<SettingStackParamList>;
 
@@ -41,7 +42,7 @@ function FeedbackScreen({navigation}: FeedbackScreenProps) {
     feedbackMutation.mutate(addFeedback.values, {
       onSuccess: () => {
         navigation.goBack();
-        snackbar.show('제출되었습니다.');
+        snackbar.show(successMessages.SUCCESS_SUBMIT_FEEDBACK);
       },
       onError: error =>
         console.log('error.response?.data', error.response?.data.message),

@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'flex-end',
     paddingTop: 10,
-    paddingHorizontal: 20,
+    paddingHorizontal: 10,
     backgroundColor: 'rgba(255, 255, 255, 0.9)',
     borderTopWidth: StyleSheet.hairlineWidth,
     borderColor: colors.GRAY_300,

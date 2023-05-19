@@ -99,6 +99,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   titleText: {
+    color: colors.BLACK,
     fontWeight: '400',
     fontSize: 13,
   },

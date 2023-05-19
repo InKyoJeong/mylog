@@ -105,7 +105,9 @@ function SearchLocationScreen({navigation}: SearchLocationScreenProps) {
                 </Text>
               </View>
               <View style={styles.categoryContainer}>
-                <Text>{convertMeterToKilometer(info.distance)}km</Text>
+                <Text style={styles.distanceText}>
+                  {convertMeterToKilometer(info.distance)}km
+                </Text>
                 <Text style={styles.subInfoText}>{info.category_name}</Text>
               </View>
               <Text style={styles.subInfoText}>{info.road_address_name}</Text>
@@ -188,6 +190,7 @@ const styles = StyleSheet.create({
     gap: 5,
   },
   placeText: {
+    color: colors.BLACK,
     flexShrink: 1,
     fontSize: 16,
     fontWeight: '600',
@@ -195,6 +198,9 @@ const styles = StyleSheet.create({
   categoryContainer: {
     flexDirection: 'row',
     gap: 10,
+  },
+  distanceText: {
+    color: colors.BLACK,
   },
   subInfoText: {
     flexShrink: 1,

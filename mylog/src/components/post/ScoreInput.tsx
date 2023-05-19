@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {Platform, StyleSheet, Text, View} from 'react-native';
 import Slider from '@react-native-community/slider';
 
 import {colors} from '@/constants/colors';
@@ -25,7 +25,9 @@ function ScoreInput({score, onChangeScore}: ScoreInputProps) {
         maximumValue={numbers.MAX_SCORE}
         minimumTrackTintColor={colors.PINK_700}
         maximumTrackTintColor={colors.GRAY_300}
-        thumbTintColor={colors.WHITE}
+        thumbTintColor={
+          Platform.OS === 'android' ? colors.GRAY_300 : colors.WHITE
+        }
       />
     </View>
   );

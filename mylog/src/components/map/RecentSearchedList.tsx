@@ -61,10 +61,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   headerTitle: {
+    color: colors.BLACK,
     fontSize: 15,
     fontWeight: 'bold',
   },
   deleteAllText: {
+    color: colors.BLACK,
     fontSize: 15,
     textDecorationLine: 'underline',
   },

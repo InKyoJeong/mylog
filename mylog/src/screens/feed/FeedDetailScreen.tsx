@@ -83,94 +83,96 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
 
   return (
     <>
-      <FeedDetailHeader
-        isScrolled={isScrolled}
-        onPressLeft={() => navigation.goBack()}
-        onPressRight={optionModal.show}
-      />
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        onScroll={handleScroll}
-        scrollEventThrottle={100}
-        style={
-          insets.bottom
-            ? {marginBottom: insets.bottom + 50}
-            : styles.scrollNoInsets
-        }>
-        <Conditional condition={post.images.length > 0}>
-          <View key={post.id} style={styles.coverImageContainer}>
-            <Image
-              source={{
-                uri: `${Config.BASE_URL}/${post.images[0]?.uri}`,
-              }}
-              style={styles.image}
-            />
-          </View>
-        </Conditional>
+      <View style={styles.relativeContainer}>
+        <FeedDetailHeader
+          isScrolled={isScrolled}
+          onPressLeft={() => navigation.goBack()}
+          onPressRight={optionModal.show}
+        />
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          onScroll={handleScroll}
+          scrollEventThrottle={100}
+          style={
+            insets.bottom
+              ? {marginBottom: insets.bottom + 50}
+              : styles.scrollNoInsets
+          }>
+          <Conditional condition={post.images.length > 0}>
+            <View key={post.id} style={styles.coverImageContainer}>
+              <Image
+                source={{
+                  uri: `${Config.BASE_URL}/${post.images[0]?.uri}`,
+                }}
+                style={styles.image}
+              />
+            </View>
+          </Conditional>
 
-        <Conditional condition={post.images.length === 0}>
-          <View
-            style={[
-              styles.coverImageContainer,
-              styles.emptyCoverImageContainer,
-            ]}>
-            <CustomMarker
-              size="medium"
-              borderColor={colors.GRAY_300}
-              innerColor={colors.GRAY_300}
-            />
-          </View>
-        </Conditional>
+          <Conditional condition={post.images.length === 0}>
+            <View
+              style={[
+                styles.coverImageContainer,
+                styles.emptyCoverImageContainer,
+              ]}>
+              <CustomMarker
+                size="medium"
+                borderColor={colors.GRAY_300}
+                innerColor={colors.GRAY_300}
+              />
+            </View>
+          </Conditional>
 
-        <View style={styles.contentsContainer}>
-          <View style={styles.addressContainer}>
-            <Octicons name="location" size={10} color={colors.GRAY_500} />
-            <Text
-              style={styles.addressText}
-              ellipsizeMode="tail"
-              numberOfLines={1}>
-              {post.address}
-            </Text>
-          </View>
-          <Text style={styles.titleText}>{post.title}</Text>
-          <View style={styles.infoContainer}>
-            <View style={styles.infoRow}>
-              <View style={styles.infoColumn}>
-                <Text>방문날짜</Text>
-                <Text style={{color: colors.PINK_700}}>
-                  {getDateLocaleFormat(post.date)}
-                </Text>
+          <View style={styles.contentsContainer}>
+            <View style={styles.addressContainer}>
+              <Octicons name="location" size={10} color={colors.GRAY_500} />
+              <Text
+                style={styles.addressText}
+                ellipsizeMode="tail"
+                numberOfLines={1}>
+                {post.address}
+              </Text>
+            </View>
+            <Text style={styles.titleText}>{post.title}</Text>
+            <View style={styles.infoContainer}>
+              <View style={styles.infoRow}>
+                <View style={styles.infoColumn}>
+                  <Text style={styles.infoColumnText}>방문날짜</Text>
+                  <Text style={{color: colors.PINK_700}}>
+                    {getDateLocaleFormat(post.date)}
+                  </Text>
+                </View>
+                <View style={styles.infoColumn}>
+                  <Text style={styles.infoColumnText}>평점</Text>
+                  <Text style={{color: colors.PINK_700}}>{post.score}점</Text>
+                </View>
               </View>
-              <View style={styles.infoColumn}>
-                <Text>평점</Text>
-                <Text style={{color: colors.PINK_700}}>{post.score}점</Text>
+              <View style={styles.infoRow}>
+                <View style={styles.infoColumn}>
+                  <Text style={styles.infoColumnText}>마커색상</Text>
+                  <View
+                    style={[
+                      styles.markerColor,
+                      {backgroundColor: colorHex[post.color]},
+                    ]}
+                  />
+                </View>
+                <View style={styles.infoColumn}>
+                  <Text style={styles.infoColumnText}>태그</Text>
+                  <Text style={{color: colors.PINK_700}}>식당</Text>
+                </View>
               </View>
             </View>
-            <View style={styles.infoRow}>
-              <View style={styles.infoColumn}>
-                <Text>마커색상</Text>
-                <View
-                  style={[
-                    styles.markerColor,
-                    {backgroundColor: colorHex[post.color]},
-                  ]}
-                />
-              </View>
-              <View style={styles.infoColumn}>
-                <Text>태그</Text>
-                <Text style={{color: colors.PINK_700}}>식당</Text>
-              </View>
-            </View>
+            <Text style={styles.descriptionText}>{post.description}</Text>
           </View>
-          <Text style={styles.descriptionText}>{post.description}</Text>
-        </View>
 
-        <Conditional condition={post.images.length > 0}>
-          <View style={styles.imageContentsContainer}>
-            <PreviewImageList imageUris={post.images} />
-          </View>
-        </Conditional>
-      </ScrollView>
+          <Conditional condition={post.images.length > 0}>
+            <View style={styles.imageContentsContainer}>
+              <PreviewImageList imageUris={post.images} />
+            </View>
+          </Conditional>
+        </ScrollView>
+      </View>
 
       <CustomBottomTab>
         <View
@@ -208,12 +210,16 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
 }
 
 const styles = StyleSheet.create({
+  relativeContainer: {
+    position: 'relative',
+  },
   scrollNoInsets: {
-    marginBottom: 60,
+    marginBottom: 65,
   },
   titleText: {
     fontSize: 22,
     fontWeight: 'bold',
+    color: colors.BLACK,
   },
   contentsContainer: {
     paddingVertical: 20,
@@ -233,6 +239,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 5,
+  },
+  infoColumnText: {
+    color: colors.BLACK,
   },
   markerColor: {
     width: 10,
@@ -266,6 +275,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   descriptionText: {
+    color: colors.BLACK,
     lineHeight: 25,
     fontSize: 16,
   },

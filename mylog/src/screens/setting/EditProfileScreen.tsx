@@ -96,10 +96,10 @@ function EditProfileScreen({navigation}: EditProfileScreenProps) {
         </Pressable>
 
         <View style={styles.idContainer}>
-          <View style={styles.idText}>
-            <Text>ID</Text>
+          <View style={styles.idTextContainer}>
+            <Text style={styles.nameText}>ID</Text>
           </View>
-          <Text>{username}</Text>
+          <Text style={styles.nameText}>{username}</Text>
         </View>
       </View>
 
@@ -165,11 +165,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: 10,
   },
-  idText: {
+  idTextContainer: {
     backgroundColor: colors.GRAY_200,
     paddingHorizontal: 5,
     paddingVertical: 2,
     borderRadius: 5,
+  },
+  nameText: {
+    color: colors.BLACK,
   },
 });
 
