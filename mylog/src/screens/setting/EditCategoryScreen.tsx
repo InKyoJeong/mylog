@@ -7,7 +7,7 @@ import {
   View,
   SafeAreaView,
 } from 'react-native';
-import Animated, {BounceInUp} from 'react-native-reanimated';
+import Animated, {StretchInY} from 'react-native-reanimated';
 import type {StackScreenProps} from '@react-navigation/stack';
 
 import type {SettingStackParamList} from '@/navigations/stack/SettingStackNavigator';
@@ -26,6 +26,7 @@ type EditCategoryScreenProps = StackScreenProps<SettingStackParamList>;
 
 function EditCategoryScreen({navigation}: EditCategoryScreenProps) {
   const snackbar = useSnackbarStore();
+  const refArray = useRef<(TextInput | null)[]>([]);
   const {getProfileQuery, categoryMutation} = useAuth();
   const {RED, YELLOW, GREEN, BLUE, PURPLE} = getProfileQuery.data || {};
   const category = useForm({
@@ -38,14 +39,6 @@ function EditCategoryScreen({navigation}: EditCategoryScreenProps) {
     },
     validate: validateCategory,
   });
-
-  const REDRef = useRef<TextInput | null>(null);
-  const YELLOWRef = useRef<TextInput | null>(null);
-  const GREENRef = useRef<TextInput | null>(null);
-  const BLUERef = useRef<TextInput | null>(null);
-  const PURPLERef = useRef<TextInput | null>(null);
-
-  const refArray = [REDRef, YELLOWRef, GREENRef, BLUERef, PURPLERef, REDRef];
 
   const handleSubmit = useCallback(() => {
     categoryMutation.mutate(category.values, {
@@ -66,7 +59,7 @@ function EditCategoryScreen({navigation}: EditCategoryScreenProps) {
         <ScrollView
           style={styles.contentContainer}
           scrollIndicatorInsets={{right: 1}}>
-          <Animated.View entering={BounceInUp} style={styles.infoContainer}>
+          <Animated.View entering={StretchInY} style={styles.infoContainer}>
             <Text style={styles.infoText}>
               마커 색상의 카테고리를 설정해주세요.
             </Text>
@@ -91,12 +84,12 @@ function EditCategoryScreen({navigation}: EditCategoryScreenProps) {
                       autoFocus={color === 'RED'}
                       error={category.errors[color]}
                       touched={category.touched[color]}
-                      ref={refArray[i]}
+                      ref={el => (refArray.current[i] = el)}
                       maxLength={8}
                       returnKeyType="next"
                       blurOnSubmit={false}
                       onSubmitEditing={() => {
-                        refArray[i + 1].current?.focus();
+                        refArray.current[i + 1]?.focus();
                       }}
                     />
                   </View>
