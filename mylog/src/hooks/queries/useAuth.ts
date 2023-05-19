@@ -4,6 +4,7 @@ import {
   ResponseProfile,
   ResponseToken,
   deleteAccount,
+  editCategory,
   editProfile,
   getAccessToken,
   getProfile,
@@ -109,6 +110,18 @@ function useDeleteAccount(mutationOptions?: UseMutationCustomOptions) {
   });
 }
 
+function useEditCategory(mutationOptions?: UseMutationCustomOptions) {
+  return useMutation(editCategory, {
+    onSuccess: newProfile => {
+      queryClient.setQueryData(
+        [queryKeys.AUTH, queryKeys.GET_PROFILE],
+        newProfile,
+      );
+    },
+    ...mutationOptions,
+  });
+}
+
 function useAuth() {
   const signupMutation = useSignup();
   const loginMutation = useLogin();
@@ -122,6 +135,7 @@ function useAuth() {
   const deleteAccountMutation = useDeleteAccount({
     onSuccess: () => logoutMutation.mutate(null),
   });
+  const categoryMutation = useEditCategory();
 
   return {
     signupMutation,
@@ -132,6 +146,7 @@ function useAuth() {
     profileMutation,
     isLogin,
     deleteAccountMutation,
+    categoryMutation,
   };
 }
 

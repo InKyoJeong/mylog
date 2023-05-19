@@ -1,11 +1,8 @@
-type MarkerColor =
-  | 'RED'
-  | 'YELLOW'
-  | 'GREEN'
-  | 'BLUE'
-  | 'PURPLE'
-  | 'GRAY'
-  | 'PINK';
+type MarkerColor = 'RED' | 'YELLOW' | 'GREEN' | 'BLUE' | 'PURPLE';
+
+type Category = {
+  [key in MarkerColor]: string;
+};
 
 interface ImageUri {
   id?: number;
@@ -27,4 +24,10 @@ interface Post extends Marker {
   description: string;
 }
 
-export type {MarkerColor, Marker, Post, ImageUri};
+interface Profile {
+  username: string;
+  nickname: string | null;
+  imageUri: string | null;
+}
+
+export type {MarkerColor, Category, Marker, Post, ImageUri, Profile};

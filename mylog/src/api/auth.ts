@@ -1,6 +1,7 @@
 import axiosInstance from '.';
 
 import {getEncryptStorage} from '@/utils/encryptStorage';
+import type {Category, Profile} from '@/types/domain';
 
 export type RequestUser = {
   username: string;
@@ -27,11 +28,7 @@ const postLogin = async ({
   return data;
 };
 
-export type ResponseProfile = {
-  username: string;
-  nickname: string | null;
-  imageUri: string | null;
-};
+export type ResponseProfile = Profile & Category;
 
 const getProfile = async (): Promise<ResponseProfile> => {
   const {data} = await axiosInstance.get('/auth/me');
@@ -39,10 +36,7 @@ const getProfile = async (): Promise<ResponseProfile> => {
   return data;
 };
 
-export type RequestProfile = {
-  nickname: string | null;
-  imageUri: string | null;
-};
+export type RequestProfile = Omit<Profile, 'username'>;
 
 const editProfile = async (body: RequestProfile): Promise<ResponseProfile> => {
   const {data} = await axiosInstance.patch('/auth/me', body);
@@ -70,6 +64,12 @@ const deleteAccount = async () => {
   await axiosInstance.delete('/auth/me');
 };
 
+const editCategory = async (body: Category): Promise<ResponseProfile> => {
+  const {data} = await axiosInstance.patch('/auth/category', body);
+
+  return data;
+};
+
 export {
   postSignup,
   postLogin,
@@ -78,4 +78,5 @@ export {
   getAccessToken,
   logout,
   deleteAccount,
+  editCategory,
 };
