@@ -13,6 +13,7 @@ import { Exclude } from 'class-transformer';
 import { Favorite } from 'src/favorite/favorite.entity';
 import { Post } from 'src/post/post.entity';
 import { Feedback } from 'src/feedback/feedback.entity';
+import { MarkerColor } from 'src/post/marker-color.enum';
 
 @Entity()
 @Unique(['username'])
@@ -31,6 +32,21 @@ export class User extends BaseEntity {
 
   @Column({ nullable: true })
   imageUri?: string;
+
+  @Column({ nullable: true })
+  [MarkerColor.RED]: string;
+
+  @Column({ nullable: true })
+  [MarkerColor.YELLOW]: string;
+
+  @Column({ nullable: true })
+  [MarkerColor.BLUE]: string;
+
+  @Column({ nullable: true })
+  [MarkerColor.GREEN]: string;
+
+  @Column({ nullable: true })
+  [MarkerColor.PURPLE]: string;
 
   @CreateDateColumn()
   createdAt: Date;

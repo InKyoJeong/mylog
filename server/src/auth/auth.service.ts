@@ -15,6 +15,7 @@ import * as bcrypt from 'bcryptjs';
 import { User } from './user.entity';
 import { AuthCredentialsDto } from './dto/auth-credential.dto';
 import { EditProfileDto } from './dto/edit-profile.dto';
+import { MarkerColor } from 'src/post/marker-color.enum';
 
 @Injectable()
 export class AuthService {
@@ -81,9 +82,9 @@ export class AuthService {
   }
 
   getProfile(user: User) {
-    const { username, nickname, imageUri } = user;
+    const { id, password, hashedRefreshToken, ...rest } = user;
 
-    return { username, nickname, imageUri };
+    return { ...rest };
   }
 
   async editProfile(editProfileDto: EditProfileDto, user: User) {
@@ -96,9 +97,23 @@ export class AuthService {
     profile.nickname = nickname;
     profile.imageUri = imageUri;
 
-    await this.userRepository.save(profile);
+    try {
+      await this.userRepository.save(profile);
+    } catch (error) {
+      console.log('error', error);
+      throw new InternalServerErrorException();
+    }
 
-    return { username: profile.username, nickname, imageUri };
+    return {
+      username: profile.username,
+      nickname,
+      imageUri,
+      RED: profile.RED,
+      YELLOW: profile.YELLOW,
+      GREEN: profile.GREEN,
+      BLUE: profile.BLUE,
+      PURPLE: profile.PURPLE,
+    };
   }
 
   async deleteRefreshToken(id: number) {
@@ -145,5 +160,39 @@ export class AuthService {
         '탈퇴할 수 없습니다. 게시글이 존재하는지 확인해주세요.',
       );
     }
+  }
+
+  async updateCategory(
+    categories: Record<keyof MarkerColor, string>,
+    user: User,
+  ) {
+    const { RED, YELLOW, BLUE, GREEN, PURPLE } = MarkerColor;
+
+    if (
+      !Object.keys(categories).every((color: MarkerColor) =>
+        [RED, YELLOW, BLUE, GREEN, PURPLE].includes(color),
+      )
+    ) {
+      throw new BadRequestException('유효하지 않은 카테고리입니다.');
+    }
+
+    user[RED] = categories[RED];
+    user[YELLOW] = categories[YELLOW];
+    user[BLUE] = categories[BLUE];
+    user[GREEN] = categories[GREEN];
+    user[PURPLE] = categories[PURPLE];
+
+    try {
+      await this.userRepository.save(user);
+    } catch (error) {
+      console.log('error', error);
+      throw new InternalServerErrorException(
+        '카테고리를 업데이트할 수 없습니다.',
+      );
+    }
+
+    const { id, password, hashedRefreshToken, ...rest } = user;
+
+    return { ...rest };
   }
 }

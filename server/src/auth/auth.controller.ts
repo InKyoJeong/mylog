@@ -14,6 +14,7 @@ import { AuthService } from './auth.service';
 import { User } from './user.entity';
 import { AuthCredentialsDto } from './dto/auth-credential.dto';
 import { EditProfileDto } from './dto/edit-profile.dto';
+import { MarkerColor } from 'src/post/marker-color.enum';
 
 @Controller('auth')
 export class AuthController {
@@ -64,5 +65,14 @@ export class AuthController {
   @UseGuards(AuthGuard())
   deleteAccount(@GetUser() user: User) {
     return this.authService.deleteAccount(user);
+  }
+
+  @Patch('/category')
+  @UseGuards(AuthGuard())
+  updateCategory(
+    @Body() categories: Record<keyof MarkerColor, string>,
+    @GetUser() user: User,
+  ) {
+    return this.authService.updateCategory(categories, user);
   }
 }

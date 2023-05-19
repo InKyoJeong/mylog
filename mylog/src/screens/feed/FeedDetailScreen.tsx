@@ -158,7 +158,7 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
                   />
                 </View>
                 <View style={styles.infoColumn}>
-                  <Text style={styles.infoColumnText}>태그</Text>
+                  <Text style={styles.infoColumnText}>카테고리</Text>
                   <Text style={{color: colors.PINK_700}}>식당</Text>
                 </View>
               </View>
