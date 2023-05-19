@@ -19,6 +19,7 @@ import useForm from '@/hooks/useForm';
 import useSnackbarStore from '@/store/useSnackbarStore';
 import {validateCategory} from '@/utils/validate';
 import {colorHex, colors} from '@/constants/colors';
+import {successMessages} from '@/constants/messages';
 import type {MarkerColor} from '@/types/domain';
 
 type EditCategoryScreenProps = StackScreenProps<SettingStackParamList>;
@@ -48,7 +49,7 @@ function EditCategoryScreen({navigation}: EditCategoryScreenProps) {
 
   const handleSubmit = useCallback(() => {
     categoryMutation.mutate(category.values, {
-      onSuccess: () => snackbar.show('저장되었습니다.'),
+      onSuccess: () => snackbar.show(successMessages.SUCCESS_SAVE),
     });
   }, [category.values, categoryMutation, snackbar]);
 

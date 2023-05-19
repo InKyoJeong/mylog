@@ -22,6 +22,7 @@ const successMessages = {
   SUCCESS_ADD_BOOKMARK: '북마크 되었습니다.',
   SUCCESS_EDIT_PROFILE: '프로필이 변경되었습니다.',
   SUCCESS_SUBMIT_FEEDBACK: '제출되었습니다.',
+  SUCCESS_SAVE: '저장되었습니다.',
 } as const;
 
 const alerts = {
