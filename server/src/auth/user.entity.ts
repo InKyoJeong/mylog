@@ -33,19 +33,19 @@ export class User extends BaseEntity {
   @Column({ nullable: true })
   imageUri?: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, default: '' })
   [MarkerColor.RED]: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, default: '' })
   [MarkerColor.YELLOW]: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, default: '' })
   [MarkerColor.BLUE]: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, default: '' })
   [MarkerColor.GREEN]: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, default: '' })
   [MarkerColor.PURPLE]: string;
 
   @CreateDateColumn()
