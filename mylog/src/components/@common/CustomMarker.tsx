@@ -32,39 +32,41 @@ function CustomMarker({
     <>
       {coordinate ? (
         <Marker coordinate={coordinate} {...props}>
-          <View
-            style={[
-              styles.marker,
-              styles.smallMarker,
-              {backgroundColor: colorHex[color], borderColor},
-            ]}>
+          <View style={styles.container}>
             <View
               style={[
-                styles.eye,
-                styles.smallEye,
-                styles.smallLeftEye,
-                {backgroundColor: innerColor},
-              ]}
-            />
-            <View
-              style={[
-                styles.eye,
-                styles.smallEye,
-                styles.smallRightEye,
-                {backgroundColor: innerColor},
-              ]}
-            />
-            {score > 3 && (
+                styles.marker,
+                styles.smallMarker,
+                {backgroundColor: colorHex[color], borderColor},
+              ]}>
               <View
-                style={[styles.mouth, styles.smallMouth, styles.smallGood]}
+                style={[
+                  styles.eye,
+                  styles.smallEye,
+                  styles.smallLeftEye,
+                  {backgroundColor: innerColor},
+                ]}
               />
-            )}
-            {score === 3 && <View style={styles.soso} />}
-            {score < 3 && (
               <View
-                style={[styles.mouth, styles.smallMouth, styles.smallBad]}
+                style={[
+                  styles.eye,
+                  styles.smallEye,
+                  styles.smallRightEye,
+                  {backgroundColor: innerColor},
+                ]}
               />
-            )}
+              {score > 3 && (
+                <View
+                  style={[styles.mouth, styles.smallMouth, styles.smallGood]}
+                />
+              )}
+              {score === 3 && <View style={styles.soso} />}
+              {score < 3 && (
+                <View
+                  style={[styles.mouth, styles.smallMouth, styles.smallBad]}
+                />
+              )}
+            </View>
           </View>
         </Marker>
       ) : (
@@ -96,7 +98,7 @@ function CustomMarker({
                 styles.mouth,
                 styles[`${size}Mouth`],
                 styles[`${size}Good`],
-                {borderColor: innerColor},
+                {borderLeftColor: innerColor},
               ]}
             />
           </Conditional>
@@ -107,6 +109,11 @@ function CustomMarker({
 }
 
 const styles = StyleSheet.create({
+  container: {
+    alignItems: 'center',
+    height: 35,
+    width: 32,
+  },
   marker: {
     transform: [{rotate: '45deg'}],
   },
@@ -167,8 +174,8 @@ const styles = StyleSheet.create({
   },
   mouth: {
     transform: [{rotate: '45deg'}],
-    borderBottomColor: 'transparent',
-    borderTopColor: 'transparent',
+    borderBottomColor: 'rgba(255,255,255 / 0.01)',
+    borderTopColor: 'rgba(255,255,255 / 0.01)',
   },
   smallMouth: {
     width: 13,
@@ -186,14 +193,18 @@ const styles = StyleSheet.create({
     //
   },
   smallGood: {
+    transform: [{rotate: '225deg'}],
     marginLeft: 5,
     marginTop: 5,
-    borderLeftColor: 'transparent',
+    borderRightColor: 'rgba(255,255,255 / 0.01)',
+    borderLeftColor: colors.BLACK,
   },
   mediumGood: {
+    transform: [{rotate: '225deg'}],
     marginLeft: 10,
     marginTop: 10,
-    borderLeftColor: 'transparent',
+    borderRightColor: 'rgba(255,255,255 / 0.01)',
+    borderLeftColor: colors.BLACK,
   },
   largeGood: {},
   soso: {
@@ -208,12 +219,14 @@ const styles = StyleSheet.create({
   smallBad: {
     marginLeft: 12,
     marginTop: 12,
-    borderRightColor: 'transparent',
+    borderRightColor: 'rgba(255,255,255 / 0.01)',
+    borderLeftColor: colors.BLACK,
   },
   mediumBad: {
     marginLeft: 20,
     marginTop: 20,
-    borderRightColor: 'transparent',
+    borderRightColor: 'rgba(255,255,255 / 0.01)',
+    borderLeftColor: colors.BLACK,
   },
   largeBad: {
     //
