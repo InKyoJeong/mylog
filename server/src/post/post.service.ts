@@ -176,9 +176,26 @@ export class PostService {
       .where('post.userId = :userId', { userId: user.id })
       .andWhere('extract(year from post.date) = :year', { year })
       .andWhere('extract(month from post.date) = :month', { month })
-      .select(['post.id', 'post.title', 'post.address'])
-      .getMany();
+      .select([
+        'post.id AS id',
+        'post.title AS title',
+        'post.address AS address',
+        'EXTRACT(DAY FROM post.date) AS date',
+      ])
+      .getRawMany();
 
-    return posts;
+    const groupPostsByDate = posts.reduce((acc, post) => {
+      const { id, title, address, date } = post;
+
+      if (!acc[date]) {
+        acc[date] = [];
+      }
+
+      acc[date].push({ id, title, address });
+
+      return acc;
+    }, {});
+
+    return groupPostsByDate;
   }
 }
