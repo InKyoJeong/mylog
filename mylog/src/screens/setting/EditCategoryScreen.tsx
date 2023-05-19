@@ -119,6 +119,7 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     borderWidth: 1,
     borderColor: colors.PINK_700,
+    borderRadius: 3,
     padding: 10,
     gap: 10,
   },
@@ -140,6 +141,8 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 20,
     backgroundColor: colorHex.RED,
+    borderWidth: 1,
+    borderColor: colors.GRAY_700,
   },
   inputContainer: {
     flex: 1,

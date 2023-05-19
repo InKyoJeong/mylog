@@ -50,17 +50,13 @@ function EditProfileScreen({navigation}: EditProfileScreenProps) {
     profileMutation.mutate(
       {...editProfile.values, imageUri: imagePicker.imageUris[0]?.uri},
       {
-        onSuccess: () => {
-          navigation.goBack();
-          snackbar.show(successMessages.SUCCESS_EDIT_PROFILE);
-        },
+        onSuccess: () => snackbar.show(successMessages.SUCCESS_EDIT_PROFILE),
       },
     );
   }, [
     editProfile.hasErrors,
     editProfile.values,
     imagePicker.imageUris,
-    navigation,
     profileMutation,
     snackbar,
   ]);
