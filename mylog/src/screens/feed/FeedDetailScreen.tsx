@@ -48,8 +48,7 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
   const {id} = route.params;
   const {data: post, isLoading, isError} = useGetPost(id);
   const {getProfileQuery} = useAuth();
-  const {RED, YELLOW, GREEN, BLUE, PURPLE} = getProfileQuery.data || {};
-  const category = {RED, YELLOW, GREEN, BLUE, PURPLE};
+  const {categories} = getProfileQuery.data || {};
   const favoriteMutation = useUpdateFavoritePost();
   const insets = useSafeAreaInsets();
   const optionModal = useModal();
@@ -164,7 +163,7 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
                 <View style={styles.infoColumn}>
                   <Text style={styles.infoColumnText}>카테고리</Text>
                   <Text style={{color: colors.PINK_700}}>
-                    {category[post.color] || '없음'}
+                    {categories?.[post.color] || '없음'}
                   </Text>
                 </View>
               </View>

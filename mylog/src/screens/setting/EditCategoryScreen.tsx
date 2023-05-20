@@ -29,14 +29,14 @@ function EditCategoryScreen({navigation}: EditCategoryScreenProps) {
   const snackbar = useSnackbarStore();
   const refArray = useRef<(TextInput | null)[]>([]);
   const {getProfileQuery, categoryMutation} = useAuth();
-  const {RED, YELLOW, GREEN, BLUE, PURPLE} = getProfileQuery.data || {};
+  const {categories} = getProfileQuery.data || {};
   const category = useForm({
     initialValue: {
-      RED: RED ?? '',
-      YELLOW: YELLOW ?? '',
-      GREEN: GREEN ?? '',
-      BLUE: BLUE ?? '',
-      PURPLE: PURPLE ?? '',
+      RED: categories?.RED ?? '',
+      YELLOW: categories?.YELLOW ?? '',
+      GREEN: categories?.GREEN ?? '',
+      BLUE: categories?.BLUE ?? '',
+      PURPLE: categories?.PURPLE ?? '',
     },
     validate: validateCategory,
   });
@@ -82,9 +82,9 @@ function EditCategoryScreen({navigation}: EditCategoryScreenProps) {
                   <View style={styles.inputContainer}>
                     <InputField
                       {...category.getTextInputProps(color as MarkerColor)}
-                      autoFocus={color === 'RED'}
                       error={category.errors[color]}
                       touched={category.touched[color]}
+                      autoFocus={color === 'RED'}
                       ref={el => (refArray.current[i] = el)}
                       maxLength={numbers.MAX_CATEGORY_LENGTH}
                       returnKeyType="next"

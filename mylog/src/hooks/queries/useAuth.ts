@@ -18,6 +18,7 @@ import {removeHeader, setHeader} from '@/utils/axiosInstance';
 import {numbers} from '@/constants/numbers';
 import {queryKeys, storageKeys} from '@/constants/keys';
 import type {ResponseError, UseMutationCustomOptions} from '@/types';
+import type {Category, Profile} from '@/types/domain';
 
 function useSignup(mutationOptions?: UseMutationCustomOptions) {
   return useMutation(postSignup, {
@@ -79,13 +80,29 @@ function useRefreshToken(
   );
 }
 
+type ResponseSelectProfile = {categories: Category} & Profile;
+
+const transformProfileCategory = (
+  data: ResponseProfile,
+): ResponseSelectProfile => {
+  const {BLUE, GREEN, PURPLE, RED, YELLOW, ...rest} = data;
+  const categories = {BLUE, GREEN, PURPLE, RED, YELLOW};
+
+  return {categories, ...rest};
+};
+
 function useGetProfile(
-  queryOptions?: UseQueryOptions<ResponseProfile, ResponseError>,
+  queryOptions?: UseQueryOptions<
+    ResponseProfile,
+    ResponseError,
+    ResponseSelectProfile
+  >,
 ) {
-  return useQuery<ResponseProfile, ResponseError>(
+  return useQuery<ResponseProfile, ResponseError, ResponseSelectProfile>(
     [queryKeys.AUTH, queryKeys.GET_PROFILE],
     () => getProfile(),
     {
+      select: transformProfileCategory,
       useErrorBoundary: false,
       ...queryOptions,
     },
