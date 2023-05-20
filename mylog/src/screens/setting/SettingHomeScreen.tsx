@@ -7,10 +7,12 @@ import Octicons from 'react-native-vector-icons/Octicons';
 
 import type {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
 import type {SettingStackParamList} from '@/navigations/stack/SettingStackNavigator';
+import SettingMapLegendModal from '@/components/setting/SettingMapLegendModal';
 import SettingItem from '@/components/setting/SettingItem';
+import useAuth from '@/hooks/queries/useAuth';
+import useModal from '@/hooks/useModal';
 import {settingNavigations} from '@/constants/navigations';
 import {colors} from '@/constants/colors';
-import useAuth from '@/hooks/queries/useAuth';
 
 type SettingHomeScreenProps = CompositeScreenProps<
   StackScreenProps<
@@ -22,6 +24,7 @@ type SettingHomeScreenProps = CompositeScreenProps<
 
 function SettingHomeScreen({navigation}: SettingHomeScreenProps) {
   const {logoutMutation} = useAuth();
+  const mapLegendOption = useModal();
 
   const handlePressEditProfile = () => {
     navigation.navigate(settingNavigations.EDIT_PROFILE);
@@ -48,6 +51,7 @@ function SettingHomeScreen({navigation}: SettingHomeScreenProps) {
           title="마커 카테고리 설정"
           onPress={handlePressEditCategory}
         />
+        <SettingItem title="범례 표시" onPress={mapLegendOption.show} />
         <SettingItem title="다크 모드" />
         <View style={styles.space} />
         <SettingItem title="의견 보내기" onPress={handlePressFeedback} />
@@ -58,6 +62,11 @@ function SettingHomeScreen({navigation}: SettingHomeScreenProps) {
           icon={<Octicons name={'sign-out'} color={colors.RED_500} size={16} />}
           color={colors.RED_500}
           onPress={handlePressLogout}
+        />
+
+        <SettingMapLegendModal
+          isVisible={mapLegendOption.isVisible}
+          hideOption={mapLegendOption.hide}
         />
       </ScrollView>
     </SafeAreaView>
