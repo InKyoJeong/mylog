@@ -11,6 +11,7 @@ import {
   SafeAreaView,
 } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import Config from 'react-native-config';
 
 import {colors} from '@/constants/colors';
@@ -85,11 +86,13 @@ function OptionButtonList({children}: PropsWithChildren) {
 interface OptionButtonProps {
   onPress: () => void;
   isDanger?: boolean;
+  isChecked?: boolean;
 }
 
 function OptionButton({
   children,
   isDanger = false,
+  isChecked = false,
   onPress,
 }: PropsWithChildren<OptionButtonProps>) {
   return (
@@ -99,9 +102,14 @@ function OptionButton({
         styles.optionButton,
       ]}
       onPress={onPress}>
+      <View />
       <Text style={[styles.optionText, isDanger && styles.dangerText]}>
         {children}
       </Text>
+
+      {isChecked && (
+        <Ionicons name="checkmark-circle" size={20} color={colors.BLUE_500} />
+      )}
     </Pressable>
   );
 }
@@ -227,9 +235,11 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   optionButton: {
+    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     height: 50,
+    gap: 5,
   },
   optionButtonPressed: {
     backgroundColor: colors.GRAY_300,

@@ -8,7 +8,7 @@ const categoryList: MarkerColor[] = [
   'PURPLE',
 ];
 
-const categoryPlaceholder = [
+const categoryPlaceholderList = [
   'ex) 음식점',
   'ex) 카페',
   'ex) 병원',
@@ -16,4 +16,4 @@ const categoryPlaceholder = [
   'ex) 도서관',
 ];
 
-export {categoryList, categoryPlaceholder};
+export {categoryList, categoryPlaceholderList};

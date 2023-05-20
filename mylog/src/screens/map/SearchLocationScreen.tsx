@@ -66,6 +66,7 @@ function SearchLocationScreen({navigation}: SearchLocationScreenProps) {
       searchKeyword,
       ...storedData,
     ]);
+
     setKeyword('');
   };
 
