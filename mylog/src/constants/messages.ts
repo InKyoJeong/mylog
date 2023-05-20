@@ -8,7 +8,7 @@ const errorMessages = {
   NOT_MATCH_PASSWORD: '비밀번호가 일치하지 않습니다.',
   INVALID_NICKNAME: `닉네임은 빈칸없이 ${numbers.MIN_NICKNAME_LENGTH}~${numbers.MAX_NICKNAME_LENGTH}자 이내로 입력해주세요.`,
   INVALID_EMAIL_FORMAT: '올바른 이메일 형식이 아닙니다.',
-  INVALID_POST_TITLE_LENGTH: `제목은 ${numbers.MIN_POST_TITLE_LENGTH}글자 이상 입력해주세요.`,
+  INVALID_POST_TITLE_LENGTH: `제목은 ${numbers.MIN_POST_TITLE_LENGTH}~${numbers.MAX_POST_TITLE_LENGTH}자 이내로 입력해주세요.`,
   INVALID_FEEDBACK_TITLE_LENGTH: `제목은 ${numbers.MIN_FEEDBACK_TITLE_LENGTH}글자 이상 입력해주세요.`,
   INVALID_FEEDBACK_DESCRIPTION_LENGTH: `내용은 ${numbers.MIN_FEEDBACK_DESCRIPTION_LENGTH}글자 이상 입력해주세요.`,
   INVALID_CATEGORY_FORMAT: '카테고리는 빈 문자열로 시작할 수 없어요.',

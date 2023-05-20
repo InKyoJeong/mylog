@@ -17,6 +17,7 @@ import useSnackbarStore from '@/store/useSnackbarStore';
 import {validateEditProfile} from '@/utils/validate';
 import {colors} from '@/constants/colors';
 import {successMessages} from '@/constants/messages';
+import {numbers} from '@/constants/numbers';
 
 type EditProfileScreenProps = StackScreenProps<SettingStackParamList>;
 
@@ -104,7 +105,7 @@ function EditProfileScreen({navigation}: EditProfileScreenProps) {
         error={editProfile.errors.nickname}
         touched={editProfile.touched.nickname}
         placeholder="닉네임을 입력해주세요."
-        maxLength={8}
+        maxLength={numbers.MAX_NICKNAME_LENGTH}
       />
 
       <EditProfileImageModal
