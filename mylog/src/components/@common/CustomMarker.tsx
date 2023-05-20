@@ -10,7 +10,7 @@ type Size = 'small' | 'medium' | 'large';
 
 interface CustomMarkerProps extends MyMapMarkerProps {
   coordinate?: LatLng;
-  color?: MarkerColor;
+  color?: MarkerColor | 'GRAY' | 'PINK';
   score?: number;
   showFeel?: boolean;
   size?: Size;

@@ -27,6 +27,10 @@ function SettingHomeScreen({navigation}: SettingHomeScreenProps) {
     navigation.navigate(settingNavigations.EDIT_PROFILE);
   };
 
+  const handlePressEditCategory = () => {
+    navigation.navigate(settingNavigations.EDIT_CATEGORY);
+  };
+
   const handlePressFeedback = () => {
     navigation.navigate(settingNavigations.FEED_BACK);
   };
@@ -40,6 +44,10 @@ function SettingHomeScreen({navigation}: SettingHomeScreenProps) {
       <ScrollView>
         <View style={styles.space} />
         <SettingItem title="프로필 수정" onPress={handlePressEditProfile} />
+        <SettingItem
+          title="마커 카테고리 설정"
+          onPress={handlePressEditCategory}
+        />
         <SettingItem title="다크 모드" />
         <View style={styles.space} />
         <SettingItem title="의견 보내기" onPress={handlePressFeedback} />

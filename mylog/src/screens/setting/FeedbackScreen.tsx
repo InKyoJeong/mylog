@@ -17,6 +17,7 @@ import {useFeedback} from '@/hooks/queries/useFeedback';
 import useSnackbarStore from '@/store/useSnackbarStore';
 import {validateAddFeedback} from '@/utils/validate';
 import {successMessages} from '@/constants/messages';
+import {numbers} from '@/constants/numbers';
 
 type FeedbackScreenProps = StackScreenProps<SettingStackParamList>;
 
@@ -61,7 +62,7 @@ function FeedbackScreen({navigation}: FeedbackScreenProps) {
               error={addFeedback.errors.email}
               touched={addFeedback.touched.email}
               placeholder="이메일을 입력해주세요."
-              maxLength={100}
+              maxLength={numbers.MAX_EMAIL_LENGTH}
               inputMode="email"
               returnKeyType="next"
               blurOnSubmit={false}
@@ -75,7 +76,7 @@ function FeedbackScreen({navigation}: FeedbackScreenProps) {
               touched={addFeedback.touched.title}
               ref={titleRef}
               placeholder="제목을 입력해주세요."
-              maxLength={100}
+              maxLength={numbers.MAX_FEEDBACK_TITLE_LENGTH}
               returnKeyType="next"
               blurOnSubmit={false}
               onSubmitEditing={() => {
@@ -89,7 +90,7 @@ function FeedbackScreen({navigation}: FeedbackScreenProps) {
               ref={descriptionRef}
               placeholder="자유롭게 의견을 입력해주세요."
               multiline
-              maxLength={3000}
+              maxLength={numbers.MAX_FEEDBACK_DESCRIPTION_LENGTH}
             />
             <CustomButton
               label="제출"

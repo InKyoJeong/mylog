@@ -5,12 +5,13 @@ const errorMessages = {
   INVALID_USERNAME_LENGTH: `아이디는 ${numbers.MIN_USERNAME_LENGTH}~${numbers.MAX_USERNAME_LENGTH}자 이내로 입력해주세요.`,
   INVALID_PASSWORD_FORMAT: '비밀번호는 영어, 숫자, 특수문자만 입력가능합니다.',
   INVALID_PASSWORD_LENGTH: `비밀번호는 ${numbers.MIN_PASSWORD_LENGTH}~${numbers.MAX_PASSWORD_LENGTH}자 이내로 입력해주세요.`,
+  NOT_MATCH_PASSWORD: '비밀번호가 일치하지 않습니다.',
   INVALID_NICKNAME: `닉네임은 빈칸없이 ${numbers.MIN_NICKNAME_LENGTH}~${numbers.MAX_NICKNAME_LENGTH}자 이내로 입력해주세요.`,
   INVALID_EMAIL_FORMAT: '올바른 이메일 형식이 아닙니다.',
-  NOT_MATCH_PASSWORD: '비밀번호가 일치하지 않습니다.',
-  INVALID_POST_TITLE_LENGTH: `제목은 ${numbers.MIN_POST_TITLE_LENGTH}글자 이상 입력해주세요.`,
+  INVALID_POST_TITLE_LENGTH: `제목은 ${numbers.MIN_POST_TITLE_LENGTH}~${numbers.MAX_POST_TITLE_LENGTH}자 이내로 입력해주세요.`,
   INVALID_FEEDBACK_TITLE_LENGTH: `제목은 ${numbers.MIN_FEEDBACK_TITLE_LENGTH}글자 이상 입력해주세요.`,
   INVALID_FEEDBACK_DESCRIPTION_LENGTH: `내용은 ${numbers.MIN_FEEDBACK_DESCRIPTION_LENGTH}글자 이상 입력해주세요.`,
+  INVALID_CATEGORY_FORMAT: '카테고리는 빈 문자열로 시작할 수 없어요.',
   CANNOT_GET_ADDRESS: '주소를 알 수 없습니다.',
   CANNOT_ACCESS_PHOTO:
     '갤러리를 열 수 없어요.\n권한을 허용했는지 확인해주세요.',
@@ -21,6 +22,7 @@ const successMessages = {
   SUCCESS_ADD_BOOKMARK: '북마크 되었습니다.',
   SUCCESS_EDIT_PROFILE: '프로필이 변경되었습니다.',
   SUCCESS_SUBMIT_FEEDBACK: '제출되었습니다.',
+  SUCCESS_SAVE: '저장되었습니다.',
 } as const;
 
 const alerts = {

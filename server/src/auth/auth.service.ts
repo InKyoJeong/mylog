@@ -104,16 +104,9 @@ export class AuthService {
       throw new InternalServerErrorException();
     }
 
-    return {
-      username: profile.username,
-      nickname,
-      imageUri,
-      RED: profile.RED,
-      YELLOW: profile.YELLOW,
-      GREEN: profile.GREEN,
-      BLUE: profile.BLUE,
-      PURPLE: profile.PURPLE,
-    };
+    const { id, password, hashedRefreshToken, ...rest } = profile;
+
+    return { ...rest };
   }
 
   async deleteRefreshToken(id: number) {

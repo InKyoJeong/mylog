@@ -18,7 +18,7 @@ import type {FeedStackParamList} from '@/navigations/stack/FeedStackNavigator';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Octicons from 'react-native-vector-icons/Octicons';
 
-import type {MapStackParamList} from '@/navigations/stack/MapStackNavigator';
+import type {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
 import Conditional from '@/components/@common/Conditional';
 import CustomMarker from '@/components/@common/CustomMarker';
 import CustomButton from '@/components/@common/CustomButton';
@@ -33,19 +33,27 @@ import useLocationStore from '@/store/useLocationStore';
 import useDetailPostStore from '@/store/useDetailPostStore';
 import useSnackbarStore from '@/store/useSnackbarStore';
 import {getDateLocaleFormat} from '@/utils/date';
-import {feedNavigations, mapNavigations} from '@/constants/navigations';
+import {
+  feedNavigations,
+  mainNavigations,
+  mapNavigations,
+  settingNavigations,
+} from '@/constants/navigations';
 import {successMessages} from '@/constants/messages';
 import {colorHex, colors} from '@/constants/colors';
 import {numbers} from '@/constants/numbers';
+import useAuth from '@/hooks/queries/useAuth';
 
 type FeedDetailScreenProps = CompositeScreenProps<
   StackScreenProps<FeedStackParamList, typeof feedNavigations.FEED_DETAIL>,
-  DrawerScreenProps<MapStackParamList>
+  DrawerScreenProps<MainDrawerParamList>
 >;
 
 function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
   const {id} = route.params;
   const {data: post, isLoading, isError} = useGetPost(id);
+  const {getProfileQuery} = useAuth();
+  const {categories} = getProfileQuery.data || {};
   const favoriteMutation = useUpdateFavoritePost();
   const insets = useSafeAreaInsets();
   const optionModal = useModal();
@@ -68,10 +76,19 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
     setIsScrolled(isScrolledY);
   };
 
+  const handlePressCategory = () => {
+    navigation.navigate(mainNavigations.SETTING, {
+      screen: settingNavigations.EDIT_CATEGORY,
+      initial: false,
+    });
+  };
+
   const handlePressLocation = () => {
     const {latitude, longitude} = post;
     setMoveLocation({latitude, longitude});
-    navigation.navigate(mapNavigations.MAP_HOME);
+    navigation.navigate(mainNavigations.HOME, {
+      screen: mapNavigations.MAP_HOME,
+    });
   };
 
   const handlePressFavorite = () => {
@@ -137,19 +154,19 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
             <View style={styles.infoContainer}>
               <View style={styles.infoRow}>
                 <View style={styles.infoColumn}>
-                  <Text style={styles.infoColumnText}>방문날짜</Text>
-                  <Text style={{color: colors.PINK_700}}>
+                  <Text style={styles.infoColumnKeyText}>방문날짜</Text>
+                  <Text style={styles.infoColumnValueText}>
                     {getDateLocaleFormat(post.date)}
                   </Text>
                 </View>
                 <View style={styles.infoColumn}>
-                  <Text style={styles.infoColumnText}>평점</Text>
-                  <Text style={{color: colors.PINK_700}}>{post.score}점</Text>
+                  <Text style={styles.infoColumnKeyText}>평점</Text>
+                  <Text style={styles.infoColumnValueText}>{post.score}점</Text>
                 </View>
               </View>
               <View style={styles.infoRow}>
                 <View style={styles.infoColumn}>
-                  <Text style={styles.infoColumnText}>마커색상</Text>
+                  <Text style={styles.infoColumnKeyText}>마커색상</Text>
                   <View
                     style={[
                       styles.markerColor,
@@ -158,8 +175,20 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
                   />
                 </View>
                 <View style={styles.infoColumn}>
-                  <Text style={styles.infoColumnText}>카테고리</Text>
-                  <Text style={{color: colors.PINK_700}}>식당</Text>
+                  <Text style={styles.infoColumnKeyText}>카테고리</Text>
+                  <Conditional condition={!!categories?.[post.color]}>
+                    <Text style={styles.infoColumnValueText}>
+                      {categories?.[post.color]}
+                    </Text>
+                  </Conditional>
+
+                  <Conditional condition={!categories?.[post.color]}>
+                    <Pressable
+                      style={styles.emptyCategoryContainer}
+                      onPress={handlePressCategory}>
+                      <Text style={styles.infoColumnKeyText}>미설정</Text>
+                    </Pressable>
+                  </Conditional>
                 </View>
               </View>
             </View>
@@ -240,13 +269,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 5,
   },
-  infoColumnText: {
+  infoColumnKeyText: {
     color: colors.BLACK,
+  },
+  infoColumnValueText: {
+    color: colors.PINK_700,
   },
   markerColor: {
     width: 10,
     height: 10,
     borderRadius: 10,
+  },
+  emptyCategoryContainer: {
+    backgroundColor: colors.GRAY_300,
+    paddingHorizontal: 2,
+    paddingVertical: 2,
+    borderRadius: 2,
   },
   coverImageContainer: {
     width: Dimensions.get('screen').width,

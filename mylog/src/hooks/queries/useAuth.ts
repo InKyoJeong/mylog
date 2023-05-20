@@ -4,6 +4,7 @@ import {
   ResponseProfile,
   ResponseToken,
   deleteAccount,
+  editCategory,
   editProfile,
   getAccessToken,
   getProfile,
@@ -17,6 +18,7 @@ import {removeHeader, setHeader} from '@/utils/axiosInstance';
 import {numbers} from '@/constants/numbers';
 import {queryKeys, storageKeys} from '@/constants/keys';
 import type {ResponseError, UseMutationCustomOptions} from '@/types';
+import type {Category, Profile} from '@/types/domain';
 
 function useSignup(mutationOptions?: UseMutationCustomOptions) {
   return useMutation(postSignup, {
@@ -78,13 +80,29 @@ function useRefreshToken(
   );
 }
 
+type ResponseSelectProfile = {categories: Category} & Profile;
+
+const transformProfileCategory = (
+  data: ResponseProfile,
+): ResponseSelectProfile => {
+  const {BLUE, GREEN, PURPLE, RED, YELLOW, ...rest} = data;
+  const categories = {BLUE, GREEN, PURPLE, RED, YELLOW};
+
+  return {categories, ...rest};
+};
+
 function useGetProfile(
-  queryOptions?: UseQueryOptions<ResponseProfile, ResponseError>,
+  queryOptions?: UseQueryOptions<
+    ResponseProfile,
+    ResponseError,
+    ResponseSelectProfile
+  >,
 ) {
-  return useQuery<ResponseProfile, ResponseError>(
+  return useQuery<ResponseProfile, ResponseError, ResponseSelectProfile>(
     [queryKeys.AUTH, queryKeys.GET_PROFILE],
     () => getProfile(),
     {
+      select: transformProfileCategory,
       useErrorBoundary: false,
       ...queryOptions,
     },
@@ -109,6 +127,18 @@ function useDeleteAccount(mutationOptions?: UseMutationCustomOptions) {
   });
 }
 
+function useEditCategory(mutationOptions?: UseMutationCustomOptions) {
+  return useMutation(editCategory, {
+    onSuccess: newProfile => {
+      queryClient.setQueryData(
+        [queryKeys.AUTH, queryKeys.GET_PROFILE],
+        newProfile,
+      );
+    },
+    ...mutationOptions,
+  });
+}
+
 function useAuth() {
   const signupMutation = useSignup();
   const loginMutation = useLogin();
@@ -122,6 +152,7 @@ function useAuth() {
   const deleteAccountMutation = useDeleteAccount({
     onSuccess: () => logoutMutation.mutate(null),
   });
+  const categoryMutation = useEditCategory();
 
   return {
     signupMutation,
@@ -132,6 +163,7 @@ function useAuth() {
     profileMutation,
     isLogin,
     deleteAccountMutation,
+    categoryMutation,
   };
 }
 

@@ -151,7 +151,7 @@ function PostEditor({isEdit = false, location}: PostEditorProps) {
               error={addPost.errors.title}
               touched={addPost.touched.title}
               placeholder="제목을 입력하세요."
-              maxLength={30}
+              maxLength={numbers.MAX_POST_TITLE_LENGTH}
               returnKeyType="next"
               blurOnSubmit={false}
               onSubmitEditing={() => {
@@ -164,7 +164,7 @@ function PostEditor({isEdit = false, location}: PostEditorProps) {
               touched={addPost.touched.description}
               ref={descriptionRef}
               placeholder="기록하고 싶은 내용을 입력하세요. (선택)"
-              maxLength={3000}
+              maxLength={numbers.MAX_POST_DESCRIPTION_LENGTH}
               returnKeyType="next"
               multiline
             />
