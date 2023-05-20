@@ -12,7 +12,7 @@ import type {StackScreenProps} from '@react-navigation/stack';
 
 import type {SettingStackParamList} from '@/navigations/stack/SettingStackNavigator';
 import EditCategoryHeaderRight from '@/components/setting/EditCategoryHeaderRight';
-import CustomKeyboardAvoidingView from '@/components/@keyboard/CustomKeyboardAvoidingView';
+import CustomKeyboardAvoidingView from '@/components/@common/CustomKeyboardAvoidingView';
 import InputField from '@/components/@common/InputField';
 import useAuth from '@/hooks/queries/useAuth';
 import useForm from '@/hooks/useForm';

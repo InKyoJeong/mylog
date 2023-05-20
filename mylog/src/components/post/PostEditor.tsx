@@ -14,7 +14,7 @@ import Octicons from 'react-native-vector-icons/Octicons';
 import type {FeedStackParamList} from '@/navigations/stack/FeedStackNavigator';
 import CustomButton from '../@common/CustomButton';
 import InputField from '../@common/InputField';
-import CustomKeyboardAvoidingView from '../@keyboard/CustomKeyboardAvoidingView';
+import CustomKeyboardAvoidingView from '../@common/CustomKeyboardAvoidingView';
 import MarkerSelector from './MarkerSelector';
 import ScoreInput from './ScoreInput';
 import ImageInput from './ImageInput';

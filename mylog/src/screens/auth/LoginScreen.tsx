@@ -1,10 +1,15 @@
 import React, {useRef} from 'react';
-import {View, TextInput, SafeAreaView, StyleSheet} from 'react-native';
+import {
+  View,
+  TextInput,
+  SafeAreaView,
+  StyleSheet,
+  ScrollView,
+} from 'react-native';
 
 import InputField from '@/components/@common/InputField';
 import CustomButton from '@/components/@common/CustomButton';
-import KeyboardPersistView from '@/components/@keyboard/KeyboardPersistView';
-import CustomKeyboardAvoidingView from '@/components/@keyboard/CustomKeyboardAvoidingView';
+import CustomKeyboardAvoidingView from '@/components/@common/CustomKeyboardAvoidingView';
 import useForm from '@/hooks/useForm';
 import useAuth from '@/hooks/queries/useAuth';
 import {validateLogin} from '@/utils/validate';
@@ -31,7 +36,11 @@ function LoginScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <KeyboardPersistView>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="always"
+        keyboardDismissMode="on-drag"
+        scrollIndicatorInsets={{right: 1}}>
         <CustomKeyboardAvoidingView>
           <View style={styles.inputContainer}>
             <InputField
@@ -68,7 +77,7 @@ function LoginScreen() {
             onPress={handleSubmit}
           />
         </CustomKeyboardAvoidingView>
-      </KeyboardPersistView>
+      </ScrollView>
     </SafeAreaView>
   );
 }
