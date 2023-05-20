@@ -6,6 +6,7 @@ import useAuth from '@/hooks/queries/useAuth';
 import Conditional from '../@common/Conditional';
 import {colorHex, colors} from '@/constants/colors';
 import {categoryList} from '@/constants/list';
+import {Category} from '@/types/domain';
 
 function MapLegend() {
   const insets = useSafeAreaInsets();
@@ -13,25 +14,28 @@ function MapLegend() {
   const {categories} = getProfileQuery.data || {};
 
   return (
-    <View style={[styles.container, {top: insets.top || 20}]}>
-      {categoryList.map((color, i) => {
-        return (
-          <Fragment key={i}>
-            <Conditional condition={categories?.[color] !== ''}>
-              <View style={styles.colmn}>
-                <View
-                  style={[
-                    styles.legendColor,
-                    {backgroundColor: colorHex[color]},
-                  ]}
-                />
-                <Text style={styles.legendText}>{categories?.[color]}</Text>
-              </View>
-            </Conditional>
-          </Fragment>
-        );
-      })}
-    </View>
+    <Conditional
+      condition={Object.values(categories as Category).join('') !== ''}>
+      <View style={[styles.container, {top: insets.top || 20}]}>
+        {categoryList.map((color, i) => {
+          return (
+            <Fragment key={i}>
+              <Conditional condition={categories?.[color] !== ''}>
+                <View style={styles.colmn}>
+                  <View
+                    style={[
+                      styles.legendColor,
+                      {backgroundColor: colorHex[color]},
+                    ]}
+                  />
+                  <Text style={styles.legendText}>{categories?.[color]}</Text>
+                </View>
+              </Conditional>
+            </Fragment>
+          );
+        })}
+      </View>
+    </Conditional>
   );
 }
 
@@ -39,7 +43,7 @@ const styles = StyleSheet.create({
   container: {
     position: 'absolute',
     right: 15,
-    backgroundColor: 'rgba(0,0,0,0.1)',
+    backgroundColor: 'rgba(0,0,0,0.5)',
     padding: 10,
     borderRadius: 10,
     gap: 3,
@@ -55,7 +59,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   legendText: {
-    color: colors.BLACK,
+    color: colors.WHITE,
+    fontWeight: '500',
     fontSize: 13,
   },
 });
