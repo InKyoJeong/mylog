@@ -18,27 +18,12 @@ import useAuth from '@/hooks/queries/useAuth';
 import useForm from '@/hooks/useForm';
 import useSnackbarStore from '@/store/useSnackbarStore';
 import {validateCategory} from '@/utils/validate';
+import {categoryList, categoryPlaceholderList} from '@/constants/list';
 import {colorHex, colors} from '@/constants/colors';
 import {successMessages} from '@/constants/messages';
 import {numbers} from '@/constants/numbers';
-import type {MarkerColor} from '@/types/domain';
 
 type EditCategoryScreenProps = StackScreenProps<SettingStackParamList>;
-
-const categoryList: MarkerColor[] = [
-  'RED',
-  'YELLOW',
-  'GREEN',
-  'BLUE',
-  'PURPLE',
-];
-const categoryPlaceholder = [
-  'ex) 음식점',
-  'ex) 카페',
-  'ex) 병원',
-  'ex) 여행지',
-  'ex) 도서관',
-];
 
 function EditCategoryScreen({navigation}: EditCategoryScreenProps) {
   const snackbar = useSnackbarStore();
@@ -99,7 +84,7 @@ function EditCategoryScreen({navigation}: EditCategoryScreenProps) {
                       {...category.getTextInputProps(color)}
                       error={category.errors[color]}
                       touched={category.touched[color]}
-                      placeholder={categoryPlaceholder[i]}
+                      placeholder={categoryPlaceholderList[i]}
                       ref={el => (refArray.current[i] = el)}
                       autoFocus={color === 'RED'}
                       maxLength={numbers.MAX_CATEGORY_LENGTH}

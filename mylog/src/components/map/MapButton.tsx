@@ -13,7 +13,7 @@ function MapButton({children, ...props}: PropsWithChildren<PressableProps>) {
 
 const styles = StyleSheet.create({
   container: {
-    margin: 5,
+    marginVertical: 5,
     justifyContent: 'center',
     alignItems: 'center',
     height: 48,
