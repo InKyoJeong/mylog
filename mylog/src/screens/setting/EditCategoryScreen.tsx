@@ -25,6 +25,15 @@ import type {MarkerColor} from '@/types/domain';
 
 type EditCategoryScreenProps = StackScreenProps<SettingStackParamList>;
 
+const categoryList = ['RED', 'YELLOW', 'GREEN', 'BLUE', 'PURPLE'];
+const categoryPlaceholder = [
+  'ex) 음식점',
+  'ex) 카페',
+  'ex) 병원',
+  'ex) 여행지',
+  'ex) 도서관',
+];
+
 function EditCategoryScreen({navigation}: EditCategoryScreenProps) {
   const snackbar = useSnackbarStore();
   const refArray = useRef<(TextInput | null)[]>([]);
@@ -70,7 +79,7 @@ function EditCategoryScreen({navigation}: EditCategoryScreenProps) {
           </Animated.View>
 
           <View style={styles.formContainer}>
-            {['RED', 'YELLOW', 'GREEN', 'BLUE', 'PURPLE'].map((color, i) => {
+            {categoryList.map((color, i) => {
               return (
                 <View key={i} style={styles.categoryContainer}>
                   <View
@@ -84,8 +93,9 @@ function EditCategoryScreen({navigation}: EditCategoryScreenProps) {
                       {...category.getTextInputProps(color as MarkerColor)}
                       error={category.errors[color]}
                       touched={category.touched[color]}
-                      autoFocus={color === 'RED'}
+                      placeholder={categoryPlaceholder[i]}
                       ref={el => (refArray.current[i] = el)}
+                      autoFocus={color === 'RED'}
                       maxLength={numbers.MAX_CATEGORY_LENGTH}
                       returnKeyType="next"
                       blurOnSubmit={false}
