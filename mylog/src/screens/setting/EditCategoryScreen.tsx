@@ -25,7 +25,13 @@ import type {MarkerColor} from '@/types/domain';
 
 type EditCategoryScreenProps = StackScreenProps<SettingStackParamList>;
 
-const categoryList = ['RED', 'YELLOW', 'GREEN', 'BLUE', 'PURPLE'];
+const categoryList: MarkerColor[] = [
+  'RED',
+  'YELLOW',
+  'GREEN',
+  'BLUE',
+  'PURPLE',
+];
 const categoryPlaceholder = [
   'ex) 음식점',
   'ex) 카페',
@@ -85,12 +91,12 @@ function EditCategoryScreen({navigation}: EditCategoryScreenProps) {
                   <View
                     style={[
                       styles.category,
-                      {backgroundColor: colorHex[color as MarkerColor]},
+                      {backgroundColor: colorHex[color]},
                     ]}
                   />
                   <View style={styles.inputContainer}>
                     <InputField
-                      {...category.getTextInputProps(color as MarkerColor)}
+                      {...category.getTextInputProps(color)}
                       error={category.errors[color]}
                       touched={category.touched[color]}
                       placeholder={categoryPlaceholder[i]}
