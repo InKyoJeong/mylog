@@ -20,6 +20,7 @@ import type {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator
 import CustomMarker from '@/components/@common/CustomMarker';
 import MapButton from '@/components/map/MapButton';
 import MarkerModal from '@/components/map/MarkerModal';
+import MapLegend from '@/components/map/MapLegend';
 import usePermission from '@/hooks/usePermission';
 import useUserLocation from '@/hooks/useUserLocation';
 import useMoveMapView from '@/hooks/useMoveMapView';
@@ -32,6 +33,8 @@ import {colors} from '@/constants/colors';
 import {alerts, errorMessages} from '@/constants/messages';
 import {numbers, zIndex} from '@/constants/numbers';
 import getMapStyle from '@/style/mapStyle';
+import useLegendStorage from '@/hooks/useLegendStorage';
+import Conditional from '@/components/@common/Conditional';
 
 type MapHomeScreenProps = CompositeScreenProps<
   StackScreenProps<MapStackParamList, typeof mapNavigations.MAP_HOME>,
@@ -41,6 +44,7 @@ type MapHomeScreenProps = CompositeScreenProps<
 function MapHomeScreen({navigation}: MapHomeScreenProps) {
   const insets = useSafeAreaInsets();
   const {data: markers = []} = useGetMarkers();
+  const legendStorage = useLegendStorage();
   const {mapRef, moveMapView, handleChangeDelta} = useMoveMapView();
   const {userLocation, isUserLocationError} = useUserLocation();
   const {selectLocation, setSelectLocation} = useLocationStore();
@@ -125,6 +129,10 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
         onPress={() => navigation.openDrawer()}>
         <Ionicons name={'md-menu-sharp'} color={colors.WHITE} size={30} />
       </Pressable>
+
+      <Conditional condition={legendStorage.isVisible}>
+        <MapLegend />
+      </Conditional>
 
       <View style={styles.buttonList}>
         <MapButton onPress={handlePressAddPost}>

@@ -1,8 +1,7 @@
 import React from 'react';
 
 import {CompoundModal} from '../@common/CompoundModal';
-import useAsyncStorage from '@/hooks/useAsyncStorage';
-import {storageKeys} from '@/constants/keys';
+import useLegendStorage from '@/hooks/useLegendStorage';
 
 interface SettingMapLegendModalProps {
   isVisible: boolean;
@@ -13,7 +12,7 @@ function SettingMapLegendModal({
   isVisible,
   hideOption,
 }: SettingMapLegendModalProps) {
-  const legendStorage = useAsyncStorage(storageKeys.SHOW_LEGEND, false);
+  const legendStorage = useLegendStorage();
 
   const handlePressShow = () => {
     legendStorage.set(true);
@@ -31,13 +30,13 @@ function SettingMapLegendModal({
         <CompoundModal.OptionButtonList>
           <CompoundModal.OptionButton
             onPress={handlePressShow}
-            isChecked={legendStorage.data}>
+            isChecked={legendStorage.isVisible}>
             표시하기
           </CompoundModal.OptionButton>
           <CompoundModal.OptionDivider />
           <CompoundModal.OptionButton
             onPress={handlePressHide}
-            isChecked={!legendStorage.data}>
+            isChecked={!legendStorage.isVisible}>
             숨기기
           </CompoundModal.OptionButton>
         </CompoundModal.OptionButtonList>
