@@ -16,14 +16,18 @@ import type {FeedStackParamList} from '@/navigations/stack/FeedStackNavigator';
 import CustomMarker from '../@common/CustomMarker';
 import Conditional from '../@common/Conditional';
 import {getDateWithSeparator} from '@/utils/date';
+import useThemeStore from '@/store/useThemeStore';
 import {feedNavigations} from '@/constants/navigations';
 import {colors} from '@/constants/colors';
+import type {ThemeMode} from '@/types';
 
 interface FeedItemProps {
   post: ResponsePost;
 }
 
 function FeedItem({post}: FeedItemProps) {
+  const {theme} = useThemeStore();
+  const styles = styling(theme);
   const navigation = useNavigation<StackNavigationProp<FeedStackParamList>>();
 
   const handlePressFeed = () => {
@@ -49,8 +53,8 @@ function FeedItem({post}: FeedItemProps) {
             <View style={[styles.imageContainer, styles.emptyImageContainer]}>
               <CustomMarker
                 size="medium"
-                borderColor={colors.GRAY_200}
-                innerColor={colors.WHITE}
+                borderColor={colors[theme].GRAY_200}
+                innerColor={colors[theme].WHITE}
               />
             </View>
           </Conditional>
@@ -67,42 +71,43 @@ function FeedItem({post}: FeedItemProps) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    margin: 5,
-    marginVertical: 12,
-  },
-  imageContainer: {
-    width: Dimensions.get('screen').width / 2 - 25,
-    height: Dimensions.get('screen').width / 2 - 25,
-  },
-  image: {
-    width: '100%',
-    height: '100%',
-    borderRadius: 5,
-  },
-  emptyImageContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderColor: colors.GRAY_200,
-    borderRadius: 5,
-    borderWidth: 1,
-  },
-  textContainer: {
-    marginTop: 7,
-    gap: 2,
-  },
-  dateText: {
-    color: colors.PINK_700,
-    fontWeight: '600',
-    fontSize: 12,
-  },
-  titleText: {
-    color: colors.BLACK,
-    fontWeight: '400',
-    fontSize: 13,
-  },
-});
+const styling = (theme: ThemeMode) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      margin: 5,
+      marginVertical: 12,
+    },
+    imageContainer: {
+      width: Dimensions.get('screen').width / 2 - 25,
+      height: Dimensions.get('screen').width / 2 - 25,
+    },
+    image: {
+      width: '100%',
+      height: '100%',
+      borderRadius: 5,
+    },
+    emptyImageContainer: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderColor: colors[theme].GRAY_200,
+      borderRadius: 5,
+      borderWidth: 1,
+    },
+    textContainer: {
+      marginTop: 7,
+      gap: 2,
+    },
+    dateText: {
+      color: colors[theme].PINK_700,
+      fontWeight: '600',
+      fontSize: 12,
+    },
+    titleText: {
+      color: colors[theme].BLACK,
+      fontWeight: '400',
+      fontSize: 13,
+    },
+  });
 
 export default FeedItem;

@@ -1,7 +1,9 @@
 import React, {ReactNode} from 'react';
 import {StyleSheet, Text, Pressable, PressableProps, View} from 'react-native';
 
+import useThemeStore from '@/store/useThemeStore';
 import {colors} from '@/constants/colors';
+import type {ThemeMode} from '@/types';
 
 interface SettingItemProps extends PressableProps {
   title: string;
@@ -14,9 +16,12 @@ function SettingItem({
   title,
   subTitle,
   icon = null,
-  color = colors.BLACK,
+  color,
   ...props
 }: SettingItemProps) {
+  const {theme} = useThemeStore();
+  const styles = styling(theme);
+
   return (
     <Pressable
       style={({pressed}) => [
@@ -26,38 +31,44 @@ function SettingItem({
       {...props}>
       {icon}
       <View style={styles.titleContainer}>
-        <Text style={[styles.titleText, {color}]}>{title}</Text>
+        <Text style={[styles.titleText, {color: color ?? colors[theme].BLACK}]}>
+          {title}
+        </Text>
         {subTitle && <Text style={styles.subTitleText}>{subTitle}</Text>}
       </View>
     </Pressable>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 10,
-    padding: 15,
-    backgroundColor: colors.WHITE,
-    borderColor: colors.GRAY_200,
-    borderWidth: StyleSheet.hairlineWidth,
-  },
-  pressedContainer: {
-    backgroundColor: colors.GRAY_100,
-  },
-  titleContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  titleText: {
-    fontSize: 16,
-    fontWeight: '500',
-  },
-  subTitleText: {
-    color: colors.GRAY_500,
-  },
-});
+const styling = (theme: ThemeMode) =>
+  StyleSheet.create({
+    container: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 10,
+      padding: 15,
+      backgroundColor:
+        theme === 'light' ? colors[theme].WHITE : colors[theme].GRAY_100,
+      borderColor: colors[theme].GRAY_200,
+      borderBottomWidth: StyleSheet.hairlineWidth,
+      borderTopWidth: StyleSheet.hairlineWidth,
+    },
+    pressedContainer: {
+      backgroundColor: colors[theme].GRAY_100,
+    },
+    titleContainer: {
+      flex: 1,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+    },
+    titleText: {
+      fontSize: 16,
+      fontWeight: '500',
+      color: colors[theme].BLACK,
+    },
+    subTitleText: {
+      color: colors[theme].GRAY_500,
+    },
+  });
 
 export default SettingItem;

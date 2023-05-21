@@ -13,8 +13,10 @@ import SettingStackNavigator, {
 } from '../stack/SettingStackNavigator';
 import FeedTabNavigator, {FeedTabParamList} from '../tab/FeedTabNavigator';
 import CustomDrawerContent from './CustomDrawerContent';
+import useThemeStore from '@/store/useThemeStore';
 import {mainNavigations} from '@/constants/navigations';
 import {colors} from '@/constants/colors';
+import {ThemeMode} from '@/types';
 
 export type MainDrawerParamList = {
   [mainNavigations.HOME]: NavigatorScreenParams<MapStackParamList>;
@@ -25,7 +27,11 @@ export type MainDrawerParamList = {
 
 const Drawer = createDrawerNavigator<MainDrawerParamList>();
 
-function DrawerIcons(route: RouteProp<MainDrawerParamList>, focused: boolean) {
+function DrawerIcons(
+  route: RouteProp<MainDrawerParamList>,
+  focused: boolean,
+  theme: ThemeMode,
+) {
   let iconName = '';
 
   switch (route.name) {
@@ -50,13 +56,15 @@ function DrawerIcons(route: RouteProp<MainDrawerParamList>, focused: boolean) {
   return (
     <Ionicons
       name={iconName}
-      color={focused ? colors.BLACK : colors.GRAY_700}
+      color={focused ? colors[theme].UNCHANGE_BLACK : colors[theme].GRAY_500}
       size={18}
     />
   );
 }
 
 function MainDrawerNavigator() {
+  const {theme} = useThemeStore();
+
   return (
     <Drawer.Navigator
       drawerContent={CustomDrawerContent}
@@ -65,17 +73,21 @@ function MainDrawerNavigator() {
         drawerType: 'front',
         drawerStyle: {
           width: Dimensions.get('screen').width * 0.6,
+          backgroundColor: colors[theme].WHITE,
         },
-        drawerActiveTintColor: colors.BLACK,
-        drawerInactiveTintColor: colors.GRAY_700,
-        drawerActiveBackgroundColor: colors.PINK_200,
+        drawerActiveTintColor: colors[theme].UNCHANGE_BLACK,
+        drawerInactiveTintColor: colors[theme].GRAY_500,
+        drawerActiveBackgroundColor:
+          theme === 'light' ? colors[theme].PINK_200 : colors[theme].PINK_500,
+        drawerInactiveBackgroundColor: colors[theme].GRAY_100,
         drawerLabelStyle: {
           fontWeight: '600',
         },
-        drawerContentStyle: {
-          backgroundColor: colors.WHITE,
+        drawerItemStyle: {
+          borderRadius: 3,
         },
-        drawerIcon: ({focused}) => DrawerIcons(route, focused),
+
+        drawerIcon: ({focused}) => DrawerIcons(route, focused, theme),
       })}>
       <Drawer.Screen
         name={mainNavigations.HOME}

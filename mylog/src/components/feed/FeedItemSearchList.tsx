@@ -11,10 +11,14 @@ import InfoMessage from '../@common/InfoMessage';
 import FeedItem from './FeedItem';
 import {useGetInifiniteSearchPosts} from '@/hooks/queries/usePost';
 import useDebounce from '@/hooks/useDebounce';
+import useThemeStore from '@/store/useThemeStore';
 import {colors} from '@/constants/colors';
 import {numbers} from '@/constants/numbers';
+import type {ThemeMode} from '@/types';
 
 function FeedItemSearchList() {
+  const {theme} = useThemeStore();
+  const styles = styling(theme);
   const navigation = useNavigation<DrawerNavigationProp<MainDrawerParamList>>();
   const [keyword, setKeyword] = useState('');
   const debouncedSearchText = useDebounce(
@@ -55,7 +59,11 @@ function FeedItemSearchList() {
           <Pressable
             style={styles.drawerIconContainer}
             onPress={() => navigation.openDrawer()}>
-            <Ionicons name={'md-menu-sharp'} color={colors.BLACK} size={25} />
+            <Ionicons
+              name={'md-menu-sharp'}
+              color={colors[theme].BLACK}
+              size={25}
+            />
           </Pressable>
           <Animated.View
             style={styles.inputContainer}
@@ -78,28 +86,29 @@ function FeedItemSearchList() {
   );
 }
 
-const styles = StyleSheet.create({
-  contentContainer: {
-    paddingHorizontal: 15,
-  },
-  headerContainer: {
-    flexDirection: 'row',
-    gap: 5,
-    backgroundColor: colors.WHITE,
-    paddingHorizontal: 5,
-    paddingTop: 5,
-    paddingBottom: 10,
-  },
-  drawerIconContainer: {
-    justifyContent: 'center',
-    paddingHorizontal: 8,
-    borderWidth: 1,
-    borderColor: colors.GRAY_200,
-    borderRadius: 5,
-  },
-  inputContainer: {
-    flex: 1,
-  },
-});
+const styling = (theme: ThemeMode) =>
+  StyleSheet.create({
+    contentContainer: {
+      paddingHorizontal: 15,
+    },
+    headerContainer: {
+      flexDirection: 'row',
+      gap: 5,
+      backgroundColor: colors[theme].WHITE,
+      paddingHorizontal: 5,
+      paddingTop: 5,
+      paddingBottom: 10,
+    },
+    drawerIconContainer: {
+      justifyContent: 'center',
+      paddingHorizontal: 8,
+      borderWidth: 1,
+      borderColor: colors[theme].GRAY_200,
+      borderRadius: 5,
+    },
+    inputContainer: {
+      flex: 1,
+    },
+  });
 
 export default FeedItemSearchList;

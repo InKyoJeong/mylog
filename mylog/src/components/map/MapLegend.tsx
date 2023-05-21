@@ -3,12 +3,16 @@ import {StyleSheet, Text, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 import useAuth from '@/hooks/queries/useAuth';
+import useThemeStore from '@/store/useThemeStore';
 import Conditional from '../@common/Conditional';
 import {colorHex, colors} from '@/constants/colors';
 import {categoryList} from '@/constants/list';
 import {Category} from '@/types/domain';
+import type {ThemeMode} from '@/types';
 
 function MapLegend() {
+  const {theme} = useThemeStore();
+  const styles = styling(theme);
   const insets = useSafeAreaInsets();
   const {getProfileQuery} = useAuth();
   const {categories} = getProfileQuery.data || {};
@@ -25,7 +29,7 @@ function MapLegend() {
                   <View
                     style={[
                       styles.legendColor,
-                      {backgroundColor: colorHex[color]},
+                      {backgroundColor: colorHex(theme)[color]},
                     ]}
                   />
                   <Text style={styles.legendText}>{categories?.[color]}</Text>
@@ -39,30 +43,31 @@ function MapLegend() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    position: 'absolute',
-    right: 15,
-    backgroundColor: 'rgba(0,0,0,0.5)',
-    padding: 10,
-    borderRadius: 10,
-    gap: 3,
-  },
-  colmn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 5,
-  },
-  legendColor: {
-    width: 10,
-    height: 10,
-    borderRadius: 10,
-  },
-  legendText: {
-    color: colors.WHITE,
-    fontWeight: '500',
-    fontSize: 13,
-  },
-});
+const styling = (theme: ThemeMode) =>
+  StyleSheet.create({
+    container: {
+      position: 'absolute',
+      right: 15,
+      backgroundColor: 'rgba(0,0,0,0.5)',
+      padding: 10,
+      borderRadius: 10,
+      gap: 3,
+    },
+    colmn: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 5,
+    },
+    legendColor: {
+      width: 10,
+      height: 10,
+      borderRadius: 10,
+    },
+    legendText: {
+      color: colors[theme].UNCHANGE_WHITE,
+      fontWeight: '500',
+      fontSize: 13,
+    },
+  });
 
 export default MapLegend;

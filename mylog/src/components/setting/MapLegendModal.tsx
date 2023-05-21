@@ -3,24 +3,21 @@ import React from 'react';
 import {CompoundModal} from '../@common/CompoundModal';
 import useLegendStorage from '@/hooks/useLegendStorage';
 
-interface SettingMapLegendModalProps {
+interface MapLegendModalProps {
   isVisible: boolean;
   hideOption: () => void;
 }
 
-function SettingMapLegendModal({
-  isVisible,
-  hideOption,
-}: SettingMapLegendModalProps) {
-  const legendStorage = useLegendStorage();
+function MapLegendModal({isVisible, hideOption}: MapLegendModalProps) {
+  const {isVisible: isVisibleLegend, set} = useLegendStorage();
 
   const handlePressShow = () => {
-    legendStorage.set(true);
+    set(true);
     hideOption();
   };
 
   const handlePressHide = () => {
-    legendStorage.set(false);
+    set(false);
     hideOption();
   };
 
@@ -30,13 +27,13 @@ function SettingMapLegendModal({
         <CompoundModal.OptionButtonList>
           <CompoundModal.OptionButton
             onPress={handlePressShow}
-            isChecked={legendStorage.isVisible}>
+            isChecked={isVisibleLegend}>
             표시하기
           </CompoundModal.OptionButton>
           <CompoundModal.OptionDivider />
           <CompoundModal.OptionButton
             onPress={handlePressHide}
-            isChecked={!legendStorage.isVisible}>
+            isChecked={!isVisibleLegend}>
             숨기기
           </CompoundModal.OptionButton>
         </CompoundModal.OptionButtonList>
@@ -51,4 +48,4 @@ function SettingMapLegendModal({
   );
 }
 
-export default SettingMapLegendModal;
+export default MapLegendModal;

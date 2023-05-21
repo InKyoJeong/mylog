@@ -1,3 +1,5 @@
+import {ThemeMode} from '@/types';
+
 const common = {
   PINK_200: '#FAE2E9',
   PINK_400: '#EC87A5',
@@ -11,39 +13,41 @@ const common = {
   YELLOW_400: '#FFE594',
   YELLOW_500: '#FACC15',
   PURPLE_400: '#C4C4E7',
+  UNCHANGE_WHITE: '#FFF',
+  UNCHANGE_BLACK: '#000',
 };
 
 const colors = {
+  light: {
+    WHITE: '#FFF',
+    GRAY_100: '#F8F8F8',
+    GRAY_200: '#E7E7E7',
+    GRAY_300: '#D8D8D8',
+    GRAY_500: '#8E8E8E',
+    GRAY_700: '#575757',
+    BLACK: '#161616',
+    ...common,
+  },
   dark: {
     WHITE: '#161616',
-    GRAY_100: '#313131',
-    GRAY_200: '#575757',
-    GRAY_300: '#D8D8D8',
-    GRAY_500: '#E3E8EE',
+    GRAY_100: '#202124',
+    GRAY_200: '#3C4043',
+    GRAY_300: '#5e5e5e',
+    GRAY_500: '#8E8E8E',
     GRAY_700: '#F8F8F8',
     BLACK: '#fff',
     ...common,
   },
-  light: {
-    WHITE: '#FFF',
-    GRAY_100: '#F8F8F8',
-    GRAY_200: '#E3E8EE',
-    GRAY_300: '#D8D8D8',
-    GRAY_500: '#8E8E8E',
-    GRAY_700: '#575757',
-    BLACK: '#000',
-    ...common,
-  },
 } as const;
 
-const colorHex = {
-  RED: colors.light.PINK_400,
-  BLUE: colors.light.BLUE_400,
-  GREEN: colors.light.GREEN_400,
-  YELLOW: colors.light.YELLOW_400,
-  PURPLE: colors.light.PURPLE_400,
-  GRAY: colors.light.GRAY_200,
-  PINK: colors.light.PINK_700,
-};
+const colorHex = (theme: ThemeMode = 'light') => ({
+  RED: colors[theme].PINK_400,
+  BLUE: colors[theme].BLUE_400,
+  GREEN: colors[theme].GREEN_400,
+  YELLOW: colors[theme].YELLOW_400,
+  PURPLE: colors[theme].PURPLE_400,
+  GRAY: colors[theme].GRAY_200,
+  PINK: colors[theme].PINK_700,
+});
 
 export {colors, colorHex};

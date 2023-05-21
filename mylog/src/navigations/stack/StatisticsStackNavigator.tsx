@@ -1,11 +1,9 @@
 import React from 'react';
-import {
-  StackNavigationOptions,
-  createStackNavigator,
-} from '@react-navigation/stack';
+import {createStackNavigator} from '@react-navigation/stack';
 
 import StatisticsScreen from '@/screens/statistics/StatisticsScreen';
 import StatisticsHeaderLeft from '@/components/statistics/StatisticsHeaderLeft';
+import useThemeStore from '@/store/useThemeStore';
 import {statisticsNavigations} from '@/constants/navigations';
 import {colors} from '@/constants/colors';
 
@@ -15,22 +13,24 @@ export type StatisticsStackParamList = {
 
 const Stack = createStackNavigator<StatisticsStackParamList>();
 
-const statisticsStackOptions: StackNavigationOptions = {
-  headerStyle: {
-    backgroundColor: colors.WHITE,
-  },
-  headerTitleStyle: {
-    fontSize: 15,
-  },
-  headerTintColor: colors.BLACK,
-  cardStyle: {
-    backgroundColor: colors.WHITE,
-  },
-};
-
 function StatisticsStackNavigator() {
+  const {theme} = useThemeStore();
+
   return (
-    <Stack.Navigator screenOptions={statisticsStackOptions}>
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: colors[theme].WHITE,
+          shadowColor: colors[theme].GRAY_200,
+        },
+        headerTitleStyle: {
+          fontSize: 15,
+        },
+        headerTintColor: colors[theme].BLACK,
+        cardStyle: {
+          backgroundColor: colors[theme].WHITE,
+        },
+      }}>
       <Stack.Screen
         name={statisticsNavigations.STATISTICS_HOME}
         component={StatisticsScreen}

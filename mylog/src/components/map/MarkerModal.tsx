@@ -10,10 +10,12 @@ import type {FeedTabParamList} from '@/navigations/tab/FeedTabNavigator';
 import {CompoundModal} from '../@common/CompoundModal';
 import {useGetPost} from '@/hooks/queries/usePost';
 import useMarkerStore from '@/store/useMarkerStore';
+import useThemeStore from '@/store/useThemeStore';
 import {getDateWithSeparator} from '@/utils/date';
 import {feedNavigations, feedTabNavigations} from '@/constants/navigations';
 import {mainNavigations} from '@/constants/navigations';
 import {colors} from '@/constants/colors';
+import type {ThemeMode} from '@/types';
 
 type Navigation = CompositeNavigationProp<
   DrawerNavigationProp<MainDrawerParamList>,
@@ -21,6 +23,8 @@ type Navigation = CompositeNavigationProp<
 >;
 
 function MarkerModal() {
+  const {theme} = useThemeStore();
+  const styles = styling(theme);
   const navigation = useNavigation<Navigation>();
   const {markerId, isVisible, hideModal} = useMarkerStore();
   const {data: post, isLoading, isError} = useGetPost(markerId);
@@ -53,7 +57,11 @@ function MarkerModal() {
               <CompoundModal.CardImage imageUris={post.images} />
               <View style={styles.markerInfoContainer}>
                 <View style={styles.addressContainer}>
-                  <Octicons name="location" size={10} color={colors.GRAY_500} />
+                  <Octicons
+                    name="location"
+                    size={10}
+                    color={colors[theme].GRAY_500}
+                  />
                   <Text
                     style={styles.addressText}
                     ellipsizeMode="tail"
@@ -75,42 +83,43 @@ function MarkerModal() {
   );
 }
 
-const styles = StyleSheet.create({
-  cardAlign: {
-    width: '100%',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  infoAlign: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  markerInfoContainer: {
-    width: Dimensions.get('screen').width / 2,
-    marginLeft: 15,
-    gap: 5,
-  },
-  addressContainer: {
-    gap: 5,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  addressText: {
-    color: colors.GRAY_500,
-    fontSize: 10,
-  },
-  titleText: {
-    color: colors.BLACK,
-    fontSize: 15,
-    fontWeight: 'bold',
-  },
-  dateText: {
-    fontSize: 12,
-    fontWeight: 'bold',
-    color: colors.PINK_700,
-  },
-});
+const styling = (theme: ThemeMode) =>
+  StyleSheet.create({
+    cardAlign: {
+      width: '100%',
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+    },
+    infoAlign: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    markerInfoContainer: {
+      width: Dimensions.get('screen').width / 2,
+      marginLeft: 15,
+      gap: 5,
+    },
+    addressContainer: {
+      gap: 5,
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    addressText: {
+      color: colors[theme].GRAY_500,
+      fontSize: 10,
+    },
+    titleText: {
+      color: colors[theme].BLACK,
+      fontSize: 15,
+      fontWeight: 'bold',
+    },
+    dateText: {
+      fontSize: 12,
+      fontWeight: 'bold',
+      color: colors[theme].PINK_700,
+    },
+  });
 
 export default MarkerModal;

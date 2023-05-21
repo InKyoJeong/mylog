@@ -3,7 +3,9 @@ import {Platform, SafeAreaView, StyleSheet, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 import Conditional from './Conditional';
+import useThemeStore from '@/store/useThemeStore';
 import {colors} from '@/constants/colors';
+import type {ThemeMode} from '@/types';
 
 interface StickyHeaderProps {
   isScrolled: boolean;
@@ -13,6 +15,8 @@ function StickyHeader({
   isScrolled,
   children,
 }: PropsWithChildren<StickyHeaderProps>) {
+  const {theme} = useThemeStore();
+  const styles = styling(theme);
   const insets = useSafeAreaInsets();
 
   return (
@@ -54,28 +58,30 @@ function StickyHeader({
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    position: 'absolute',
-    top: 0,
-    zIndex: 1,
-    width: '100%',
-  },
-  inner: {
-    paddingHorizontal: 20,
-    paddingVertical: 5,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  scrolledContainer: {
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderColor: colors.GRAY_300,
-  },
-  androidUnScrolledContainer: {
-    backgroundColor: 'rgba(255, 255, 255, 0.01)',
-  },
-});
+const styling = (theme: ThemeMode) =>
+  StyleSheet.create({
+    container: {
+      position: 'absolute',
+      top: 0,
+      zIndex: 1,
+      width: '100%',
+    },
+    inner: {
+      paddingHorizontal: 20,
+      paddingVertical: 5,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    },
+    scrolledContainer: {
+      backgroundColor:
+        theme === 'light' ? 'rgba(255, 255, 255, 0.9)' : 'rgba(0, 0, 0, 0.6)',
+      borderBottomWidth: StyleSheet.hairlineWidth,
+      borderColor: colors[theme].GRAY_200,
+    },
+    androidUnScrolledContainer: {
+      backgroundColor: 'rgba(255, 255, 255, 0.01)',
+    },
+  });
 
 export default StickyHeader;

@@ -3,6 +3,7 @@ import Octicons from 'react-native-vector-icons/Octicons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import StickyHeader from '../@common/StickyHeader';
+import useThemeStore from '@/store/useThemeStore';
 import {colors} from '@/constants/colors';
 
 interface FeedDetailHeaderProps {
@@ -16,18 +17,20 @@ function FeedDetailHeader({
   onPressLeft,
   onPressRight,
 }: FeedDetailHeaderProps) {
+  const {theme} = useThemeStore();
+
   return (
     <StickyHeader isScrolled={isScrolled}>
       <Octicons
         name="arrow-left"
         size={30}
-        color={isScrolled ? colors.BLACK : colors.WHITE}
+        color={isScrolled ? colors[theme].BLACK : colors[theme].WHITE}
         onPress={onPressLeft}
       />
       <Ionicons
         name="ellipsis-vertical"
         size={25}
-        color={isScrolled ? colors.BLACK : colors.WHITE}
+        color={isScrolled ? colors[theme].BLACK : colors[theme].WHITE}
         onPress={onPressRight}
       />
     </StickyHeader>

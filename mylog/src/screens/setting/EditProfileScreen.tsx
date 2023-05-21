@@ -14,14 +14,18 @@ import useAuth from '@/hooks/queries/useAuth';
 import useModal from '@/hooks/useModal';
 import useImagePicker from '@/hooks/useImagePicker';
 import useSnackbarStore from '@/store/useSnackbarStore';
+import useThemeStore from '@/store/useThemeStore';
 import {validateEditProfile} from '@/utils/validate';
 import {colors} from '@/constants/colors';
 import {successMessages} from '@/constants/messages';
 import {numbers} from '@/constants/numbers';
+import type {ThemeMode} from '@/types';
 
 type EditProfileScreenProps = StackScreenProps<SettingStackParamList>;
 
 function EditProfileScreen({navigation}: EditProfileScreenProps) {
+  const {theme} = useThemeStore();
+  const styles = styling(theme);
   const snackbar = useSnackbarStore();
   const imageOption = useModal();
   const {getProfileQuery, profileMutation} = useAuth();
@@ -76,7 +80,11 @@ function EditProfileScreen({navigation}: EditProfileScreenProps) {
           style={[styles.imageContainer, styles.emptyImageContainer]}
           onPress={handlePressImage}>
           <Conditional condition={imagePicker.imageUris.length === 0}>
-            <Ionicons name="camera-outline" size={30} color={colors.GRAY_500} />
+            <Ionicons
+              name="camera-outline"
+              size={30}
+              color={colors[theme].GRAY_500}
+            />
           </Conditional>
 
           <Conditional condition={imagePicker.imageUris.length > 0}>
@@ -87,7 +95,7 @@ function EditProfileScreen({navigation}: EditProfileScreenProps) {
               style={styles.image}
             />
             <View style={styles.cameraButton}>
-              <Ionicons name="camera" size={18} color={colors.WHITE} />
+              <Ionicons name="camera" size={18} color={colors[theme].WHITE} />
             </View>
           </Conditional>
         </Pressable>
@@ -117,60 +125,61 @@ function EditProfileScreen({navigation}: EditProfileScreenProps) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-  },
-  profileContainer: {
-    alignItems: 'center',
-    marginTop: 20,
-    marginBottom: 40,
-  },
-  image: {
-    width: '100%',
-    height: '100%',
-    borderRadius: 50,
-  },
-  imageContainer: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-  },
-  emptyImageContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderColor: colors.GRAY_200,
-    borderRadius: 50,
-    borderWidth: 1,
-  },
-  cameraButton: {
-    position: 'absolute',
-    bottom: 1,
-    right: 1,
-    backgroundColor: colors.PINK_700,
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 30,
-    height: 30,
-    borderRadius: 30,
-  },
-  idContainer: {
-    flexDirection: 'row',
-    gap: 7,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 10,
-  },
-  idTextContainer: {
-    backgroundColor: colors.GRAY_200,
-    paddingHorizontal: 5,
-    paddingVertical: 2,
-    borderRadius: 5,
-  },
-  nameText: {
-    color: colors.BLACK,
-  },
-});
+const styling = (theme: ThemeMode) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      padding: 20,
+    },
+    profileContainer: {
+      alignItems: 'center',
+      marginTop: 20,
+      marginBottom: 40,
+    },
+    image: {
+      width: '100%',
+      height: '100%',
+      borderRadius: 50,
+    },
+    imageContainer: {
+      width: 100,
+      height: 100,
+      borderRadius: 50,
+    },
+    emptyImageContainer: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderColor: colors[theme].GRAY_200,
+      borderRadius: 50,
+      borderWidth: 1,
+    },
+    cameraButton: {
+      position: 'absolute',
+      bottom: 1,
+      right: 1,
+      backgroundColor: colors[theme].PINK_700,
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: 30,
+      height: 30,
+      borderRadius: 30,
+    },
+    idContainer: {
+      flexDirection: 'row',
+      gap: 7,
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginTop: 10,
+    },
+    idTextContainer: {
+      backgroundColor: colors[theme].GRAY_200,
+      paddingHorizontal: 5,
+      paddingVertical: 2,
+      borderRadius: 5,
+    },
+    nameText: {
+      color: colors[theme].BLACK,
+    },
+  });
 
 export default EditProfileScreen;

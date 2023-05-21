@@ -5,8 +5,9 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {QueryClientProvider} from '@tanstack/react-query';
 
 import RootNavigator from '@/navigations/root/RootNavigator';
-import queryClient from '@/api/queryClient';
 import Snackbar from '@/components/@common/Snackbar';
+import useThemeStorage from '@/hooks/useThemeStorage';
+import queryClient from '@/api/queryClient';
 
 if (__DEV__) {
   import('react-query-native-devtools').then(({addPlugin}) => {
@@ -22,10 +23,14 @@ if (
 }
 
 function App() {
+  const {theme} = useThemeStorage();
+
   return (
     <QueryClientProvider client={queryClient}>
       <SafeAreaProvider>
-        <StatusBar barStyle={'dark-content'} />
+        <StatusBar
+          barStyle={theme === 'light' ? 'dark-content' : 'light-content'}
+        />
         <NavigationContainer>
           <RootNavigator />
           <Snackbar />

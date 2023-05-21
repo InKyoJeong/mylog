@@ -3,6 +3,7 @@ import {StyleSheet, View} from 'react-native';
 import DatePicker from 'react-native-date-picker';
 
 import {CompoundModal} from '../@common/CompoundModal';
+import useThemeStore from '@/store/useThemeStore';
 import {colors} from '@/constants/colors';
 
 interface DatePickerModalProps {
@@ -18,6 +19,8 @@ function DatePickerModal({
   onChangeDate,
   onConfirmDate,
 }: DatePickerModalProps) {
+  const {theme} = useThemeStore();
+
   return (
     <CompoundModal isVisible={isVisible} hideModal={() => {}}>
       <CompoundModal.OptionBackground>
@@ -25,7 +28,7 @@ function DatePickerModal({
           <View style={styles.pickerContainer}>
             <DatePicker
               mode="date"
-              textColor={colors.BLACK}
+              textColor={colors[theme].BLACK}
               date={date}
               onDateChange={onChangeDate}
               locale="ko"

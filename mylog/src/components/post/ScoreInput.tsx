@@ -2,8 +2,10 @@ import React from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
 import Slider from '@react-native-community/slider';
 
+import useThemeStore from '@/store/useThemeStore';
 import {colors} from '@/constants/colors';
 import {numbers} from '@/constants/numbers';
+import type {ThemeMode} from '@/types';
 
 interface ScoreInputProps {
   score: number;
@@ -11,6 +13,9 @@ interface ScoreInputProps {
 }
 
 function ScoreInput({score, onChangeScore}: ScoreInputProps) {
+  const {theme} = useThemeStore();
+  const styles = styling(theme);
+
   return (
     <View style={styles.container}>
       <View style={styles.labelContainer}>
@@ -23,30 +28,29 @@ function ScoreInput({score, onChangeScore}: ScoreInputProps) {
         step={numbers.SCORE_STEP}
         minimumValue={numbers.MIN_SCORE}
         maximumValue={numbers.MAX_SCORE}
-        minimumTrackTintColor={colors.PINK_700}
-        maximumTrackTintColor={colors.GRAY_300}
-        thumbTintColor={
-          Platform.OS === 'android' ? colors.GRAY_300 : colors.WHITE
-        }
+        minimumTrackTintColor={colors[theme].PINK_700}
+        maximumTrackTintColor={colors[theme].GRAY_300}
+        thumbTintColor={colors[theme].GRAY_300}
       />
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 15,
-    borderWidth: 1,
-    borderColor: colors.GRAY_200,
-  },
-  labelContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  labelText: {
-    color: colors.GRAY_700,
-  },
-});
+const styling = (theme: ThemeMode) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      padding: 15,
+      borderWidth: 1,
+      borderColor: colors[theme].GRAY_200,
+    },
+    labelContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+    },
+    labelText: {
+      color: colors[theme].GRAY_700,
+    },
+  });
 
 export default ScoreInput;

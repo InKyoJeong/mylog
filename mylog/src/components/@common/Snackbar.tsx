@@ -4,10 +4,14 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 import useKeyboardStatus from '@/hooks/useKeyboardStatus';
 import useSnackbarStore from '@/store/useSnackbarStore';
+import useThemeStore from '@/store/useThemeStore';
 import {colors} from '@/constants/colors';
 import {numbers} from '@/constants/numbers';
+import type {ThemeMode} from '@/types';
 
 function Snackbar() {
+  const {theme} = useThemeStore();
+  const styles = styling(theme);
   const insets = useSafeAreaInsets();
   const snackbar = useSnackbarStore();
   const {keyboardHeight} = useKeyboardStatus();
@@ -53,28 +57,30 @@ function Snackbar() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    position: 'absolute',
-    width: '70%',
-    alignSelf: 'center',
-    backgroundColor: colors.GRAY_700,
-    borderRadius: 10,
-    padding: 15,
-    shadowColor: colors.BLACK,
-    shadowOffset: {
-      width: 1,
-      height: 1,
+const styling = (theme: ThemeMode) =>
+  StyleSheet.create({
+    container: {
+      position: 'absolute',
+      width: '70%',
+      alignSelf: 'center',
+      backgroundColor:
+        theme === 'light' ? colors[theme].GRAY_700 : colors[theme].GRAY_500,
+      borderRadius: 10,
+      padding: 15,
+      shadowColor: colors[theme].UNCHANGE_BLACK,
+      shadowOffset: {
+        width: 1,
+        height: 1,
+      },
+      shadowOpacity: 0.6,
+      elevation: 1,
     },
-    shadowOpacity: 0.6,
-    elevation: 1,
-  },
-  message: {
-    textAlign: 'center',
-    color: colors.WHITE,
-    fontSize: 14,
-    fontWeight: 'bold',
-  },
-});
+    message: {
+      textAlign: 'center',
+      color: colors[theme].WHITE,
+      fontSize: 14,
+      fontWeight: 'bold',
+    },
+  });
 
 export default Snackbar;
