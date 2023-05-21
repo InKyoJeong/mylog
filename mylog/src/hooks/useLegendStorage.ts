@@ -5,23 +5,22 @@ import useLegendStore from '@/store/useLegendStore';
 import {storageKeys} from '@/constants/keys';
 
 function useLegendStorage() {
-  const legend = useLegendStore();
+  const {isVisible, setIsVisible} = useLegendStore();
 
-  const set = async (isVisible: boolean) => {
-    await setAsyncStorage(storageKeys.SHOW_LEGEND, isVisible);
-    legend.setIsVisible(isVisible);
+  const set = async (flag: boolean) => {
+    await setAsyncStorage(storageKeys.SHOW_LEGEND, flag);
+    setIsVisible(flag);
   };
 
   useEffect(() => {
     (async () => {
       const storedData =
         (await getAsyncStorage(storageKeys.SHOW_LEGEND)) ?? false;
-      legend.setIsVisible(storedData);
+      setIsVisible(storedData);
     })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [storageKeys.SHOW_LEGEND]);
+  }, [setIsVisible]);
 
-  return {set, isVisible: legend.isVisible};
+  return {set, isVisible};
 }
 
 export default useLegendStorage;
