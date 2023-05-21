@@ -147,8 +147,6 @@ const styling = (theme: ThemeMode) =>
       height: 40,
       borderRadius: 20,
       backgroundColor: colorHex(theme).RED,
-      borderWidth: 1,
-      borderColor: colors[theme].GRAY_700,
     },
     inputContainer: {
       flex: 1,
