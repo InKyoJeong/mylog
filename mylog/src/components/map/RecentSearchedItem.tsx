@@ -25,7 +25,10 @@ function RecentSearchedItem({keyword}: RecentSearchedItemProps) {
 const styling = (theme: ThemeMode) =>
   StyleSheet.create({
     listItem: {
-      backgroundColor: colors[theme].PINK_200,
+      backgroundColor:
+        theme === 'light'
+          ? colors[theme].PINK_200
+          : colors[theme].UNCHANGE_BLACK,
       borderColor: colors[theme].PINK_700,
       borderWidth: 1.5,
       borderRadius: 5,
