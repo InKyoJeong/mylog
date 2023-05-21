@@ -6,21 +6,30 @@ import {storageKeys} from '@/constants/keys';
 import type {ThemeMode} from '@/types';
 
 function useThemeStorage() {
-  const {theme, setTheme} = useThemeStore();
+  const {theme, isSystem, setTheme, setSystemTheme} = useThemeStore();
 
-  const set = async (mode: ThemeMode) => {
+  const setMode = async (mode: ThemeMode) => {
     await setAsyncStorage(storageKeys.THEME_MODE, mode);
     setTheme(mode);
+  };
+
+  const setSystem = async (flag: boolean) => {
+    await setAsyncStorage(storageKeys.THEME_SYSTEM, flag);
+    setSystemTheme(flag);
   };
 
   useEffect(() => {
     (async () => {
       const mode = (await getAsyncStorage(storageKeys.THEME_MODE)) ?? 'light';
-      setTheme(mode);
-    })();
-  }, [setTheme]);
+      const systemMode =
+        (await getAsyncStorage(storageKeys.THEME_SYSTEM)) ?? false;
 
-  return {set, theme};
+      setTheme(mode);
+      setSystemTheme(systemMode);
+    })();
+  }, [setTheme, setSystemTheme]);
+
+  return {theme, isSystem, setMode, setSystem};
 }
 
 export default useThemeStorage;
