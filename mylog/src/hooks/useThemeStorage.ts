@@ -1,4 +1,5 @@
 import {useEffect} from 'react';
+import {useColorScheme} from 'react-native';
 
 import useThemeStore from '@/store/useThemeStore';
 import {getAsyncStorage, setAsyncStorage} from '@/utils/asyncStorage';
@@ -6,6 +7,7 @@ import {storageKeys} from '@/constants/keys';
 import type {ThemeMode} from '@/types';
 
 function useThemeStorage() {
+  const systemTheme = useColorScheme();
   const {theme, isSystem, setTheme, setSystemTheme} = useThemeStore();
 
   const setMode = async (mode: ThemeMode) => {
@@ -24,10 +26,11 @@ function useThemeStorage() {
       const systemMode =
         (await getAsyncStorage(storageKeys.THEME_SYSTEM)) ?? false;
 
-      setTheme(mode);
+      const newMode = systemMode ? systemTheme : mode;
+      setTheme(newMode);
       setSystemTheme(systemMode);
     })();
-  }, [setTheme, setSystemTheme]);
+  }, [setTheme, setSystemTheme, systemTheme]);
 
   return {theme, isSystem, setMode, setSystem};
 }
