@@ -225,7 +225,7 @@ const styling = (theme: ThemeMode) =>
       marginHorizontal: 10,
       marginBottom: 40,
       borderRadius: 20,
-      shadowColor: colors[theme].BLACK,
+      shadowColor: colors[theme].UNCHANGE_BLACK,
       shadowOffset: {width: 3, height: 3},
       shadowOpacity: 0.2,
       elevation: 1,
