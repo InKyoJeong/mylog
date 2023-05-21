@@ -102,7 +102,6 @@ function OptionButton({
         styles.optionButton,
       ]}
       onPress={onPress}>
-      <View />
       <Text style={[styles.optionText, isDanger && styles.dangerText]}>
         {children}
       </Text>

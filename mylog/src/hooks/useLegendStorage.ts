@@ -7,9 +7,9 @@ import {storageKeys} from '@/constants/keys';
 function useLegendStorage() {
   const legend = useLegendStore();
 
-  const set = async (flag: boolean) => {
-    await setAsyncStorage(storageKeys.SHOW_LEGEND, flag);
-    legend.setIsVisible(flag);
+  const set = async (isVisible: boolean) => {
+    await setAsyncStorage(storageKeys.SHOW_LEGEND, isVisible);
+    legend.setIsVisible(isVisible);
   };
 
   useEffect(() => {
