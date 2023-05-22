@@ -22,6 +22,7 @@ function AuthStackNavigator() {
       screenOptions={{
         headerStyle: {
           backgroundColor: colors[theme].WHITE,
+          shadowColor: colors[theme].GRAY_200,
         },
         headerTitleStyle: {
           fontSize: 15,
