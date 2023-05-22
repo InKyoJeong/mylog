@@ -51,7 +51,7 @@ function FeedItemSearchList() {
       numColumns={2}
       scrollIndicatorInsets={{right: 1}}
       contentContainerStyle={styles.contentContainer}
-      indicatorStyle="black"
+      indicatorStyle={theme === 'dark' ? 'white' : 'black'}
       ListEmptyComponent={<InfoMessage message="검색 결과가 없습니다." />}
       ListHeaderComponent={
         <View style={styles.headerContainer}>

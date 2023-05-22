@@ -5,11 +5,13 @@ import type {DrawerNavigationProp} from '@react-navigation/drawer';
 
 import type {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
 import FeedItem from './FeedItem';
+import useThemeStore from '@/store/useThemeStore';
 import InfoMessage from '../@common/InfoMessage';
 import {useGetInifinitePosts} from '@/hooks/queries/usePost';
 import {mainNavigations, mapNavigations} from '@/constants';
 
 function FeedItemList() {
+  const {theme} = useThemeStore();
   const scrollRef = useRef(null);
   const navigation = useNavigation<DrawerNavigationProp<MainDrawerParamList>>();
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -43,7 +45,7 @@ function FeedItemList() {
       numColumns={2}
       scrollIndicatorInsets={{right: 1}}
       contentContainerStyle={styles.contentContainer}
-      indicatorStyle="black"
+      indicatorStyle={theme === 'dark' ? 'white' : 'black'}
       ListEmptyComponent={
         <InfoMessage
           message="아직 등록된 위치가 없어요."
