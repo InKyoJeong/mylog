@@ -14,6 +14,7 @@ function useGetCalendarPosts(
     [queryKeys.POST, queryKeys.GET_CALENDAR_POSTS, year, month],
     () => getCalendarPosts(year, month),
     {
+      keepPreviousData: true,
       ...queryOptions,
     },
   );
