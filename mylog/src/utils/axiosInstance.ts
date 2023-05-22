@@ -1,4 +1,4 @@
-import axiosInstance from '@/api';
+import axiosInstance from '@/api/axios';
 import type {AxiosCommonRequestHeaders} from '@/types';
 
 function setHeader(key: AxiosCommonRequestHeaders, value: string) {

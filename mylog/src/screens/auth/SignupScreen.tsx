@@ -12,8 +12,8 @@ import InputField from '@/components/@common/InputField';
 import CustomKeyboardAvoidingView from '@/components/@common/CustomKeyboardAvoidingView';
 import useForm from '@/hooks/useForm';
 import useAuth from '@/hooks/queries/useAuth';
-import {validateSignup} from '@/utils/validate';
-import {numbers} from '@/constants/numbers';
+import {validateSignup} from '@/utils';
+import {numbers} from '@/constants';
 
 function SignupScreen() {
   const {signupMutation, loginMutation} = useAuth();

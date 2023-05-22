@@ -4,11 +4,11 @@ import {
   useMutation,
 } from '@tanstack/react-query';
 
-import {getFavoritePosts, updateFavoritePost} from '@/api/favoritePost';
-import {ResponsePost, ResponseSinglePost} from '@/api/post';
-import {queryKeys} from '@/constants/keys';
-import type {ResponseError, UseMutationCustomOptions} from '@/types';
 import queryClient from '@/api/queryClient';
+import {queryKeys} from '@/constants';
+import {getFavoritePosts, updateFavoritePost} from '@/api';
+import type {ResponsePost, ResponseSinglePost} from '@/api';
+import type {ResponseError, UseMutationCustomOptions} from '@/types';
 
 function useGetInifiniteFavoritePosts(
   queryOptions?: Omit<

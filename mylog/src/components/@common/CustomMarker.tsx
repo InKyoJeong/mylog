@@ -3,10 +3,9 @@ import {StyleSheet, View} from 'react-native';
 import {LatLng, Marker, MyMapMarkerProps} from 'react-native-maps';
 
 import Conditional from './Conditional';
-import {colorHex, colors} from '@/constants/colors';
-import type {MarkerColor} from '@/types/domain';
-import type {ThemeMode} from '@/types';
 import useThemeStore from '@/store/useThemeStore';
+import {colorHex, colors} from '@/constants';
+import type {MarkerColor, ThemeMode} from '@/types';
 
 type Size = 'small' | 'medium' | 'large';
 

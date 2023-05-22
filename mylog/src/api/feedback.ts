@@ -1,6 +1,6 @@
-import axiosInstance from '.';
+import axiosInstance from './axios';
 
-export type RequestFeedback = {
+type RequestFeedback = {
   email: string;
   title: string;
   description: string;
@@ -13,3 +13,4 @@ const addFeedback = async (body: RequestFeedback) => {
 };
 
 export {addFeedback};
+export type {RequestFeedback};

@@ -5,8 +5,10 @@ import {useScrollToTop} from '@react-navigation/native';
 import FeedItem from './FeedItem';
 import InfoMessage from '../@common/InfoMessage';
 import {useGetInifiniteFavoritePosts} from '@/hooks/queries/useFavoritePost';
+import useThemeStore from '@/store/useThemeStore';
 
 function FeedItemFavoriteList() {
+  const {theme} = useThemeStore();
   const scrollRef = useRef(null);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const {
@@ -39,7 +41,7 @@ function FeedItemFavoriteList() {
       numColumns={2}
       scrollIndicatorInsets={{right: 1}}
       contentContainerStyle={styles.contentContainer}
-      indicatorStyle="black"
+      indicatorStyle={theme === 'dark' ? 'white' : 'black'}
       ListEmptyComponent={<InfoMessage message="북마크한 장소가 없습니다." />}
       refreshing={isRefreshing}
       onRefresh={handleRefresh}

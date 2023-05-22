@@ -14,8 +14,7 @@ import SettingStackNavigator, {
 import FeedTabNavigator, {FeedTabParamList} from '../tab/FeedTabNavigator';
 import CustomDrawerContent from './CustomDrawerContent';
 import useThemeStore from '@/store/useThemeStore';
-import {mainNavigations} from '@/constants/navigations';
-import {colors} from '@/constants/colors';
+import {colors, mainNavigations} from '@/constants';
 import {ThemeMode} from '@/types';
 
 export type MainDrawerParamList = {

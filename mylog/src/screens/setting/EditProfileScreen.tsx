@@ -15,10 +15,8 @@ import useModal from '@/hooks/useModal';
 import useImagePicker from '@/hooks/useImagePicker';
 import useSnackbarStore from '@/store/useSnackbarStore';
 import useThemeStore from '@/store/useThemeStore';
-import {validateEditProfile} from '@/utils/validate';
-import {colors} from '@/constants/colors';
-import {successMessages} from '@/constants/messages';
-import {numbers} from '@/constants/numbers';
+import {validateEditProfile} from '@/utils';
+import {colors, numbers, successMessages} from '@/constants';
 import type {ThemeMode} from '@/types';
 
 type EditProfileScreenProps = StackScreenProps<SettingStackParamList>;

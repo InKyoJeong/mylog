@@ -7,8 +7,7 @@ import FeedDetailScreen from '@/screens/feed/FeedDetailScreen';
 import EditPostScreen from '@/screens/feed/EditPostScreen';
 import FeedHomeHeaderLeft from '@/components/feed/FeedHomeHeaderLeft';
 import useThemeStore from '@/store/useThemeStore';
-import {feedNavigations} from '@/constants/navigations';
-import {colors} from '@/constants/colors';
+import {colors, feedNavigations} from '@/constants';
 
 export type FeedStackParamList = {
   [feedNavigations.FEED_HOME]: undefined;

@@ -13,12 +13,19 @@ import {
   postSignup,
 } from '@/api/auth';
 import queryClient from '@/api/queryClient';
-import {removeEncryptStorage, setEncryptStorage} from '@/utils/encryptStorage';
-import {removeHeader, setHeader} from '@/utils/axiosInstance';
-import {numbers} from '@/constants/numbers';
-import {queryKeys, storageKeys} from '@/constants/keys';
-import type {ResponseError, UseMutationCustomOptions} from '@/types';
-import type {Category, Profile} from '@/types/domain';
+import {
+  removeEncryptStorage,
+  setEncryptStorage,
+  removeHeader,
+  setHeader,
+} from '@/utils';
+import {numbers, queryKeys, storageKeys} from '@/constants';
+import type {
+  ResponseError,
+  UseMutationCustomOptions,
+  Category,
+  Profile,
+} from '@/types';
 
 function useSignup(mutationOptions?: UseMutationCustomOptions) {
   return useMutation(postSignup, {

@@ -18,12 +18,12 @@ import Config from 'react-native-config';
 import Conditional from '@/components/@common/Conditional';
 import useAuth from '@/hooks/queries/useAuth';
 import useThemeStore from '@/store/useThemeStore';
-import {colors} from '@/constants/colors';
 import {
+  colors,
   mainNavigations,
   settingNavigations,
   statisticsNavigations,
-} from '@/constants/navigations';
+} from '@/constants';
 import type {ThemeMode} from '@/types';
 
 function CustomDrawerContent(props: DrawerContentComponentProps) {

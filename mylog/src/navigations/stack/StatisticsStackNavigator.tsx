@@ -4,8 +4,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import StatisticsScreen from '@/screens/statistics/StatisticsScreen';
 import StatisticsHeaderLeft from '@/components/statistics/StatisticsHeaderLeft';
 import useThemeStore from '@/store/useThemeStore';
-import {statisticsNavigations} from '@/constants/navigations';
-import {colors} from '@/constants/colors';
+import {colors, statisticsNavigations} from '@/constants';
 
 export type StatisticsStackParamList = {
   [statisticsNavigations.STATISTICS_HOME]: undefined;

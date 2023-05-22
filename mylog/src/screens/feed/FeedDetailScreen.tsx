@@ -34,16 +34,17 @@ import useLocationStore from '@/store/useLocationStore';
 import useDetailPostStore from '@/store/useDetailPostStore';
 import useSnackbarStore from '@/store/useSnackbarStore';
 import useThemeStore from '@/store/useThemeStore';
-import {getDateLocaleFormat} from '@/utils/date';
+import {getDateLocaleFormat} from '@/utils';
 import {
+  numbers,
+  colorHex,
+  colors,
+  successMessages,
   feedNavigations,
   mainNavigations,
   mapNavigations,
   settingNavigations,
-} from '@/constants/navigations';
-import {successMessages} from '@/constants/messages';
-import {colorHex, colors} from '@/constants/colors';
-import {numbers} from '@/constants/numbers';
+} from '@/constants';
 import type {ThemeMode} from '@/types';
 
 type FeedDetailScreenProps = CompositeScreenProps<

@@ -8,7 +8,7 @@ import {
   Permission,
 } from 'react-native-permissions';
 
-import {alerts} from '@/constants/messages';
+import {alerts} from '@/constants';
 
 type PermissionType = 'LOCATION' | 'PHOTO';
 

@@ -2,7 +2,7 @@ import React, {ReactNode} from 'react';
 import {StyleSheet, Text, Pressable, PressableProps, View} from 'react-native';
 
 import useThemeStore from '@/store/useThemeStore';
-import {colors} from '@/constants/colors';
+import {colors} from '@/constants';
 import type {ThemeMode} from '@/types';
 
 interface SettingItemProps extends PressableProps {

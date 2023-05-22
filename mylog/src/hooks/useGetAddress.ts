@@ -3,7 +3,7 @@ import {useEffect, useState} from 'react';
 import type {LatLng} from 'react-native-maps';
 import Config from 'react-native-config';
 
-import {errorMessages} from '@/constants/messages';
+import {errorMessages} from '@/constants';
 
 function useGetAddress(location: LatLng) {
   const {latitude, longitude} = location;

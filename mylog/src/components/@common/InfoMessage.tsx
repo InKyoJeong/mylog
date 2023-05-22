@@ -4,7 +4,7 @@ import {Dimensions, StyleSheet, Text, View} from 'react-native';
 import CustomMarker from './CustomMarker';
 import CustomButton from './CustomButton';
 import useThemeStore from '@/store/useThemeStore';
-import {colors} from '@/constants/colors';
+import {colors} from '@/constants';
 import type {ThemeMode} from '@/types';
 
 interface InfoMessageProps {

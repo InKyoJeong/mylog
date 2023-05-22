@@ -12,8 +12,8 @@ import CustomButton from '@/components/@common/CustomButton';
 import CustomKeyboardAvoidingView from '@/components/@common/CustomKeyboardAvoidingView';
 import useForm from '@/hooks/useForm';
 import useAuth from '@/hooks/queries/useAuth';
-import {validateLogin} from '@/utils/validate';
-import {numbers} from '@/constants/numbers';
+import {validateLogin} from '@/utils';
+import {numbers} from '@/constants';
 
 function LoginScreen() {
   const {loginMutation} = useAuth();

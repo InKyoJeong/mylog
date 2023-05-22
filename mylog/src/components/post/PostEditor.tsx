@@ -30,12 +30,9 @@ import usePermission from '@/hooks/usePermission';
 import {useCreatePost, useUpdatePost} from '@/hooks/queries/usePost';
 import useDetailPostStore from '@/store/useDetailPostStore';
 import useThemeStore from '@/store/useThemeStore';
-import {validateAddPost} from '@/utils/validate';
-import {getDateWithSeparator} from '@/utils/date';
-import {colors} from '@/constants/colors';
-import {numbers} from '@/constants/numbers';
-import type {MarkerColor} from '@/types/domain';
-import type {UseMutationCustomOptions} from '@/types';
+import {validateAddPost, getDateWithSeparator} from '@/utils';
+import {colors, numbers} from '@/constants';
+import type {UseMutationCustomOptions, MarkerColor} from '@/types';
 
 interface PostEditorProps {
   isEdit?: boolean;

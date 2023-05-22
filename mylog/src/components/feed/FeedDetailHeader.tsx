@@ -4,7 +4,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import StickyHeader from '../@common/StickyHeader';
 import useThemeStore from '@/store/useThemeStore';
-import {colors} from '@/constants/colors';
+import {colors} from '@/constants';
 
 interface FeedDetailHeaderProps {
   isScrolled: boolean;

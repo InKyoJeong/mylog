@@ -9,23 +9,14 @@ import {
 } from 'react-native';
 
 import CustomMarker from '../@common/CustomMarker';
-import {colors} from '@/constants/colors';
-import type {MarkerColor} from '@/types/domain';
-import type {ThemeMode} from '@/types';
 import useThemeStore from '@/store/useThemeStore';
+import {categoryList, colors} from '@/constants';
+import type {ThemeMode, MarkerColor} from '@/types';
 
 interface MarkerSelectorProps extends PressableProps {
   markerColor: MarkerColor;
   onPressMarker: (name: MarkerColor) => void;
 }
-
-const markerColors: MarkerColor[] = [
-  'RED',
-  'YELLOW',
-  'GREEN',
-  'BLUE',
-  'PURPLE',
-];
 
 const MarkerSelector = ({markerColor, onPressMarker}: MarkerSelectorProps) => {
   const {theme} = useThemeStore();
@@ -36,7 +27,7 @@ const MarkerSelector = ({markerColor, onPressMarker}: MarkerSelectorProps) => {
       <Text style={styles.markerLabel}>마커선택</Text>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         <View style={styles.markerInputScroll}>
-          {markerColors.map(color => {
+          {categoryList.map(color => {
             return (
               <Pressable
                 key={color}

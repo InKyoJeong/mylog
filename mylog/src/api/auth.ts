@@ -1,9 +1,8 @@
-import axiosInstance from '.';
+import axiosInstance from './axios';
+import {getEncryptStorage} from '@/utils';
+import type {Category, Profile} from '@/types';
 
-import {getEncryptStorage} from '@/utils/encryptStorage';
-import type {Category, Profile} from '@/types/domain';
-
-export type RequestUser = {
+type RequestUser = {
   username: string;
   password: string;
 };
@@ -14,7 +13,7 @@ const postSignup = async ({username, password}: RequestUser): Promise<void> => {
   return data;
 };
 
-export type ResponseToken = {
+type ResponseToken = {
   accessToken: string;
   refreshToken: string;
 };
@@ -28,7 +27,7 @@ const postLogin = async ({
   return data;
 };
 
-export type ResponseProfile = Profile & Category;
+type ResponseProfile = Profile & Category;
 
 const getProfile = async (): Promise<ResponseProfile> => {
   const {data} = await axiosInstance.get('/auth/me');
@@ -36,7 +35,7 @@ const getProfile = async (): Promise<ResponseProfile> => {
   return data;
 };
 
-export type RequestProfile = Omit<Profile, 'username'>;
+type RequestProfile = Omit<Profile, 'username'>;
 
 const editProfile = async (body: RequestProfile): Promise<ResponseProfile> => {
   const {data} = await axiosInstance.patch('/auth/me', body);
@@ -80,3 +79,4 @@ export {
   deleteAccount,
   editCategory,
 };
+export type {RequestUser, ResponseToken, ResponseProfile, RequestProfile};

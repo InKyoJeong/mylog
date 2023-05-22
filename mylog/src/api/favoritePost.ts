@@ -1,5 +1,4 @@
-import axiosInstance from '.';
-
+import axiosInstance from './axios';
 import type {ResponsePost} from './post';
 
 const getFavoritePosts = async (page = 1): Promise<ResponsePost[]> => {

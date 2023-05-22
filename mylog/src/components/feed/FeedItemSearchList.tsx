@@ -12,8 +12,7 @@ import FeedItem from './FeedItem';
 import {useGetInifiniteSearchPosts} from '@/hooks/queries/usePost';
 import useDebounce from '@/hooks/useDebounce';
 import useThemeStore from '@/store/useThemeStore';
-import {colors} from '@/constants/colors';
-import {numbers} from '@/constants/numbers';
+import {colors, numbers} from '@/constants';
 import type {ThemeMode} from '@/types';
 
 function FeedItemSearchList() {
@@ -52,7 +51,7 @@ function FeedItemSearchList() {
       numColumns={2}
       scrollIndicatorInsets={{right: 1}}
       contentContainerStyle={styles.contentContainer}
-      indicatorStyle="black"
+      indicatorStyle={theme === 'dark' ? 'white' : 'black'}
       ListEmptyComponent={<InfoMessage message="검색 결과가 없습니다." />}
       ListHeaderComponent={
         <View style={styles.headerContainer}>

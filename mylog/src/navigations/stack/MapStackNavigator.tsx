@@ -6,8 +6,7 @@ import MapHomeScreen from '@/screens/map/MapHomeScreen';
 import AddPostScreen from '@/screens/map/AddPostScreen';
 import SearchLocationScreen from '@/screens/map/SearchLocationScreen';
 import useThemeStore from '@/store/useThemeStore';
-import {mapNavigations} from '@/constants/navigations';
-import {colors} from '@/constants/colors';
+import {colors, mapNavigations} from '@/constants';
 
 export type MapStackParamList = {
   [mapNavigations.MAP_HOME]: undefined;

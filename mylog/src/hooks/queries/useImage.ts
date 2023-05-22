@@ -1,6 +1,6 @@
 import {useMutation} from '@tanstack/react-query';
 
-import {uploadImages} from '@/api/image';
+import {uploadImages} from '@/api';
 import type {UseMutationCustomOptions} from '@/types';
 
 function useUploadImages(mutationOptions?: UseMutationCustomOptions) {

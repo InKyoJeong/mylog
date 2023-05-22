@@ -6,18 +6,17 @@ import {
   StyleSheet,
   TextInput,
 } from 'react-native';
+import type {StackScreenProps} from '@react-navigation/stack';
 
 import type {SettingStackParamList} from '@/navigations/stack/SettingStackNavigator';
-import type {StackScreenProps} from '@react-navigation/stack';
 import InputField from '@/components/@common/InputField';
 import CustomButton from '@/components/@common/CustomButton';
 import CustomKeyboardAvoidingView from '@/components/@common/CustomKeyboardAvoidingView';
 import useForm from '@/hooks/useForm';
 import {useFeedback} from '@/hooks/queries/useFeedback';
 import useSnackbarStore from '@/store/useSnackbarStore';
-import {validateAddFeedback} from '@/utils/validate';
-import {successMessages} from '@/constants/messages';
-import {numbers} from '@/constants/numbers';
+import {validateAddFeedback} from '@/utils';
+import {numbers, successMessages} from '@/constants';
 
 type FeedbackScreenProps = StackScreenProps<SettingStackParamList>;
 

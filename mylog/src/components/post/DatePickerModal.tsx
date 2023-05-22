@@ -4,7 +4,7 @@ import DatePicker from 'react-native-date-picker';
 
 import {CompoundModal} from '../@common/CompoundModal';
 import useThemeStore from '@/store/useThemeStore';
-import {colors} from '@/constants/colors';
+import {colors} from '@/constants';
 
 interface DatePickerModalProps {
   isVisible: boolean;

@@ -2,7 +2,7 @@ import React, {PropsWithChildren} from 'react';
 import {Pressable, PressableProps, StyleSheet} from 'react-native';
 
 import useThemeStore from '@/store/useThemeStore';
-import {colors} from '@/constants/colors';
+import {colors} from '@/constants';
 import type {ThemeMode} from '@/types';
 
 function MapButton({children, ...props}: PropsWithChildren<PressableProps>) {

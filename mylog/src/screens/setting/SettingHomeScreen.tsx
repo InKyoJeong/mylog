@@ -13,8 +13,7 @@ import DarkModeModal from '@/components/setting/DarkModeModal';
 import useAuth from '@/hooks/queries/useAuth';
 import useModal from '@/hooks/useModal';
 import useThemeStore from '@/store/useThemeStore';
-import {settingNavigations} from '@/constants/navigations';
-import {colors} from '@/constants/colors';
+import {colors, settingNavigations} from '@/constants';
 
 type SettingHomeScreenProps = CompositeScreenProps<
   StackScreenProps<

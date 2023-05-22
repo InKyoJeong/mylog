@@ -31,11 +31,16 @@ import useLegendStore from '@/store/useLegendStore';
 import useSnackbarStore from '@/store/useSnackbarStore';
 import useLocationStore from '@/store/useLocationStore';
 import useThemeStore from '@/store/useThemeStore';
-import {mapNavigations, mainNavigations} from '@/constants/navigations';
-import {colors} from '@/constants/colors';
-import {alerts, errorMessages} from '@/constants/messages';
-import {numbers, zIndex} from '@/constants/numbers';
 import getMapStyle from '@/style/mapStyle';
+import {
+  colors,
+  numbers,
+  zIndex,
+  alerts,
+  mapNavigations,
+  mainNavigations,
+  errorMessages,
+} from '@/constants';
 import type {ThemeMode} from '@/types';
 
 type MapHomeScreenProps = CompositeScreenProps<

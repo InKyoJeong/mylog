@@ -8,7 +8,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import HeaderButton from '../@common/HeaderButton';
 import useThemeStore from '@/store/useThemeStore';
-import {colors} from '@/constants/colors';
+import {colors} from '@/constants';
 
 type FeedHomeHeaderLeftProps = CompositeNavigationProp<
   StackNavigationProp<FeedStackParamList>,

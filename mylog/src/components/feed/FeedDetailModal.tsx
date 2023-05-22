@@ -7,8 +7,7 @@ import type {FeedStackParamList} from '@/navigations/stack/FeedStackNavigator';
 import {CompoundModal} from '../@common/CompoundModal';
 import {useDeletePost} from '@/hooks/queries/usePost';
 import useDetailPostStore from '@/store/useDetailPostStore';
-import {alerts} from '@/constants/messages';
-import {feedNavigations} from '@/constants/navigations';
+import {alerts, feedNavigations} from '@/constants';
 
 interface FeedDetailModalProps {
   isVisible: boolean;
