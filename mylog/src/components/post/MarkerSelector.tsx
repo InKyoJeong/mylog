@@ -9,10 +9,9 @@ import {
 } from 'react-native';
 
 import CustomMarker from '../@common/CustomMarker';
-import {categoryList, colors} from '@/constants';
-import type {MarkerColor} from '@/types/domain';
-import type {ThemeMode} from '@/types';
 import useThemeStore from '@/store/useThemeStore';
+import {categoryList, colors} from '@/constants';
+import type {ThemeMode, MarkerColor} from '@/types';
 
 interface MarkerSelectorProps extends PressableProps {
   markerColor: MarkerColor;

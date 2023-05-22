@@ -18,8 +18,7 @@ import {
   updatePost,
 } from '@/api/post';
 import {queryKeys} from '@/constants';
-import type {ResponseError, UseMutationCustomOptions} from '@/types';
-import type {Marker} from '@/types/domain';
+import type {ResponseError, UseMutationCustomOptions, Marker} from '@/types';
 
 function useGetInifinitePosts(
   queryOptions?: Omit<

@@ -33,8 +33,7 @@ import useThemeStore from '@/store/useThemeStore';
 import {validateAddPost} from '@/utils/validate';
 import {getDateWithSeparator} from '@/utils/date';
 import {colors, numbers} from '@/constants';
-import type {MarkerColor} from '@/types/domain';
-import type {UseMutationCustomOptions} from '@/types';
+import type {UseMutationCustomOptions, MarkerColor} from '@/types';
 
 interface PostEditorProps {
   isEdit?: boolean;

@@ -6,8 +6,7 @@ import useAuth from '@/hooks/queries/useAuth';
 import useThemeStore from '@/store/useThemeStore';
 import Conditional from '../@common/Conditional';
 import {colorHex, colors, categoryList} from '@/constants';
-import {Category} from '@/types/domain';
-import type {ThemeMode} from '@/types';
+import type {ThemeMode, Category} from '@/types';
 
 function MapLegend() {
   const {theme} = useThemeStore();

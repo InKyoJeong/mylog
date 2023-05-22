@@ -1,5 +1,5 @@
 import axiosInstance from '.';
-import {ImageUri, Post} from '@/types/domain';
+import {ImageUri, Post} from '@/types';
 
 export type ResponsePost = Post & {images: ImageUri[]};
 

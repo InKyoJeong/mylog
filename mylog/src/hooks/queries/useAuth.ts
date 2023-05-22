@@ -16,8 +16,12 @@ import queryClient from '@/api/queryClient';
 import {removeEncryptStorage, setEncryptStorage} from '@/utils/encryptStorage';
 import {removeHeader, setHeader} from '@/utils/axiosInstance';
 import {numbers, queryKeys, storageKeys} from '@/constants';
-import type {ResponseError, UseMutationCustomOptions} from '@/types';
-import type {Category, Profile} from '@/types/domain';
+import type {
+  ResponseError,
+  UseMutationCustomOptions,
+  Category,
+  Profile,
+} from '@/types';
 
 function useSignup(mutationOptions?: UseMutationCustomOptions) {
   return useMutation(postSignup, {

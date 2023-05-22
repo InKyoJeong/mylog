@@ -5,7 +5,7 @@ import Config from 'react-native-config';
 
 import Conditional from '../@common/Conditional';
 import PreviewImageOption from './PreviewImageOption';
-import {ImageUri} from '@/types/domain';
+import {ImageUri} from '@/types';
 
 interface PreviewImageListProps {
   imageUris: ImageUri[];

@@ -6,9 +6,9 @@ import {
 
 import {getFavoritePosts, updateFavoritePost} from '@/api/favoritePost';
 import {ResponsePost, ResponseSinglePost} from '@/api/post';
+import queryClient from '@/api/queryClient';
 import {queryKeys} from '@/constants';
 import type {ResponseError, UseMutationCustomOptions} from '@/types';
-import queryClient from '@/api/queryClient';
 
 function useGetInifiniteFavoritePosts(
   queryOptions?: Omit<

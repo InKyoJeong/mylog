@@ -1,4 +1,4 @@
-import {MarkerColor} from '@/types/domain';
+import {MarkerColor} from '@/types';
 
 const categoryList: MarkerColor[] = [
   'RED',

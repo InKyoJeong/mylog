@@ -6,7 +6,7 @@ import useSnackbarStore from '@/store/useSnackbarStore';
 import {useUploadImages} from './queries/useImage';
 import {getFormDataImages} from '@/utils/image';
 import {numbers, alerts, errorMessages} from '@/constants';
-import type {ImageUri} from '@/types/domain';
+import type {ImageUri} from '@/types';
 
 interface UseImagePickerProps {
   initialImages: ImageUri[];

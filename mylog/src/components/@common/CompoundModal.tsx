@@ -18,8 +18,7 @@ import Conditional from './Conditional';
 import useThemeStore from '@/store/useThemeStore';
 import CustomMarker from './CustomMarker';
 import {colors} from '@/constants';
-import type {ImageUri} from '@/types/domain';
-import type {ThemeMode} from '@/types';
+import type {ImageUri, ThemeMode} from '@/types';
 
 interface ModalContextValue {
   onClickOutSide?: (event: GestureResponderEvent) => void;

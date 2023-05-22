@@ -1,7 +1,7 @@
 import axiosInstance from '.';
 
 import {getEncryptStorage} from '@/utils/encryptStorage';
-import type {Category, Profile} from '@/types/domain';
+import type {Category, Profile} from '@/types';
 
 export type RequestUser = {
   username: string;
