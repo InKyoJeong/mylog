@@ -14,7 +14,7 @@ import Octicons from 'react-native-vector-icons/Octicons';
 import type {FeedStackParamList} from '@/navigations/stack/FeedStackNavigator';
 import CustomButton from '../@common/CustomButton';
 import InputField from '../@common/InputField';
-import CustomKeyboardAvoidingView from '../@keyboard/CustomKeyboardAvoidingView';
+import CustomKeyboardAvoidingView from '../@common/CustomKeyboardAvoidingView';
 import MarkerSelector from './MarkerSelector';
 import ScoreInput from './ScoreInput';
 import ImageInput from './ImageInput';
@@ -29,6 +29,7 @@ import useImagePicker from '@/hooks/useImagePicker';
 import usePermission from '@/hooks/usePermission';
 import {useCreatePost, useUpdatePost} from '@/hooks/queries/usePost';
 import useDetailPostStore from '@/store/useDetailPostStore';
+import useThemeStore from '@/store/useThemeStore';
 import {validateAddPost} from '@/utils/validate';
 import {getDateWithSeparator} from '@/utils/date';
 import {colors} from '@/constants/colors';
@@ -42,6 +43,7 @@ interface PostEditorProps {
 }
 
 function PostEditor({isEdit = false, location}: PostEditorProps) {
+  const {theme} = useThemeStore();
   const navigation = useNavigation<StackNavigationProp<FeedStackParamList>>();
   const {detailPost} = useDetailPostStore();
   const isEditMode = isEdit && detailPost;
@@ -133,7 +135,11 @@ function PostEditor({isEdit = false, location}: PostEditorProps) {
               value={isEditMode ? detailPost.address : address}
               disabled={true}
               icon={
-                <Octicons name="location" size={16} color={colors.GRAY_500} />
+                <Octicons
+                  name="location"
+                  size={16}
+                  color={colors[theme].GRAY_500}
+                />
               }
             />
             <CustomButton

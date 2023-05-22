@@ -20,18 +20,23 @@ import type {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator
 import CustomMarker from '@/components/@common/CustomMarker';
 import MapButton from '@/components/map/MapButton';
 import MarkerModal from '@/components/map/MarkerModal';
+import MapLegend from '@/components/map/MapLegend';
+import Conditional from '@/components/@common/Conditional';
 import usePermission from '@/hooks/usePermission';
 import useUserLocation from '@/hooks/useUserLocation';
 import useMoveMapView from '@/hooks/useMoveMapView';
 import {useGetMarkers} from '@/hooks/queries/useMarker';
 import useMarkerStore from '@/store/useMarkerStore';
+import useLegendStore from '@/store/useLegendStore';
 import useSnackbarStore from '@/store/useSnackbarStore';
 import useLocationStore from '@/store/useLocationStore';
+import useThemeStore from '@/store/useThemeStore';
 import {mapNavigations, mainNavigations} from '@/constants/navigations';
 import {colors} from '@/constants/colors';
 import {alerts, errorMessages} from '@/constants/messages';
 import {numbers, zIndex} from '@/constants/numbers';
 import getMapStyle from '@/style/mapStyle';
+import type {ThemeMode} from '@/types';
 
 type MapHomeScreenProps = CompositeScreenProps<
   StackScreenProps<MapStackParamList, typeof mapNavigations.MAP_HOME>,
@@ -39,11 +44,14 @@ type MapHomeScreenProps = CompositeScreenProps<
 >;
 
 function MapHomeScreen({navigation}: MapHomeScreenProps) {
+  const {theme} = useThemeStore();
+  const styles = styling(theme);
   const insets = useSafeAreaInsets();
   const {data: markers = []} = useGetMarkers();
   const {mapRef, moveMapView, handleChangeDelta} = useMoveMapView();
   const {userLocation, isUserLocationError} = useUserLocation();
   const {selectLocation, setSelectLocation} = useLocationStore();
+  const legend = useLegendStore();
   const {showModal} = useMarkerStore();
   const snackbar = useSnackbarStore();
   usePermission('LOCATION');
@@ -94,8 +102,8 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
         showsMyLocationButton={false}
         followsUserLocation={true}
         toolbarEnabled={false}
-        customMapStyle={getMapStyle('light')}
-        clusterColor={colors.PINK_700}
+        customMapStyle={getMapStyle(theme)}
+        clusterColor={colors[theme].PINK_700}
         region={{...userLocation, ...numbers.INITIAL_DELTA}}
         onLongPress={handleLongPressMapView}
         onRegionChangeComplete={handleChangeDelta}>
@@ -112,7 +120,7 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
         {selectLocation && (
           <Callout>
             <Marker
-              pinColor={colors.RED_500}
+              pinColor={colors[theme].RED_500}
               style={{zIndex: zIndex.NEW_MARKER}}
               coordinate={selectLocation}
             />
@@ -123,18 +131,30 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
       <Pressable
         style={[styles.drawerButton, {top: insets.top || 20}]}
         onPress={() => navigation.openDrawer()}>
-        <Ionicons name={'md-menu-sharp'} color={colors.WHITE} size={30} />
+        <Ionicons
+          name={'md-menu-sharp'}
+          color={colors[theme].WHITE}
+          size={30}
+        />
       </Pressable>
+
+      <Conditional condition={legend.isVisible}>
+        <MapLegend />
+      </Conditional>
 
       <View style={styles.buttonList}>
         <MapButton onPress={handlePressAddPost}>
-          <MaterialIcons name={'add'} color={colors.WHITE} size={25} />
+          <MaterialIcons name={'add'} color={colors[theme].WHITE} size={25} />
         </MapButton>
         <MapButton onPress={handlePressSearch}>
-          <Ionicons name={'search'} color={colors.WHITE} size={25} />
+          <Ionicons name={'search'} color={colors[theme].WHITE} size={25} />
         </MapButton>
         <MapButton onPress={handlePressUserLocation}>
-          <MaterialIcons name={'my-location'} color={colors.WHITE} size={25} />
+          <MaterialIcons
+            name={'my-location'}
+            color={colors[theme].WHITE}
+            size={25}
+          />
         </MapButton>
       </View>
 
@@ -143,28 +163,29 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  drawerButton: {
-    position: 'absolute',
-    left: 0,
-    paddingVertical: 10,
-    paddingHorizontal: 12,
-    borderTopRightRadius: 50,
-    borderBottomRightRadius: 50,
-    backgroundColor: colors.PINK_700,
-    shadowColor: colors.BLACK,
-    shadowOffset: {width: 1, height: 1},
-    shadowOpacity: 0.5,
-    elevation: 4,
-  },
-  buttonList: {
-    position: 'absolute',
-    bottom: 50,
-    right: 15,
-  },
-});
+const styling = (theme: ThemeMode) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+    },
+    drawerButton: {
+      position: 'absolute',
+      left: 0,
+      paddingVertical: 10,
+      paddingHorizontal: 12,
+      borderTopRightRadius: 50,
+      borderBottomRightRadius: 50,
+      backgroundColor: colors[theme].PINK_700,
+      shadowColor: colors[theme].UNCHANGE_BLACK,
+      shadowOffset: {width: 1, height: 1},
+      shadowOpacity: 0.5,
+      elevation: 4,
+    },
+    buttonList: {
+      position: 'absolute',
+      bottom: 50,
+      right: 15,
+    },
+  });
 
 export default MapHomeScreen;

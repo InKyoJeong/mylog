@@ -11,12 +11,15 @@ import {
   SafeAreaView,
 } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import Config from 'react-native-config';
 
+import Conditional from './Conditional';
+import useThemeStore from '@/store/useThemeStore';
+import CustomMarker from './CustomMarker';
 import {colors} from '@/constants/colors';
 import type {ImageUri} from '@/types/domain';
-import Conditional from './Conditional';
-import CustomMarker from './CustomMarker';
+import type {ThemeMode} from '@/types';
 
 interface ModalContextValue {
   onClickOutSide?: (event: GestureResponderEvent) => void;
@@ -57,6 +60,8 @@ function ModalMain({
 }
 
 function CardBackground({children}: PropsWithChildren) {
+  const {theme} = useThemeStore();
+  const styles = styling(theme);
   const modalContext = useContext(ModalContext);
 
   return (
@@ -67,6 +72,8 @@ function CardBackground({children}: PropsWithChildren) {
 }
 
 function OptionBackground({children}: PropsWithChildren) {
+  const {theme} = useThemeStore();
+  const styles = styling(theme);
   const modalContext = useContext(ModalContext);
 
   return (
@@ -79,19 +86,27 @@ function OptionBackground({children}: PropsWithChildren) {
 }
 
 function OptionButtonList({children}: PropsWithChildren) {
+  const {theme} = useThemeStore();
+  const styles = styling(theme);
+
   return <View style={styles.optionButtonContainer}>{children}</View>;
 }
 
 interface OptionButtonProps {
   onPress: () => void;
   isDanger?: boolean;
+  isChecked?: boolean;
 }
 
 function OptionButton({
   children,
   isDanger = false,
+  isChecked = false,
   onPress,
 }: PropsWithChildren<OptionButtonProps>) {
+  const {theme} = useThemeStore();
+  const styles = styling(theme);
+
   return (
     <Pressable
       style={({pressed}) => [
@@ -102,15 +117,29 @@ function OptionButton({
       <Text style={[styles.optionText, isDanger && styles.dangerText]}>
         {children}
       </Text>
+
+      {isChecked && (
+        <Ionicons
+          name="checkmark-circle"
+          size={20}
+          color={colors[theme].BLUE_500}
+        />
+      )}
     </Pressable>
   );
 }
 
 function OptionDivider() {
+  const {theme} = useThemeStore();
+  const styles = styling(theme);
+
   return <View style={styles.border} />;
 }
 
 function Card({children}: PropsWithChildren) {
+  const {theme} = useThemeStore();
+  const styles = styling(theme);
+
   return (
     <View style={styles.cardContainer}>
       <View style={styles.cardInner}>{children}</View>
@@ -123,6 +152,9 @@ interface CardImageProps {
 }
 
 function CardImage({imageUris}: CardImageProps) {
+  const {theme} = useThemeStore();
+  const styles = styling(theme);
+
   return (
     <>
       <Conditional condition={imageUris.length > 0}>
@@ -140,8 +172,8 @@ function CardImage({imageUris}: CardImageProps) {
         <View style={[styles.imageContainer, styles.emptyImageContainer]}>
           <CustomMarker
             size="small"
-            borderColor={colors.GRAY_200}
-            innerColor={colors.WHITE}
+            borderColor={colors[theme].GRAY_200}
+            innerColor={colors[theme].WHITE}
           />
         </View>
       </Conditional>
@@ -154,9 +186,16 @@ interface GoNextButtonProps {
 }
 
 function GoNextButton({onPress}: GoNextButtonProps) {
+  const {theme} = useThemeStore();
+  const styles = styling(theme);
+
   return (
     <Pressable style={styles.goNextButton} onPress={onPress}>
-      <MaterialIcons name="arrow-forward-ios" size={20} color={colors.BLACK} />
+      <MaterialIcons
+        name="arrow-forward-ios"
+        size={20}
+        color={colors[theme].BLACK}
+      />
     </Pressable>
   );
 }
@@ -172,78 +211,81 @@ export const CompoundModal = Object.assign(ModalMain, {
   GoNextButton,
 });
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'flex-end',
-  },
-  optionContainer: {
-    backgroundColor: 'rgba(0 0 0 / 0.5)',
-  },
-  cardContainer: {
-    backgroundColor: colors.WHITE,
-    marginHorizontal: 10,
-    marginBottom: 40,
-    borderRadius: 20,
-    shadowColor: colors.BLACK,
-    shadowOffset: {width: 3, height: 3},
-    shadowOpacity: 0.2,
-    elevation: 1,
-    borderColor: colors.GRAY_500,
-    borderWidth: 1.5,
-  },
-  cardInner: {
-    padding: 20,
-  },
-  imageContainer: {
-    width: 70,
-    height: 70,
-    borderRadius: 35,
-  },
-  emptyImageContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderColor: colors.GRAY_200,
-    borderRadius: 35,
-    borderWidth: 1,
-  },
-  image: {
-    width: '100%',
-    height: '100%',
-    borderRadius: 35,
-  },
-  goNextButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 40,
-    alignItems: 'flex-end',
-    justifyContent: 'center',
-  },
-  optionButtonContainer: {
-    borderRadius: 15,
-    marginHorizontal: 10,
-    marginBottom: 10,
-    backgroundColor: colors.GRAY_100,
-    overflow: 'hidden',
-  },
-  optionButton: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: 50,
-  },
-  optionButtonPressed: {
-    backgroundColor: colors.GRAY_300,
-  },
-  optionText: {
-    fontSize: 17,
-    color: colors.BLUE_500,
-    fontWeight: '500',
-  },
-  border: {
-    borderBottomColor: colors.GRAY_300,
-    borderBottomWidth: 1,
-  },
-  dangerText: {
-    color: colors.RED_500,
-  },
-});
+const styling = (theme: ThemeMode) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      justifyContent: 'flex-end',
+    },
+    optionContainer: {
+      backgroundColor: 'rgba(0 0 0 / 0.5)',
+    },
+    cardContainer: {
+      backgroundColor: colors[theme].WHITE,
+      marginHorizontal: 10,
+      marginBottom: 40,
+      borderRadius: 20,
+      shadowColor: colors[theme].UNCHANGE_BLACK,
+      shadowOffset: {width: 3, height: 3},
+      shadowOpacity: 0.2,
+      elevation: 1,
+      borderColor: colors[theme].GRAY_500,
+      borderWidth: 1.5,
+    },
+    cardInner: {
+      padding: 20,
+    },
+    imageContainer: {
+      width: 70,
+      height: 70,
+      borderRadius: 35,
+    },
+    emptyImageContainer: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderColor: colors[theme].GRAY_200,
+      borderRadius: 35,
+      borderWidth: 1,
+    },
+    image: {
+      width: '100%',
+      height: '100%',
+      borderRadius: 35,
+    },
+    goNextButton: {
+      width: 40,
+      height: 40,
+      borderRadius: 40,
+      alignItems: 'flex-end',
+      justifyContent: 'center',
+    },
+    optionButtonContainer: {
+      borderRadius: 15,
+      marginHorizontal: 10,
+      marginBottom: 10,
+      backgroundColor: colors[theme].GRAY_100,
+      overflow: 'hidden',
+    },
+    optionButton: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      height: 50,
+      gap: 5,
+    },
+    optionButtonPressed: {
+      backgroundColor: colors[theme].GRAY_200,
+    },
+    optionText: {
+      fontSize: 17,
+      color: colors[theme].BLUE_500,
+      fontWeight: '500',
+    },
+    border: {
+      borderBottomColor: colors[theme].GRAY_200,
+      borderBottomWidth: 1,
+    },
+    dangerText: {
+      color: colors[theme].RED_500,
+    },
+  });

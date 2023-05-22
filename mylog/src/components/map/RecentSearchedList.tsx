@@ -2,15 +2,19 @@ import React, {memo, useEffect, useState} from 'react';
 import {Pressable, ScrollView, StyleSheet, Text, View} from 'react-native';
 
 import Conditional from '../@common/Conditional';
+import useThemeStore from '@/store/useThemeStore';
+import RecentSearchedItem from './RecentSearchedItem';
 import {getAsyncStorage, setAsyncStorage} from '@/utils/asyncStorage';
 import {colors} from '@/constants/colors';
-import RecentSearchedItem from './RecentSearchedItem';
+import type {ThemeMode} from '@/types';
 
 interface RecentSearchedListProps {
   storageKey: string;
 }
 
 function RecentSearchedList({storageKey}: RecentSearchedListProps) {
+  const {theme} = useThemeStore();
+  const styles = styling(theme);
   const [searchedList, setSearchedList] = useState([]);
 
   const clearList = async () => {
@@ -51,45 +55,46 @@ function RecentSearchedList({storageKey}: RecentSearchedListProps) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    marginVertical: 10,
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  headerTitle: {
-    color: colors.BLACK,
-    fontSize: 15,
-    fontWeight: 'bold',
-  },
-  deleteAllText: {
-    color: colors.BLACK,
-    fontSize: 15,
-    textDecorationLine: 'underline',
-  },
-  listContainer: {
-    flexDirection: 'row',
-    gap: 10,
-  },
-  listItem: {
-    borderColor: colors.PINK_700,
-    borderWidth: 1.5,
-    borderRadius: 5,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    marginTop: 15,
-  },
-  itemText: {
-    color: colors.PINK_700,
-    fontWeight: 'bold',
-  },
-  noRecentText: {
-    textAlign: 'center',
-    color: colors.GRAY_300,
-  },
-});
+const styling = (theme: ThemeMode) =>
+  StyleSheet.create({
+    container: {
+      marginVertical: 10,
+    },
+    header: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    },
+    headerTitle: {
+      color: colors[theme].BLACK,
+      fontSize: 15,
+      fontWeight: 'bold',
+    },
+    deleteAllText: {
+      color: colors[theme].BLACK,
+      fontSize: 15,
+      textDecorationLine: 'underline',
+    },
+    listContainer: {
+      flexDirection: 'row',
+      gap: 10,
+    },
+    listItem: {
+      borderColor: colors[theme].PINK_700,
+      borderWidth: 1.5,
+      borderRadius: 5,
+      paddingHorizontal: 10,
+      paddingVertical: 5,
+      marginTop: 15,
+    },
+    itemText: {
+      color: colors[theme].PINK_700,
+      fontWeight: 'bold',
+    },
+    noRecentText: {
+      textAlign: 'center',
+      color: colors[theme].GRAY_300,
+    },
+  });
 
 export default memo(RecentSearchedList);

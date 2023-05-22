@@ -11,7 +11,7 @@ import type {SettingStackParamList} from '@/navigations/stack/SettingStackNaviga
 import type {StackScreenProps} from '@react-navigation/stack';
 import InputField from '@/components/@common/InputField';
 import CustomButton from '@/components/@common/CustomButton';
-import CustomKeyboardAvoidingView from '@/components/@keyboard/CustomKeyboardAvoidingView';
+import CustomKeyboardAvoidingView from '@/components/@common/CustomKeyboardAvoidingView';
 import useForm from '@/hooks/useForm';
 import {useFeedback} from '@/hooks/queries/useFeedback';
 import useSnackbarStore from '@/store/useSnackbarStore';

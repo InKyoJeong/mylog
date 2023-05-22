@@ -1,14 +1,12 @@
 import React from 'react';
-import {
-  StackNavigationOptions,
-  createStackNavigator,
-} from '@react-navigation/stack';
+import {createStackNavigator} from '@react-navigation/stack';
 import type {LatLng} from 'react-native-maps';
 
 import FeedHomeScreen from '@/screens/feed/FeedHomeScreen';
 import FeedDetailScreen from '@/screens/feed/FeedDetailScreen';
 import EditPostScreen from '@/screens/feed/EditPostScreen';
 import FeedHomeHeaderLeft from '@/components/feed/FeedHomeHeaderLeft';
+import useThemeStore from '@/store/useThemeStore';
 import {feedNavigations} from '@/constants/navigations';
 import {colors} from '@/constants/colors';
 
@@ -20,28 +18,33 @@ export type FeedStackParamList = {
 
 const Stack = createStackNavigator<FeedStackParamList>();
 
-const feedStackOptions: StackNavigationOptions = {
-  headerStyle: {
-    backgroundColor: colors.WHITE,
-  },
-  headerTitleStyle: {
-    fontSize: 15,
-  },
-  headerTintColor: colors.BLACK,
-  cardStyle: {
-    backgroundColor: colors.WHITE,
-  },
-};
-
 function FeedStackNavigator() {
+  const {theme} = useThemeStore();
+
   return (
-    <Stack.Navigator screenOptions={feedStackOptions}>
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: colors[theme].WHITE,
+          shadowColor: colors[theme].GRAY_200,
+        },
+        headerTitleStyle: {
+          fontSize: 15,
+        },
+        headerTintColor: colors[theme].BLACK,
+        cardStyle: {
+          backgroundColor: colors[theme].WHITE,
+        },
+      }}>
       <Stack.Screen
         name={feedNavigations.FEED_HOME}
         component={FeedHomeScreen}
         options={({navigation}) => ({
           headerTitle: '피드',
           headerLeft: () => FeedHomeHeaderLeft(navigation),
+          cardStyle: {
+            backgroundColor: colors[theme].WHITE,
+          },
         })}
       />
       <Stack.Screen
@@ -51,7 +54,7 @@ function FeedStackNavigator() {
           headerShown: false,
           headerTitle: ' ',
           cardStyle: {
-            backgroundColor: colors.GRAY_100,
+            backgroundColor: colors[theme].GRAY_100,
           },
         }}
       />

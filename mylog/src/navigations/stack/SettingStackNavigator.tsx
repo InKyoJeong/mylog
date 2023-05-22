@@ -1,14 +1,12 @@
 import React from 'react';
-import {
-  StackNavigationOptions,
-  createStackNavigator,
-} from '@react-navigation/stack';
+import {createStackNavigator} from '@react-navigation/stack';
 
 import SettingHomeScreen from '@/screens/setting/SettingHomeScreen';
 import EditProfileScreen from '@/screens/setting/EditProfileScreen';
 import FeedbackScreen from '@/screens/setting/FeedbackScreen';
 import EditCategoryScreen from '@/screens/setting/EditCategoryScreen';
 import SettingHeaderLeft from '@/components/setting/SettingHeaderLeft';
+import useThemeStore from '@/store/useThemeStore';
 import {settingNavigations} from '@/constants/navigations';
 import {colors} from '@/constants/colors';
 
@@ -21,19 +19,26 @@ export type SettingStackParamList = {
 
 const Stack = createStackNavigator<SettingStackParamList>();
 
-const settingStackOptions: StackNavigationOptions = {
-  headerStyle: {
-    backgroundColor: colors.WHITE,
-  },
-  headerTitleStyle: {
-    fontSize: 15,
-  },
-  headerTintColor: colors.BLACK,
-};
-
 function SettingStackNavigator() {
+  const {theme} = useThemeStore();
+
   return (
-    <Stack.Navigator screenOptions={settingStackOptions}>
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: colors[theme].WHITE,
+          shadowColor: colors[theme].GRAY_200,
+        },
+        headerTitleStyle: {
+          fontSize: 15,
+        },
+        headerTintColor: colors[theme].BLACK,
+        headerBackTitleVisible: false,
+        cardStyle: {
+          backgroundColor:
+            theme === 'light' ? colors[theme].GRAY_100 : colors[theme].WHITE,
+        },
+      }}>
       <Stack.Screen
         name={settingNavigations.SETTING_HOME}
         component={SettingHomeScreen}
@@ -48,7 +53,7 @@ function SettingStackNavigator() {
         options={{
           headerTitle: '프로필 수정',
           cardStyle: {
-            backgroundColor: colors.WHITE,
+            backgroundColor: colors[theme].WHITE,
           },
         }}
       />
@@ -58,7 +63,7 @@ function SettingStackNavigator() {
         options={{
           headerTitle: '카테고리 설정',
           cardStyle: {
-            backgroundColor: colors.WHITE,
+            backgroundColor: colors[theme].WHITE,
           },
         }}
       />
@@ -68,7 +73,7 @@ function SettingStackNavigator() {
         options={{
           headerTitle: '의견 보내기',
           cardStyle: {
-            backgroundColor: colors.WHITE,
+            backgroundColor: colors[theme].WHITE,
           },
         }}
       />

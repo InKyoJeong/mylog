@@ -7,7 +7,7 @@ import type {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator
 import FeedItem from './FeedItem';
 import InfoMessage from '../@common/InfoMessage';
 import {useGetInifinitePosts} from '@/hooks/queries/usePost';
-import {mainNavigations} from '@/constants/navigations';
+import {mainNavigations, mapNavigations} from '@/constants/navigations';
 
 function FeedItemList() {
   const scrollRef = useRef(null);
@@ -48,7 +48,11 @@ function FeedItemList() {
         <InfoMessage
           message="아직 등록된 위치가 없어요."
           buttonLabel="홈으로 이동"
-          onPress={() => navigation.navigate(mainNavigations.HOME)}
+          onPress={() =>
+            navigation.navigate(mainNavigations.HOME, {
+              screen: mapNavigations.MAP_HOME,
+            })
+          }
         />
       }
       refreshing={isRefreshing}

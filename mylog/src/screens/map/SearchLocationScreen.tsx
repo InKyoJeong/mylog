@@ -20,12 +20,14 @@ import useSearchLocation from '@/hooks/useSearchLocation';
 import useUserLocation from '@/hooks/useUserLocation';
 import useLocationStore from '@/store/useLocationStore';
 import useSearchStore from '@/store/useSearchStore';
+import useThemeStore from '@/store/useThemeStore';
 import {getAsyncStorage, setAsyncStorage} from '@/utils/asyncStorage';
 import {convertMeterToKilometer} from '@/utils';
 import {mapNavigations} from '@/constants/navigations';
 import {colors} from '@/constants/colors';
 import {numbers} from '@/constants/numbers';
 import {storageKeys} from '@/constants/keys';
+import type {ThemeMode} from '@/types';
 
 type SearchLocationScreenProps = StackScreenProps<
   MapStackParamList,
@@ -33,6 +35,8 @@ type SearchLocationScreenProps = StackScreenProps<
 >;
 
 function SearchLocationScreen({navigation}: SearchLocationScreenProps) {
+  const {theme} = useThemeStore();
+  const styles = styling(theme);
   const {keyword, setKeyword} = useSearchStore();
   const {userLocation} = useUserLocation();
   const {setMoveLocation, setSelectLocation} = useLocationStore();
@@ -66,6 +70,7 @@ function SearchLocationScreen({navigation}: SearchLocationScreenProps) {
       searchKeyword,
       ...storedData,
     ]);
+
     setKeyword('');
   };
 
@@ -96,7 +101,11 @@ function SearchLocationScreen({navigation}: SearchLocationScreenProps) {
               ]}
               onPress={() => handlePressRegionInfo(info.y, info.x)}>
               <View style={styles.placeNameContainer}>
-                <Octicons name="location" size={15} color={colors.PINK_700} />
+                <Octicons
+                  name="location"
+                  size={15}
+                  color={colors[theme].PINK_700}
+                />
                 <Text
                   style={styles.placeText}
                   ellipsizeMode="tail"
@@ -130,7 +139,7 @@ function SearchLocationScreen({navigation}: SearchLocationScreenProps) {
           <Octicons
             name="arrow-left"
             size={15}
-            color={pageParam > 1 ? colors.BLACK : colors.GRAY_300}
+            color={pageParam > 1 ? colors[theme].BLACK : colors[theme].GRAY_300}
             onPress={fetchPrevPage}
             disabled={pageParam <= 1}
           />
@@ -156,8 +165,8 @@ function SearchLocationScreen({navigation}: SearchLocationScreenProps) {
             size={15}
             color={
               regionInfo.length > 0 && hasNextPage
-                ? colors.BLACK
-                : colors.GRAY_300
+                ? colors[theme].BLACK
+                : colors[theme].GRAY_300
             }
             onPress={fetchNextPage}
             disabled={regionInfo.length === 0 || !hasNextPage}
@@ -168,84 +177,85 @@ function SearchLocationScreen({navigation}: SearchLocationScreenProps) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-  },
-  resultContainer: {
-    borderWidth: 1,
-    borderColor: colors.GRAY_200,
-    borderRadius: 5,
-    height: Dimensions.get('screen').height / 2,
-    marginVertical: 5,
-    width: '100%',
-  },
-  scrollContainer: {
-    padding: 10,
-  },
-  placeNameContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 5,
-  },
-  placeText: {
-    color: colors.BLACK,
-    flexShrink: 1,
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  categoryContainer: {
-    flexDirection: 'row',
-    gap: 10,
-  },
-  distanceText: {
-    color: colors.BLACK,
-  },
-  subInfoText: {
-    flexShrink: 1,
-    color: colors.GRAY_500,
-  },
-  itemBorder: {
-    marginHorizontal: 5,
-    paddingVertical: 10,
-    borderBottomColor: colors.GRAY_300,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    gap: 3,
-  },
-  noItemBorder: {
-    borderBottomWidth: 0,
-  },
-  noResultContainer: {
-    flex: 1,
-    alignItems: 'center',
-    marginTop: 50,
-  },
-  noResultText: {
-    color: colors.GRAY_500,
-    fontSize: 16,
-  },
-  pageButtonContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 10,
-    marginHorizontal: 5,
-  },
-  pageButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 5,
-    height: 25,
-  },
-  pageText: {
-    fontSize: 15,
-    color: colors.BLACK,
-  },
-  disabledPageText: {
-    fontSize: 15,
-    color: colors.GRAY_300,
-  },
-});
+const styling = (theme: ThemeMode) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      padding: 20,
+    },
+    resultContainer: {
+      borderWidth: 1,
+      borderColor: colors[theme].GRAY_200,
+      borderRadius: 5,
+      height: Dimensions.get('screen').height / 2,
+      marginVertical: 5,
+      width: '100%',
+    },
+    scrollContainer: {
+      padding: 10,
+    },
+    placeNameContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 5,
+    },
+    placeText: {
+      color: colors[theme].BLACK,
+      flexShrink: 1,
+      fontSize: 16,
+      fontWeight: '600',
+    },
+    categoryContainer: {
+      flexDirection: 'row',
+      gap: 10,
+    },
+    distanceText: {
+      color: colors[theme].BLACK,
+    },
+    subInfoText: {
+      flexShrink: 1,
+      color: colors[theme].GRAY_500,
+    },
+    itemBorder: {
+      marginHorizontal: 5,
+      paddingVertical: 10,
+      borderBottomColor: colors[theme].GRAY_300,
+      borderBottomWidth: StyleSheet.hairlineWidth,
+      gap: 3,
+    },
+    noItemBorder: {
+      borderBottomWidth: 0,
+    },
+    noResultContainer: {
+      flex: 1,
+      alignItems: 'center',
+      marginTop: 50,
+    },
+    noResultText: {
+      color: colors[theme].GRAY_500,
+      fontSize: 16,
+    },
+    pageButtonContainer: {
+      flex: 1,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      marginTop: 10,
+      marginHorizontal: 5,
+    },
+    pageButton: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 5,
+      height: 25,
+    },
+    pageText: {
+      fontSize: 15,
+      color: colors[theme].BLACK,
+    },
+    disabledPageText: {
+      fontSize: 15,
+      color: colors[theme].GRAY_300,
+    },
+  });
 
 export default SearchLocationScreen;
