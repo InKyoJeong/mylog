@@ -2,7 +2,7 @@ import {useEffect} from 'react';
 import {useColorScheme} from 'react-native';
 
 import useThemeStore from '@/store/useThemeStore';
-import {getAsyncStorage, setAsyncStorage} from '@/utils/asyncStorage';
+import {getAsyncStorage, setAsyncStorage} from '@/utils';
 import {storageKeys} from '@/constants';
 import type {ThemeMode} from '@/types';
 

@@ -15,7 +15,7 @@ import useModal from '@/hooks/useModal';
 import useImagePicker from '@/hooks/useImagePicker';
 import useSnackbarStore from '@/store/useSnackbarStore';
 import useThemeStore from '@/store/useThemeStore';
-import {validateEditProfile} from '@/utils/validate';
+import {validateEditProfile} from '@/utils';
 import {colors, numbers, successMessages} from '@/constants';
 import type {ThemeMode} from '@/types';
 

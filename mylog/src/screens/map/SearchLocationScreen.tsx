@@ -21,8 +21,11 @@ import useUserLocation from '@/hooks/useUserLocation';
 import useLocationStore from '@/store/useLocationStore';
 import useSearchStore from '@/store/useSearchStore';
 import useThemeStore from '@/store/useThemeStore';
-import {getAsyncStorage, setAsyncStorage} from '@/utils/asyncStorage';
-import {convertMeterToKilometer} from '@/utils';
+import {
+  convertMeterToKilometer,
+  getAsyncStorage,
+  setAsyncStorage,
+} from '@/utils';
 import {numbers, colors, storageKeys, mapNavigations} from '@/constants';
 import type {ThemeMode} from '@/types';
 

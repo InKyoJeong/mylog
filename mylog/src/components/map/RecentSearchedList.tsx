@@ -4,7 +4,7 @@ import {Pressable, ScrollView, StyleSheet, Text, View} from 'react-native';
 import Conditional from '../@common/Conditional';
 import useThemeStore from '@/store/useThemeStore';
 import RecentSearchedItem from './RecentSearchedItem';
-import {getAsyncStorage, setAsyncStorage} from '@/utils/asyncStorage';
+import {getAsyncStorage, setAsyncStorage} from '@/utils';
 import {colors} from '@/constants';
 import type {ThemeMode} from '@/types';
 

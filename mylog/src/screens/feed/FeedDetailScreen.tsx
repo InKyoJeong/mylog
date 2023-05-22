@@ -34,7 +34,7 @@ import useLocationStore from '@/store/useLocationStore';
 import useDetailPostStore from '@/store/useDetailPostStore';
 import useSnackbarStore from '@/store/useSnackbarStore';
 import useThemeStore from '@/store/useThemeStore';
-import {getDateLocaleFormat} from '@/utils/date';
+import {getDateLocaleFormat} from '@/utils';
 import {
   numbers,
   colorHex,

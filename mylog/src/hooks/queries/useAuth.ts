@@ -13,8 +13,12 @@ import {
   postSignup,
 } from '@/api/auth';
 import queryClient from '@/api/queryClient';
-import {removeEncryptStorage, setEncryptStorage} from '@/utils/encryptStorage';
-import {removeHeader, setHeader} from '@/utils/axiosInstance';
+import {
+  removeEncryptStorage,
+  setEncryptStorage,
+  removeHeader,
+  setHeader,
+} from '@/utils';
 import {numbers, queryKeys, storageKeys} from '@/constants';
 import type {
   ResponseError,

@@ -30,8 +30,7 @@ import usePermission from '@/hooks/usePermission';
 import {useCreatePost, useUpdatePost} from '@/hooks/queries/usePost';
 import useDetailPostStore from '@/store/useDetailPostStore';
 import useThemeStore from '@/store/useThemeStore';
-import {validateAddPost} from '@/utils/validate';
-import {getDateWithSeparator} from '@/utils/date';
+import {validateAddPost, getDateWithSeparator} from '@/utils';
 import {colors, numbers} from '@/constants';
 import type {UseMutationCustomOptions, MarkerColor} from '@/types';
 

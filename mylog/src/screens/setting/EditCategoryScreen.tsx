@@ -18,7 +18,7 @@ import useAuth from '@/hooks/queries/useAuth';
 import useForm from '@/hooks/useForm';
 import useSnackbarStore from '@/store/useSnackbarStore';
 import useThemeStore from '@/store/useThemeStore';
-import {validateCategory} from '@/utils/validate';
+import {validateCategory} from '@/utils';
 import {
   numbers,
   colorHex,

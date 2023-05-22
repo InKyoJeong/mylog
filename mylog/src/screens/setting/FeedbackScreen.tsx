@@ -15,7 +15,7 @@ import CustomKeyboardAvoidingView from '@/components/@common/CustomKeyboardAvoid
 import useForm from '@/hooks/useForm';
 import {useFeedback} from '@/hooks/queries/useFeedback';
 import useSnackbarStore from '@/store/useSnackbarStore';
-import {validateAddFeedback} from '@/utils/validate';
+import {validateAddFeedback} from '@/utils';
 import {numbers, successMessages} from '@/constants';
 
 type FeedbackScreenProps = StackScreenProps<SettingStackParamList>;

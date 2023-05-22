@@ -11,7 +11,7 @@ import {CompoundModal} from '../@common/CompoundModal';
 import {useGetPost} from '@/hooks/queries/usePost';
 import useMarkerStore from '@/store/useMarkerStore';
 import useThemeStore from '@/store/useThemeStore';
-import {getDateWithSeparator} from '@/utils/date';
+import {getDateWithSeparator} from '@/utils';
 import {
   colors,
   feedNavigations,
