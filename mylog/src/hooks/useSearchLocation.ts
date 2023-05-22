@@ -4,7 +4,7 @@ import type {LatLng} from 'react-native-maps';
 import Config from 'react-native-config';
 
 import useDebounce from './useDebounce';
-import {numbers} from '@/constants/numbers';
+import {numbers} from '@/constants';
 
 type Meta = {
   total_count: number;

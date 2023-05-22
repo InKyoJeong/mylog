@@ -15,8 +15,7 @@ import {
 import queryClient from '@/api/queryClient';
 import {removeEncryptStorage, setEncryptStorage} from '@/utils/encryptStorage';
 import {removeHeader, setHeader} from '@/utils/axiosInstance';
-import {numbers} from '@/constants/numbers';
-import {queryKeys, storageKeys} from '@/constants/keys';
+import {numbers, queryKeys, storageKeys} from '@/constants';
 import type {ResponseError, UseMutationCustomOptions} from '@/types';
 import type {Category, Profile} from '@/types/domain';
 

@@ -19,10 +19,14 @@ import useForm from '@/hooks/useForm';
 import useSnackbarStore from '@/store/useSnackbarStore';
 import useThemeStore from '@/store/useThemeStore';
 import {validateCategory} from '@/utils/validate';
-import {categoryList, categoryPlaceholderList} from '@/constants/list';
-import {colorHex, colors} from '@/constants/colors';
-import {successMessages} from '@/constants/messages';
-import {numbers} from '@/constants/numbers';
+import {
+  numbers,
+  colorHex,
+  colors,
+  successMessages,
+  categoryList,
+  categoryPlaceholderList,
+} from '@/constants';
 import type {ThemeMode} from '@/types';
 
 type EditCategoryScreenProps = StackScreenProps<SettingStackParamList>;

@@ -3,7 +3,7 @@ import type {StackScreenProps} from '@react-navigation/stack';
 
 import type {FeedStackParamList} from '@/navigations/stack/FeedStackNavigator';
 import PostEditor from '@/components/post/PostEditor';
-import {feedNavigations} from '@/constants/navigations';
+import {feedNavigations} from '@/constants';
 
 type EditPostScreenProps = StackScreenProps<
   FeedStackParamList,

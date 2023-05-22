@@ -1,9 +1,8 @@
 import {getObjectWithValue} from '.';
 import type {RequestFeedback} from '@/api/feedback';
 import type {RequestUser} from '@/api/auth';
-import {errorMessages} from '@/constants/messages';
-import {numbers} from '@/constants/numbers';
 import type {RequestCreatePost} from '@/api/post';
+import {numbers, errorMessages} from '@/constants';
 import type {Category, MarkerColor} from '@/types/domain';
 
 function isBlank(value: string) {

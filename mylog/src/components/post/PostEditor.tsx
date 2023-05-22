@@ -32,8 +32,7 @@ import useDetailPostStore from '@/store/useDetailPostStore';
 import useThemeStore from '@/store/useThemeStore';
 import {validateAddPost} from '@/utils/validate';
 import {getDateWithSeparator} from '@/utils/date';
-import {colors} from '@/constants/colors';
-import {numbers} from '@/constants/numbers';
+import {colors, numbers} from '@/constants';
 import type {MarkerColor} from '@/types/domain';
 import type {UseMutationCustomOptions} from '@/types';
 

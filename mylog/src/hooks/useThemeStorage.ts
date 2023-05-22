@@ -3,7 +3,7 @@ import {useColorScheme} from 'react-native';
 
 import useThemeStore from '@/store/useThemeStore';
 import {getAsyncStorage, setAsyncStorage} from '@/utils/asyncStorage';
-import {storageKeys} from '@/constants/keys';
+import {storageKeys} from '@/constants';
 import type {ThemeMode} from '@/types';
 
 function useThemeStorage() {

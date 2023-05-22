@@ -17,7 +17,7 @@ import Config from 'react-native-config';
 import Conditional from './Conditional';
 import useThemeStore from '@/store/useThemeStore';
 import CustomMarker from './CustomMarker';
-import {colors} from '@/constants/colors';
+import {colors} from '@/constants';
 import type {ImageUri} from '@/types/domain';
 import type {ThemeMode} from '@/types';
 

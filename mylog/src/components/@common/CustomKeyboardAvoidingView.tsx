@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import {useHeaderHeight} from '@react-navigation/elements';
 
-import {numbers} from '@/constants/numbers';
+import {numbers} from '@/constants';
 
 interface CustomKeyboardAvoidingViewProps {
   style?: StyleProp<ViewStyle>;

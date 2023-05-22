@@ -2,7 +2,7 @@ import {useEffect} from 'react';
 
 import {getAsyncStorage, setAsyncStorage} from '@/utils/asyncStorage';
 import useLegendStore from '@/store/useLegendStore';
-import {storageKeys} from '@/constants/keys';
+import {storageKeys} from '@/constants';
 
 function useLegendStorage() {
   const {isVisible, setIsVisible} = useLegendStore();

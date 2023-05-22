@@ -3,7 +3,7 @@ import type {LatLng} from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
 
 import useAppState from './useAppState';
-import {numbers} from '@/constants/numbers';
+import {numbers} from '@/constants';
 
 function useUserLocation() {
   const [userLocation, setUserLocation] = useState<LatLng>(

@@ -5,8 +5,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import useAuth from '@/hooks/queries/useAuth';
 import useThemeStore from '@/store/useThemeStore';
 import Conditional from '../@common/Conditional';
-import {colorHex, colors} from '@/constants/colors';
-import {categoryList} from '@/constants/list';
+import {colorHex, colors, categoryList} from '@/constants';
 import {Category} from '@/types/domain';
 import type {ThemeMode} from '@/types';
 

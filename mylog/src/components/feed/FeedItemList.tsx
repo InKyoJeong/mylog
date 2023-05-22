@@ -7,7 +7,7 @@ import type {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator
 import FeedItem from './FeedItem';
 import InfoMessage from '../@common/InfoMessage';
 import {useGetInifinitePosts} from '@/hooks/queries/usePost';
-import {mainNavigations, mapNavigations} from '@/constants/navigations';
+import {mainNavigations, mapNavigations} from '@/constants';
 
 function FeedItemList() {
   const scrollRef = useRef(null);

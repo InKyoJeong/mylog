@@ -5,8 +5,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import useKeyboardStatus from '@/hooks/useKeyboardStatus';
 import useSnackbarStore from '@/store/useSnackbarStore';
 import useThemeStore from '@/store/useThemeStore';
-import {colors} from '@/constants/colors';
-import {numbers} from '@/constants/numbers';
+import {colors, numbers} from '@/constants';
 import type {ThemeMode} from '@/types';
 
 function Snackbar() {

@@ -12,9 +12,12 @@ import {useGetPost} from '@/hooks/queries/usePost';
 import useMarkerStore from '@/store/useMarkerStore';
 import useThemeStore from '@/store/useThemeStore';
 import {getDateWithSeparator} from '@/utils/date';
-import {feedNavigations, feedTabNavigations} from '@/constants/navigations';
-import {mainNavigations} from '@/constants/navigations';
-import {colors} from '@/constants/colors';
+import {
+  colors,
+  feedNavigations,
+  feedTabNavigations,
+  mainNavigations,
+} from '@/constants';
 import type {ThemeMode} from '@/types';
 
 type Navigation = CompositeNavigationProp<

@@ -5,7 +5,7 @@ import Conditional from '../@common/Conditional';
 import useThemeStore from '@/store/useThemeStore';
 import RecentSearchedItem from './RecentSearchedItem';
 import {getAsyncStorage, setAsyncStorage} from '@/utils/asyncStorage';
-import {colors} from '@/constants/colors';
+import {colors} from '@/constants';
 import type {ThemeMode} from '@/types';
 
 interface RecentSearchedListProps {

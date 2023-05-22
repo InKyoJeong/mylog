@@ -17,7 +17,7 @@ import {
   getSearchPosts,
   updatePost,
 } from '@/api/post';
-import {queryKeys} from '@/constants/keys';
+import {queryKeys} from '@/constants';
 import type {ResponseError, UseMutationCustomOptions} from '@/types';
 import type {Marker} from '@/types/domain';
 

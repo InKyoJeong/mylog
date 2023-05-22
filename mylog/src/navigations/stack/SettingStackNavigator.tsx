@@ -7,8 +7,7 @@ import FeedbackScreen from '@/screens/setting/FeedbackScreen';
 import EditCategoryScreen from '@/screens/setting/EditCategoryScreen';
 import SettingHeaderLeft from '@/components/setting/SettingHeaderLeft';
 import useThemeStore from '@/store/useThemeStore';
-import {settingNavigations} from '@/constants/navigations';
-import {colors} from '@/constants/colors';
+import {colors, settingNavigations} from '@/constants';
 
 export type SettingStackParamList = {
   [settingNavigations.SETTING_HOME]: undefined;

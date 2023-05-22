@@ -3,7 +3,7 @@ import type {StackScreenProps} from '@react-navigation/stack';
 
 import type {MapStackParamList} from '@/navigations/stack/MapStackNavigator';
 import PostEditor from '@/components/post/PostEditor';
-import {mapNavigations} from '@/constants/navigations';
+import {mapNavigations} from '@/constants';
 
 type AddPostScreenProps = StackScreenProps<
   MapStackParamList,

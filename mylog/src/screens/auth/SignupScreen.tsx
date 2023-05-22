@@ -13,7 +13,7 @@ import CustomKeyboardAvoidingView from '@/components/@common/CustomKeyboardAvoid
 import useForm from '@/hooks/useForm';
 import useAuth from '@/hooks/queries/useAuth';
 import {validateSignup} from '@/utils/validate';
-import {numbers} from '@/constants/numbers';
+import {numbers} from '@/constants';
 
 function SignupScreen() {
   const {signupMutation, loginMutation} = useAuth();

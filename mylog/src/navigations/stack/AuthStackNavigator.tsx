@@ -5,8 +5,7 @@ import SignupScreen from '@/screens/auth/SignupScreen';
 import LoginScreen from '@/screens/auth/LoginScreen';
 import AuthHomeScreen from '@/screens/auth/AuthHomeScreen';
 import useThemeStore from '@/store/useThemeStore';
-import {authNavigations} from '@/constants/navigations';
-import {colors} from '@/constants/colors';
+import {colors, authNavigations} from '@/constants';
 
 export type AuthStackParamList = {
   [authNavigations.AUTH_HOME]: undefined;

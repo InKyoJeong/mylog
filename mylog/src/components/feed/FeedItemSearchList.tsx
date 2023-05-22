@@ -12,8 +12,7 @@ import FeedItem from './FeedItem';
 import {useGetInifiniteSearchPosts} from '@/hooks/queries/usePost';
 import useDebounce from '@/hooks/useDebounce';
 import useThemeStore from '@/store/useThemeStore';
-import {colors} from '@/constants/colors';
-import {numbers} from '@/constants/numbers';
+import {colors, numbers} from '@/constants';
 import type {ThemeMode} from '@/types';
 
 function FeedItemSearchList() {

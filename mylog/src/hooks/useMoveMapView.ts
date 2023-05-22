@@ -2,7 +2,7 @@ import {useEffect, useRef, useState} from 'react';
 import MapView, {LatLng, Region} from 'react-native-maps';
 
 import useLocationStore from '@/store/useLocationStore';
-import {numbers} from '@/constants/numbers';
+import {numbers} from '@/constants';
 
 type Delta = Pick<Region, 'latitudeDelta' | 'longitudeDelta'>;
 

@@ -5,8 +5,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 import useSnackbarStore from '@/store/useSnackbarStore';
 import {useUploadImages} from './queries/useImage';
 import {getFormDataImages} from '@/utils/image';
-import {alerts, errorMessages} from '@/constants/messages';
-import {numbers} from '@/constants/numbers';
+import {numbers, alerts, errorMessages} from '@/constants';
 import type {ImageUri} from '@/types/domain';
 
 interface UseImagePickerProps {

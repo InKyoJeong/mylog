@@ -17,8 +17,7 @@ import CustomMarker from '../@common/CustomMarker';
 import Conditional from '../@common/Conditional';
 import {getDateWithSeparator} from '@/utils/date';
 import useThemeStore from '@/store/useThemeStore';
-import {feedNavigations} from '@/constants/navigations';
-import {colors} from '@/constants/colors';
+import {colors, feedNavigations} from '@/constants';
 import type {ThemeMode} from '@/types';
 
 interface FeedItemProps {
