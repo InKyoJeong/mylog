@@ -8,20 +8,37 @@ import type {ThemeMode} from '@/types';
 
 interface CalendarDateProps {
   date: number;
+  selectedDate: number;
   hasSchedule: boolean;
+  onPressDate: (date: number) => void;
 }
 
 const deviceWidth = Dimensions.get('window').width;
 
-function CalendarDate({date, hasSchedule}: CalendarDateProps) {
+function CalendarDate({
+  date,
+  selectedDate,
+  hasSchedule,
+  onPressDate,
+}: CalendarDateProps) {
   const {theme} = useThemeStore();
   const styles = styling(theme);
 
   return (
-    <Pressable style={styles.container}>
+    <Pressable style={styles.container} onPress={() => onPressDate(date)}>
       <Conditional condition={date > 0}>
-        <View style={styles.selectContainer}>
-          <Text style={styles.dateText}>{date}</Text>
+        <View
+          style={[
+            styles.dateContainer,
+            selectedDate === date && styles.selectedContainer,
+          ]}>
+          <Text
+            style={[
+              styles.dateText,
+              selectedDate === date && styles.selectedDateText,
+            ]}>
+            {date}
+          </Text>
         </View>
         {hasSchedule && <View style={styles.scheduleIndicator} />}
       </Conditional>
@@ -38,18 +55,24 @@ const styling = (theme: ThemeMode) =>
       borderTopColor: colors[theme].GRAY_300,
       alignItems: 'center',
     },
-    selectContainer: {
+    dateContainer: {
       marginTop: 5,
       alignItems: 'center',
       justifyContent: 'center',
       width: 28,
       height: 28,
       borderRadius: 28,
-      backgroundColor: 'red',
+    },
+    selectedContainer: {
+      backgroundColor: colors[theme].BLACK,
     },
     dateText: {
       fontSize: 17,
       color: colors[theme].BLACK,
+    },
+    selectedDateText: {
+      color: colors[theme].WHITE,
+      fontWeight: 'bold',
     },
     scheduleIndicator: {
       marginTop: 2,

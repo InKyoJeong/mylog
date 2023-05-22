@@ -75,3 +75,4 @@ export {
   getMonthYearDetails,
   getNewMonthYear,
 };
+export type {MonthYear};
