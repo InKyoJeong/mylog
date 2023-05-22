@@ -77,7 +77,7 @@ const styling = (theme: ThemeMode) =>
     },
     message: {
       textAlign: 'center',
-      color: colors[theme].WHITE,
+      color: colors[theme].UNCHANGE_WHITE,
       fontSize: 14,
       fontWeight: 'bold',
     },

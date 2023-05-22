@@ -54,7 +54,7 @@ const styling = (theme: ThemeMode) =>
       borderTopWidth: StyleSheet.hairlineWidth,
     },
     pressedContainer: {
-      backgroundColor: colors[theme].GRAY_100,
+      backgroundColor: colors[theme].GRAY_200,
     },
     titleContainer: {
       flex: 1,
