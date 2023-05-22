@@ -1,7 +1,7 @@
-import axiosInstance from '.';
+import axiosInstance from './axios';
 import {ImageUri, Post} from '@/types';
 
-export type ResponsePost = Post & {images: ImageUri[]};
+type ResponsePost = Post & {images: ImageUri[]};
 
 const getPosts = async (page = 1): Promise<ResponsePost[]> => {
   const {data} = await axiosInstance.get(`/posts/my?page=${page}`);
@@ -20,7 +20,7 @@ const getSearchPosts = async (
   return data;
 };
 
-export type ResponseSinglePost = ResponsePost & {isFavorite: boolean};
+type ResponseSinglePost = ResponsePost & {isFavorite: boolean};
 
 const getPost = async (id: number): Promise<ResponseSinglePost> => {
   const {data} = await axiosInstance.get(`/posts/${id}`);
@@ -28,7 +28,7 @@ const getPost = async (id: number): Promise<ResponseSinglePost> => {
   return data;
 };
 
-export type RequestCreatePost = Omit<Post, 'id'> & {imageUris: ImageUri[]};
+type RequestCreatePost = Omit<Post, 'id'> & {imageUris: ImageUri[]};
 
 const createPost = async (body: RequestCreatePost): Promise<ResponsePost> => {
   const {data} = await axiosInstance.post('/posts', body);
@@ -42,7 +42,7 @@ const deletePost = async (id: number) => {
   return data;
 };
 
-export type RequestUpdatePost = {
+type RequestUpdatePost = {
   id: number;
   body: Omit<Post, 'id' | 'longitude' | 'latitude' | 'address'> & {
     imageUris: ImageUri[];
@@ -59,3 +59,9 @@ const updatePost = async ({
 };
 
 export {getPosts, getSearchPosts, getPost, createPost, deletePost, updatePost};
+export type {
+  ResponsePost,
+  ResponseSinglePost,
+  RequestCreatePost,
+  RequestUpdatePost,
+};

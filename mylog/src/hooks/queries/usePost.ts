@@ -6,18 +6,17 @@ import {
   useQuery,
 } from '@tanstack/react-query';
 
+import {queryKeys} from '@/constants';
 import queryClient from '@/api/queryClient';
 import {
-  ResponsePost,
-  ResponseSinglePost,
   createPost,
   deletePost,
   getPost,
   getPosts,
   getSearchPosts,
   updatePost,
-} from '@/api/post';
-import {queryKeys} from '@/constants';
+} from '@/api';
+import type {ResponsePost, ResponseSinglePost} from '@/api';
 import type {ResponseError, UseMutationCustomOptions, Marker} from '@/types';
 
 function useGetInifinitePosts(
