@@ -5,7 +5,7 @@ import type {StackNavigationProp} from '@react-navigation/stack';
 
 import type {FeedStackParamList} from '@/navigations/stack/FeedStackNavigator';
 import {CompoundModal} from '../@common/CompoundModal';
-import {useDeletePost} from '@/hooks/queries/usePost';
+import {useDeletePostMutation} from '@/hooks/queries/usePost';
 import useDetailPostStore from '@/store/useDetailPostStore';
 import {alerts, feedNavigations} from '@/constants';
 
@@ -17,7 +17,7 @@ interface FeedDetailModalProps {
 function FeedDetailModal({isVisible, hideOption}: FeedDetailModalProps) {
   const navigation = useNavigation<StackNavigationProp<FeedStackParamList>>();
   const {detailPost} = useDetailPostStore();
-  const deletePostMutation = useDeletePost();
+  const deletePostMutation = useDeletePostMutation();
 
   const handleDeletePost = () => {
     if (!detailPost) {

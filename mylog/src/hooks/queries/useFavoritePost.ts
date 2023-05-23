@@ -10,7 +10,7 @@ import {getFavoritePosts, updateFavoritePost} from '@/api';
 import type {ResponsePost, ResponseSinglePost} from '@/api';
 import type {ResponseError, UseMutationCustomOptions} from '@/types';
 
-function useGetInifiniteFavoritePosts(
+function useInifiniteFavoritePostsQuery(
   queryOptions?: Omit<
     UseInfiniteQueryOptions<
       ResponsePost[],
@@ -35,7 +35,7 @@ function useGetInifiniteFavoritePosts(
   );
 }
 
-function useUpdateFavoritePost(mutationOptions?: UseMutationCustomOptions) {
+function useFavoritePostMutation(mutationOptions?: UseMutationCustomOptions) {
   return useMutation(updateFavoritePost, {
     onSuccess: updatedId => {
       queryClient.invalidateQueries([
@@ -58,4 +58,4 @@ function useUpdateFavoritePost(mutationOptions?: UseMutationCustomOptions) {
   });
 }
 
-export {useGetInifiniteFavoritePosts, useUpdateFavoritePost};
+export {useInifiniteFavoritePostsQuery, useFavoritePostMutation};

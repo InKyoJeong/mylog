@@ -25,7 +25,7 @@ import Conditional from '@/components/@common/Conditional';
 import usePermission from '@/hooks/usePermission';
 import useUserLocation from '@/hooks/useUserLocation';
 import useMoveMapView from '@/hooks/useMoveMapView';
-import {useGetMarkers} from '@/hooks/queries/useMarker';
+import {useMarkersQuery} from '@/hooks/queries/useMarker';
 import useMarkerStore from '@/store/useMarkerStore';
 import useLegendStore from '@/store/useLegendStore';
 import useSnackbarStore from '@/store/useSnackbarStore';
@@ -52,7 +52,7 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
   const {theme} = useThemeStore();
   const styles = styling(theme);
   const insets = useSafeAreaInsets();
-  const {data: markers = []} = useGetMarkers();
+  const {data: markers = []} = useMarkersQuery();
   const {mapRef, moveMapView, handleChangeDelta} = useMoveMapView();
   const {userLocation, isUserLocationError} = useUserLocation();
   const {selectLocation, setSelectLocation} = useLocationStore();

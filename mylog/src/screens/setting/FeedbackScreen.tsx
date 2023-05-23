@@ -13,7 +13,7 @@ import InputField from '@/components/@common/InputField';
 import CustomButton from '@/components/@common/CustomButton';
 import CustomKeyboardAvoidingView from '@/components/@common/CustomKeyboardAvoidingView';
 import useForm from '@/hooks/useForm';
-import {useFeedback} from '@/hooks/queries/useFeedback';
+import {useFeedbackMutation} from '@/hooks/queries/useFeedback';
 import useSnackbarStore from '@/store/useSnackbarStore';
 import {validateAddFeedback} from '@/utils';
 import {numbers, successMessages} from '@/constants';
@@ -22,7 +22,7 @@ type FeedbackScreenProps = StackScreenProps<SettingStackParamList>;
 
 function FeedbackScreen({navigation}: FeedbackScreenProps) {
   const snackbar = useSnackbarStore();
-  const feedbackMutation = useFeedback();
+  const feedbackMutation = useFeedbackMutation();
   const titleRef = useRef<TextInput | null>(null);
   const descriptionRef = useRef<TextInput | null>(null);
   const addFeedback = useForm({

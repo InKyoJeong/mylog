@@ -19,7 +19,7 @@ import {
 import type {ResponsePost, ResponseSinglePost} from '@/api';
 import type {ResponseError, UseMutationCustomOptions, Marker} from '@/types';
 
-function useGetInifinitePosts(
+function useInifinitePostsQuery(
   queryOptions?: Omit<
     UseInfiniteQueryOptions<
       ResponsePost[],
@@ -44,7 +44,7 @@ function useGetInifinitePosts(
   );
 }
 
-function useGetInifiniteSearchPosts(
+function useInifiniteSearchPostsQuery(
   query: string,
   queryOptions?: Omit<
     UseInfiniteQueryOptions<
@@ -70,7 +70,7 @@ function useGetInifiniteSearchPosts(
   );
 }
 
-function useGetPost(
+function usePostQuery(
   id: number,
   queryOptions?: UseQueryOptions<ResponseSinglePost, ResponseError>,
 ) {
@@ -84,7 +84,7 @@ function useGetPost(
   );
 }
 
-function useCreatePost(mutationOptions?: UseMutationCustomOptions) {
+function useCreatePostMutation(mutationOptions?: UseMutationCustomOptions) {
   return useMutation(createPost, {
     onSuccess: newPost => {
       queryClient.invalidateQueries([queryKeys.POST, queryKeys.GET_POSTS]);
@@ -116,7 +116,7 @@ function useCreatePost(mutationOptions?: UseMutationCustomOptions) {
   });
 }
 
-function useDeletePost(mutationOptions?: UseMutationCustomOptions) {
+function useDeletePostMutation(mutationOptions?: UseMutationCustomOptions) {
   return useMutation(deletePost, {
     onSuccess: deletedId => {
       queryClient.invalidateQueries([queryKeys.POST, queryKeys.GET_POSTS]);
@@ -140,7 +140,7 @@ function useDeletePost(mutationOptions?: UseMutationCustomOptions) {
   });
 }
 
-function useUpdatePost(mutationOptions?: UseMutationCustomOptions) {
+function useUpdatePostMutation(mutationOptions?: UseMutationCustomOptions) {
   return useMutation(updatePost, {
     onSuccess: newPost => {
       queryClient.invalidateQueries([queryKeys.POST, queryKeys.GET_POSTS]);
@@ -180,10 +180,10 @@ function useUpdatePost(mutationOptions?: UseMutationCustomOptions) {
 }
 
 export {
-  useGetInifinitePosts,
-  useGetInifiniteSearchPosts,
-  useGetPost,
-  useCreatePost,
-  useDeletePost,
-  useUpdatePost,
+  useInifinitePostsQuery,
+  useInifiniteSearchPostsQuery,
+  usePostQuery,
+  useCreatePostMutation,
+  useDeletePostMutation,
+  useUpdatePostMutation,
 };

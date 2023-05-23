@@ -9,7 +9,7 @@ import type {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator
 import SearchInput from '../@common/SearchInput';
 import InfoMessage from '../@common/InfoMessage';
 import FeedItem from './FeedItem';
-import {useGetInifiniteSearchPosts} from '@/hooks/queries/usePost';
+import {useInifiniteSearchPostsQuery} from '@/hooks/queries/usePost';
 import useDebounce from '@/hooks/useDebounce';
 import useThemeStore from '@/store/useThemeStore';
 import {colors, numbers} from '@/constants';
@@ -29,7 +29,7 @@ function FeedItemSearchList() {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-  } = useGetInifiniteSearchPosts(debouncedSearchText, {
+  } = useInifiniteSearchPostsQuery(debouncedSearchText, {
     enabled: !!debouncedSearchText.trim().length,
   });
 

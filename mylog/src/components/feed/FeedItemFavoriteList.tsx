@@ -4,7 +4,7 @@ import {useScrollToTop} from '@react-navigation/native';
 
 import FeedItem from './FeedItem';
 import InfoMessage from '../@common/InfoMessage';
-import {useGetInifiniteFavoritePosts} from '@/hooks/queries/useFavoritePost';
+import {useInifiniteFavoritePostsQuery} from '@/hooks/queries/useFavoritePost';
 import useThemeStore from '@/store/useThemeStore';
 
 function FeedItemFavoriteList() {
@@ -17,7 +17,7 @@ function FeedItemFavoriteList() {
     hasNextPage,
     isFetchingNextPage,
     refetch,
-  } = useGetInifiniteFavoritePosts();
+  } = useInifiniteFavoritePostsQuery();
   useScrollToTop(scrollRef);
 
   const handleRefresh = async () => {

@@ -52,7 +52,7 @@ const styling = (theme: ThemeMode) =>
       width: deviceWidth / 7,
       height: deviceWidth / 7,
       borderTopWidth: StyleSheet.hairlineWidth,
-      borderTopColor: colors[theme].GRAY_300,
+      borderTopColor: colors[theme].GRAY_200,
       alignItems: 'center',
     },
     dateContainer: {

@@ -5,7 +5,7 @@ import {getCalendarPosts} from '@/api';
 import type {ResponseCalendarPost} from '@/api';
 import {ResponseError} from '@/types';
 
-function useGetCalendarPosts(
+function useCalendarPostsQuery(
   year: number,
   month: number,
   queryOptions?: UseQueryOptions<ResponseCalendarPost, ResponseError>,
@@ -20,4 +20,4 @@ function useGetCalendarPosts(
   );
 }
 
-export {useGetCalendarPosts};
+export {useCalendarPostsQuery};
