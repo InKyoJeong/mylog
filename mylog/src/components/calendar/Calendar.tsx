@@ -1,10 +1,9 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import {
   FlatList,
   PanResponder,
   StyleSheet,
   View,
-  Animated,
   Pressable,
   Text,
 } from 'react-native';
@@ -36,7 +35,7 @@ function Calendar<T>({
   const styles = styling(theme);
   const {lastDate, firstDOW, year, month} = monthYear;
 
-  const panResponder = React.useRef(
+  const panResponder = useRef(
     PanResponder.create({
       onStartShouldSetPanResponder: () => true,
       onPanResponderRelease: (_, gestureState) => {
@@ -78,27 +77,25 @@ function Calendar<T>({
 
       <CalendarDayOfWeeks />
       <View style={styles.bodyContainer}>
-        <Animated.View>
-          <FlatList
-            scrollEnabled
-            {...panResponder.panHandlers}
-            data={Array.from({length: lastDate + firstDOW}, (_, i) => ({
-              id: i,
-              date: i - firstDOW + 1,
-            }))}
-            renderItem={({item}) => (
-              <CalendarDate
-                date={item.date}
-                isToday={compareWithCurrentDate(year, month, item.date)}
-                hasSchedule={Boolean(schedules[item.date])}
-                selectedDate={selectedDate}
-                onPressDate={onPressDate}
-              />
-            )}
-            keyExtractor={item => String(item.id)}
-            numColumns={7}
-          />
-        </Animated.View>
+        <FlatList
+          scrollEnabled
+          {...panResponder.panHandlers}
+          data={Array.from({length: lastDate + firstDOW}, (_, i) => ({
+            id: i,
+            date: i - firstDOW + 1,
+          }))}
+          renderItem={({item}) => (
+            <CalendarDate
+              date={item.date}
+              isToday={compareWithCurrentDate(year, month, item.date)}
+              hasSchedule={Boolean(schedules[item.date])}
+              selectedDate={selectedDate}
+              onPressDate={onPressDate}
+            />
+          )}
+          keyExtractor={item => String(item.id)}
+          numColumns={7}
+        />
       </View>
     </>
   );
