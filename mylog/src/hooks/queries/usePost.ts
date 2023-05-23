@@ -9,6 +9,7 @@ import {
 import {queryKeys} from '@/constants';
 import queryClient from '@/api/queryClient';
 import {
+  ResponseCalendarPost,
   createPost,
   deletePost,
   getPost,
@@ -88,6 +89,7 @@ function useCreatePostMutation(mutationOptions?: UseMutationCustomOptions) {
   return useMutation(createPost, {
     onSuccess: newPost => {
       queryClient.invalidateQueries([queryKeys.POST, queryKeys.GET_POSTS]);
+
       queryClient.invalidateQueries([
         queryKeys.POST,
         queryKeys.GET_SEARCH_POSTS,
@@ -104,11 +106,36 @@ function useCreatePostMutation(mutationOptions?: UseMutationCustomOptions) {
             score: newPost.score,
           };
 
-          if (existingMarkers) {
-            return [...existingMarkers, newMarker];
-          }
+          return existingMarkers
+            ? [...existingMarkers, newMarker]
+            : [newMarker];
+        },
+      );
 
-          return [newMarker];
+      queryClient.setQueryData<ResponseCalendarPost>(
+        [
+          queryKeys.POST,
+          queryKeys.GET_CALENDAR_POSTS,
+          new Date(newPost.date).getFullYear(),
+          new Date(newPost.date).getMonth() + 1,
+        ],
+        existingPosts => {
+          if (!existingPosts) {
+            return;
+          }
+          const date = new Date(newPost.date).getDate();
+          const newCalendarPost = {
+            id: newPost.id,
+            title: newPost.title,
+            address: newPost.address,
+          };
+
+          return {
+            ...existingPosts,
+            [date]: existingPosts[date]
+              ? [...existingPosts[date], newCalendarPost]
+              : [newCalendarPost],
+          };
         },
       );
     },
@@ -120,13 +147,20 @@ function useDeletePostMutation(mutationOptions?: UseMutationCustomOptions) {
   return useMutation(deletePost, {
     onSuccess: deletedId => {
       queryClient.invalidateQueries([queryKeys.POST, queryKeys.GET_POSTS]);
+
       queryClient.invalidateQueries([
         queryKeys.POST,
         queryKeys.GET_SEARCH_POSTS,
       ]);
+
       queryClient.invalidateQueries([
         queryKeys.FAVORITE,
         queryKeys.GET_FAVORITE_POSTS,
+      ]);
+
+      queryClient.invalidateQueries([
+        queryKeys.POST,
+        queryKeys.GET_CALENDAR_POSTS,
       ]);
 
       queryClient.setQueryData<Marker[]>(
@@ -144,10 +178,12 @@ function useUpdatePostMutation(mutationOptions?: UseMutationCustomOptions) {
   return useMutation(updatePost, {
     onSuccess: newPost => {
       queryClient.invalidateQueries([queryKeys.POST, queryKeys.GET_POSTS]);
+
       queryClient.invalidateQueries([
         queryKeys.POST,
         queryKeys.GET_SEARCH_POSTS,
       ]);
+
       queryClient.invalidateQueries([
         queryKeys.FAVORITE,
         queryKeys.GET_FAVORITE_POSTS,
@@ -172,6 +208,34 @@ function useUpdatePostMutation(mutationOptions?: UseMutationCustomOptions) {
           return existingMarkers?.map(marker =>
             marker.id === newPost.id ? newMarker : marker,
           );
+        },
+      );
+
+      queryClient.setQueryData<ResponseCalendarPost>(
+        [
+          queryKeys.POST,
+          queryKeys.GET_CALENDAR_POSTS,
+          new Date(newPost.date).getFullYear(),
+          new Date(newPost.date).getMonth() + 1,
+        ],
+        existingPosts => {
+          if (!existingPosts) {
+            return;
+          }
+
+          const date = new Date(newPost.date).getDate();
+          const newCalendarPost = {
+            id: newPost.id,
+            title: newPost.title,
+            address: newPost.address,
+          };
+
+          return {
+            ...existingPosts,
+            [date]: existingPosts[date].map(post =>
+              post.id === newPost.id ? newCalendarPost : post,
+            ),
+          };
         },
       );
     },
