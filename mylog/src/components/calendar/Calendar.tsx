@@ -65,7 +65,7 @@ function Calendar<T>({
       <View style={styles.headerContainer}>
         <Pressable
           onPress={() => onChangeMonth(-1)}
-          style={styles.buttonContainer}>
+          style={styles.monthButtonContainer}>
           <Ionicons
             name="arrow-back-circle-outline"
             size={25}
@@ -77,7 +77,7 @@ function Calendar<T>({
         </Text>
         <Pressable
           onPress={() => onChangeMonth(1)}
-          style={styles.buttonContainer}>
+          style={styles.monthButtonContainer}>
           <Ionicons
             name="arrow-forward-circle-outline"
             size={25}
@@ -119,9 +119,9 @@ const styling = (theme: ThemeMode) =>
       alignItems: 'center',
       justifyContent: 'space-between',
       marginHorizontal: 25,
-      marginVertical: 18,
+      marginVertical: 16,
     },
-    buttonContainer: {
+    monthButtonContainer: {
       padding: 10,
     },
     titleText: {

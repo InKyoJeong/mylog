@@ -198,4 +198,24 @@ export class PostService {
 
     return groupPostsByDate;
   }
+
+  async getCountByScore(user: User) {
+    return this.postRepository
+      .createQueryBuilder('post')
+      .where('post.userId = :userId', { userId: user.id })
+      .select('post.score', 'score')
+      .addSelect('COUNT(post.id)', 'count')
+      .groupBy('post.score')
+      .getRawMany();
+  }
+
+  async getCountByColor(user: User) {
+    return this.postRepository
+      .createQueryBuilder('post')
+      .where('post.userId = :userId', { userId: user.id })
+      .select('post.color', 'color')
+      .addSelect('COUNT(post.id)', 'count')
+      .groupBy('post.color')
+      .getRawMany();
+  }
 }

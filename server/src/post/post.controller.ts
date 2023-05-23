@@ -85,4 +85,14 @@ export class PostController {
   ) {
     return this.postService.getPostsByMonth(year, month, user);
   }
+
+  @Get('/counts/score')
+  async getCountByScore(@GetUser() user: User) {
+    return this.postService.getCountByScore(user);
+  }
+
+  @Get('/counts/color')
+  async getCountByColor(@GetUser() user: User) {
+    return this.postService.getCountByColor(user);
+  }
 }
