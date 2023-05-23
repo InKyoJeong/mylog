@@ -1,9 +1,18 @@
 import React from 'react';
-import {Text} from 'react-native';
-import {ScrollView, StyleSheet, View} from 'react-native';
+import {ScrollView, StyleSheet, View, Pressable, Text} from 'react-native';
+import {CompositeNavigationProp, useNavigation} from '@react-navigation/native';
+import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
+import {DrawerNavigationProp} from '@react-navigation/drawer';
 
+import {FeedTabParamList} from '@/navigations/tab/FeedTabNavigator';
+import {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
 import useThemeStore from '@/store/useThemeStore';
-import {colors} from '@/constants';
+import {
+  colors,
+  feedNavigations,
+  feedTabNavigations,
+  mainNavigations,
+} from '@/constants';
 import type {CalendarPost} from '@/api';
 import type {ThemeMode} from '@/types';
 
@@ -11,15 +20,35 @@ interface CalendarContentsListProps {
   posts: CalendarPost[];
 }
 
+type Navigation = CompositeNavigationProp<
+  DrawerNavigationProp<MainDrawerParamList>,
+  BottomTabNavigationProp<FeedTabParamList>
+>;
+
 function CalendarContentsList({posts}: CalendarContentsListProps) {
   const {theme} = useThemeStore();
   const styles = styling(theme);
+  const navigation = useNavigation<Navigation>();
+
+  const handlePressItem = (id: number) => {
+    navigation.navigate(mainNavigations.FEED, {
+      screen: feedTabNavigations.FEED_HOME,
+      params: {
+        screen: feedNavigations.FEED_DETAIL,
+        params: {id},
+        initial: false,
+      },
+    });
+  };
 
   return (
     <ScrollView style={styles.container}>
       <View style={styles.innerContainer}>
         {posts?.map(post => (
-          <View key={post.id} style={styles.itemContainer}>
+          <Pressable
+            key={post.id}
+            style={styles.itemContainer}
+            onPress={() => handlePressItem(post.id)}>
             <View style={styles.itemHeader} />
             <View style={styles.infoContainer}>
               <Text
@@ -30,7 +59,7 @@ function CalendarContentsList({posts}: CalendarContentsListProps) {
               </Text>
               <Text style={styles.titleText}>{post.title}</Text>
             </View>
-          </View>
+          </Pressable>
         ))}
       </View>
     </ScrollView>
