@@ -8,8 +8,9 @@ import type {ThemeMode} from '@/types';
 
 interface CalendarDateProps {
   date: number;
-  selectedDate: number;
+  isToday: boolean;
   hasSchedule: boolean;
+  selectedDate: number;
   onPressDate: (date: number) => void;
 }
 
@@ -17,8 +18,9 @@ const deviceWidth = Dimensions.get('window').width;
 
 function CalendarDate({
   date,
-  selectedDate,
+  isToday,
   hasSchedule,
+  selectedDate,
   onPressDate,
 }: CalendarDateProps) {
   const {theme} = useThemeStore();
@@ -31,11 +33,14 @@ function CalendarDate({
           style={[
             styles.dateContainer,
             selectedDate === date && styles.selectedContainer,
+            selectedDate === date && isToday && styles.selectedTodayContainer,
           ]}>
           <Text
             style={[
               styles.dateText,
+              isToday && styles.todayText,
               selectedDate === date && styles.selectedDateText,
+              selectedDate === date && isToday && styles.selectedTodayText,
             ]}>
             {date}
           </Text>
@@ -66,13 +71,23 @@ const styling = (theme: ThemeMode) =>
     selectedContainer: {
       backgroundColor: colors[theme].BLACK,
     },
+    selectedTodayContainer: {
+      backgroundColor: colors[theme].PINK_700,
+    },
     dateText: {
       fontSize: 17,
       color: colors[theme].BLACK,
     },
+    todayText: {
+      color: colors[theme].PINK_700,
+      fontWeight: 'bold',
+    },
     selectedDateText: {
       color: colors[theme].WHITE,
       fontWeight: 'bold',
+    },
+    selectedTodayText: {
+      color: colors[theme].UNCHANGE_WHITE,
     },
     scheduleIndicator: {
       marginTop: 2,

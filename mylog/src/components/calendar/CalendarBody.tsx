@@ -3,7 +3,7 @@ import {FlatList, StyleSheet, View} from 'react-native';
 
 import CalendarDate from './CalendarDate';
 import useThemeStore from '@/store/useThemeStore';
-import type {MonthYear} from '@/utils';
+import {MonthYear, compareWithCurrentDate} from '@/utils';
 import {colors} from '@/constants';
 import type {ThemeMode} from '@/types';
 
@@ -20,9 +20,9 @@ function CalendarBody<T>({
   selectedDate,
   onPressDate,
 }: CalendarBodyProps<T>) {
-  const {lastDate, firstDOW} = monthYear;
   const {theme} = useThemeStore();
   const styles = styling(theme);
+  const {lastDate, firstDOW, year, month} = monthYear;
 
   return (
     <View style={styles.container}>
@@ -34,8 +34,9 @@ function CalendarBody<T>({
         renderItem={({item}) => (
           <CalendarDate
             date={item.date}
+            isToday={compareWithCurrentDate(year, month, item.date)}
+            hasSchedule={Boolean(schedules[item.date])}
             selectedDate={selectedDate}
-            hasSchedule={!!schedules[item.date]}
             onPressDate={onPressDate}
           />
         )}
