@@ -26,10 +26,10 @@ import CustomBottomTab from '@/components/@common/CustomBottomTab';
 import FeedDetailModal from '@/components/feed/FeedDetailModal';
 import PreviewImageList from '@/components/post/PreviewImageList';
 import FeedDetailHeader from '@/components/feed/FeedDetailHeader';
-import {useFavoritePostMutation} from '@/hooks/queries/useFavoritePost';
-import useModal from '@/hooks/useModal';
-import {usePostQuery} from '@/hooks/queries/usePost';
+import useMutateFavoritePost from '@/hooks/queries/useMutateFavoritePost';
+import useGetPost from '@/hooks/queries/useGetPost';
 import useAuth from '@/hooks/queries/useAuth';
+import useModal from '@/hooks/useModal';
 import useLocationStore from '@/store/useLocationStore';
 import useDetailPostStore from '@/store/useDetailPostStore';
 import useSnackbarStore from '@/store/useSnackbarStore';
@@ -56,10 +56,10 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
   const {theme} = useThemeStore();
   const styles = styling(theme);
   const {id} = route.params;
-  const {data: post, isLoading, isError} = usePostQuery(id);
+  const {data: post, isLoading, isError} = useGetPost(id);
   const {getProfileQuery} = useAuth();
   const {categories} = getProfileQuery.data || {};
-  const favoriteMutation = useFavoritePostMutation();
+  const favoritePost = useMutateFavoritePost();
   const insets = useSafeAreaInsets();
   const optionModal = useModal();
   const [isScrolled, setIsScrolled] = useState(false);
@@ -97,7 +97,7 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
   };
 
   const handlePressFavorite = () => {
-    favoriteMutation.mutate(post.id, {
+    favoritePost.mutate(post.id, {
       onSuccess: () =>
         !post.isFavorite && snackbar.show(successMessages.SUCCESS_ADD_BOOKMARK),
     });

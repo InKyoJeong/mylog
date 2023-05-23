@@ -27,10 +27,8 @@ import useDatePicker from '@/hooks/useDatePicker';
 import useGetAddress from '@/hooks/useGetAddress';
 import useImagePicker from '@/hooks/useImagePicker';
 import usePermission from '@/hooks/usePermission';
-import {
-  useCreatePostMutation,
-  useUpdatePostMutation,
-} from '@/hooks/queries/usePost';
+import useMutateCreatePost from '@/hooks/queries/useMutateCreatePost';
+import useMutateUpdatePost from '@/hooks/queries/useMutateUpdatePost';
 import useDetailPostStore from '@/store/useDetailPostStore';
 import useThemeStore from '@/store/useThemeStore';
 import {validateAddPost, getDateWithSeparator} from '@/utils';
@@ -69,8 +67,8 @@ function PostEditor({isEdit = false, location}: PostEditorProps) {
     initialImages: isEditMode ? detailPost.images : [],
     mode: 'multiple',
   });
-  const createPostMutation = useCreatePostMutation();
-  const updatePostMutation = useUpdatePostMutation();
+  const createPost = useMutateCreatePost();
+  const updatePost = useMutateUpdatePost();
   usePermission('PHOTO');
 
   const handleSelectMarker = (name: MarkerColor) => {
@@ -95,11 +93,11 @@ function PostEditor({isEdit = false, location}: PostEditorProps) {
     };
 
     if (isEditMode) {
-      updatePostMutation.mutate({id: detailPost.id, body}, mutationOptions);
+      updatePost.mutate({id: detailPost.id, body}, mutationOptions);
       return;
     }
 
-    createPostMutation.mutate({address, ...location, ...body}, mutationOptions);
+    createPost.mutate({address, ...location, ...body}, mutationOptions);
   }, [
     navigation,
     isEditMode,
@@ -111,8 +109,8 @@ function PostEditor({isEdit = false, location}: PostEditorProps) {
     markerColor,
     score,
     imagePicker.imageUris,
-    createPostMutation,
-    updatePostMutation,
+    updatePost,
+    createPost,
   ]);
 
   useLayoutEffect(() => {

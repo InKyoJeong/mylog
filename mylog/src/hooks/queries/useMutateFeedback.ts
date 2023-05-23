@@ -3,10 +3,10 @@ import {useMutation} from '@tanstack/react-query';
 import {addFeedback} from '@/api';
 import type {UseMutationCustomOptions} from '@/types';
 
-function useFeedbackMutation(mutationOptions?: UseMutationCustomOptions) {
+function useMutateFeedback(mutationOptions?: UseMutationCustomOptions) {
   return useMutation(addFeedback, {
     ...mutationOptions,
   });
 }
 
-export {useFeedbackMutation};
+export default useMutateFeedback;

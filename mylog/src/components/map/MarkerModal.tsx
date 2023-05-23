@@ -8,7 +8,7 @@ import type {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import type {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
 import type {FeedTabParamList} from '@/navigations/tab/FeedTabNavigator';
 import {CompoundModal} from '../@common/CompoundModal';
-import {usePostQuery} from '@/hooks/queries/usePost';
+import useGetPost from '@/hooks/queries/useGetPost';
 import useMarkerStore from '@/store/useMarkerStore';
 import useThemeStore from '@/store/useThemeStore';
 import {getDateWithSeparator} from '@/utils';
@@ -30,7 +30,7 @@ function MarkerModal() {
   const styles = styling(theme);
   const navigation = useNavigation<Navigation>();
   const {markerId, isVisible, hideModal} = useMarkerStore();
-  const {data: post, isLoading, isError} = usePostQuery(markerId);
+  const {data: post, isLoading, isError} = useGetPost(markerId);
 
   if (isLoading || isError) {
     return <></>;
