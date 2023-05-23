@@ -200,12 +200,21 @@ export class PostService {
   }
 
   async getPostCountByField(user: User, field: string) {
-    return this.postRepository
+    const counts = this.postRepository
       .createQueryBuilder('post')
       .where('post.userId = :userId', { userId: user.id })
       .select(`post.${field}`, `${field}`)
       .addSelect('COUNT(post.id)', 'count')
       .groupBy(`post.${field}`)
-      .getRawMany();
+      .getRawMany()
+      .then((results) => {
+        const totalCount = results.reduce((acc, result) => {
+          return acc + parseInt(result.count);
+        }, 0);
+
+        return { totalCount, results };
+      });
+
+    return counts;
   }
 }
