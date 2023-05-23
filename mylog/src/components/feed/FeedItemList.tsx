@@ -5,9 +5,9 @@ import type {DrawerNavigationProp} from '@react-navigation/drawer';
 
 import type {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
 import FeedItem from './FeedItem';
-import useThemeStore from '@/store/useThemeStore';
 import InfoMessage from '../@common/InfoMessage';
-import {useInfinitePostsQuery} from '@/hooks/queries/usePost';
+import useGetInfinitePosts from '@/hooks/queries/useGetInfinitePosts';
+import useThemeStore from '@/store/useThemeStore';
 import {mainNavigations, mapNavigations} from '@/constants';
 
 function FeedItemList() {
@@ -21,7 +21,7 @@ function FeedItemList() {
     hasNextPage,
     isFetchingNextPage,
     refetch,
-  } = useInfinitePostsQuery();
+  } = useGetInfinitePosts();
   useScrollToTop(scrollRef);
 
   const handleRefresh = async () => {

@@ -3,9 +3,9 @@ import {UseQueryOptions, useQuery} from '@tanstack/react-query';
 import {queryKeys} from '@/constants';
 import {getCalendarPosts} from '@/api';
 import type {ResponseCalendarPost} from '@/api';
-import {ResponseError} from '@/types';
+import type {ResponseError} from '@/types';
 
-function useCalendarPostsQuery(
+function useGetCalendarPosts(
   year: number,
   month: number,
   queryOptions?: UseQueryOptions<ResponseCalendarPost, ResponseError>,
@@ -20,4 +20,4 @@ function useCalendarPostsQuery(
   );
 }
 
-export {useCalendarPostsQuery};
+export default useGetCalendarPosts;

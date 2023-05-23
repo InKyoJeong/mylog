@@ -5,7 +5,7 @@ import type {StackNavigationProp} from '@react-navigation/stack';
 
 import type {FeedStackParamList} from '@/navigations/stack/FeedStackNavigator';
 import {CompoundModal} from '../@common/CompoundModal';
-import {useDeletePostMutation} from '@/hooks/queries/usePost';
+import useMutateDeletePost from '@/hooks/queries/useMutateDeletePost';
 import useDetailPostStore from '@/store/useDetailPostStore';
 import {alerts, feedNavigations} from '@/constants';
 
@@ -17,7 +17,7 @@ interface FeedDetailModalProps {
 function FeedDetailModal({isVisible, hideOption}: FeedDetailModalProps) {
   const navigation = useNavigation<StackNavigationProp<FeedStackParamList>>();
   const {detailPost} = useDetailPostStore();
-  const deletePostMutation = useDeletePostMutation();
+  const deletePost = useMutateDeletePost();
 
   const handleDeletePost = () => {
     if (!detailPost) {
@@ -28,7 +28,7 @@ function FeedDetailModal({isVisible, hideOption}: FeedDetailModalProps) {
       {
         text: '삭제',
         onPress: () =>
-          deletePostMutation.mutate(detailPost.id, {
+          deletePost.mutate(detailPost.id, {
             onSuccess: () => {
               hideOption();
               navigation.goBack();

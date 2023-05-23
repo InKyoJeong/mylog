@@ -4,7 +4,7 @@ import {getMarkers} from '@/api';
 import {queryKeys} from '@/constants';
 import type {ResponseError, Marker} from '@/types';
 
-function useMarkersQuery(
+function useGetMarkers(
   queryOptions?: UseQueryOptions<Marker[], ResponseError>,
 ) {
   return useQuery<Marker[], ResponseError>(
@@ -16,4 +16,4 @@ function useMarkersQuery(
   );
 }
 
-export {useMarkersQuery};
+export default useGetMarkers;

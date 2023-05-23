@@ -27,15 +27,13 @@ import type {
   Profile,
 } from '@/types';
 
-function useSignupMutation(mutationOptions?: UseMutationCustomOptions) {
+function useSignup(mutationOptions?: UseMutationCustomOptions) {
   return useMutation(postSignup, {
     ...mutationOptions,
   });
 }
 
-function useLoginMutation(
-  mutationOptions?: UseMutationCustomOptions<ResponseToken>,
-) {
+function useLogin(mutationOptions?: UseMutationCustomOptions<ResponseToken>) {
   return useMutation(postLogin, {
     onSuccess: ({accessToken, refreshToken}) => {
       setHeader('Authorization', `Bearer ${accessToken}`);
@@ -49,7 +47,7 @@ function useLoginMutation(
   });
 }
 
-function useLogoutMutation(mutationOptions?: UseMutationCustomOptions) {
+function useLogout(mutationOptions?: UseMutationCustomOptions) {
   return useMutation(logout, {
     onSuccess: () => {
       queryClient.removeQueries([queryKeys.MARKER]);
@@ -64,7 +62,7 @@ function useLogoutMutation(mutationOptions?: UseMutationCustomOptions) {
   });
 }
 
-function useRefreshTokenQuery(
+function useGetRefreshToken(
   queryOptions?: UseQueryOptions<ResponseToken, ResponseError>,
 ) {
   return useQuery<ResponseToken, ResponseError>(
@@ -100,7 +98,7 @@ const transformProfileCategory = (
   return {categories, ...rest};
 };
 
-function useProfileQuery(
+function useGetProfile(
   queryOptions?: UseQueryOptions<
     ResponseProfile,
     ResponseError,
@@ -118,7 +116,7 @@ function useProfileQuery(
   );
 }
 
-function useProfileMutation(mutationOptions?: UseMutationCustomOptions) {
+function useMutateProfile(mutationOptions?: UseMutationCustomOptions) {
   return useMutation(editProfile, {
     onSuccess: newProfile => {
       queryClient.setQueryData(
@@ -130,13 +128,13 @@ function useProfileMutation(mutationOptions?: UseMutationCustomOptions) {
   });
 }
 
-function useDeleteAccountMutation(mutationOptions?: UseMutationCustomOptions) {
+function useMutateDeleteAccount(mutationOptions?: UseMutationCustomOptions) {
   return useMutation(deleteAccount, {
     ...mutationOptions,
   });
 }
 
-function useCategoryMutation(mutationOptions?: UseMutationCustomOptions) {
+function useMutateCategory(mutationOptions?: UseMutationCustomOptions) {
   return useMutation(editCategory, {
     onSuccess: newProfile => {
       queryClient.setQueryData(
@@ -149,19 +147,19 @@ function useCategoryMutation(mutationOptions?: UseMutationCustomOptions) {
 }
 
 function useAuth() {
-  const signupMutation = useSignupMutation();
-  const loginMutation = useLoginMutation();
-  const logoutMutation = useLogoutMutation();
-  const refreshTokenQuery = useRefreshTokenQuery();
-  const getProfileQuery = useProfileQuery({
+  const signupMutation = useSignup();
+  const loginMutation = useLogin();
+  const logoutMutation = useLogout();
+  const refreshTokenQuery = useGetRefreshToken();
+  const getProfileQuery = useGetProfile({
     enabled: refreshTokenQuery.isSuccess,
   });
-  const profileMutation = useProfileMutation();
+  const profileMutation = useMutateProfile();
   const isLogin = getProfileQuery.isSuccess;
-  const deleteAccountMutation = useDeleteAccountMutation({
+  const deleteAccountMutation = useMutateDeleteAccount({
     onSuccess: () => logoutMutation.mutate(null),
   });
-  const categoryMutation = useCategoryMutation();
+  const categoryMutation = useMutateCategory();
 
   return {
     signupMutation,

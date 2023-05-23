@@ -5,7 +5,7 @@ import CalendarDayOfWeeks from '@/components/calendar/CalendarDayOfWeeks';
 import CalendarHeader from '@/components/calendar/CalendarHeader';
 import CalendarBody from '@/components/calendar/CalendarBody';
 import CalendarContentsList from '@/components/calendar/CalendarContentsList';
-import {useCalendarPostsQuery} from '@/hooks/queries/useCalendarPost';
+import useGetCalendarPosts from '@/hooks/queries/useGetCalendarPosts';
 import useCalendar from '@/hooks/useCalendar';
 
 function CalendarHomeScreen() {
@@ -15,7 +15,7 @@ function CalendarHomeScreen() {
     data: posts,
     isLoading,
     isError,
-  } = useCalendarPostsQuery(monthYear.year, monthYear.month);
+  } = useGetCalendarPosts(monthYear.year, monthYear.month);
 
   if (isLoading || isError) {
     return <></>;

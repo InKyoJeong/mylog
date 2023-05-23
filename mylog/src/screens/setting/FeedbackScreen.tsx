@@ -13,7 +13,7 @@ import InputField from '@/components/@common/InputField';
 import CustomButton from '@/components/@common/CustomButton';
 import CustomKeyboardAvoidingView from '@/components/@common/CustomKeyboardAvoidingView';
 import useForm from '@/hooks/useForm';
-import {useFeedbackMutation} from '@/hooks/queries/useFeedback';
+import useMutateFeedback from '@/hooks/queries/useMutateFeedback';
 import useSnackbarStore from '@/store/useSnackbarStore';
 import {validateAddFeedback} from '@/utils';
 import {numbers, successMessages} from '@/constants';
@@ -22,7 +22,7 @@ type FeedbackScreenProps = StackScreenProps<SettingStackParamList>;
 
 function FeedbackScreen({navigation}: FeedbackScreenProps) {
   const snackbar = useSnackbarStore();
-  const feedbackMutation = useFeedbackMutation();
+  const feedback = useMutateFeedback();
   const titleRef = useRef<TextInput | null>(null);
   const descriptionRef = useRef<TextInput | null>(null);
   const addFeedback = useForm({
@@ -39,7 +39,7 @@ function FeedbackScreen({navigation}: FeedbackScreenProps) {
       return;
     }
 
-    feedbackMutation.mutate(addFeedback.values, {
+    feedback.mutate(addFeedback.values, {
       onSuccess: () => {
         navigation.goBack();
         snackbar.show(successMessages.SUCCESS_SUBMIT_FEEDBACK);
