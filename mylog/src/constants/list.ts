@@ -16,4 +16,6 @@ const categoryPlaceholderList = [
   'ex) 도서관',
 ];
 
-export {categoryList, categoryPlaceholderList};
+const dayOfWeekList = ['일', '월', '화', '수', '목', '금', '토'];
+
+export {categoryList, categoryPlaceholderList, dayOfWeekList};

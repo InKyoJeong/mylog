@@ -3,7 +3,7 @@ import {Alert, LayoutAnimation} from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 
 import useSnackbarStore from '@/store/useSnackbarStore';
-import {useUploadImages} from './queries/useImage';
+import {useImagesMutation} from './queries/useImage';
 import {getFormDataImages} from '@/utils';
 import {numbers, alerts, errorMessages} from '@/constants';
 import type {ImageUri} from '@/types';
@@ -21,7 +21,7 @@ function useImagePicker({
 }: UseImagePickerProps) {
   const [imageUris, setImageUris] = useState(initialImages);
   const snackbar = useSnackbarStore();
-  const imageMutation = useUploadImages();
+  const imageMutation = useImagesMutation();
 
   const addImageUris = (uris: string[]) => {
     if (imageUris.length + uris.length > numbers.MAX_UPLOADER_MULTIPLE_IMAGE) {

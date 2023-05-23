@@ -1,11 +1,8 @@
 import React from 'react';
 import {StyleSheet, SafeAreaView, ScrollView, View} from 'react-native';
-import type {DrawerScreenProps} from '@react-navigation/drawer';
-import type {CompositeScreenProps} from '@react-navigation/native';
 import type {StackScreenProps} from '@react-navigation/stack';
 import Octicons from 'react-native-vector-icons/Octicons';
 
-import type {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
 import type {SettingStackParamList} from '@/navigations/stack/SettingStackNavigator';
 import MapLegendModal from '@/components/setting/MapLegendModal';
 import SettingItem from '@/components/setting/SettingItem';
@@ -15,12 +12,9 @@ import useModal from '@/hooks/useModal';
 import useThemeStore from '@/store/useThemeStore';
 import {colors, settingNavigations} from '@/constants';
 
-type SettingHomeScreenProps = CompositeScreenProps<
-  StackScreenProps<
-    SettingStackParamList,
-    typeof settingNavigations.SETTING_HOME
-  >,
-  DrawerScreenProps<MainDrawerParamList>
+type SettingHomeScreenProps = StackScreenProps<
+  SettingStackParamList,
+  typeof settingNavigations.SETTING_HOME
 >;
 
 function SettingHomeScreen({navigation}: SettingHomeScreenProps) {

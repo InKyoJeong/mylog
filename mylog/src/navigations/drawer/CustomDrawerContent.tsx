@@ -12,7 +12,7 @@ import {
   DrawerContentScrollView,
   DrawerItemList,
 } from '@react-navigation/drawer';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Config from 'react-native-config';
 
 import Conditional from '@/components/@common/Conditional';
@@ -76,8 +76,8 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
       <View style={styles.bottomContainer}>
         <Pressable onPress={handlePressStatistics}>
           <View style={styles.bottomMenu}>
-            <Ionicons
-              name={'pie-chart-outline'}
+            <MaterialIcons
+              name={'leaderboard'}
               color={
                 theme === 'light'
                   ? colors[theme].GRAY_700
@@ -90,8 +90,8 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
         </Pressable>
         <Pressable onPress={handlePressSetting}>
           <View style={styles.bottomMenu}>
-            <Ionicons
-              name={'settings-outline'}
+            <MaterialIcons
+              name={'settings'}
               color={
                 theme === 'light'
                   ? colors[theme].GRAY_700

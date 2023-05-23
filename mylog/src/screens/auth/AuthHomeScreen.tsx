@@ -18,7 +18,7 @@ function AuthHomeScreen({navigation}: AuthHomeScreenProps) {
         <Image
           resizeMode="contain"
           style={styles.image}
-          source={require('@/assets/mylog.png')}
+          source={require('@/assets/mylog-text-logo.png')}
         />
       </View>
       <View style={styles.buttonContainer}>

@@ -2,7 +2,7 @@ import React from 'react';
 import {Dimensions} from 'react-native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import type {NavigatorScreenParams, RouteProp} from '@react-navigation/native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import MapStackNavigator, {
   MapStackParamList,
@@ -11,6 +11,7 @@ import StatisticsStackNavigator from '../stack/StatisticsStackNavigator';
 import SettingStackNavigator, {
   SettingStackParamList,
 } from '../stack/SettingStackNavigator';
+import CalendarStackNavigator from '../stack/CalendarStackNavigator';
 import FeedTabNavigator, {FeedTabParamList} from '../tab/FeedTabNavigator';
 import CustomDrawerContent from './CustomDrawerContent';
 import useThemeStore from '@/store/useThemeStore';
@@ -20,6 +21,7 @@ import {ThemeMode} from '@/types';
 export type MainDrawerParamList = {
   [mainNavigations.HOME]: NavigatorScreenParams<MapStackParamList>;
   [mainNavigations.FEED]: NavigatorScreenParams<FeedTabParamList>;
+  [mainNavigations.CALENDAR]: undefined;
   [mainNavigations.SETTING]: NavigatorScreenParams<SettingStackParamList>;
   [mainNavigations.STATISTICS]: undefined;
 };
@@ -35,25 +37,29 @@ function DrawerIcons(
 
   switch (route.name) {
     case mainNavigations.HOME: {
-      iconName = 'map';
+      iconName = 'location-on';
       break;
     }
     case mainNavigations.FEED: {
-      iconName = 'ios-reader';
+      iconName = 'book';
+      break;
+    }
+    case mainNavigations.CALENDAR: {
+      iconName = 'event-note';
+      break;
+    }
+    case mainNavigations.STATISTICS: {
+      iconName = 'leaderboard';
       break;
     }
     case mainNavigations.SETTING: {
       iconName = 'settings';
       break;
     }
-    case mainNavigations.STATISTICS: {
-      iconName = 'pie-chart-outline';
-      break;
-    }
   }
 
   return (
-    <Ionicons
+    <MaterialIcons
       name={iconName}
       color={focused ? colors[theme].UNCHANGE_BLACK : colors[theme].GRAY_500}
       size={18}
@@ -102,20 +108,25 @@ function MainDrawerNavigator() {
         options={{title: '피드'}}
       />
       <Drawer.Screen
-        name={mainNavigations.SETTING}
-        component={SettingStackNavigator}
-        options={{
-          title: '설정',
-          drawerItemStyle: {
-            height: 0,
-          },
-        }}
+        name={mainNavigations.CALENDAR}
+        component={CalendarStackNavigator}
+        options={{title: '캘린더'}}
       />
       <Drawer.Screen
         name={mainNavigations.STATISTICS}
         component={StatisticsStackNavigator}
         options={{
           title: '통계',
+          drawerItemStyle: {
+            height: 0,
+          },
+        }}
+      />
+      <Drawer.Screen
+        name={mainNavigations.SETTING}
+        component={SettingStackNavigator}
+        options={{
+          title: '설정',
           drawerItemStyle: {
             height: 0,
           },

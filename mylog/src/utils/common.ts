@@ -19,12 +19,9 @@ function mergeRefs<T>(...refs: ForwardedRef<T>[]) {
   };
 }
 
-function convertMeterToKilometer(
-  meter: number | string,
-  decimalPlace: number = 2,
-) {
+function convertMeterToKilometer(meter: number | string, decimal: number = 2) {
   const kilometer = Number(meter) / 1000;
-  const factor = Math.pow(10, decimalPlace);
+  const factor = Math.pow(10, decimal);
 
   return Math.round(kilometer * factor) / factor;
 }

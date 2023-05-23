@@ -9,6 +9,7 @@ import {
 import {queryKeys} from '@/constants';
 import queryClient from '@/api/queryClient';
 import {
+  ResponseCalendarPost,
   createPost,
   deletePost,
   getPost,
@@ -19,7 +20,7 @@ import {
 import type {ResponsePost, ResponseSinglePost} from '@/api';
 import type {ResponseError, UseMutationCustomOptions, Marker} from '@/types';
 
-function useGetInifinitePosts(
+function useInfinitePostsQuery(
   queryOptions?: Omit<
     UseInfiniteQueryOptions<
       ResponsePost[],
@@ -44,7 +45,7 @@ function useGetInifinitePosts(
   );
 }
 
-function useGetInifiniteSearchPosts(
+function useInfiniteSearchPostsQuery(
   query: string,
   queryOptions?: Omit<
     UseInfiniteQueryOptions<
@@ -70,7 +71,7 @@ function useGetInifiniteSearchPosts(
   );
 }
 
-function useGetPost(
+function usePostQuery(
   id: number,
   queryOptions?: UseQueryOptions<ResponseSinglePost, ResponseError>,
 ) {
@@ -84,7 +85,7 @@ function useGetPost(
   );
 }
 
-function useCreatePost(mutationOptions?: UseMutationCustomOptions) {
+function useCreatePostMutation(mutationOptions?: UseMutationCustomOptions) {
   return useMutation(createPost, {
     onSuccess: newPost => {
       queryClient.invalidateQueries([queryKeys.POST, queryKeys.GET_POSTS]);
@@ -92,7 +93,6 @@ function useCreatePost(mutationOptions?: UseMutationCustomOptions) {
         queryKeys.POST,
         queryKeys.GET_SEARCH_POSTS,
       ]);
-
       queryClient.setQueryData<Marker[]>(
         [queryKeys.MARKER, queryKeys.GET_MARKERS],
         existingMarkers => {
@@ -104,11 +104,35 @@ function useCreatePost(mutationOptions?: UseMutationCustomOptions) {
             score: newPost.score,
           };
 
-          if (existingMarkers) {
-            return [...existingMarkers, newMarker];
+          return existingMarkers
+            ? [...existingMarkers, newMarker]
+            : [newMarker];
+        },
+      );
+      queryClient.setQueryData<ResponseCalendarPost>(
+        [
+          queryKeys.POST,
+          queryKeys.GET_CALENDAR_POSTS,
+          new Date(newPost.date).getFullYear(),
+          new Date(newPost.date).getMonth() + 1,
+        ],
+        existingPosts => {
+          if (!existingPosts) {
+            return;
           }
+          const date = new Date(newPost.date).getDate();
+          const newCalendarPost = {
+            id: newPost.id,
+            title: newPost.title,
+            address: newPost.address,
+          };
 
-          return [newMarker];
+          return {
+            ...existingPosts,
+            [date]: existingPosts[date]
+              ? [...existingPosts[date], newCalendarPost]
+              : [newCalendarPost],
+          };
         },
       );
     },
@@ -116,7 +140,7 @@ function useCreatePost(mutationOptions?: UseMutationCustomOptions) {
   });
 }
 
-function useDeletePost(mutationOptions?: UseMutationCustomOptions) {
+function useDeletePostMutation(mutationOptions?: UseMutationCustomOptions) {
   return useMutation(deletePost, {
     onSuccess: deletedId => {
       queryClient.invalidateQueries([queryKeys.POST, queryKeys.GET_POSTS]);
@@ -128,7 +152,10 @@ function useDeletePost(mutationOptions?: UseMutationCustomOptions) {
         queryKeys.FAVORITE,
         queryKeys.GET_FAVORITE_POSTS,
       ]);
-
+      queryClient.invalidateQueries([
+        queryKeys.POST,
+        queryKeys.GET_CALENDAR_POSTS,
+      ]);
       queryClient.setQueryData<Marker[]>(
         [queryKeys.MARKER, queryKeys.GET_MARKERS],
         existingMarkers => {
@@ -140,7 +167,7 @@ function useDeletePost(mutationOptions?: UseMutationCustomOptions) {
   });
 }
 
-function useUpdatePost(mutationOptions?: UseMutationCustomOptions) {
+function useUpdatePostMutation(mutationOptions?: UseMutationCustomOptions) {
   return useMutation(updatePost, {
     onSuccess: newPost => {
       queryClient.invalidateQueries([queryKeys.POST, queryKeys.GET_POSTS]);
@@ -152,12 +179,10 @@ function useUpdatePost(mutationOptions?: UseMutationCustomOptions) {
         queryKeys.FAVORITE,
         queryKeys.GET_FAVORITE_POSTS,
       ]);
-
       queryClient.setQueryData(
         [queryKeys.POST, queryKeys.GET_POST, newPost.id],
         newPost,
       );
-
       queryClient.setQueryData<Marker[]>(
         [queryKeys.MARKER, queryKeys.GET_MARKERS],
         existingMarkers => {
@@ -174,16 +199,43 @@ function useUpdatePost(mutationOptions?: UseMutationCustomOptions) {
           );
         },
       );
+      queryClient.setQueryData<ResponseCalendarPost>(
+        [
+          queryKeys.POST,
+          queryKeys.GET_CALENDAR_POSTS,
+          new Date(newPost.date).getFullYear(),
+          new Date(newPost.date).getMonth() + 1,
+        ],
+        existingPosts => {
+          if (!existingPosts) {
+            return;
+          }
+
+          const day = new Date(newPost.date).getDate();
+          const newCalendarPost = {
+            id: newPost.id,
+            title: newPost.title,
+            address: newPost.address,
+          };
+
+          return {
+            ...existingPosts,
+            [day]: existingPosts[day].map(post =>
+              post.id === newPost.id ? newCalendarPost : post,
+            ),
+          };
+        },
+      );
     },
     ...mutationOptions,
   });
 }
 
 export {
-  useGetInifinitePosts,
-  useGetInifiniteSearchPosts,
-  useGetPost,
-  useCreatePost,
-  useDeletePost,
-  useUpdatePost,
+  useInfinitePostsQuery,
+  useInfiniteSearchPostsQuery,
+  usePostQuery,
+  useCreatePostMutation,
+  useDeletePostMutation,
+  useUpdatePostMutation,
 };

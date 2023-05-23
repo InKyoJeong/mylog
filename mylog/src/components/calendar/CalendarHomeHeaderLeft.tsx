@@ -5,17 +5,17 @@ import type {DrawerNavigationProp} from '@react-navigation/drawer';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import type {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
-import type {FeedStackParamList} from '@/navigations/stack/FeedStackNavigator';
+import {CalendarStackParamList} from '@/navigations/stack/CalendarStackNavigator';
 import HeaderButton from '../@common/HeaderButton';
 import useThemeStore from '@/store/useThemeStore';
 import {colors} from '@/constants';
 
-type FeedHomeHeaderLeftProps = CompositeNavigationProp<
-  StackNavigationProp<FeedStackParamList>,
+type CalendarHomeHeaderLeftProps = CompositeNavigationProp<
+  StackNavigationProp<CalendarStackParamList>,
   DrawerNavigationProp<MainDrawerParamList>
 >;
 
-function FeedHomeHeaderLeft(navigation: FeedHomeHeaderLeftProps) {
+function CalendarHomeHeaderLeft(navigation: CalendarHomeHeaderLeftProps) {
   const {theme} = useThemeStore();
 
   return (
@@ -32,4 +32,4 @@ function FeedHomeHeaderLeft(navigation: FeedHomeHeaderLeftProps) {
   );
 }
 
-export default FeedHomeHeaderLeft;
+export default CalendarHomeHeaderLeft;

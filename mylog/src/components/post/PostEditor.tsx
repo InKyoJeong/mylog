@@ -27,7 +27,10 @@ import useDatePicker from '@/hooks/useDatePicker';
 import useGetAddress from '@/hooks/useGetAddress';
 import useImagePicker from '@/hooks/useImagePicker';
 import usePermission from '@/hooks/usePermission';
-import {useCreatePost, useUpdatePost} from '@/hooks/queries/usePost';
+import {
+  useCreatePostMutation,
+  useUpdatePostMutation,
+} from '@/hooks/queries/usePost';
 import useDetailPostStore from '@/store/useDetailPostStore';
 import useThemeStore from '@/store/useThemeStore';
 import {validateAddPost, getDateWithSeparator} from '@/utils';
@@ -66,8 +69,8 @@ function PostEditor({isEdit = false, location}: PostEditorProps) {
     initialImages: isEditMode ? detailPost.images : [],
     mode: 'multiple',
   });
-  const createPostMutation = useCreatePost();
-  const updatePostMutation = useUpdatePost();
+  const createPostMutation = useCreatePostMutation();
+  const updatePostMutation = useUpdatePostMutation();
   usePermission('PHOTO');
 
   const handleSelectMarker = (name: MarkerColor) => {
