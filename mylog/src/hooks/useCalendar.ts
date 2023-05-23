@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 
 import {getMonthYearDetails, getNewMonthYear} from '@/utils';
 
@@ -16,7 +16,22 @@ function useCalendar() {
     setMonthYear(prev => getNewMonthYear(prev, increment));
   };
 
-  return {monthYear, selectedDate, handlePressDate, handleUpdateMonth};
+  const moveToToday = () => {
+    setSelectedDate(new Date().getDate());
+    setMonthYear(getMonthYearDetails(new Date()));
+  };
+
+  useEffect(() => {
+    moveToToday();
+  }, []);
+
+  return {
+    monthYear,
+    selectedDate,
+    handlePressDate,
+    handleUpdateMonth,
+    moveToToday,
+  };
 }
 
 export default useCalendar;

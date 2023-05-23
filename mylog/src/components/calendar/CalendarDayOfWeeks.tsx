@@ -16,7 +16,14 @@ function CalendarDayOfWeeks() {
       {dayOfWeekList.map((dayOfWeek, i) => {
         return (
           <View key={i} style={styles.item}>
-            <Text style={styles.text}>{dayOfWeek}</Text>
+            <Text
+              style={[
+                styles.text,
+                dayOfWeek === '토' && styles.saturdayText,
+                dayOfWeek === '일' && styles.sundayText,
+              ]}>
+              {dayOfWeek}
+            </Text>
           </View>
         );
       })}
@@ -37,6 +44,12 @@ const styling = (theme: ThemeMode) =>
     text: {
       fontSize: 12,
       color: colors[theme].BLACK,
+    },
+    saturdayText: {
+      color: colors[theme].BLUE_500,
+    },
+    sundayText: {
+      color: colors[theme].RED_500,
     },
   });
 
