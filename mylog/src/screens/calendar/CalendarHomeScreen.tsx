@@ -1,9 +1,7 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 
-import CalendarDayOfWeeks from '@/components/calendar/CalendarDayOfWeeks';
-import CalendarHeader from '@/components/calendar/CalendarHeader';
-import CalendarBody from '@/components/calendar/CalendarBody';
+import Calendar from '@/components/calendar/Calendar';
 import CalendarContentsList from '@/components/calendar/CalendarContentsList';
 import useGetCalendarPosts from '@/hooks/queries/useGetCalendarPosts';
 import useCalendar from '@/hooks/useCalendar';
@@ -23,13 +21,12 @@ function CalendarHomeScreen() {
 
   return (
     <View style={styles.container}>
-      <CalendarHeader monthYear={monthYear} onChangeMonth={handleUpdateMonth} />
-      <CalendarDayOfWeeks />
-      <CalendarBody
+      <Calendar
         monthYear={monthYear}
         schedules={posts}
         selectedDate={selectedDate}
         onPressDate={handlePressDate}
+        onChangeMonth={handleUpdateMonth}
       />
       <CalendarContentsList posts={posts[selectedDate]} />
     </View>
