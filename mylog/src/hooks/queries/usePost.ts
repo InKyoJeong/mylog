@@ -20,7 +20,7 @@ import {
 import type {ResponsePost, ResponseSinglePost} from '@/api';
 import type {ResponseError, UseMutationCustomOptions, Marker} from '@/types';
 
-function useInifinitePostsQuery(
+function useInfinitePostsQuery(
   queryOptions?: Omit<
     UseInfiniteQueryOptions<
       ResponsePost[],
@@ -45,7 +45,7 @@ function useInifinitePostsQuery(
   );
 }
 
-function useInifiniteSearchPostsQuery(
+function useInfiniteSearchPostsQuery(
   query: string,
   queryOptions?: Omit<
     UseInfiniteQueryOptions<
@@ -89,12 +89,10 @@ function useCreatePostMutation(mutationOptions?: UseMutationCustomOptions) {
   return useMutation(createPost, {
     onSuccess: newPost => {
       queryClient.invalidateQueries([queryKeys.POST, queryKeys.GET_POSTS]);
-
       queryClient.invalidateQueries([
         queryKeys.POST,
         queryKeys.GET_SEARCH_POSTS,
       ]);
-
       queryClient.setQueryData<Marker[]>(
         [queryKeys.MARKER, queryKeys.GET_MARKERS],
         existingMarkers => {
@@ -111,7 +109,6 @@ function useCreatePostMutation(mutationOptions?: UseMutationCustomOptions) {
             : [newMarker];
         },
       );
-
       queryClient.setQueryData<ResponseCalendarPost>(
         [
           queryKeys.POST,
@@ -147,22 +144,18 @@ function useDeletePostMutation(mutationOptions?: UseMutationCustomOptions) {
   return useMutation(deletePost, {
     onSuccess: deletedId => {
       queryClient.invalidateQueries([queryKeys.POST, queryKeys.GET_POSTS]);
-
       queryClient.invalidateQueries([
         queryKeys.POST,
         queryKeys.GET_SEARCH_POSTS,
       ]);
-
       queryClient.invalidateQueries([
         queryKeys.FAVORITE,
         queryKeys.GET_FAVORITE_POSTS,
       ]);
-
       queryClient.invalidateQueries([
         queryKeys.POST,
         queryKeys.GET_CALENDAR_POSTS,
       ]);
-
       queryClient.setQueryData<Marker[]>(
         [queryKeys.MARKER, queryKeys.GET_MARKERS],
         existingMarkers => {
@@ -178,22 +171,18 @@ function useUpdatePostMutation(mutationOptions?: UseMutationCustomOptions) {
   return useMutation(updatePost, {
     onSuccess: newPost => {
       queryClient.invalidateQueries([queryKeys.POST, queryKeys.GET_POSTS]);
-
       queryClient.invalidateQueries([
         queryKeys.POST,
         queryKeys.GET_SEARCH_POSTS,
       ]);
-
       queryClient.invalidateQueries([
         queryKeys.FAVORITE,
         queryKeys.GET_FAVORITE_POSTS,
       ]);
-
       queryClient.setQueryData(
         [queryKeys.POST, queryKeys.GET_POST, newPost.id],
         newPost,
       );
-
       queryClient.setQueryData<Marker[]>(
         [queryKeys.MARKER, queryKeys.GET_MARKERS],
         existingMarkers => {
@@ -210,7 +199,6 @@ function useUpdatePostMutation(mutationOptions?: UseMutationCustomOptions) {
           );
         },
       );
-
       queryClient.setQueryData<ResponseCalendarPost>(
         [
           queryKeys.POST,
@@ -223,7 +211,7 @@ function useUpdatePostMutation(mutationOptions?: UseMutationCustomOptions) {
             return;
           }
 
-          const date = new Date(newPost.date).getDate();
+          const day = new Date(newPost.date).getDate();
           const newCalendarPost = {
             id: newPost.id,
             title: newPost.title,
@@ -232,7 +220,7 @@ function useUpdatePostMutation(mutationOptions?: UseMutationCustomOptions) {
 
           return {
             ...existingPosts,
-            [date]: existingPosts[date].map(post =>
+            [day]: existingPosts[day].map(post =>
               post.id === newPost.id ? newCalendarPost : post,
             ),
           };
@@ -244,8 +232,8 @@ function useUpdatePostMutation(mutationOptions?: UseMutationCustomOptions) {
 }
 
 export {
-  useInifinitePostsQuery,
-  useInifiniteSearchPostsQuery,
+  useInfinitePostsQuery,
+  useInfiniteSearchPostsQuery,
   usePostQuery,
   useCreatePostMutation,
   useDeletePostMutation,

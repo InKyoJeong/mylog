@@ -95,7 +95,7 @@ const styling = (theme: ThemeMode) =>
     },
     titleText: {
       color: colors[theme].BLACK,
-      fontSize: 18,
+      fontSize: 16,
       fontWeight: '600',
     },
   });
