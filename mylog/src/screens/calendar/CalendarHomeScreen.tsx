@@ -8,9 +8,7 @@ import CalendarContentsList from '@/components/calendar/CalendarContentsList';
 import {useCalendarPostsQuery} from '@/hooks/queries/useCalendarPost';
 import useCalendar from '@/hooks/useCalendar';
 
-interface CalendarHomeScreenProps {}
-
-function CalendarHomeScreen({}: CalendarHomeScreenProps) {
+function CalendarHomeScreen() {
   const {monthYear, selectedDate, handlePressDate, handleUpdateMonth} =
     useCalendar();
   const {

@@ -79,18 +79,6 @@ const styling = (theme: ThemeMode) =>
       flexDirection: 'row',
       gap: 10,
     },
-    listItem: {
-      borderColor: colors[theme].PINK_700,
-      borderWidth: 1.5,
-      borderRadius: 5,
-      paddingHorizontal: 10,
-      paddingVertical: 5,
-      marginTop: 15,
-    },
-    itemText: {
-      color: colors[theme].PINK_700,
-      fontWeight: 'bold',
-    },
     noRecentText: {
       textAlign: 'center',
       color: colors[theme].GRAY_300,
