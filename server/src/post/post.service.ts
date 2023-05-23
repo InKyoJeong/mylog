@@ -199,23 +199,13 @@ export class PostService {
     return groupPostsByDate;
   }
 
-  async getCountByScore(user: User) {
+  async getPostCountByField(user: User, field: string) {
     return this.postRepository
       .createQueryBuilder('post')
       .where('post.userId = :userId', { userId: user.id })
-      .select('post.score', 'score')
+      .select(`post.${field}`, `${field}`)
       .addSelect('COUNT(post.id)', 'count')
-      .groupBy('post.score')
-      .getRawMany();
-  }
-
-  async getCountByColor(user: User) {
-    return this.postRepository
-      .createQueryBuilder('post')
-      .where('post.userId = :userId', { userId: user.id })
-      .select('post.color', 'color')
-      .addSelect('COUNT(post.id)', 'count')
-      .groupBy('post.color')
+      .groupBy(`post.${field}`)
       .getRawMany();
   }
 }
