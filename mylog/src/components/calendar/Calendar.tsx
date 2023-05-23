@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useLayoutEffect, useRef} from 'react';
 import {
   FlatList,
   PanResponder,
@@ -8,9 +8,11 @@ import {
   Text,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {useNavigation} from '@react-navigation/native';
 
 import CalendarDate from './CalendarDate';
 import CalendarDayOfWeeks from './CalendarDayOfWeeks';
+import CalendarHomeHeaderRight from './CalendarHomeHeaderRight';
 import useThemeStore from '@/store/useThemeStore';
 import {MonthYear, compareWithCurrentDate} from '@/utils';
 import {colors} from '@/constants';
@@ -22,6 +24,7 @@ interface CalendarProps<T> {
   selectedDate: number;
   onPressDate: (date: number) => void;
   onChangeMonth: (increment: number) => void;
+  moveToToday: () => void;
 }
 
 function Calendar<T>({
@@ -30,10 +33,12 @@ function Calendar<T>({
   selectedDate,
   onPressDate,
   onChangeMonth,
+  moveToToday,
 }: CalendarProps<T>) {
   const {theme} = useThemeStore();
   const styles = styling(theme);
   const {lastDate, firstDOW, year, month} = monthYear;
+  const navigation = useNavigation();
 
   const panResponder = useRef(
     PanResponder.create({
@@ -48,6 +53,12 @@ function Calendar<T>({
       },
     }),
   ).current;
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => CalendarHomeHeaderRight(moveToToday),
+    });
+  }, [moveToToday, navigation]);
 
   return (
     <>
