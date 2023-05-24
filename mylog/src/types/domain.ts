@@ -28,6 +28,7 @@ interface Profile {
   username: string;
   nickname: string | null;
   imageUri: string | null;
+  kakaoImageUri: string | null;
 }
 
 export type {MarkerColor, Category, Marker, Post, ImageUri, Profile};
