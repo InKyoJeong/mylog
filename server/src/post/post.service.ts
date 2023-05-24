@@ -198,4 +198,23 @@ export class PostService {
 
     return groupPostsByDate;
   }
+
+  async getPostCountByField(user: User, field: string) {
+    const counts = this.postRepository
+      .createQueryBuilder('post')
+      .where('post.userId = :userId', { userId: user.id })
+      .select(`post.${field}`, `${field}`)
+      .addSelect('COUNT(post.id)', 'count')
+      .groupBy(`post.${field}`)
+      .getRawMany()
+      .then((results) => {
+        const totalCount = results.reduce((acc, result) => {
+          return acc + parseInt(result.count);
+        }, 0);
+
+        return { totalCount, results };
+      });
+
+    return counts;
+  }
 }
