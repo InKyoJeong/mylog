@@ -42,7 +42,7 @@ function ImageCarousel({images, pressedIndex = 0}: ImageCarouselProps) {
   return (
     <View style={styles.container}>
       <Pressable
-        style={[styles.backButton, {marginTop: insets.top}]}
+        style={[styles.backButton, {marginTop: insets.top + 10}]}
         onPress={() => navigation.goBack()}>
         <Octicons
           name="arrow-left"
