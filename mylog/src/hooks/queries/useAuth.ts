@@ -8,6 +8,7 @@ import {
   editProfile,
   getAccessToken,
   getProfile,
+  kakaoLogin,
   logout,
   postLogin,
   postSignup,
@@ -35,6 +36,22 @@ function useSignup(mutationOptions?: UseMutationCustomOptions) {
 
 function useLogin(mutationOptions?: UseMutationCustomOptions<ResponseToken>) {
   return useMutation(postLogin, {
+    onSuccess: ({accessToken, refreshToken}) => {
+      setHeader('Authorization', `Bearer ${accessToken}`);
+      setEncryptStorage(storageKeys.REFRESH_TOKEN, refreshToken);
+    },
+    onSettled: () => {
+      queryClient.refetchQueries([queryKeys.AUTH, queryKeys.GET_ACCESS_TOKEN]);
+      queryClient.invalidateQueries([queryKeys.AUTH, queryKeys.GET_PROFILE]);
+    },
+    ...mutationOptions,
+  });
+}
+
+function useKakaoLogin(
+  mutationOptions?: UseMutationCustomOptions<ResponseToken>,
+) {
+  return useMutation(kakaoLogin, {
     onSuccess: ({accessToken, refreshToken}) => {
       setHeader('Authorization', `Bearer ${accessToken}`);
       setEncryptStorage(storageKeys.REFRESH_TOKEN, refreshToken);
@@ -149,6 +166,7 @@ function useMutateCategory(mutationOptions?: UseMutationCustomOptions) {
 function useAuth() {
   const signupMutation = useSignup();
   const loginMutation = useLogin();
+  const kakaoLoginMutation = useKakaoLogin();
   const logoutMutation = useLogout();
   const refreshTokenQuery = useGetRefreshToken();
   const getProfileQuery = useGetProfile({
@@ -164,6 +182,7 @@ function useAuth() {
   return {
     signupMutation,
     loginMutation,
+    kakaoLoginMutation,
     logoutMutation,
     refreshTokenQuery,
     getProfileQuery,
