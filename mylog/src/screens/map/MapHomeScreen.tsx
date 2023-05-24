@@ -26,8 +26,8 @@ import useGetMarkers from '@/hooks/queries/useGetMarkers';
 import usePermission from '@/hooks/usePermission';
 import useUserLocation from '@/hooks/useUserLocation';
 import useMoveMapView from '@/hooks/useMoveMapView';
+import useLegendStorage from '@/hooks/useLegendStorage';
 import useMarkerStore from '@/store/useMarkerStore';
-import useLegendStore from '@/store/useLegendStore';
 import useSnackbarStore from '@/store/useSnackbarStore';
 import useLocationStore from '@/store/useLocationStore';
 import useThemeStore from '@/store/useThemeStore';
@@ -56,7 +56,7 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
   const {mapRef, moveMapView, handleChangeDelta} = useMoveMapView();
   const {userLocation, isUserLocationError} = useUserLocation();
   const {selectLocation, setSelectLocation} = useLocationStore();
-  const legend = useLegendStore();
+  const legend = useLegendStorage();
   const {showModal} = useMarkerStore();
   const snackbar = useSnackbarStore();
   usePermission('LOCATION');

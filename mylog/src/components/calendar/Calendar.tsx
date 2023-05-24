@@ -1,4 +1,4 @@
-import React, {useLayoutEffect, useRef} from 'react';
+import React, {useEffect, useLayoutEffect, useRef} from 'react';
 import {
   FlatList,
   PanResponder,
@@ -6,6 +6,7 @@ import {
   View,
   Pressable,
   Text,
+  LayoutAnimation,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
@@ -15,7 +16,7 @@ import CalendarDayOfWeeks from './CalendarDayOfWeeks';
 import CalendarHomeHeaderRight from './CalendarHomeHeaderRight';
 import useThemeStore from '@/store/useThemeStore';
 import {MonthYear, compareWithCurrentDate} from '@/utils';
-import {colors} from '@/constants';
+import {colors, numbers} from '@/constants';
 import type {ThemeMode} from '@/types';
 
 interface CalendarProps<T> {
@@ -44,15 +45,19 @@ function Calendar<T>({
     PanResponder.create({
       onStartShouldSetPanResponder: () => true,
       onPanResponderRelease: (_, gestureState) => {
-        if (gestureState.dy < -30) {
+        if (gestureState.dy < -numbers.MIN_CALENDAR_SLIDE_OFFEST) {
           onChangeMonth(1);
         }
-        if (gestureState.dy > 30) {
+        if (gestureState.dy > numbers.MIN_CALENDAR_SLIDE_OFFEST) {
           onChangeMonth(-1);
         }
       },
     }),
   ).current;
+
+  useEffect(() => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+  }, [schedules]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -67,7 +72,7 @@ function Calendar<T>({
           onPress={() => onChangeMonth(-1)}
           style={styles.monthButtonContainer}>
           <Ionicons
-            name="arrow-back-circle-outline"
+            name="arrow-up-circle-outline"
             size={25}
             color={colors[theme].BLACK}
           />
@@ -79,7 +84,7 @@ function Calendar<T>({
           onPress={() => onChangeMonth(1)}
           style={styles.monthButtonContainer}>
           <Ionicons
-            name="arrow-forward-circle-outline"
+            name="arrow-down-circle-outline"
             size={25}
             color={colors[theme].BLACK}
           />

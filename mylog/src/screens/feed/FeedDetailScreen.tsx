@@ -23,8 +23,8 @@ import Conditional from '@/components/@common/Conditional';
 import CustomMarker from '@/components/@common/CustomMarker';
 import CustomButton from '@/components/@common/CustomButton';
 import CustomBottomTab from '@/components/@common/CustomBottomTab';
+import PreviewImageList from '@/components/@common/PreviewImageList';
 import FeedDetailModal from '@/components/feed/FeedDetailModal';
-import PreviewImageList from '@/components/post/PreviewImageList';
 import FeedDetailHeader from '@/components/feed/FeedDetailHeader';
 import useMutateFavoritePost from '@/hooks/queries/useMutateFavoritePost';
 import useGetPost from '@/hooks/queries/useGetPost';
@@ -206,7 +206,7 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
 
           <Conditional condition={post.images.length > 0}>
             <View style={styles.imageContentsContainer}>
-              <PreviewImageList imageUris={post.images} />
+              <PreviewImageList imageUris={post.images} zoomEnable />
             </View>
           </Conditional>
         </ScrollView>

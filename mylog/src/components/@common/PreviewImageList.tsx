@@ -1,11 +1,14 @@
 import React from 'react';
-import {ScrollView, View, StyleSheet, Image} from 'react-native';
+import {ScrollView, StyleSheet, Image, View, Pressable} from 'react-native';
 import Animated, {FadeInRight, FadeOutLeft} from 'react-native-reanimated';
+import {NavigationProp, useNavigation} from '@react-navigation/native';
 import Config from 'react-native-config';
 
-import Conditional from '../@common/Conditional';
+import type {FeedStackParamList} from '@/navigations/stack/FeedStackNavigator';
 import PreviewImageOption from './PreviewImageOption';
-import {ImageUri} from '@/types';
+import Conditional from '../@common/Conditional';
+import {feedNavigations} from '@/constants';
+import type {ImageUri} from '@/types';
 
 interface PreviewImageListProps {
   imageUris: ImageUri[];
@@ -13,6 +16,7 @@ interface PreviewImageListProps {
   onChangeOrder?: (fromIndex: number, toIndex: number) => void;
   showDeleteButton?: boolean;
   showOrderButton?: boolean;
+  zoomEnable?: boolean;
 }
 
 function PreviewImageList({
@@ -21,7 +25,18 @@ function PreviewImageList({
   onChangeOrder,
   showDeleteButton = false,
   showOrderButton = false,
+  zoomEnable = false,
 }: PreviewImageListProps) {
+  const navigation = useNavigation<NavigationProp<FeedStackParamList>>();
+
+  const handlePressImage = (index: number) => {
+    if (zoomEnable) {
+      navigation.navigate(feedNavigations.IMAGE_ZOOM, {
+        index,
+      });
+    }
+  };
+
   return (
     <ScrollView horizontal showsHorizontalScrollIndicator={false}>
       <View style={styles.container}>
@@ -32,10 +47,12 @@ function PreviewImageList({
               style={styles.imageContainer}
               entering={FadeInRight}
               exiting={FadeOutLeft}>
-              <Image
-                style={styles.image}
-                source={{uri: `${Config.BASE_URL}/${uri}`}}
-              />
+              <Pressable onPress={() => handlePressImage(index)}>
+                <Image
+                  style={styles.image}
+                  source={{uri: `${Config.BASE_URL}/${uri}`}}
+                />
+              </Pressable>
 
               <Conditional condition={showDeleteButton}>
                 <PreviewImageOption

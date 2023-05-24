@@ -1,11 +1,12 @@
 import React from 'react';
 import {ScrollView, StyleSheet, View, Pressable, Text} from 'react-native';
 import {CompositeNavigationProp, useNavigation} from '@react-navigation/native';
-import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
-import {DrawerNavigationProp} from '@react-navigation/drawer';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import type {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
+import type {DrawerNavigationProp} from '@react-navigation/drawer';
 
-import {FeedTabParamList} from '@/navigations/tab/FeedTabNavigator';
-import {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
+import type {FeedTabParamList} from '@/navigations/tab/FeedTabNavigator';
+import type {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
 import useThemeStore from '@/store/useThemeStore';
 import {
   colors,
@@ -29,6 +30,7 @@ function CalendarContentsList({posts}: CalendarContentsListProps) {
   const {theme} = useThemeStore();
   const styles = styling(theme);
   const navigation = useNavigation<Navigation>();
+  const insets = useSafeAreaInsets();
 
   const handlePressItem = (id: number) => {
     navigation.navigate(mainNavigations.FEED, {
@@ -43,7 +45,7 @@ function CalendarContentsList({posts}: CalendarContentsListProps) {
 
   return (
     <ScrollView style={styles.container}>
-      <View style={styles.innerContainer}>
+      <View style={[styles.innerContainer, {marginBottom: insets.bottom + 20}]}>
         {posts?.map(post => (
           <Pressable
             key={post.id}
@@ -74,14 +76,13 @@ const styling = (theme: ThemeMode) =>
     },
     innerContainer: {
       gap: 20,
-      marginBottom: 50,
     },
     itemContainer: {
       flexDirection: 'row',
     },
     itemHeader: {
       backgroundColor: colors[theme].PINK_700,
-      width: 8,
+      width: 6,
       height: 50,
       marginRight: 8,
       borderRadius: 20,

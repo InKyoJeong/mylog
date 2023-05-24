@@ -93,7 +93,8 @@ function FeedTabNavigator() {
 
             if (
               routeName === feedNavigations.FEED_DETAIL ||
-              routeName === feedNavigations.EDIT_POST
+              routeName === feedNavigations.EDIT_POST ||
+              routeName === feedNavigations.IMAGE_ZOOM
             ) {
               return {display: 'none'};
             }
