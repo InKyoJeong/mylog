@@ -5,10 +5,10 @@ import {NavigationProp, useNavigation} from '@react-navigation/native';
 import Config from 'react-native-config';
 
 import type {FeedStackParamList} from '@/navigations/stack/FeedStackNavigator';
-import Conditional from '../@common/Conditional';
 import PreviewImageOption from './PreviewImageOption';
-import {ImageUri} from '@/types';
+import Conditional from '../@common/Conditional';
 import {feedNavigations} from '@/constants';
+import type {ImageUri} from '@/types';
 
 interface PreviewImageListProps {
   imageUris: ImageUri[];
