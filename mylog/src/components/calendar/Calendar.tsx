@@ -16,7 +16,7 @@ import CalendarDayOfWeeks from './CalendarDayOfWeeks';
 import CalendarHomeHeaderRight from './CalendarHomeHeaderRight';
 import useThemeStore from '@/store/useThemeStore';
 import {MonthYear, compareWithCurrentDate} from '@/utils';
-import {colors} from '@/constants';
+import {colors, numbers} from '@/constants';
 import type {ThemeMode} from '@/types';
 
 interface CalendarProps<T> {
@@ -45,10 +45,10 @@ function Calendar<T>({
     PanResponder.create({
       onStartShouldSetPanResponder: () => true,
       onPanResponderRelease: (_, gestureState) => {
-        if (gestureState.dy < -30) {
+        if (gestureState.dy < -numbers.MIN_CALENDAR_SLIDE_OFFEST) {
           onChangeMonth(1);
         }
-        if (gestureState.dy > 30) {
+        if (gestureState.dy > numbers.MIN_CALENDAR_SLIDE_OFFEST) {
           onChangeMonth(-1);
         }
       },
