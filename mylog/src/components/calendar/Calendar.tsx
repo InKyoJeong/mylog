@@ -1,4 +1,4 @@
-import React, {useLayoutEffect, useRef} from 'react';
+import React, {useEffect, useLayoutEffect, useRef} from 'react';
 import {
   FlatList,
   PanResponder,
@@ -6,6 +6,7 @@ import {
   View,
   Pressable,
   Text,
+  LayoutAnimation,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
@@ -53,6 +54,10 @@ function Calendar<T>({
       },
     }),
   ).current;
+
+  useEffect(() => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+  }, [schedules]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
