@@ -72,7 +72,7 @@ function Calendar<T>({
           onPress={() => onChangeMonth(-1)}
           style={styles.monthButtonContainer}>
           <Ionicons
-            name="arrow-back-circle-outline"
+            name="arrow-up-circle-outline"
             size={25}
             color={colors[theme].BLACK}
           />
@@ -84,7 +84,7 @@ function Calendar<T>({
           onPress={() => onChangeMonth(1)}
           style={styles.monthButtonContainer}>
           <Ionicons
-            name="arrow-forward-circle-outline"
+            name="arrow-down-circle-outline"
             size={25}
             color={colors[theme].BLACK}
           />
