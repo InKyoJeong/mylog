@@ -4,9 +4,9 @@ import type {StackScreenProps} from '@react-navigation/stack';
 import Octicons from 'react-native-vector-icons/Octicons';
 
 import type {SettingStackParamList} from '@/navigations/stack/SettingStackNavigator';
-import MapLegendModal from '@/components/setting/MapLegendModal';
+import MapLegendOption from '@/components/setting/MapLegendOption';
 import SettingItem from '@/components/setting/SettingItem';
-import DarkModeModal from '@/components/setting/DarkModeModal';
+import DarkModeOption from '@/components/setting/DarkModeOption';
 import useAuth from '@/hooks/queries/useAuth';
 import useModal from '@/hooks/useModal';
 import useThemeStore from '@/store/useThemeStore';
@@ -67,11 +67,11 @@ function SettingHomeScreen({navigation}: SettingHomeScreenProps) {
           onPress={handlePressLogout}
         />
 
-        <MapLegendModal
+        <MapLegendOption
           isVisible={mapLegendOption.isVisible}
           hideOption={mapLegendOption.hide}
         />
-        <DarkModeModal
+        <DarkModeOption
           isVisible={darkModeOption.isVisible}
           hideOption={darkModeOption.hide}
         />

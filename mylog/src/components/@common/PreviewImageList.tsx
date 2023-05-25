@@ -5,7 +5,7 @@ import {NavigationProp, useNavigation} from '@react-navigation/native';
 import Config from 'react-native-config';
 
 import type {FeedStackParamList} from '@/navigations/stack/FeedStackNavigator';
-import PreviewImageOption from './PreviewImageOption';
+import PreviewImageButton from './PreviewImageButton';
 import Conditional from '../@common/Conditional';
 import {feedNavigations} from '@/constants';
 import type {ImageUri} from '@/types';
@@ -55,7 +55,7 @@ function PreviewImageList({
               </Pressable>
 
               <Conditional condition={showDeleteButton}>
-                <PreviewImageOption
+                <PreviewImageButton
                   name="close"
                   style={styles.cancelButton}
                   onPress={() => onDelete && onDelete(uri)}
@@ -64,7 +64,7 @@ function PreviewImageList({
 
               <Conditional condition={showOrderButton}>
                 {index > 0 && (
-                  <PreviewImageOption
+                  <PreviewImageButton
                     name="arrow-back-outline"
                     style={styles.moveLeftButton}
                     onPress={() =>
@@ -73,7 +73,7 @@ function PreviewImageList({
                   />
                 )}
                 {index < imageUris.length - 1 && (
-                  <PreviewImageOption
+                  <PreviewImageButton
                     style={styles.moveRightButton}
                     onPress={() =>
                       onChangeOrder && onChangeOrder(index, index + 1)

@@ -12,12 +12,12 @@ import useThemeStore from '@/store/useThemeStore';
 import {colors} from '@/constants';
 import type {ThemeMode} from '@/types';
 
-interface PreviewImageOptionProps extends PressableProps {
+interface PreviewImageButtonProps extends PressableProps {
   name: string;
   style: StyleProp<ViewStyle>;
 }
 
-function PreviewImageOption({name, style, ...props}: PreviewImageOptionProps) {
+function PreviewImageButton({name, style, ...props}: PreviewImageButtonProps) {
   const {theme} = useThemeStore();
   const styles = styling(theme);
 
@@ -37,4 +37,4 @@ const styling = (theme: ThemeMode) =>
     },
   });
 
-export default PreviewImageOption;
+export default PreviewImageButton;

@@ -8,7 +8,7 @@ import type {SettingStackParamList} from '@/navigations/stack/SettingStackNaviga
 import EditProfileHeaderRight from '@/components/setting/EditProfileHeaderRight';
 import InputField from '@/components/@common/InputField';
 import Conditional from '@/components/@common/Conditional';
-import EditProfileImageModal from '@/components/setting/EditProfileImageModal';
+import EditProfileImageOption from '@/components/setting/EditProfileImageOption';
 import useForm from '@/hooks/useForm';
 import useModal from '@/hooks/useModal';
 import useAuth from '@/hooks/queries/useAuth';
@@ -125,7 +125,7 @@ function EditProfileScreen({navigation}: EditProfileScreenProps) {
         maxLength={numbers.MAX_NICKNAME_LENGTH}
       />
 
-      <EditProfileImageModal
+      <EditProfileImageOption
         isVisible={imageOption.isVisible}
         hideOption={imageOption.hide}
         onChangeImage={imagePicker.handleChange}

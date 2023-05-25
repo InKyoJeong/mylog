@@ -16,7 +16,7 @@ import type {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 
 import type {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
 import type {FeedTabParamList} from '@/navigations/tab/FeedTabNavigator';
-import {CompoundModal} from '../@common/CompoundModal';
+import {CompoundOption} from '../@common/CompoundOption';
 import Conditional from '../@common/Conditional';
 import CustomMarker from '../@common/CustomMarker';
 import useGetPost from '@/hooks/queries/useGetPost';
@@ -63,9 +63,9 @@ function MarkerModal() {
   };
 
   return (
-    <CompoundModal isVisible={isVisible} hideModal={hideModal}>
-      <CompoundModal.Background type="option" dimmed={false}>
-        <CompoundModal.Card>
+    <CompoundOption isVisible={isVisible} hideOption={hideModal}>
+      <CompoundOption.Background dimmed={false}>
+        <CompoundOption.Card>
           <View style={styles.cardAlign}>
             <View style={styles.infoAlign}>
               <Conditional condition={post.images.length > 0}>
@@ -119,9 +119,9 @@ function MarkerModal() {
               />
             </Pressable>
           </View>
-        </CompoundModal.Card>
-      </CompoundModal.Background>
-    </CompoundModal>
+        </CompoundOption.Card>
+      </CompoundOption.Background>
+    </CompoundOption>
   );
 }
 

@@ -18,7 +18,7 @@ import CustomKeyboardAvoidingView from '../@common/CustomKeyboardAvoidingView';
 import MarkerSelector from './MarkerSelector';
 import ScoreInput from './ScoreInput';
 import ImageInput from './ImageInput';
-import DatePickerModal from './DatePickerModal';
+import DatePickerOption from './DatePickerOption';
 import AddPostHeaderRight from './AddPostHeaderRight';
 import EditPostHeaderRight from './EditPostHeaderRight';
 import PreviewImageList from '../@common/PreviewImageList';
@@ -187,7 +187,7 @@ function PostEditor({isEdit = false, location}: PostEditorProps) {
                 showOrderButton={!isEdit}
               />
             </View>
-            <DatePickerModal
+            <DatePickerOption
               date={datePicker.date}
               isVisible={datePicker.isVisible}
               onChangeDate={datePicker.handleChange}
