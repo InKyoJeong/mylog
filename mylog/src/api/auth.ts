@@ -3,12 +3,12 @@ import {getEncryptStorage} from '@/utils';
 import type {Category, Profile} from '@/types';
 
 type RequestUser = {
-  username: string;
+  email: string;
   password: string;
 };
 
-const postSignup = async ({username, password}: RequestUser): Promise<void> => {
-  const {data} = await axiosInstance.post('/auth/signup', {username, password});
+const postSignup = async ({email, password}: RequestUser): Promise<void> => {
+  const {data} = await axiosInstance.post('/auth/signup', {email, password});
 
   return data;
 };
@@ -19,10 +19,16 @@ type ResponseToken = {
 };
 
 const postLogin = async ({
-  username,
+  email,
   password,
 }: RequestUser): Promise<ResponseToken> => {
-  const {data} = await axiosInstance.post('/auth/signin', {username, password});
+  const {data} = await axiosInstance.post('/auth/signin', {email, password});
+
+  return data;
+};
+
+const kakaoLogin = async (token: string): Promise<ResponseToken> => {
+  const {data} = await axiosInstance.post('/auth/oauth', {token});
 
   return data;
 };
@@ -35,7 +41,7 @@ const getProfile = async (): Promise<ResponseProfile> => {
   return data;
 };
 
-type RequestProfile = Omit<Profile, 'username'>;
+type RequestProfile = Omit<Profile, 'email' | 'kakaoImageUri'>;
 
 const editProfile = async (body: RequestProfile): Promise<ResponseProfile> => {
   const {data} = await axiosInstance.patch('/auth/me', body);
@@ -72,6 +78,7 @@ const editCategory = async (body: Category): Promise<ResponseProfile> => {
 export {
   postSignup,
   postLogin,
+  kakaoLogin,
   getProfile,
   editProfile,
   getAccessToken,

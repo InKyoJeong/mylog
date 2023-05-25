@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {ReactNode} from 'react';
 import {
   StyleSheet,
   View,
@@ -8,6 +8,7 @@ import {
   Dimensions,
   StyleProp,
   ViewStyle,
+  TextStyle,
 } from 'react-native';
 
 import useThemeStore from '@/store/useThemeStore';
@@ -21,8 +22,10 @@ interface CustomButtonProps extends PressableProps {
   label: string;
   variant?: Variant;
   size?: Size;
-  style?: StyleProp<ViewStyle>;
   hasError?: boolean;
+  style?: StyleProp<ViewStyle>;
+  textStyle?: StyleProp<TextStyle>;
+  icon?: ReactNode;
 }
 
 const deviceHeight = Dimensions.get('screen').height;
@@ -31,8 +34,10 @@ function CustomButton({
   label,
   variant = 'standard',
   size = 'small',
-  style = null,
   hasError = false,
+  style = null,
+  textStyle = null,
+  icon = null,
   ...props
 }: CustomButtonProps) {
   const {theme} = useThemeStore();
@@ -46,10 +51,14 @@ function CustomButton({
         styles.container,
         styles[`${size}Container`],
         hasError && styles.inValidContainer,
+        style,
       ]}
       {...props}>
-      <View style={[styles[size], style]}>
-        <Text style={[styles.text, styles[`${variant}Text`]]}>{label}</Text>
+      <View style={[styles[size]]}>
+        {icon}
+        <Text style={[styles.text, styles[`${variant}Text`], textStyle]}>
+          {label}
+        </Text>
       </View>
     </Pressable>
   );
@@ -74,15 +83,24 @@ const styling = (theme: ThemeMode) =>
     },
     small: {
       alignItems: 'center',
+      flexDirection: 'row',
+      justifyContent: 'center',
+      gap: 10,
       paddingVertical: deviceHeight > 640 ? 10 : 6,
       paddingHorizontal: deviceHeight > 640 ? 15 : 10,
     },
     medium: {
       alignItems: 'center',
+      flexDirection: 'row',
+      justifyContent: 'center',
+      gap: 10,
       paddingVertical: deviceHeight > 640 ? 12 : 8,
     },
     large: {
       alignItems: 'center',
+      flexDirection: 'row',
+      justifyContent: 'center',
+      gap: 10,
       paddingVertical: deviceHeight > 640 ? 15 : 10,
       width: '100%',
     },

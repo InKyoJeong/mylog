@@ -15,7 +15,7 @@ import useAuth from '@/hooks/queries/useAuth';
 import useImagePicker from '@/hooks/useImagePicker';
 import useSnackbarStore from '@/store/useSnackbarStore';
 import useThemeStore from '@/store/useThemeStore';
-import {validateEditProfile} from '@/utils';
+import {isValidEmailFormat, validateEditProfile} from '@/utils';
 import {colors, numbers, successMessages} from '@/constants';
 import type {ThemeMode} from '@/types';
 
@@ -27,7 +27,7 @@ function EditProfileScreen({navigation}: EditProfileScreenProps) {
   const snackbar = useSnackbarStore();
   const imageOption = useModal();
   const {getProfileQuery, profileMutation} = useAuth();
-  const {username, nickname, imageUri} = getProfileQuery.data || {};
+  const {email, nickname, imageUri, kakaoImageUri} = getProfileQuery.data || {};
   const imagePicker = useImagePicker({
     initialImages: imageUri ? [{uri: imageUri}] : [],
     mode: 'single',
@@ -77,12 +77,21 @@ function EditProfileScreen({navigation}: EditProfileScreenProps) {
         <Pressable
           style={[styles.imageContainer, styles.emptyImageContainer]}
           onPress={handlePressImage}>
-          <Conditional condition={imagePicker.imageUris.length === 0}>
+          <Conditional
+            condition={imagePicker.imageUris.length === 0 && !kakaoImageUri}>
             <Ionicons
               name="camera-outline"
               size={30}
               color={colors[theme].GRAY_500}
             />
+          </Conditional>
+
+          <Conditional
+            condition={imagePicker.imageUris.length === 0 && !!kakaoImageUri}>
+            <Image source={{uri: `${kakaoImageUri}`}} style={styles.image} />
+            <View style={styles.cameraButton}>
+              <Ionicons name="camera" size={18} color={colors[theme].WHITE} />
+            </View>
           </Conditional>
 
           <Conditional condition={imagePicker.imageUris.length > 0}>
@@ -98,12 +107,14 @@ function EditProfileScreen({navigation}: EditProfileScreenProps) {
           </Conditional>
         </Pressable>
 
-        <View style={styles.idContainer}>
-          <View style={styles.idTextContainer}>
-            <Text style={styles.nameText}>ID</Text>
+        <Conditional condition={Boolean(email && isValidEmailFormat(email))}>
+          <View style={styles.idContainer}>
+            <View style={styles.idTextContainer}>
+              <Text style={styles.nameText}>ID</Text>
+            </View>
+            <Text style={styles.nameText}>{email}</Text>
           </View>
-          <Text style={styles.nameText}>{username}</Text>
-        </View>
+        </Conditional>
       </View>
 
       <InputField

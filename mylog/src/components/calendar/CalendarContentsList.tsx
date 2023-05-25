@@ -45,7 +45,7 @@ function CalendarContentsList({posts}: CalendarContentsListProps) {
 
   return (
     <ScrollView style={styles.container}>
-      <View style={[styles.innerContainer, {marginBottom: insets.bottom + 20}]}>
+      <View style={[styles.innerContainer, {marginBottom: insets.bottom + 30}]}>
         {posts?.map(post => (
           <Pressable
             key={post.id}

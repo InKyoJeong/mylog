@@ -30,7 +30,7 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
   const {theme} = useThemeStore();
   const styles = styling(theme);
   const {getProfileQuery} = useAuth();
-  const {username, nickname, imageUri} = getProfileQuery.data || {};
+  const {email, nickname, imageUri, kakaoImageUri} = getProfileQuery.data || {};
 
   const handlePressStatistics = () => {
     props.navigation.navigate(mainNavigations.STATISTICS, {
@@ -52,9 +52,17 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
         contentContainerStyle={styles.contentContainer}>
         <View style={styles.userInfoContainer}>
           <View style={styles.userImageContainer}>
-            <Conditional condition={imageUri === null}>
+            <Conditional
+              condition={imageUri === null && kakaoImageUri === null}>
               <Image
                 source={require('@/assets/user-default.png')}
+                style={styles.userImage}
+              />
+            </Conditional>
+
+            <Conditional condition={imageUri === null && !!kakaoImageUri}>
+              <Image
+                source={{uri: `${kakaoImageUri}`}}
                 style={styles.userImage}
               />
             </Conditional>
@@ -68,7 +76,7 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
               />
             </Conditional>
           </View>
-          <Text style={styles.nameText}>{nickname ?? username}</Text>
+          <Text style={styles.nameText}>{nickname ?? email}</Text>
         </View>
         <DrawerItemList {...props} />
       </DrawerContentScrollView>
