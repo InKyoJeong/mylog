@@ -11,6 +11,7 @@ import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcryptjs';
+import axios from 'axios';
 
 import { User } from './user.entity';
 import { AuthCredentialsDto } from './dto/auth-credential.dto';
@@ -27,12 +28,12 @@ export class AuthService {
   ) {}
 
   async signup(authCredentialsDto: AuthCredentialsDto): Promise<void> {
-    const { username, password } = authCredentialsDto;
+    const { email, password } = authCredentialsDto;
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(password, salt);
 
     const user = this.userRepository.create({
-      username,
+      email,
       password: hashedPassword,
     });
 
@@ -40,7 +41,7 @@ export class AuthService {
       await this.userRepository.save(user);
     } catch (error) {
       if (error.code === '23505') {
-        throw new ConflictException('이미 존재하는 아이디입니다.');
+        throw new ConflictException('이미 존재하는 이메일입니다.');
       }
 
       throw new InternalServerErrorException();
@@ -50,16 +51,16 @@ export class AuthService {
   async signin(
     authCredentialsDto: AuthCredentialsDto,
   ): Promise<{ accessToken: string; refreshToken: string }> {
-    const { username, password } = authCredentialsDto;
-    const user = await this.userRepository.findOneBy({ username });
+    const { email, password } = authCredentialsDto;
+    const user = await this.userRepository.findOneBy({ email });
 
     if (!user || !(await bcrypt.compare(password, user.password))) {
       throw new UnauthorizedException(
-        '아이디 또는 비밀번호가 일치하지 않습니다.',
+        '이메일 또는 비밀번호가 일치하지 않습니다.',
       );
     }
 
-    const { accessToken, refreshToken } = await this.getTokens({ username });
+    const { accessToken, refreshToken } = await this.getTokens({ email });
     await this.updateHashedRefreshToken(user.id, refreshToken);
 
     return { accessToken, refreshToken };
@@ -69,8 +70,8 @@ export class AuthService {
     accessToken: string;
     refreshToken: string;
   }> {
-    const { username } = user;
-    const { accessToken, refreshToken } = await this.getTokens({ username });
+    const { email } = user;
+    const { accessToken, refreshToken } = await this.getTokens({ email });
 
     if (!user.hashedRefreshToken) {
       throw new ForbiddenException();
@@ -120,7 +121,7 @@ export class AuthService {
     await this.userRepository.update(id, { hashedRefreshToken });
   }
 
-  private async getTokens(payload: { username: string }) {
+  private async getTokens(payload: { email: string }) {
     const [accessToken, refreshToken] = await Promise.all([
       this.jwtService.signAsync(payload, {
         secret: this.configService.get<string>('JWT_SECRET'),
@@ -187,5 +188,61 @@ export class AuthService {
     const { id, password, hashedRefreshToken, ...rest } = user;
 
     return { ...rest };
+  }
+
+  async kakaoLogin(kakaoToken: { token: string }) {
+    const url = 'https://kapi.kakao.com/v2/user/me';
+    const headers = {
+      Authorization: `Bearer ${kakaoToken.token}`,
+      'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+    };
+
+    try {
+      const response = await axios.get(url, { headers });
+      const userData = response.data;
+      const { id: kakaoId, kakao_account } = userData;
+      const nickname = kakao_account.profile.nickname;
+      const imageUri = kakao_account.profile.thumbnail_image_url.replace(
+        /^http:/,
+        'https:',
+      );
+
+      const existingUser = await this.userRepository.findOneBy({
+        email: kakaoId,
+      });
+
+      if (existingUser) {
+        const { accessToken, refreshToken } = await this.getTokens({
+          email: existingUser.email,
+        });
+
+        await this.updateHashedRefreshToken(existingUser.id, refreshToken);
+        return { accessToken, refreshToken };
+      }
+
+      const newUser = this.userRepository.create({
+        email: kakaoId,
+        password: '',
+        nickname,
+        kakaoImageUri: imageUri,
+      });
+
+      try {
+        await this.userRepository.save(newUser);
+      } catch (error) {
+        console.log('error', error);
+        throw new InternalServerErrorException();
+      }
+
+      const { accessToken, refreshToken } = await this.getTokens({
+        email: newUser.email,
+      });
+      await this.updateHashedRefreshToken(newUser.id, refreshToken);
+
+      return { accessToken, refreshToken };
+    } catch (error) {
+      console.log('error', error);
+      throw new InternalServerErrorException('Kakao server error');
+    }
   }
 }

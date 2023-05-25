@@ -20,12 +20,12 @@ export class AuthAdminGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
     const user = request.user;
 
-    const adminUsername = ADMIN_ID;
+    const adminEmail = ADMIN_ID;
     const adminPassword = process.env.ADMIN_PASSWORD;
 
     if (
       user &&
-      user.username === adminUsername &&
+      user.email === adminEmail &&
       bcrypt.compareSync(adminPassword, user.password)
     ) {
       return true;

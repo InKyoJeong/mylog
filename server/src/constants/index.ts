@@ -4,4 +4,4 @@ export const numbers = {
 } as const;
 
 export const ADMIN_FLAG = 'isAdmin';
-export const ADMIN_ID = 'admin';
+export const ADMIN_ID = 'admin@admin.com';
