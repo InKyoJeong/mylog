@@ -75,4 +75,9 @@ export class AuthController {
   ) {
     return this.authService.updateCategory(categories, user);
   }
+
+  @Post('/oauth')
+  kakaoLogin(@Body() kakaoToken: { token: string }) {
+    return this.authService.kakaoLogin(kakaoToken);
+  }
 }
