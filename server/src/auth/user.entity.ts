@@ -16,13 +16,13 @@ import { Feedback } from 'src/feedback/feedback.entity';
 import { MarkerColor } from 'src/post/marker-color.enum';
 
 @Entity()
-@Unique(['username'])
+@Unique(['email'])
 export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
-  username: string;
+  email: string;
 
   @Column()
   password: string;
@@ -32,6 +32,9 @@ export class User extends BaseEntity {
 
   @Column({ nullable: true })
   imageUri?: string;
+
+  @Column({ nullable: true })
+  kakaoImageUri?: string;
 
   @Column({ nullable: true, default: '' })
   [MarkerColor.RED]: string;
