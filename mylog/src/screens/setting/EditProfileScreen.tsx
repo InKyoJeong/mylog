@@ -15,7 +15,7 @@ import useAuth from '@/hooks/queries/useAuth';
 import useImagePicker from '@/hooks/useImagePicker';
 import useSnackbarStore from '@/store/useSnackbarStore';
 import useThemeStore from '@/store/useThemeStore';
-import {validateEditProfile} from '@/utils';
+import {isValidEmailFormat, validateEditProfile} from '@/utils';
 import {colors, numbers, successMessages} from '@/constants';
 import type {ThemeMode} from '@/types';
 
@@ -107,12 +107,14 @@ function EditProfileScreen({navigation}: EditProfileScreenProps) {
           </Conditional>
         </Pressable>
 
-        <View style={styles.idContainer}>
-          <View style={styles.idTextContainer}>
-            <Text style={styles.nameText}>ID</Text>
+        <Conditional condition={Boolean(email && isValidEmailFormat(email))}>
+          <View style={styles.idContainer}>
+            <View style={styles.idTextContainer}>
+              <Text style={styles.nameText}>ID</Text>
+            </View>
+            <Text style={styles.nameText}>{email}</Text>
           </View>
-          <Text style={styles.nameText}>{email}</Text>
-        </View>
+        </Conditional>
       </View>
 
       <InputField
