@@ -166,6 +166,7 @@ function validateCategory(values: Category) {
 }
 
 export {
+  isValidEmailFormat,
   validateLogin,
   validateSignup,
   validateAddPost,

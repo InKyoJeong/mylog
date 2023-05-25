@@ -14,20 +14,23 @@ import CustomButton from '@/components/@common/CustomButton';
 import CustomKeyboardAvoidingView from '@/components/@common/CustomKeyboardAvoidingView';
 import useForm from '@/hooks/useForm';
 import useMutateFeedback from '@/hooks/queries/useMutateFeedback';
+import useAuth from '@/hooks/queries/useAuth';
 import useSnackbarStore from '@/store/useSnackbarStore';
-import {validateAddFeedback} from '@/utils';
+import {isValidEmailFormat, validateAddFeedback} from '@/utils';
 import {numbers, successMessages} from '@/constants';
 
 type FeedbackScreenProps = StackScreenProps<SettingStackParamList>;
 
 function FeedbackScreen({navigation}: FeedbackScreenProps) {
-  const snackbar = useSnackbarStore();
-  const feedback = useMutateFeedback();
   const titleRef = useRef<TextInput | null>(null);
   const descriptionRef = useRef<TextInput | null>(null);
+  const snackbar = useSnackbarStore();
+  const feedback = useMutateFeedback();
+  const {getProfileQuery} = useAuth();
+  const {email} = getProfileQuery.data || {};
   const addFeedback = useForm({
     initialValue: {
-      email: '',
+      email: email && isValidEmailFormat(email) ? email : '',
       title: '',
       description: '',
     },
