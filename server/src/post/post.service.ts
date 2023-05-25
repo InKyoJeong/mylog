@@ -190,7 +190,6 @@ export class PostService {
       if (!acc[date]) {
         acc[date] = [];
       }
-
       acc[date].push({ id, title, address });
 
       return acc;
