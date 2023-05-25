@@ -69,7 +69,7 @@ function getNewMonthYear(prevData: MonthYear, increment: number) {
   return getMonthYearDetails(newMonthYear);
 }
 
-function compareWithCurrentDate(year: number, month: number, date: number) {
+function isSameAsCurrentDate(year: number, month: number, date: number) {
   const currentDate = getDateWithSeparator(new Date());
   const inputDate = `${year}${String(month).padStart(2, '0')}${String(
     date,
@@ -83,6 +83,6 @@ export {
   getDateLocaleFormat,
   getMonthYearDetails,
   getNewMonthYear,
-  compareWithCurrentDate,
+  isSameAsCurrentDate,
 };
 export type {MonthYear};

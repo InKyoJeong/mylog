@@ -27,8 +27,7 @@ function EditProfileScreen({navigation}: EditProfileScreenProps) {
   const snackbar = useSnackbarStore();
   const imageOption = useModal();
   const {getProfileQuery, profileMutation} = useAuth();
-  const {username, nickname, imageUri, kakaoImageUri} =
-    getProfileQuery.data || {};
+  const {email, nickname, imageUri, kakaoImageUri} = getProfileQuery.data || {};
   const imagePicker = useImagePicker({
     initialImages: imageUri ? [{uri: imageUri}] : [],
     mode: 'single',
@@ -112,7 +111,7 @@ function EditProfileScreen({navigation}: EditProfileScreenProps) {
           <View style={styles.idTextContainer}>
             <Text style={styles.nameText}>ID</Text>
           </View>
-          <Text style={styles.nameText}>{username}</Text>
+          <Text style={styles.nameText}>{email}</Text>
         </View>
       </View>
 

@@ -91,7 +91,6 @@ function MainDrawerNavigator() {
         drawerItemStyle: {
           borderRadius: 3,
         },
-
         drawerIcon: ({focused}) => DrawerIcons(route, focused, theme),
       })}>
       <Drawer.Screen

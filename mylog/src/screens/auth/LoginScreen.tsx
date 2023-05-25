@@ -19,7 +19,7 @@ function LoginScreen() {
   const {loginMutation} = useAuth();
   const passwordRef = useRef<TextInput | null>(null);
   const login = useForm({
-    initialValue: {username: '', password: ''},
+    initialValue: {email: '', password: ''},
     validate: validateLogin,
   });
 
@@ -45,11 +45,11 @@ function LoginScreen() {
           <View style={styles.inputContainer}>
             <InputField
               autoFocus
-              {...login.getTextInputProps('username')}
-              error={login.errors.username}
-              touched={login.touched.username}
-              placeholder="아이디"
-              maxLength={numbers.MAX_USERNAME_LENGTH}
+              {...login.getTextInputProps('email')}
+              error={login.errors.email}
+              touched={login.touched.email}
+              placeholder="이메일"
+              maxLength={numbers.MAX_EMAIL_LENGTH}
               inputMode="email"
               returnKeyType="next"
               blurOnSubmit={false}

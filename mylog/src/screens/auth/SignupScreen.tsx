@@ -20,7 +20,7 @@ function SignupScreen() {
   const passwordRef = useRef<TextInput | null>(null);
   const passwordConfirmRef = useRef<TextInput | null>(null);
   const signup = useForm({
-    initialValue: {username: '', password: '', passwordConfirm: ''},
+    initialValue: {email: '', password: '', passwordConfirm: ''},
     validate: validateSignup,
   });
 
@@ -29,12 +29,12 @@ function SignupScreen() {
       return;
     }
 
-    const {username, password} = signup.values;
+    const {email, password} = signup.values;
     signupMutation.mutate(
-      {username, password},
+      {email, password},
       {
         onSuccess: () => {
-          loginMutation.mutate({username, password});
+          loginMutation.mutate({email, password});
         },
         onError: error =>
           console.log('error.response?.data', error.response?.data),
@@ -52,11 +52,11 @@ function SignupScreen() {
         <CustomKeyboardAvoidingView>
           <View style={styles.inputContainer}>
             <InputField
-              {...signup.getTextInputProps('username')}
-              error={signup.errors.username}
-              touched={signup.touched.username}
-              placeholder="아이디"
-              maxLength={numbers.MAX_USERNAME_LENGTH}
+              {...signup.getTextInputProps('email')}
+              error={signup.errors.email}
+              touched={signup.touched.email}
+              placeholder="이메일"
+              maxLength={numbers.MAX_EMAIL_LENGTH}
               autoFocus
               inputMode="email"
               returnKeyType="next"

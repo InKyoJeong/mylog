@@ -19,19 +19,8 @@ function isValidEmailFormat(email: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
-function isValidUsernameFormat(username: string) {
-  return /^[a-zA-Z0-9]*$/.test(username);
-}
-
 function isValidPasswordFormat(password: string) {
   return /^[a-zA-Z0-9`'~!@#$%^&*()-_=+]*$/.test(password);
-}
-
-function isValidUsernameLength(username: string) {
-  return (
-    username.length >= numbers.MIN_USERNAME_LENGTH &&
-    username.length <= numbers.MAX_USERNAME_LENGTH
-  );
 }
 
 function isValidPasswordLength(password: string) {
@@ -61,14 +50,11 @@ function isValidFeedbackDescriptionLength(title: string) {
 }
 function validateUser(
   errors: Record<keyof RequestUser, string>,
-  username: string,
+  email: string,
   password: string,
 ) {
-  if (!isValidUsernameFormat(username)) {
-    errors.username = errorMessages.INVALID_USERNAME_FORMAT;
-  }
-  if (!isValidUsernameLength(username)) {
-    errors.username = errorMessages.INVALID_USERNAME_LENGTH;
+  if (!isValidEmailFormat(email)) {
+    errors.email = errorMessages.INVALID_EMAIL_FORMAT;
   }
   if (!isValidPasswordFormat(password)) {
     errors.password = errorMessages.INVALID_PASSWORD_FORMAT;
@@ -103,19 +89,19 @@ function validatePasswordConfirm(
 }
 
 function validateLogin(values: RequestUser) {
-  const {username, password} = values;
+  const {email, password} = values;
 
   const errors = getObjectWithValue(Object.keys(values), '');
-  const userErrors = validateUser(errors, username, password);
+  const userErrors = validateUser(errors, email, password);
 
   return {...errors, ...userErrors};
 }
 
 function validateSignup(values: SignupInfo) {
-  const {username, password, passwordConfirm} = values;
+  const {email, password, passwordConfirm} = values;
 
   const errors = getObjectWithValue(Object.keys(values), '');
-  const userErrors = validateUser(errors, username, password);
+  const userErrors = validateUser(errors, email, password);
   const passwordConfirmErrors = validatePasswordConfirm(
     errors,
     password,

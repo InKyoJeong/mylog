@@ -15,7 +15,7 @@ import CalendarDate from './CalendarDate';
 import CalendarDayOfWeeks from './CalendarDayOfWeeks';
 import CalendarHomeHeaderRight from './CalendarHomeHeaderRight';
 import useThemeStore from '@/store/useThemeStore';
-import {MonthYear, compareWithCurrentDate} from '@/utils';
+import {MonthYear, isSameAsCurrentDate} from '@/utils';
 import {colors, numbers} from '@/constants';
 import type {ThemeMode} from '@/types';
 
@@ -103,7 +103,7 @@ function Calendar<T>({
           renderItem={({item}) => (
             <CalendarDate
               date={item.date}
-              isToday={compareWithCurrentDate(year, month, item.date)}
+              isToday={isSameAsCurrentDate(year, month, item.date)}
               hasSchedule={Boolean(schedules[item.date])}
               selectedDate={selectedDate}
               onPressDate={onPressDate}
