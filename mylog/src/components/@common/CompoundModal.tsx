@@ -1,4 +1,9 @@
-import React, {PropsWithChildren, createContext, useContext} from 'react';
+import React, {
+  PropsWithChildren,
+  ReactNode,
+  createContext,
+  useContext,
+} from 'react';
 import {
   GestureResponderEvent,
   Modal,
@@ -7,18 +12,13 @@ import {
   StyleSheet,
   Text,
   View,
-  Image,
   SafeAreaView,
 } from 'react-native';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import Config from 'react-native-config';
 
-import Conditional from './Conditional';
 import useThemeStore from '@/store/useThemeStore';
-import CustomMarker from './CustomMarker';
 import {colors} from '@/constants';
-import type {ImageUri, ThemeMode} from '@/types';
+import type {ThemeMode} from '@/types';
 
 interface ModalContextValue {
   onClickOutSide?: (event: GestureResponderEvent) => void;
@@ -27,6 +27,7 @@ interface ModalContextValue {
 const ModalContext = createContext<ModalContextValue | undefined>(undefined);
 
 interface ModalMainProps extends ModalProps {
+  children: ReactNode;
   isVisible: boolean;
   hideModal: () => void;
 }
@@ -37,7 +38,7 @@ function ModalMain({
   hideModal,
   animationType = 'slide',
   ...props
-}: PropsWithChildren<ModalMainProps>) {
+}: ModalMainProps) {
   const onClickOutSide = (event: GestureResponderEvent) => {
     if (event.target === event.currentTarget) {
       hideModal();
@@ -46,9 +47,9 @@ function ModalMain({
 
   return (
     <Modal
-      animationType={animationType}
-      transparent={true}
       visible={isVisible}
+      transparent={true}
+      animationType={animationType}
       onRequestClose={hideModal}
       {...props}>
       <ModalContext.Provider value={{onClickOutSide}}>
@@ -58,26 +59,20 @@ function ModalMain({
   );
 }
 
-function CardBackground({children}: PropsWithChildren) {
-  const {theme} = useThemeStore();
-  const styles = styling(theme);
-  const modalContext = useContext(ModalContext);
-
-  return (
-    <View style={styles.container} onTouchEnd={modalContext?.onClickOutSide}>
-      {children}
-    </View>
-  );
+interface BackgroundProps {
+  children: ReactNode;
+  type: 'modal' | 'option';
+  dimmed?: boolean;
 }
 
-function OptionBackground({children}: PropsWithChildren) {
+function Background({children, type, dimmed = true}: BackgroundProps) {
   const {theme} = useThemeStore();
   const styles = styling(theme);
   const modalContext = useContext(ModalContext);
 
   return (
     <SafeAreaView
-      style={[styles.container, styles.optionContainer]}
+      style={[styles[`${type}Background`], dimmed && styles.dimmed]}
       onTouchEnd={modalContext?.onClickOutSide}>
       {children}
     </SafeAreaView>
@@ -92,6 +87,7 @@ function OptionButtonList({children}: PropsWithChildren) {
 }
 
 interface OptionButtonProps {
+  children: ReactNode;
   onPress: () => void;
   isDanger?: boolean;
   isChecked?: boolean;
@@ -102,7 +98,7 @@ function OptionButton({
   isDanger = false,
   isChecked = false,
   onPress,
-}: PropsWithChildren<OptionButtonProps>) {
+}: OptionButtonProps) {
   const {theme} = useThemeStore();
   const styles = styling(theme);
 
@@ -146,117 +142,26 @@ function Card({children}: PropsWithChildren) {
   );
 }
 
-interface CardImageProps {
-  imageUris: ImageUri[];
-}
-
-function CardImage({imageUris}: CardImageProps) {
-  const {theme} = useThemeStore();
-  const styles = styling(theme);
-
-  return (
-    <>
-      <Conditional condition={imageUris.length > 0}>
-        <View style={styles.imageContainer}>
-          <Image
-            source={{
-              uri: `${Config.BASE_URL}/${imageUris[0]?.uri}`,
-            }}
-            style={styles.image}
-          />
-        </View>
-      </Conditional>
-
-      <Conditional condition={imageUris.length === 0}>
-        <View style={[styles.imageContainer, styles.emptyImageContainer]}>
-          <CustomMarker
-            size="small"
-            borderColor={colors[theme].GRAY_200}
-            innerColor={colors[theme].WHITE}
-          />
-        </View>
-      </Conditional>
-    </>
-  );
-}
-
-interface GoNextButtonProps {
-  onPress: () => void;
-}
-
-function GoNextButton({onPress}: GoNextButtonProps) {
-  const {theme} = useThemeStore();
-  const styles = styling(theme);
-
-  return (
-    <Pressable style={styles.goNextButton} onPress={onPress}>
-      <MaterialIcons
-        name="arrow-forward-ios"
-        size={20}
-        color={colors[theme].BLACK}
-      />
-    </Pressable>
-  );
-}
-
 export const CompoundModal = Object.assign(ModalMain, {
-  CardBackground,
-  OptionBackground,
+  Background,
   OptionButtonList,
   OptionButton,
   OptionDivider,
   Card,
-  CardImage,
-  GoNextButton,
 });
 
 const styling = (theme: ThemeMode) =>
   StyleSheet.create({
-    container: {
+    optionBackground: {
       flex: 1,
       justifyContent: 'flex-end',
     },
-    optionContainer: {
+    modalBackground: {
+      flex: 1,
+      justifyContent: 'center',
+    },
+    dimmed: {
       backgroundColor: 'rgba(0 0 0 / 0.5)',
-    },
-    cardContainer: {
-      backgroundColor: colors[theme].WHITE,
-      marginHorizontal: 10,
-      marginBottom: 40,
-      borderRadius: 20,
-      shadowColor: colors[theme].UNCHANGE_BLACK,
-      shadowOffset: {width: 3, height: 3},
-      shadowOpacity: 0.2,
-      elevation: 1,
-      borderColor: colors[theme].GRAY_500,
-      borderWidth: 1.5,
-    },
-    cardInner: {
-      padding: 20,
-    },
-    imageContainer: {
-      width: 70,
-      height: 70,
-      borderRadius: 35,
-    },
-    emptyImageContainer: {
-      justifyContent: 'center',
-      alignItems: 'center',
-      borderColor: colors[theme].GRAY_200,
-      borderRadius: 35,
-      borderWidth: 1,
-    },
-    image: {
-      width: '100%',
-      height: '100%',
-      borderRadius: 35,
-    },
-    goNextButton: {
-      width: 40,
-      height: 40,
-      borderRadius: 40,
-      alignItems: 'flex-end',
-      justifyContent: 'center',
     },
     optionButtonContainer: {
       borderRadius: 15,
@@ -286,5 +191,19 @@ const styling = (theme: ThemeMode) =>
     },
     dangerText: {
       color: colors[theme].RED_500,
+    },
+    cardContainer: {
+      backgroundColor: colors[theme].WHITE,
+      margin: 10,
+      borderRadius: 20,
+      shadowColor: colors[theme].UNCHANGE_BLACK,
+      shadowOffset: {width: 3, height: 3},
+      shadowOpacity: 0.2,
+      elevation: 1,
+      borderColor: colors[theme].GRAY_500,
+      borderWidth: 1.5,
+    },
+    cardInner: {
+      padding: 20,
     },
   });

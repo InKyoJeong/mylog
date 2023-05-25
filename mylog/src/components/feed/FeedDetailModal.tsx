@@ -59,7 +59,7 @@ function FeedDetailModal({isVisible, hideOption}: FeedDetailModalProps) {
 
   return (
     <CompoundModal isVisible={isVisible} hideModal={hideOption}>
-      <CompoundModal.OptionBackground>
+      <CompoundModal.Background type="option">
         <CompoundModal.OptionButtonList>
           <CompoundModal.OptionButton onPress={handleDeletePost} isDanger>
             삭제하기
@@ -75,7 +75,7 @@ function FeedDetailModal({isVisible, hideOption}: FeedDetailModalProps) {
             취소
           </CompoundModal.OptionButton>
         </CompoundModal.OptionButtonList>
-      </CompoundModal.OptionBackground>
+      </CompoundModal.Background>
     </CompoundModal>
   );
 }

@@ -1,13 +1,24 @@
 import React from 'react';
-import {Dimensions, StyleSheet, Text, View} from 'react-native';
+import {
+  Dimensions,
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import {CompositeNavigationProp, useNavigation} from '@react-navigation/native';
+import Config from 'react-native-config';
 import Octicons from 'react-native-vector-icons/Octicons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import type {DrawerNavigationProp} from '@react-navigation/drawer';
 import type {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 
 import type {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
 import type {FeedTabParamList} from '@/navigations/tab/FeedTabNavigator';
 import {CompoundModal} from '../@common/CompoundModal';
+import Conditional from '../@common/Conditional';
+import CustomMarker from '../@common/CustomMarker';
 import useGetPost from '@/hooks/queries/useGetPost';
 import useMarkerStore from '@/store/useMarkerStore';
 import useThemeStore from '@/store/useThemeStore';
@@ -53,11 +64,32 @@ function MarkerModal() {
 
   return (
     <CompoundModal isVisible={isVisible} hideModal={hideModal}>
-      <CompoundModal.CardBackground>
+      <CompoundModal.Background type="option" dimmed={false}>
         <CompoundModal.Card>
           <View style={styles.cardAlign}>
             <View style={styles.infoAlign}>
-              <CompoundModal.CardImage imageUris={post.images} />
+              <Conditional condition={post.images.length > 0}>
+                <View style={styles.imageContainer}>
+                  <Image
+                    source={{
+                      uri: `${Config.BASE_URL}/${post.images[0]?.uri}`,
+                    }}
+                    style={styles.image}
+                  />
+                </View>
+              </Conditional>
+
+              <Conditional condition={post.images.length === 0}>
+                <View
+                  style={[styles.imageContainer, styles.emptyImageContainer]}>
+                  <CustomMarker
+                    size="small"
+                    borderColor={colors[theme].GRAY_200}
+                    innerColor={colors[theme].WHITE}
+                  />
+                </View>
+              </Conditional>
+
               <View style={styles.markerInfoContainer}>
                 <View style={styles.addressContainer}>
                   <Octicons
@@ -78,10 +110,17 @@ function MarkerModal() {
                 </Text>
               </View>
             </View>
-            <CompoundModal.GoNextButton onPress={handlePressGoButton} />
+
+            <Pressable style={styles.nextButton} onPress={handlePressGoButton}>
+              <MaterialIcons
+                name="arrow-forward-ios"
+                size={20}
+                color={colors[theme].BLACK}
+              />
+            </Pressable>
           </View>
         </CompoundModal.Card>
-      </CompoundModal.CardBackground>
+      </CompoundModal.Background>
     </CompoundModal>
   );
 }
@@ -93,6 +132,23 @@ const styling = (theme: ThemeMode) =>
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-between',
+    },
+    imageContainer: {
+      width: 70,
+      height: 70,
+      borderRadius: 35,
+    },
+    emptyImageContainer: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderColor: colors[theme].GRAY_200,
+      borderRadius: 35,
+      borderWidth: 1,
+    },
+    image: {
+      width: '100%',
+      height: '100%',
+      borderRadius: 35,
     },
     infoAlign: {
       flexDirection: 'row',
@@ -122,6 +178,13 @@ const styling = (theme: ThemeMode) =>
       fontSize: 12,
       fontWeight: 'bold',
       color: colors[theme].PINK_700,
+    },
+    nextButton: {
+      width: 40,
+      height: 40,
+      borderRadius: 40,
+      alignItems: 'flex-end',
+      justifyContent: 'center',
     },
   });
 

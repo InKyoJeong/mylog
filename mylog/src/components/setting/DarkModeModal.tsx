@@ -33,7 +33,7 @@ function DarkModeModal({isVisible, hideOption}: DarkModeModalProps) {
 
   return (
     <CompoundModal isVisible={isVisible} hideModal={hideOption}>
-      <CompoundModal.OptionBackground>
+      <CompoundModal.Background type="option">
         <CompoundModal.OptionButtonList>
           <CompoundModal.OptionButton
             onPress={handlePressLight}
@@ -59,7 +59,7 @@ function DarkModeModal({isVisible, hideOption}: DarkModeModalProps) {
             취소
           </CompoundModal.OptionButton>
         </CompoundModal.OptionButtonList>
-      </CompoundModal.OptionBackground>
+      </CompoundModal.Background>
     </CompoundModal>
   );
 }

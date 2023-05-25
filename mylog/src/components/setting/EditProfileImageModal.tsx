@@ -15,7 +15,7 @@ function EditProfileImageModal({
 }: EditProfileImageModalProps) {
   return (
     <CompoundModal isVisible={isVisible} hideModal={hideOption}>
-      <CompoundModal.OptionBackground>
+      <CompoundModal.Background type="option">
         <CompoundModal.OptionButtonList>
           <CompoundModal.OptionButton onPress={onChangeImage}>
             앨범에서 사진선택
@@ -27,7 +27,7 @@ function EditProfileImageModal({
             취소
           </CompoundModal.OptionButton>
         </CompoundModal.OptionButtonList>
-      </CompoundModal.OptionBackground>
+      </CompoundModal.Background>
     </CompoundModal>
   );
 }

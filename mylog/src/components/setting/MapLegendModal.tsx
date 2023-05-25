@@ -23,7 +23,7 @@ function MapLegendModal({isVisible, hideOption}: MapLegendModalProps) {
 
   return (
     <CompoundModal isVisible={isVisible} hideModal={hideOption}>
-      <CompoundModal.OptionBackground>
+      <CompoundModal.Background type="option">
         <CompoundModal.OptionButtonList>
           <CompoundModal.OptionButton
             onPress={handlePressShow}
@@ -43,7 +43,7 @@ function MapLegendModal({isVisible, hideOption}: MapLegendModalProps) {
             취소
           </CompoundModal.OptionButton>
         </CompoundModal.OptionButtonList>
-      </CompoundModal.OptionBackground>
+      </CompoundModal.Background>
     </CompoundModal>
   );
 }

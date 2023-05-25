@@ -23,7 +23,7 @@ function DatePickerModal({
 
   return (
     <CompoundModal isVisible={isVisible} hideModal={() => {}}>
-      <CompoundModal.OptionBackground>
+      <CompoundModal.Background type="option">
         <CompoundModal.OptionButtonList>
           <View style={styles.pickerContainer}>
             <DatePicker
@@ -40,7 +40,7 @@ function DatePickerModal({
             선택완료
           </CompoundModal.OptionButton>
         </CompoundModal.OptionButtonList>
-      </CompoundModal.OptionBackground>
+      </CompoundModal.Background>
     </CompoundModal>
   );
 }
