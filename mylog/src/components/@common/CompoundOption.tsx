@@ -13,6 +13,7 @@ import {
   Text,
   View,
   SafeAreaView,
+  PressableProps,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -98,9 +99,8 @@ function Title({children}: PropsWithChildren) {
   );
 }
 
-interface ButtonProps {
+interface ButtonProps extends PressableProps {
   children: ReactNode;
-  onPress: () => void;
   isDanger?: boolean;
   isChecked?: boolean;
 }
@@ -109,7 +109,7 @@ function Button({
   children,
   isDanger = false,
   isChecked = false,
-  onPress,
+  ...props
 }: ButtonProps) {
   const {theme} = useThemeStore();
   const styles = styling(theme);
@@ -120,7 +120,7 @@ function Button({
         pressed && styles.optionButtonPressed,
         styles.optionButton,
       ]}
-      onPress={onPress}>
+      {...props}>
       <Text style={[styles.optionText, isDanger && styles.dangerText]}>
         {children}
       </Text>
@@ -139,38 +139,50 @@ function Divider() {
   return <View style={styles.border} />;
 }
 
-interface CheckBoxProps {
+interface CheckBoxProps extends PressableProps {
   children: ReactNode;
+  icon?: ReactNode;
   isChecked?: boolean;
 }
 
-function CheckBox({children, isChecked = false}: CheckBoxProps) {
+function CheckBox({
+  children,
+  icon,
+  isChecked = false,
+  ...props
+}: CheckBoxProps) {
   const {theme} = useThemeStore();
   const styles = styling(theme);
 
   return (
-    <Pressable style={styles.checkBoxContainer}>
+    <Pressable
+      style={({pressed}) => [
+        pressed && styles.optionButtonPressed,
+        styles.checkBoxContainer,
+      ]}
+      {...props}>
       <Ionicons
         name={`checkmark-circle${isChecked ? '' : '-outline'}`}
         size={22}
         color={colors[theme].BLUE_500}
       />
+      {icon}
       <Text style={styles.checkBoxText}>{children}</Text>
     </Pressable>
   );
 }
 
-interface FilterProps {
+interface FilterProps extends PressableProps {
   children: ReactNode;
   isSelected?: boolean;
 }
 
-function Filter({children, isSelected}: FilterProps) {
+function Filter({children, isSelected, ...props}: FilterProps) {
   const {theme} = useThemeStore();
   const styles = styling(theme);
 
   return (
-    <Pressable style={styles.filterContainer}>
+    <Pressable style={styles.filterContainer} {...props}>
       <Text
         style={[isSelected ? styles.filterSelectedText : styles.filterText]}>
         {children}
@@ -263,6 +275,7 @@ const styling = (theme: ThemeMode) =>
     filterContainer: {
       flexDirection: 'row',
       alignItems: 'center',
+      padding: 10,
       gap: 5,
     },
     filterText: {

@@ -22,11 +22,13 @@ import MapButton from '@/components/map/MapButton';
 import MarkerModal from '@/components/map/MarkerModal';
 import MapLegend from '@/components/map/MapLegend';
 import Conditional from '@/components/@common/Conditional';
+import MarkerFilterOption from '@/components/map/MarkerFilterOption';
 import useGetMarkers from '@/hooks/queries/useGetMarkers';
 import usePermission from '@/hooks/usePermission';
 import useUserLocation from '@/hooks/useUserLocation';
 import useMoveMapView from '@/hooks/useMoveMapView';
 import useLegendStorage from '@/hooks/useLegendStorage';
+import useModal from '@/hooks/useModal';
 import useMarkerStore from '@/store/useMarkerStore';
 import useSnackbarStore from '@/store/useSnackbarStore';
 import useLocationStore from '@/store/useLocationStore';
@@ -59,6 +61,7 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
   const legend = useLegendStorage();
   const {showModal} = useMarkerStore();
   const snackbar = useSnackbarStore();
+  const filterOption = useModal();
   usePermission('LOCATION');
 
   const handleLongPressMapView = ({nativeEvent}: LongPressEvent) => {
@@ -154,6 +157,13 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
         <MapButton onPress={handlePressSearch}>
           <Ionicons name={'search'} color={colors[theme].WHITE} size={25} />
         </MapButton>
+        <MapButton onPress={filterOption.show}>
+          <Ionicons
+            name={'options-outline'}
+            color={colors[theme].WHITE}
+            size={25}
+          />
+        </MapButton>
         <MapButton onPress={handlePressUserLocation}>
           <MaterialIcons
             name={'my-location'}
@@ -164,6 +174,10 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
       </View>
 
       <MarkerModal />
+      <MarkerFilterOption
+        isVisible={filterOption.isVisible}
+        hideOption={filterOption.hide}
+      />
     </View>
   );
 }

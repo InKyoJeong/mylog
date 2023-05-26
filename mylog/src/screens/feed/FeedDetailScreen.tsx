@@ -61,7 +61,7 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
   const {categories} = getProfileQuery.data || {};
   const favoritePost = useMutateFavoritePost();
   const insets = useSafeAreaInsets();
-  const optionModal = useModal();
+  const detailOption = useModal();
   const [isScrolled, setIsScrolled] = useState(false);
   const {setMoveLocation} = useLocationStore();
   const {setDetailPost} = useDetailPostStore();
@@ -109,7 +109,7 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
         <FeedDetailHeader
           isScrolled={isScrolled}
           onPressLeft={() => navigation.goBack()}
-          onPressRight={optionModal.show}
+          onPressRight={detailOption.show}
         />
         <ScrollView
           showsVerticalScrollIndicator={false}
@@ -244,8 +244,8 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
       </CustomBottomTab>
 
       <FeedDetailOption
-        isVisible={optionModal.isVisible}
-        hideOption={optionModal.hide}
+        isVisible={detailOption.isVisible}
+        hideOption={detailOption.hide}
       />
     </>
   );
