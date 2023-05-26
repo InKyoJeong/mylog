@@ -30,12 +30,14 @@ interface OptionMainProps extends ModalProps {
   children: ReactNode;
   isVisible: boolean;
   hideOption: () => void;
+  animationType?: ModalProps['animationType'];
 }
 
 function OptionMain({
   children,
   isVisible,
   hideOption,
+  animationType = 'slide',
   ...props
 }: OptionMainProps) {
   const onClickOutSide = (event: GestureResponderEvent) => {
@@ -48,7 +50,7 @@ function OptionMain({
     <Modal
       visible={isVisible}
       transparent={true}
-      animationType={'slide'}
+      animationType={animationType}
       onRequestClose={hideOption}
       {...props}>
       <OptionContext.Provider value={{onClickOutSide}}>
@@ -84,6 +86,17 @@ function Container({children}: PropsWithChildren) {
   return <View style={styles.optionContainer}>{children}</View>;
 }
 
+function Title({children}: PropsWithChildren) {
+  const {theme} = useThemeStore();
+  const styles = styling(theme);
+
+  return (
+    <View style={styles.titleContainer}>
+      <Text style={styles.titleText}>{children}</Text>
+    </View>
+  );
+}
+
 interface ButtonProps {
   children: ReactNode;
   onPress: () => void;
@@ -112,11 +125,7 @@ function Button({
       </Text>
 
       {isChecked && (
-        <Ionicons
-          name="checkmark-circle"
-          size={20}
-          color={colors[theme].BLUE_500}
-        />
+        <Ionicons name="checkmark" size={20} color={colors[theme].BLUE_500} />
       )}
     </Pressable>
   );
@@ -143,6 +152,7 @@ function Card({children}: PropsWithChildren) {
 export const CompoundOption = Object.assign(OptionMain, {
   Background,
   Container,
+  Title,
   Button,
   Divider,
   Card,
@@ -163,6 +173,14 @@ const styling = (theme: ThemeMode) =>
       marginBottom: 10,
       backgroundColor: colors[theme].GRAY_100,
       overflow: 'hidden',
+    },
+    titleContainer: {
+      alignItems: 'center',
+      padding: 15,
+    },
+    titleText: {
+      fontSize: 16,
+      fontWeight: '500',
     },
     optionButton: {
       flexDirection: 'row',

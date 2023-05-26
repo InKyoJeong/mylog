@@ -3,6 +3,7 @@ import {useColorScheme} from 'react-native';
 
 import {CompoundOption} from '../@common/CompoundOption';
 import useThemeStorage from '@/hooks/useThemeStorage';
+
 interface DarkModeOptionProps {
   isVisible: boolean;
   hideOption: () => void;
