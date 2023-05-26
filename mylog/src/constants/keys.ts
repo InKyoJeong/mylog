@@ -19,6 +19,7 @@ const storageKeys = {
   SHOW_LEGEND: 'showLegend',
   THEME_MODE: 'themeMode',
   THEME_SYSTEM: 'themeSystem',
+  MARKER_FILTER: 'markerFilter',
 } as const;
 
 export {queryKeys, storageKeys};
