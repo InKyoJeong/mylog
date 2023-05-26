@@ -5,15 +5,20 @@ import {CompoundOption} from '../@common/CompoundOption';
 import Conditional from '../@common/Conditional';
 import useAuth from '@/hooks/queries/useAuth';
 import useThemeStore from '@/store/useThemeStore';
-import {categoryList, colorHex, scoreList} from '@/constants';
 import {getObjectWithValue} from '@/utils';
+import {categoryList, colorHex, scoreList} from '@/constants';
 
 interface MarkerFilterOptionProps {
   isVisible: boolean;
   hideOption: () => void;
+  onFilter: (array: string[]) => void;
 }
 
-function MarkerFilterOption({isVisible, hideOption}: MarkerFilterOptionProps) {
+function MarkerFilterOption({
+  isVisible,
+  hideOption,
+  onFilter,
+}: MarkerFilterOptionProps) {
   const {theme} = useThemeStore();
   const {getProfileQuery} = useAuth();
   const {categories} = getProfileQuery.data || {};
@@ -32,6 +37,15 @@ function MarkerFilterOption({isVisible, hideOption}: MarkerFilterOptionProps) {
       ...filterItems,
       [name]: !filterItems[name],
     });
+  };
+
+  const handleComplete = () => {
+    const filteredItems = Object.keys(filterItems).filter(
+      key => filterItems[key] === true,
+    );
+
+    onFilter(filteredItems);
+    hideOption();
   };
 
   return (
@@ -81,13 +95,15 @@ function MarkerFilterOption({isVisible, hideOption}: MarkerFilterOptionProps) {
                 key={score}
                 isChecked={filterItems[score]}
                 onPress={() => handleFilter(score)}>
-                1점
+                {score}점
               </CompoundOption.CheckBox>
             ))}
           </Conditional>
 
           <CompoundOption.Divider />
-          <CompoundOption.Button onPress={() => {}}>완료</CompoundOption.Button>
+          <CompoundOption.Button onPress={handleComplete}>
+            완료
+          </CompoundOption.Button>
         </CompoundOption.Container>
       </CompoundOption.Background>
     </CompoundOption>

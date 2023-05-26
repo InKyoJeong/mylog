@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Alert, Pressable, StyleSheet, View} from 'react-native';
 import {
   Callout,
@@ -42,6 +42,8 @@ import {
   mapNavigations,
   mainNavigations,
   errorMessages,
+  categoryList,
+  scoreList,
 } from '@/constants';
 import type {ThemeMode} from '@/types';
 
@@ -54,7 +56,20 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
   const {theme} = useThemeStore();
   const styles = styling(theme);
   const insets = useSafeAreaInsets();
-  const {data: markers = []} = useGetMarkers();
+  const [filteredMarkers, setFilteredMarkers] = useState([
+    ...categoryList,
+    ...scoreList,
+  ]);
+  const {data: markers = []} = useGetMarkers({
+    select: existingMarkers =>
+      existingMarkers.filter(marker => {
+        return (
+          filteredMarkers.includes(marker.color) &&
+          filteredMarkers.includes(String(marker.score))
+        );
+      }),
+  });
+
   const {mapRef, moveMapView, handleChangeDelta} = useMoveMapView();
   const {userLocation, isUserLocationError} = useUserLocation();
   const {selectLocation, setSelectLocation} = useLocationStore();
@@ -63,6 +78,10 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
   const snackbar = useSnackbarStore();
   const filterOption = useModal();
   usePermission('LOCATION');
+
+  const handleFilterMarkers = (array: string[]) => {
+    setFilteredMarkers(array);
+  };
 
   const handleLongPressMapView = ({nativeEvent}: LongPressEvent) => {
     setSelectLocation(nativeEvent.coordinate);
@@ -177,6 +196,7 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
       <MarkerFilterOption
         isVisible={filterOption.isVisible}
         hideOption={filterOption.hide}
+        onFilter={handleFilterMarkers}
       />
     </View>
   );
