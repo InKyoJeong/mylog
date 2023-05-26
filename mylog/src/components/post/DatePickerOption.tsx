@@ -2,29 +2,29 @@ import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import DatePicker from 'react-native-date-picker';
 
-import {CompoundModal} from '../@common/CompoundModal';
+import {CompoundOption} from '../@common/CompoundOption';
 import useThemeStore from '@/store/useThemeStore';
 import {colors} from '@/constants';
 
-interface DatePickerModalProps {
+interface DatePickerOptionProps {
   isVisible: boolean;
   date: Date;
   onChangeDate: (date: Date) => void;
   onConfirmDate: () => void;
 }
 
-function DatePickerModal({
+function DatePickerOption({
   isVisible,
   date,
   onChangeDate,
   onConfirmDate,
-}: DatePickerModalProps) {
+}: DatePickerOptionProps) {
   const {theme} = useThemeStore();
 
   return (
-    <CompoundModal isVisible={isVisible} hideModal={() => {}}>
-      <CompoundModal.OptionBackground>
-        <CompoundModal.OptionButtonList>
+    <CompoundOption isVisible={isVisible} hideOption={() => {}}>
+      <CompoundOption.Background>
+        <CompoundOption.Container>
           <View style={styles.pickerContainer}>
             <DatePicker
               mode="date"
@@ -34,14 +34,14 @@ function DatePickerModal({
               locale="ko"
             />
           </View>
-        </CompoundModal.OptionButtonList>
-        <CompoundModal.OptionButtonList>
-          <CompoundModal.OptionButton onPress={onConfirmDate}>
+        </CompoundOption.Container>
+        <CompoundOption.Container>
+          <CompoundOption.Button onPress={onConfirmDate}>
             선택완료
-          </CompoundModal.OptionButton>
-        </CompoundModal.OptionButtonList>
-      </CompoundModal.OptionBackground>
-    </CompoundModal>
+          </CompoundOption.Button>
+        </CompoundOption.Container>
+      </CompoundOption.Background>
+    </CompoundOption>
   );
 }
 
@@ -51,4 +51,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DatePickerModal;
+export default DatePickerOption;

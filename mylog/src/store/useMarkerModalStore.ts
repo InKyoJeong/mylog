@@ -7,7 +7,7 @@ interface MarkerState {
   hideModal: () => void;
 }
 
-const useMarkerStore = create<MarkerState>(set => ({
+const useMarkerModalStore = create<MarkerState>(set => ({
   markerId: 0,
   isVisible: false,
   showModal: (id: number) => {
@@ -18,4 +18,4 @@ const useMarkerStore = create<MarkerState>(set => ({
   },
 }));
 
-export default useMarkerStore;
+export default useMarkerModalStore;

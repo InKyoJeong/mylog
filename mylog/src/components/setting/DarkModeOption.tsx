@@ -1,15 +1,15 @@
 import React from 'react';
 import {useColorScheme} from 'react-native';
 
-import {CompoundModal} from '../@common/CompoundModal';
+import {CompoundOption} from '../@common/CompoundOption';
 import useThemeStorage from '@/hooks/useThemeStorage';
 
-interface DarkModeModalProps {
+interface DarkModeOptionProps {
   isVisible: boolean;
   hideOption: () => void;
 }
 
-function DarkModeModal({isVisible, hideOption}: DarkModeModalProps) {
+function DarkModeOption({isVisible, hideOption}: DarkModeOptionProps) {
   const {theme, isSystem, setMode, setSystem} = useThemeStorage();
   const systemDefault = useColorScheme();
 
@@ -32,36 +32,36 @@ function DarkModeModal({isVisible, hideOption}: DarkModeModalProps) {
   };
 
   return (
-    <CompoundModal isVisible={isVisible} hideModal={hideOption}>
-      <CompoundModal.OptionBackground>
-        <CompoundModal.OptionButtonList>
-          <CompoundModal.OptionButton
+    <CompoundOption isVisible={isVisible} hideOption={hideOption}>
+      <CompoundOption.Background>
+        <CompoundOption.Container>
+          <CompoundOption.Button
             onPress={handlePressLight}
             isChecked={isSystem === false && theme === 'light'}>
             라이트 모드
-          </CompoundModal.OptionButton>
-          <CompoundModal.OptionDivider />
-          <CompoundModal.OptionButton
+          </CompoundOption.Button>
+          <CompoundOption.Divider />
+          <CompoundOption.Button
             onPress={handlePressDark}
             isChecked={isSystem === false && theme === 'dark'}>
             다크 모드
-          </CompoundModal.OptionButton>
-          <CompoundModal.OptionDivider />
-          <CompoundModal.OptionButton
+          </CompoundOption.Button>
+          <CompoundOption.Divider />
+          <CompoundOption.Button
             onPress={handlePressSystem}
             isChecked={isSystem === true}>
             시스템 기본값
-          </CompoundModal.OptionButton>
-        </CompoundModal.OptionButtonList>
+          </CompoundOption.Button>
+        </CompoundOption.Container>
 
-        <CompoundModal.OptionButtonList>
-          <CompoundModal.OptionButton onPress={hideOption}>
+        <CompoundOption.Container>
+          <CompoundOption.Button onPress={hideOption}>
             취소
-          </CompoundModal.OptionButton>
-        </CompoundModal.OptionButtonList>
-      </CompoundModal.OptionBackground>
-    </CompoundModal>
+          </CompoundOption.Button>
+        </CompoundOption.Container>
+      </CompoundOption.Background>
+    </CompoundOption>
   );
 }
 
-export default DarkModeModal;
+export default DarkModeOption;

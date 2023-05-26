@@ -18,4 +18,6 @@ const categoryPlaceholderList = [
 
 const dayOfWeekList = ['일', '월', '화', '수', '목', '금', '토'];
 
-export {categoryList, categoryPlaceholderList, dayOfWeekList};
+const scoreList = ['1', '2', '3', '4', '5'];
+
+export {categoryList, categoryPlaceholderList, dayOfWeekList, scoreList};

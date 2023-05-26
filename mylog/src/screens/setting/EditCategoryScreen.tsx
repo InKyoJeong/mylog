@@ -73,7 +73,7 @@ function EditCategoryScreen({navigation}: EditCategoryScreenProps) {
               마커 색상의 카테고리를 설정해주세요.
             </Text>
             <Text style={styles.infoText}>
-              마커 필터링, 범례 표시에도 사용할 수 있어요.
+              마커 필터링, 범례 표시에 사용할 수 있어요.
             </Text>
           </Animated.View>
 
