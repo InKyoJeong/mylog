@@ -20,7 +20,7 @@ import {CompoundOption} from '../@common/CompoundOption';
 import Conditional from '../@common/Conditional';
 import CustomMarker from '../@common/CustomMarker';
 import useGetPost from '@/hooks/queries/useGetPost';
-import useMarkerStore from '@/store/useMarkerStore';
+import useMarkerModalStore from '@/store/useMarkerModalStore';
 import useThemeStore from '@/store/useThemeStore';
 import {getDateWithSeparator} from '@/utils';
 import {
@@ -40,7 +40,7 @@ function MarkerModal() {
   const {theme} = useThemeStore();
   const styles = styling(theme);
   const navigation = useNavigation<Navigation>();
-  const {markerId, isVisible, hideModal} = useMarkerStore();
+  const {markerId, isVisible, hideModal} = useMarkerModalStore();
   const {data: post, isLoading, isError} = useGetPost(markerId);
 
   if (isLoading || isError) {

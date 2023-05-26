@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Alert, Pressable, StyleSheet, View} from 'react-native';
 import {
   Callout,
@@ -28,8 +28,9 @@ import usePermission from '@/hooks/usePermission';
 import useUserLocation from '@/hooks/useUserLocation';
 import useMoveMapView from '@/hooks/useMoveMapView';
 import useLegendStorage from '@/hooks/useLegendStorage';
+import useMarkerFilterStorage from '@/hooks/useMarkerFilterStorage';
 import useModal from '@/hooks/useModal';
-import useMarkerStore from '@/store/useMarkerStore';
+import useMarkerModalStore from '@/store/useMarkerModalStore';
 import useSnackbarStore from '@/store/useSnackbarStore';
 import useLocationStore from '@/store/useLocationStore';
 import useThemeStore from '@/store/useThemeStore';
@@ -42,8 +43,6 @@ import {
   mapNavigations,
   mainNavigations,
   errorMessages,
-  categoryList,
-  scoreList,
 } from '@/constants';
 import type {ThemeMode} from '@/types';
 
@@ -56,32 +55,18 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
   const {theme} = useThemeStore();
   const styles = styling(theme);
   const insets = useSafeAreaInsets();
-  const [filteredMarkers, setFilteredMarkers] = useState([
-    ...categoryList,
-    ...scoreList,
-  ]);
+  const markerFilter = useMarkerFilterStorage();
   const {data: markers = []} = useGetMarkers({
-    select: existingMarkers =>
-      existingMarkers.filter(marker => {
-        return (
-          filteredMarkers.includes(marker.color) &&
-          filteredMarkers.includes(String(marker.score))
-        );
-      }),
+    select: markerFilter.transformFilteredMarker,
   });
-
   const {mapRef, moveMapView, handleChangeDelta} = useMoveMapView();
   const {userLocation, isUserLocationError} = useUserLocation();
   const {selectLocation, setSelectLocation} = useLocationStore();
   const legend = useLegendStorage();
-  const {showModal} = useMarkerStore();
+  const {showModal} = useMarkerModalStore();
   const snackbar = useSnackbarStore();
   const filterOption = useModal();
   usePermission('LOCATION');
-
-  const handleFilterMarkers = (array: string[]) => {
-    setFilteredMarkers(array);
-  };
 
   const handleLongPressMapView = ({nativeEvent}: LongPressEvent) => {
     setSelectLocation(nativeEvent.coordinate);
@@ -196,7 +181,6 @@ function MapHomeScreen({navigation}: MapHomeScreenProps) {
       <MarkerFilterOption
         isVisible={filterOption.isVisible}
         hideOption={filterOption.hide}
-        onFilter={handleFilterMarkers}
       />
     </View>
   );
