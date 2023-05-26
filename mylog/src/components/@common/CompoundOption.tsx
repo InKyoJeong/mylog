@@ -15,6 +15,7 @@ import {
   SafeAreaView,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import useThemeStore from '@/store/useThemeStore';
 import {colors} from '@/constants';
@@ -138,6 +139,51 @@ function Divider() {
   return <View style={styles.border} />;
 }
 
+interface CheckBoxProps {
+  children: ReactNode;
+  isChecked?: boolean;
+}
+
+function CheckBox({children, isChecked = false}: CheckBoxProps) {
+  const {theme} = useThemeStore();
+  const styles = styling(theme);
+
+  return (
+    <Pressable style={styles.checkBoxContainer}>
+      <Ionicons
+        name={`checkmark-circle${isChecked ? '' : '-outline'}`}
+        size={22}
+        color={colors[theme].BLUE_500}
+      />
+      <Text style={styles.checkBoxText}>{children}</Text>
+    </Pressable>
+  );
+}
+
+interface FilterProps {
+  children: ReactNode;
+  isSelected?: boolean;
+}
+
+function Filter({children, isSelected}: FilterProps) {
+  const {theme} = useThemeStore();
+  const styles = styling(theme);
+
+  return (
+    <Pressable style={styles.filterContainer}>
+      <Text
+        style={[isSelected ? styles.filterSelectedText : styles.filterText]}>
+        {children}
+      </Text>
+      <MaterialIcons
+        name="keyboard-arrow-down"
+        size={22}
+        color={isSelected ? colors[theme].BLUE_500 : colors[theme].GRAY_300}
+      />
+    </Pressable>
+  );
+}
+
 function Card({children}: PropsWithChildren) {
   const {theme} = useThemeStore();
   const styles = styling(theme);
@@ -155,6 +201,8 @@ export const CompoundOption = Object.assign(OptionMain, {
   Title,
   Button,
   Divider,
+  CheckBox,
+  Filter,
   Card,
 });
 
@@ -181,6 +229,7 @@ const styling = (theme: ThemeMode) =>
     titleText: {
       fontSize: 16,
       fontWeight: '500',
+      color: colors[theme].BLACK,
     },
     optionButton: {
       flexDirection: 'row',
@@ -203,6 +252,32 @@ const styling = (theme: ThemeMode) =>
     },
     dangerText: {
       color: colors[theme].RED_500,
+    },
+    checkBoxContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingVertical: 10,
+      paddingHorizontal: 30,
+      gap: 10,
+    },
+    filterContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 5,
+    },
+    filterText: {
+      color: colors[theme].GRAY_300,
+      fontSize: 15,
+      fontWeight: '500',
+    },
+    filterSelectedText: {
+      color: colors[theme].BLUE_500,
+      fontSize: 15,
+      fontWeight: '500',
+    },
+    checkBoxText: {
+      color: colors[theme].BLACK,
+      fontSize: 15,
     },
     cardContainer: {
       backgroundColor: colors[theme].WHITE,
