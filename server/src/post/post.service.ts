@@ -37,26 +37,31 @@ export class PostService {
   ): Promise<SelectQueryBuilder<Post>> {
     return this.postRepository
       .createQueryBuilder('post')
-      .orderBy('post.date', 'DESC')
       .leftJoinAndSelect('post.images', 'image')
       .where('post.userId = :userId', { userId: user.id })
-      .addOrderBy('image.id', 'ASC');
+      .orderBy('post.date', 'DESC');
   }
 
-  async getMyPosts(page: number, user: User): Promise<Post[]> {
+  async getMyPosts(page: number, user: User) {
     const perPage = 10;
     const offset = (page - 1) * perPage;
     const queryBuilder = await this.getMyPostsBaseQuery(user);
-    const posts = await queryBuilder.skip(offset).take(perPage).getMany();
+    const posts = await queryBuilder.take(perPage).skip(offset).getMany();
 
-    return posts;
+    const newPosts = posts.map((post) => {
+      const { images, ...rest } = post;
+      const newImages = [...images].sort((a, b) => a.id - b.id);
+      return { ...rest, images: newImages };
+    });
+
+    return newPosts;
   }
 
   async searchMyPostsByTitleAndAddress(
     query: string,
     page: number,
     user: User,
-  ): Promise<Post[]> {
+  ) {
     const perPage = 10;
     const offset = (page - 1) * perPage;
     const queryBuilder = await this.getMyPostsBaseQuery(user);
@@ -71,7 +76,13 @@ export class PostService {
       .take(perPage)
       .getMany();
 
-    return posts;
+    const newPosts = posts.map((post) => {
+      const { images, ...rest } = post;
+      const newImages = [...images].sort((a, b) => a.id - b.id);
+      return { ...rest, images: newImages };
+    });
+
+    return newPosts;
   }
 
   async getPostById(id: number, user: User) {

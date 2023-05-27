@@ -43,7 +43,7 @@ export class PostController {
     @Query('query') query: string,
     @Query('page') page: number,
     @GetUser() user: User,
-  ): Promise<PostEntity[]> {
+  ) {
     return this.postService.searchMyPostsByTitleAndAddress(query, page, user);
   }
 
