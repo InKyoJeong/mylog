@@ -94,6 +94,7 @@ function useGetRefreshToken(
         removeHeader('Authorization');
         removeEncryptStorage(storageKeys.REFRESH_TOKEN);
       },
+      suspense: false,
       useErrorBoundary: false,
       staleTime: numbers.ACCESS_TOKEN_REFRESH_TIME,
       refetchInterval: numbers.ACCESS_TOKEN_REFRESH_TIME,
@@ -126,8 +127,9 @@ function useGetProfile(
     [queryKeys.AUTH, queryKeys.GET_PROFILE],
     () => getProfile(),
     {
-      select: transformProfileCategory,
+      suspense: false,
       useErrorBoundary: false,
+      select: transformProfileCategory,
       ...queryOptions,
     },
   );

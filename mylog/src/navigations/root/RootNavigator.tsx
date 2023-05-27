@@ -9,11 +9,9 @@ function RootNavigator() {
   const {isLogin} = useAuth();
 
   return (
-    <>
-      <Suspense fallback={<Indicator />}>
-        {isLogin ? <MainDrawerNavigator /> : <AuthStackNavigator />}
-      </Suspense>
-    </>
+    <Suspense fallback={<Indicator />}>
+      {isLogin ? <MainDrawerNavigator /> : <AuthStackNavigator />}
+    </Suspense>
   );
 }
 
