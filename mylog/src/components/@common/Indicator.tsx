@@ -6,9 +6,7 @@ import {
   View,
 } from 'react-native';
 
-import useThemeStore from '@/store/useThemeStore';
 import {colors} from '@/constants';
-import type {ThemeMode} from '@/types';
 
 function Indicator({
   children,
@@ -16,9 +14,6 @@ function Indicator({
   color = colors.light.GRAY_500,
   ...props
 }: PropsWithChildren<ActivityIndicatorProps>) {
-  const {theme} = useThemeStore();
-  const styles = styling(theme);
-
   return (
     <View style={styles.container}>
       <ActivityIndicator
@@ -32,17 +27,15 @@ function Indicator({
   );
 }
 
-const styling = (theme: ThemeMode) =>
-  StyleSheet.create({
-    container: {
-      flex: 1,
-      alignItems: 'center',
-      justifyContent: 'center',
-      backgroundColor: colors[theme].GRAY_200,
-    },
-    indicator: {
-      marginBottom: 20,
-    },
-  });
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  indicator: {
+    marginBottom: 20,
+  },
+});
 
 export default Indicator;
