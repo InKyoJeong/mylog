@@ -4,12 +4,12 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       suspense: true,
-      // useErrorBoundary: true,
+      useErrorBoundary: true,
       staleTime: 300000,
       retry: false,
     },
     mutations: {
-      // useErrorBoundary: true,
+      useErrorBoundary: true,
       retry: false,
     },
   },
