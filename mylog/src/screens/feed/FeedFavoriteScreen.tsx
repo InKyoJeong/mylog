@@ -1,7 +1,9 @@
-import React from 'react';
+import React, {Suspense} from 'react';
 import {StyleSheet, SafeAreaView} from 'react-native';
 
+import Indicator from '@/components/@common/Indicator';
 import FeedItemFavoriteList from '@/components/feed/FeedItemFavoriteList';
+import RetryErrorBoundary from '@/components/@common/RetryErrorBoundary';
 import useThemeStore from '@/store/useThemeStore';
 import {colors} from '@/constants';
 import type {ThemeMode} from '@/types';
@@ -12,7 +14,11 @@ function FeedFavoriteScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <FeedItemFavoriteList />
+      <RetryErrorBoundary>
+        <Suspense fallback={<Indicator />}>
+          <FeedItemFavoriteList />
+        </Suspense>
+      </RetryErrorBoundary>
     </SafeAreaView>
   );
 }

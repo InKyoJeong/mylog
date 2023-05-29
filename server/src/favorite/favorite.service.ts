@@ -35,7 +35,7 @@ export class FavoriteService {
 
   async toggleFavorite(postId: number, user: User): Promise<number> {
     if (!postId) {
-      throw new BadRequestException('Invalid postId');
+      throw new BadRequestException('존재하지 않는 피드입니다.');
     }
 
     const existingFavorite = await this.favoriteRepository.findOne({

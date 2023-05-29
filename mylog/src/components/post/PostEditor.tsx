@@ -31,8 +31,9 @@ import useMutateCreatePost from '@/hooks/queries/useMutateCreatePost';
 import useMutateUpdatePost from '@/hooks/queries/useMutateUpdatePost';
 import useDetailPostStore from '@/store/useDetailPostStore';
 import useThemeStore from '@/store/useThemeStore';
+import useSnackbarStore from '@/store/useSnackbarStore';
 import {validateAddPost, getDateWithSeparator} from '@/utils';
-import {colors, numbers} from '@/constants';
+import {colors, errorMessages, numbers} from '@/constants';
 import type {UseMutationCustomOptions, MarkerColor} from '@/types';
 
 interface PostEditorProps {
@@ -69,6 +70,7 @@ function PostEditor({isEdit = false, location}: PostEditorProps) {
   });
   const createPost = useMutateCreatePost();
   const updatePost = useMutateUpdatePost();
+  const snackbar = useSnackbarStore();
   usePermission('PHOTO');
 
   const handleSelectMarker = (name: MarkerColor) => {
@@ -90,6 +92,10 @@ function PostEditor({isEdit = false, location}: PostEditorProps) {
     };
     const mutationOptions: UseMutationCustomOptions = {
       onSuccess: () => navigation.goBack(),
+      onError: error =>
+        snackbar.show(
+          error.response?.data.message || errorMessages.UNEXPECT_ERROR,
+        ),
     };
 
     if (isEditMode) {
@@ -111,6 +117,7 @@ function PostEditor({isEdit = false, location}: PostEditorProps) {
     imagePicker.imageUris,
     updatePost,
     createPost,
+    snackbar,
   ]);
 
   useLayoutEffect(() => {

@@ -4,6 +4,7 @@ import {
   ForbiddenException,
   Injectable,
   InternalServerErrorException,
+  NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
@@ -44,7 +45,9 @@ export class AuthService {
         throw new ConflictException('이미 존재하는 이메일입니다.');
       }
 
-      throw new InternalServerErrorException();
+      throw new InternalServerErrorException(
+        '회원가입 도중 에러가 발생했습니다.',
+      );
     }
   }
 
@@ -94,6 +97,10 @@ export class AuthService {
       .where('user.id = :userId', { userId: user.id })
       .getOne();
 
+    if (!profile) {
+      throw new NotFoundException('존재하지 않는 사용자입니다.');
+    }
+
     const { nickname, imageUri } = editProfileDto;
     profile.nickname = nickname;
     profile.imageUri = imageUri;
@@ -101,8 +108,10 @@ export class AuthService {
     try {
       await this.userRepository.save(profile);
     } catch (error) {
-      console.log('error', error);
-      throw new InternalServerErrorException();
+      console.log(error);
+      throw new InternalServerErrorException(
+        '프로필 수정 도중 에러가 발생했습니다.',
+      );
     }
 
     const { id, password, hashedRefreshToken, ...rest } = profile;
@@ -111,14 +120,24 @@ export class AuthService {
   }
 
   async deleteRefreshToken(id: number) {
-    await this.userRepository.update(id, { hashedRefreshToken: null });
+    try {
+      await this.userRepository.update(id, { hashedRefreshToken: null });
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException();
+    }
   }
 
   private async updateHashedRefreshToken(id: number, refreshToken: string) {
     const salt = await bcrypt.genSalt();
     const hashedRefreshToken = await bcrypt.hash(refreshToken, salt);
 
-    await this.userRepository.update(id, { hashedRefreshToken });
+    try {
+      await this.userRepository.update(id, { hashedRefreshToken });
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException();
+    }
   }
 
   private async getTokens(payload: { email: string }) {
@@ -149,9 +168,9 @@ export class AuthService {
         .where('id = :id', { id: user.id })
         .execute();
     } catch (error) {
-      console.log('error', error);
+      console.log(error);
       throw new BadRequestException(
-        '탈퇴할 수 없습니다. 게시글이 존재하는지 확인해주세요.',
+        '탈퇴할 수 없습니다. 남은 게시글이 존재하는지 확인해주세요.',
       );
     }
   }
@@ -179,9 +198,9 @@ export class AuthService {
     try {
       await this.userRepository.save(user);
     } catch (error) {
-      console.log('error', error);
+      console.log(error);
       throw new InternalServerErrorException(
-        '카테고리를 업데이트할 수 없습니다.',
+        '카테고리 수정 도중 에러가 발생했습니다.',
       );
     }
 
@@ -230,7 +249,7 @@ export class AuthService {
       try {
         await this.userRepository.save(newUser);
       } catch (error) {
-        console.log('error', error);
+        console.log(error);
         throw new InternalServerErrorException();
       }
 
@@ -241,8 +260,8 @@ export class AuthService {
 
       return { accessToken, refreshToken };
     } catch (error) {
-      console.log('error', error);
-      throw new InternalServerErrorException('Kakao server error');
+      console.log(error);
+      throw new InternalServerErrorException('Kakao 서버 에러가 발생했습니다.');
     }
   }
 }

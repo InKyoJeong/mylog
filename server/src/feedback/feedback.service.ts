@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Feedback } from './feedback.entity';
@@ -26,6 +26,13 @@ export class FeedbackService {
       user,
     });
 
-    await this.feedbackRepository.save(feedback);
+    try {
+      await this.feedbackRepository.save(feedback);
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException(
+        '피드백 제출 도중 에러가 발생했습니다.',
+      );
+    }
   }
 }
