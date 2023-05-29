@@ -91,6 +91,7 @@ function useImagePicker({
     delete: deleteImageUri,
     changeOrder: changeImageUrisOrder,
     handleChange,
+    isUploading: uploadImages.isLoading,
   };
 }
 

@@ -3,6 +3,7 @@ import {
   SafeAreaView,
   ScrollView,
   StyleSheet,
+  ActivityIndicator,
   TextInput,
   View,
 } from 'react-native';
@@ -184,16 +185,24 @@ function PostEditor({isEdit = false, location}: PostEditorProps) {
               onPressMarker={handleSelectMarker}
             />
             <ScoreInput score={score} onChangeScore={handleChangeScore} />
-            <View style={styles.imagesViewer}>
-              <ImageInput onChange={imagePicker.handleChange} />
-              <PreviewImageList
-                imageUris={imagePicker.imageUris}
-                onDelete={imagePicker.delete}
-                onChangeOrder={imagePicker.changeOrder}
-                showDeleteButton={true}
-                showOrderButton={!isEdit}
-              />
-            </View>
+
+            {imagePicker.isUploading ? (
+              <View style={styles.imageUploading}>
+                <ActivityIndicator size={'large'} color={colors[theme].BLACK} />
+              </View>
+            ) : (
+              <View style={styles.imagesViewer}>
+                <ImageInput onChange={imagePicker.handleChange} />
+                <PreviewImageList
+                  imageUris={imagePicker.imageUris}
+                  onDelete={imagePicker.delete}
+                  onChangeOrder={imagePicker.changeOrder}
+                  showDeleteButton={true}
+                  showOrderButton={!isEdit}
+                />
+              </View>
+            )}
+
             <DatePickerOption
               date={datePicker.date}
               isVisible={datePicker.isVisible}
@@ -222,6 +231,12 @@ const styles = StyleSheet.create({
   },
   imagesViewer: {
     flexDirection: 'row',
+  },
+  imageUploading: {
+    flex: 1,
+    height: 70,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 
