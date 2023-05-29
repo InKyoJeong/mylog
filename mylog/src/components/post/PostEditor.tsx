@@ -16,13 +16,14 @@ import type {FeedStackParamList} from '@/navigations/stack/FeedStackNavigator';
 import CustomButton from '../@common/CustomButton';
 import InputField from '../@common/InputField';
 import CustomKeyboardAvoidingView from '../@common/CustomKeyboardAvoidingView';
+import PreviewImageList from '../@common/PreviewImageList';
+import Indicator from '../@common/Indicator';
 import MarkerSelector from './MarkerSelector';
 import ScoreInput from './ScoreInput';
 import ImageInput from './ImageInput';
 import DatePickerOption from './DatePickerOption';
 import AddPostHeaderRight from './AddPostHeaderRight';
 import EditPostHeaderRight from './EditPostHeaderRight';
-import PreviewImageList from '../@common/PreviewImageList';
 import useForm from '@/hooks/useForm';
 import useDatePicker from '@/hooks/useDatePicker';
 import useGetAddress from '@/hooks/useGetAddress';
@@ -73,6 +74,9 @@ function PostEditor({isEdit = false, location}: PostEditorProps) {
   const updatePost = useMutateUpdatePost();
   const snackbar = useSnackbarStore();
   usePermission('PHOTO');
+
+  const hasLoading =
+    createPost.isLoading || updatePost.isLoading || imagePicker.isUploading;
 
   const handleSelectMarker = (name: MarkerColor) => {
     setMarkerColor(name);
@@ -125,10 +129,14 @@ function PostEditor({isEdit = false, location}: PostEditorProps) {
     navigation.setOptions({
       headerRight: () =>
         isEditMode
-          ? EditPostHeaderRight(handleSubmit, addPost.hasErrors)
-          : AddPostHeaderRight(handleSubmit, addPost.hasErrors),
+          ? EditPostHeaderRight(handleSubmit, hasLoading || addPost.hasErrors)
+          : AddPostHeaderRight(handleSubmit, hasLoading || addPost.hasErrors),
     });
-  }, [isEditMode, handleSubmit, navigation, addPost.hasErrors]);
+  }, [isEditMode, handleSubmit, navigation, hasLoading, addPost.hasErrors]);
+
+  if (createPost.isLoading || updatePost.isLoading) {
+    return <Indicator />;
+  }
 
   return (
     <SafeAreaView style={styles.container}>
