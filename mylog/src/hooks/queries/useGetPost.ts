@@ -13,6 +13,8 @@ function useGetPost(
     () => getPost(id),
     {
       enabled: !!id,
+      suspense: true,
+      useErrorBoundary: true,
       ...queryOptions,
     },
   );

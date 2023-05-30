@@ -16,7 +16,7 @@ import useImagePicker from '@/hooks/useImagePicker';
 import useSnackbarStore from '@/store/useSnackbarStore';
 import useThemeStore from '@/store/useThemeStore';
 import {isValidEmailFormat, validateEditProfile} from '@/utils';
-import {colors, numbers, successMessages} from '@/constants';
+import {colors, errorMessages, numbers, successMessages} from '@/constants';
 import type {ThemeMode} from '@/types';
 
 type EditProfileScreenProps = StackScreenProps<SettingStackParamList>;
@@ -54,6 +54,10 @@ function EditProfileScreen({navigation}: EditProfileScreenProps) {
       {...editProfile.values, imageUri: imagePicker.imageUris[0]?.uri},
       {
         onSuccess: () => snackbar.show(successMessages.SUCCESS_EDIT_PROFILE),
+        onError: error =>
+          snackbar.show(
+            error.response?.data.message || errorMessages.UNEXPECT_ERROR,
+          ),
       },
     );
   }, [

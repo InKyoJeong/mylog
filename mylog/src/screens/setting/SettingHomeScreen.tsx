@@ -52,7 +52,7 @@ function SettingHomeScreen({navigation}: SettingHomeScreenProps) {
         <SettingItem title="다크 모드" onPress={darkModeOption.show} />
         <View style={styles.space} />
         <SettingItem title="의견 보내기" onPress={handlePressFeedback} />
-        <SettingItem title="버전정보" subTitle="0.1.0" />
+        <SettingItem title="버전정보" subTitle="1.0.0" />
         <View style={styles.space} />
         <SettingItem
           title="로그아웃"

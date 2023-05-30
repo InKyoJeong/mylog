@@ -21,22 +21,18 @@ function KakaoLoginScreen() {
   };
 
   const requestToken = async (code: string) => {
-    try {
-      const response = await axios({
-        method: 'post',
-        url: 'https://kauth.kakao.com/oauth/token',
-        params: {
-          grant_type: 'authorization_code',
-          client_id: Config.KAKAO_REST_API_KEY,
-          redirect_uri: REDIRECT_URI,
-          code,
-        },
-      });
+    const response = await axios({
+      method: 'post',
+      url: 'https://kauth.kakao.com/oauth/token',
+      params: {
+        grant_type: 'authorization_code',
+        client_id: Config.KAKAO_REST_API_KEY,
+        redirect_uri: REDIRECT_URI,
+        code,
+      },
+    });
 
-      kakaoLoginMutation.mutate(response.data.access_token);
-    } catch (error) {
-      console.log('error', error);
-    }
+    kakaoLoginMutation.mutate(response.data.access_token);
   };
 
   return (

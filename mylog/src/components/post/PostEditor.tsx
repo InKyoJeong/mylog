@@ -3,6 +3,7 @@ import {
   SafeAreaView,
   ScrollView,
   StyleSheet,
+  ActivityIndicator,
   TextInput,
   View,
 } from 'react-native';
@@ -15,13 +16,14 @@ import type {FeedStackParamList} from '@/navigations/stack/FeedStackNavigator';
 import CustomButton from '../@common/CustomButton';
 import InputField from '../@common/InputField';
 import CustomKeyboardAvoidingView from '../@common/CustomKeyboardAvoidingView';
+import PreviewImageList from '../@common/PreviewImageList';
+import Indicator from '../@common/Indicator';
 import MarkerSelector from './MarkerSelector';
 import ScoreInput from './ScoreInput';
 import ImageInput from './ImageInput';
 import DatePickerOption from './DatePickerOption';
 import AddPostHeaderRight from './AddPostHeaderRight';
 import EditPostHeaderRight from './EditPostHeaderRight';
-import PreviewImageList from '../@common/PreviewImageList';
 import useForm from '@/hooks/useForm';
 import useDatePicker from '@/hooks/useDatePicker';
 import useGetAddress from '@/hooks/useGetAddress';
@@ -31,8 +33,9 @@ import useMutateCreatePost from '@/hooks/queries/useMutateCreatePost';
 import useMutateUpdatePost from '@/hooks/queries/useMutateUpdatePost';
 import useDetailPostStore from '@/store/useDetailPostStore';
 import useThemeStore from '@/store/useThemeStore';
+import useSnackbarStore from '@/store/useSnackbarStore';
 import {validateAddPost, getDateWithSeparator} from '@/utils';
-import {colors, numbers} from '@/constants';
+import {colors, errorMessages, numbers} from '@/constants';
 import type {UseMutationCustomOptions, MarkerColor} from '@/types';
 
 interface PostEditorProps {
@@ -69,7 +72,11 @@ function PostEditor({isEdit = false, location}: PostEditorProps) {
   });
   const createPost = useMutateCreatePost();
   const updatePost = useMutateUpdatePost();
+  const snackbar = useSnackbarStore();
   usePermission('PHOTO');
+
+  const hasLoading =
+    createPost.isLoading || updatePost.isLoading || imagePicker.isUploading;
 
   const handleSelectMarker = (name: MarkerColor) => {
     setMarkerColor(name);
@@ -90,6 +97,10 @@ function PostEditor({isEdit = false, location}: PostEditorProps) {
     };
     const mutationOptions: UseMutationCustomOptions = {
       onSuccess: () => navigation.goBack(),
+      onError: error =>
+        snackbar.show(
+          error.response?.data.message || errorMessages.UNEXPECT_ERROR,
+        ),
     };
 
     if (isEditMode) {
@@ -111,16 +122,21 @@ function PostEditor({isEdit = false, location}: PostEditorProps) {
     imagePicker.imageUris,
     updatePost,
     createPost,
+    snackbar,
   ]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () =>
         isEditMode
-          ? EditPostHeaderRight(handleSubmit, addPost.hasErrors)
-          : AddPostHeaderRight(handleSubmit, addPost.hasErrors),
+          ? EditPostHeaderRight(handleSubmit, hasLoading || addPost.hasErrors)
+          : AddPostHeaderRight(handleSubmit, hasLoading || addPost.hasErrors),
     });
-  }, [isEditMode, handleSubmit, navigation, addPost.hasErrors]);
+  }, [isEditMode, handleSubmit, navigation, hasLoading, addPost.hasErrors]);
+
+  if (createPost.isLoading || updatePost.isLoading) {
+    return <Indicator />;
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -177,16 +193,24 @@ function PostEditor({isEdit = false, location}: PostEditorProps) {
               onPressMarker={handleSelectMarker}
             />
             <ScoreInput score={score} onChangeScore={handleChangeScore} />
-            <View style={styles.imagesViewer}>
-              <ImageInput onChange={imagePicker.handleChange} />
-              <PreviewImageList
-                imageUris={imagePicker.imageUris}
-                onDelete={imagePicker.delete}
-                onChangeOrder={imagePicker.changeOrder}
-                showDeleteButton={true}
-                showOrderButton={!isEdit}
-              />
-            </View>
+
+            {imagePicker.isUploading ? (
+              <View style={styles.imageUploading}>
+                <ActivityIndicator size={'large'} color={colors[theme].BLACK} />
+              </View>
+            ) : (
+              <View style={styles.imagesViewer}>
+                <ImageInput onChange={imagePicker.handleChange} />
+                <PreviewImageList
+                  imageUris={imagePicker.imageUris}
+                  onDelete={imagePicker.delete}
+                  onChangeOrder={imagePicker.changeOrder}
+                  showDeleteButton={true}
+                  showOrderButton={!isEdit}
+                />
+              </View>
+            )}
+
             <DatePickerOption
               date={datePicker.date}
               isVisible={datePicker.isVisible}
@@ -215,6 +239,12 @@ const styles = StyleSheet.create({
   },
   imagesViewer: {
     flexDirection: 'row',
+  },
+  imageUploading: {
+    flex: 1,
+    height: 70,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 

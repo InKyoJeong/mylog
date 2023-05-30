@@ -20,17 +20,22 @@ export class FavoriteService {
       .leftJoinAndSelect('post.images', 'image')
       .where('favorite.userId = :userId', { userId: user.id })
       .orderBy('post.date', 'DESC')
-      .addOrderBy('image.id', 'ASC')
       .skip(offset)
       .take(perPage)
       .getMany();
 
-    return favorites.map((favorite) => favorite.post);
+    const newPosts = favorites.map((favorite) => {
+      const post = favorite.post;
+      const images = [...post.images].sort((a, b) => a.id - b.id);
+      return { ...post, images };
+    });
+
+    return newPosts;
   }
 
   async toggleFavorite(postId: number, user: User): Promise<number> {
     if (!postId) {
-      throw new BadRequestException('Invalid postId');
+      throw new BadRequestException('존재하지 않는 피드입니다.');
     }
 
     const existingFavorite = await this.favoriteRepository.findOne({

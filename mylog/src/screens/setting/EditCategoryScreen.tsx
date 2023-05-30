@@ -26,6 +26,7 @@ import {
   successMessages,
   categoryList,
   categoryPlaceholderList,
+  errorMessages,
 } from '@/constants';
 import type {ThemeMode} from '@/types';
 
@@ -52,6 +53,10 @@ function EditCategoryScreen({navigation}: EditCategoryScreenProps) {
   const handleSubmit = useCallback(() => {
     categoryMutation.mutate(category.values, {
       onSuccess: () => snackbar.show(successMessages.SUCCESS_SAVE),
+      onError: error =>
+        snackbar.show(
+          error.response?.data.message || errorMessages.UNEXPECT_ERROR,
+        ),
     });
   }, [category.values, categoryMutation, snackbar]);
 

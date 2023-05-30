@@ -30,6 +30,7 @@ import type {
 
 function useSignup(mutationOptions?: UseMutationCustomOptions) {
   return useMutation(postSignup, {
+    useErrorBoundary: error => Number(error.response?.status) >= 500,
     ...mutationOptions,
   });
 }
@@ -44,6 +45,7 @@ function useLogin(mutationOptions?: UseMutationCustomOptions<ResponseToken>) {
       queryClient.refetchQueries([queryKeys.AUTH, queryKeys.GET_ACCESS_TOKEN]);
       queryClient.invalidateQueries([queryKeys.AUTH, queryKeys.GET_PROFILE]);
     },
+    useErrorBoundary: error => Number(error.response?.status) >= 500,
     ...mutationOptions,
   });
 }
@@ -60,6 +62,7 @@ function useKakaoLogin(
       queryClient.refetchQueries([queryKeys.AUTH, queryKeys.GET_ACCESS_TOKEN]);
       queryClient.invalidateQueries([queryKeys.AUTH, queryKeys.GET_PROFILE]);
     },
+    useErrorBoundary: error => Number(error.response?.status) >= 500,
     ...mutationOptions,
   });
 }
@@ -94,6 +97,7 @@ function useGetRefreshToken(
         removeHeader('Authorization');
         removeEncryptStorage(storageKeys.REFRESH_TOKEN);
       },
+      suspense: false,
       useErrorBoundary: false,
       staleTime: numbers.ACCESS_TOKEN_REFRESH_TIME,
       refetchInterval: numbers.ACCESS_TOKEN_REFRESH_TIME,
@@ -126,8 +130,9 @@ function useGetProfile(
     [queryKeys.AUTH, queryKeys.GET_PROFILE],
     () => getProfile(),
     {
-      select: transformProfileCategory,
+      suspense: false,
       useErrorBoundary: false,
+      select: transformProfileCategory,
       ...queryOptions,
     },
   );

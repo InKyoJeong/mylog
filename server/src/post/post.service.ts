@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Brackets, Repository, SelectQueryBuilder } from 'typeorm';
 
@@ -17,19 +21,26 @@ export class PostService {
   ) {}
 
   async getMyMarkers(user: User) {
-    const markers = await this.postRepository
-      .createQueryBuilder('post')
-      .where('post.userId = :userId', { userId: user.id })
-      .select([
-        'post.id',
-        'post.latitude',
-        'post.longitude',
-        'post.color',
-        'post.score',
-      ])
-      .getMany();
+    try {
+      const markers = await this.postRepository
+        .createQueryBuilder('post')
+        .where('post.userId = :userId', { userId: user.id })
+        .select([
+          'post.id',
+          'post.latitude',
+          'post.longitude',
+          'post.color',
+          'post.score',
+        ])
+        .getMany();
 
-    return markers;
+      return markers;
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException(
+        '마커를 가져오는 도중 에러가 발생했습니다.',
+      );
+    }
   }
 
   private async getMyPostsBaseQuery(
@@ -37,26 +48,31 @@ export class PostService {
   ): Promise<SelectQueryBuilder<Post>> {
     return this.postRepository
       .createQueryBuilder('post')
-      .orderBy('post.date', 'DESC')
       .leftJoinAndSelect('post.images', 'image')
       .where('post.userId = :userId', { userId: user.id })
-      .addOrderBy('image.id', 'ASC');
+      .orderBy('post.date', 'DESC');
   }
 
-  async getMyPosts(page: number, user: User): Promise<Post[]> {
+  async getMyPosts(page: number, user: User) {
     const perPage = 10;
     const offset = (page - 1) * perPage;
     const queryBuilder = await this.getMyPostsBaseQuery(user);
-    const posts = await queryBuilder.skip(offset).take(perPage).getMany();
+    const posts = await queryBuilder.take(perPage).skip(offset).getMany();
 
-    return posts;
+    const newPosts = posts.map((post) => {
+      const { images, ...rest } = post;
+      const newImages = [...images].sort((a, b) => a.id - b.id);
+      return { ...rest, images: newImages };
+    });
+
+    return newPosts;
   }
 
   async searchMyPostsByTitleAndAddress(
     query: string,
     page: number,
     user: User,
-  ): Promise<Post[]> {
+  ) {
     const perPage = 10;
     const offset = (page - 1) * perPage;
     const queryBuilder = await this.getMyPostsBaseQuery(user);
@@ -71,31 +87,44 @@ export class PostService {
       .take(perPage)
       .getMany();
 
-    return posts;
+    const newPosts = posts.map((post) => {
+      const { images, ...rest } = post;
+      const newImages = [...images].sort((a, b) => a.id - b.id);
+      return { ...rest, images: newImages };
+    });
+
+    return newPosts;
   }
 
   async getPostById(id: number, user: User) {
-    const foundPost = await this.postRepository
-      .createQueryBuilder('post')
-      .leftJoinAndSelect('post.images', 'image')
-      .leftJoinAndSelect(
-        'post.favorites',
-        'favorite',
-        'favorite.userId = :userId',
-        { userId: user.id },
-      )
-      .where('post.userId = :userId', { userId: user.id })
-      .andWhere('post.id = :id', { id })
-      .getOne();
+    try {
+      const foundPost = await this.postRepository
+        .createQueryBuilder('post')
+        .leftJoinAndSelect('post.images', 'image')
+        .leftJoinAndSelect(
+          'post.favorites',
+          'favorite',
+          'favorite.userId = :userId',
+          { userId: user.id },
+        )
+        .where('post.userId = :userId', { userId: user.id })
+        .andWhere('post.id = :id', { id })
+        .getOne();
 
-    if (!foundPost) {
-      throw new NotFoundException('존재하지 않는 데이터입니다.');
+      if (!foundPost) {
+        throw new NotFoundException('존재하지 않는 피드입니다.');
+      }
+
+      const { favorites, ...rest } = foundPost;
+      const postWithIsFavorite = { ...rest, isFavorite: favorites.length > 0 };
+
+      return postWithIsFavorite;
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException(
+        '장소 정보를 가져오는 도중 에러가 발생했습니다.',
+      );
     }
-
-    const { favorites, ...rest } = foundPost;
-    const postWithIsFavorite = { ...rest, isFavorite: favorites.length > 0 };
-
-    return postWithIsFavorite;
   }
 
   async createPost(createPostDto: CreatePostDto, user: User) {
@@ -125,27 +154,41 @@ export class PostService {
     const images = imageUris.map((uri) => this.imageRepository.create(uri));
     post.images = images;
 
-    await this.imageRepository.save(images);
-    await this.postRepository.save(post);
+    try {
+      await this.imageRepository.save(images);
+      await this.postRepository.save(post);
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException(
+        '장소를 추가하는 도중 에러가 발생했습니다.',
+      );
+    }
 
     const { user: _, ...postWithoutUser } = post;
     return postWithoutUser;
   }
 
   async deletePost(id: number, user: User): Promise<number> {
-    const result = await this.postRepository
-      .createQueryBuilder('post')
-      .delete()
-      .from(Post)
-      .where('userId = :userId', { userId: user.id })
-      .andWhere('id = :id', { id })
-      .execute();
+    try {
+      const result = await this.postRepository
+        .createQueryBuilder('post')
+        .delete()
+        .from(Post)
+        .where('userId = :userId', { userId: user.id })
+        .andWhere('id = :id', { id })
+        .execute();
 
-    if (result.affected === 0) {
-      throw new NotFoundException('존재하지 않는 데이터입니다.');
+      if (result.affected === 0) {
+        throw new NotFoundException('존재하지 않는 피드입니다.');
+      }
+
+      return id;
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException(
+        '게시물을 삭제하는 도중 에러가 발생했습니다.',
+      );
     }
-
-    return id;
   }
 
   async updatePost(
@@ -164,8 +207,15 @@ export class PostService {
     const images = imageUris.map((uri) => this.imageRepository.create(uri));
     post.images = images;
 
-    await this.imageRepository.save(images);
-    await this.postRepository.save(post);
+    try {
+      await this.imageRepository.save(images);
+      await this.postRepository.save(post);
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException(
+        '게시물을 수정하는 도중 에러가 발생했습니다.',
+      );
+    }
 
     return post;
   }

@@ -17,7 +17,7 @@ import useMutateFeedback from '@/hooks/queries/useMutateFeedback';
 import useAuth from '@/hooks/queries/useAuth';
 import useSnackbarStore from '@/store/useSnackbarStore';
 import {isValidEmailFormat, validateAddFeedback} from '@/utils';
-import {numbers, successMessages} from '@/constants';
+import {errorMessages, numbers, successMessages} from '@/constants';
 
 type FeedbackScreenProps = StackScreenProps<SettingStackParamList>;
 
@@ -48,7 +48,9 @@ function FeedbackScreen({navigation}: FeedbackScreenProps) {
         snackbar.show(successMessages.SUCCESS_SUBMIT_FEEDBACK);
       },
       onError: error =>
-        console.log('error.response?.data', error.response?.data.message),
+        snackbar.show(
+          error.response?.data.message || errorMessages.UNEXPECT_ERROR,
+        ),
     });
   };
 

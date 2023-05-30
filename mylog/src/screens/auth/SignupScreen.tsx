@@ -12,13 +12,15 @@ import InputField from '@/components/@common/InputField';
 import CustomKeyboardAvoidingView from '@/components/@common/CustomKeyboardAvoidingView';
 import useForm from '@/hooks/useForm';
 import useAuth from '@/hooks/queries/useAuth';
+import useSnackbarStore from '@/store/useSnackbarStore';
 import {validateSignup} from '@/utils';
-import {numbers} from '@/constants';
+import {errorMessages, numbers} from '@/constants';
 
 function SignupScreen() {
   const {signupMutation, loginMutation} = useAuth();
   const passwordRef = useRef<TextInput | null>(null);
   const passwordConfirmRef = useRef<TextInput | null>(null);
+  const snackbar = useSnackbarStore();
   const signup = useForm({
     initialValue: {email: '', password: '', passwordConfirm: ''},
     validate: validateSignup,
@@ -37,7 +39,9 @@ function SignupScreen() {
           loginMutation.mutate({email, password});
         },
         onError: error =>
-          console.log('error.response?.data', error.response?.data),
+          snackbar.show(
+            error.response?.data.message || errorMessages.UNEXPECT_ERROR,
+          ),
       },
     );
   };
