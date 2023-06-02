@@ -7,9 +7,9 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
-import { extname, basename } from 'path';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { numbers } from 'src/constants';
+import { getUniqueFileName } from 'src/common/utils/getUniqueFileName';
 
 @Controller('images')
 @UseGuards(AuthGuard())
@@ -32,23 +32,21 @@ export class ImageController {
     const uuid = Date.now();
 
     const uploadPromises = files.map((file) => {
-      const ext = extname(file.originalname);
-      const fileName = basename(file.originalname, ext) + uuid + ext;
+      const fileName = getUniqueFileName(file, uuid);
       const uploadParams = {
         Bucket: process.env.AWS_BUCKET_NAME,
         Key: `original/${fileName}`,
         Body: file.buffer,
       };
-
       const command = new PutObjectCommand(uploadParams);
+
       return s3Client.send(command);
     });
 
     await Promise.all(uploadPromises);
 
     const uris = files.map((file) => {
-      const ext = extname(file.originalname);
-      const fileName = basename(file.originalname, ext) + uuid + ext;
+      const fileName = getUniqueFileName(file, uuid);
 
       return `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_BUCKET_REGION}.amazonaws.com/original/${fileName}`;
     });
