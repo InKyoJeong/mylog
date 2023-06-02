@@ -15,51 +15,46 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ImageController = void 0;
 const common_1 = require("@nestjs/common");
 const passport_1 = require("@nestjs/passport");
-const client_s3_1 = require("@aws-sdk/client-s3");
+const fs = require("fs");
+const multer_1 = require("multer");
+const path_1 = require("path");
 const platform_express_1 = require("@nestjs/platform-express");
 const constants_1 = require("../constants");
-const getUniqueFileName_1 = require("../common/utils/getUniqueFileName");
+try {
+    fs.readdirSync('uploads');
+}
+catch (error) {
+    console.error('create uploads folder');
+    fs.mkdirSync('uploads');
+}
 let ImageController = class ImageController {
-    async uploadImages(files) {
-        const s3Client = new client_s3_1.S3Client({
-            region: process.env.AWS_BUCKET_REGION,
-            credentials: {
-                accessKeyId: process.env.S3_ACCESS_KEY_ID,
-                secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
-            },
-        });
-        const uuid = Date.now();
-        const uploadPromises = files.map((file) => {
-            const fileName = (0, getUniqueFileName_1.getUniqueFileName)(file, uuid);
-            const uploadParams = {
-                Bucket: process.env.AWS_BUCKET_NAME,
-                Key: `original/${fileName}`,
-                Body: file.buffer,
-            };
-            const command = new client_s3_1.PutObjectCommand(uploadParams);
-            return s3Client.send(command);
-        });
-        await Promise.all(uploadPromises);
-        const uris = files.map((file) => {
-            const fileName = (0, getUniqueFileName_1.getUniqueFileName)(file, uuid);
-            return `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_BUCKET_REGION}.amazonaws.com/original/${fileName}`;
-        });
+    uploadImages(files) {
+        const uris = files.map((file) => file.filename);
         return uris;
     }
 };
 __decorate([
     (0, common_1.UseInterceptors)((0, platform_express_1.FilesInterceptor)('images', constants_1.numbers.MAX_IMAGE_COUNT, {
+        storage: (0, multer_1.diskStorage)({
+            destination(req, file, cb) {
+                cb(null, 'uploads/');
+            },
+            filename(req, file, cb) {
+                const ext = (0, path_1.extname)(file.originalname);
+                cb(null, (0, path_1.basename)(file.originalname, ext) + Date.now() + ext);
+            },
+        }),
         limits: { fileSize: constants_1.numbers.MAX_IMAGE_SIZE },
     })),
     (0, common_1.Post)('/'),
     __param(0, (0, common_1.UploadedFiles)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Array]),
-    __metadata("design:returntype", Promise)
+    __metadata("design:returntype", void 0)
 ], ImageController.prototype, "uploadImages", null);
 ImageController = __decorate([
     (0, common_1.Controller)('images'),
     (0, common_1.UseGuards)((0, passport_1.AuthGuard)())
 ], ImageController);
 exports.ImageController = ImageController;
-//# sourceMappingURL=image.controller.js.map
+//# sourceMappingURL=image.diskstorage.js.map
