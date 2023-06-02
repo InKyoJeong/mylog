@@ -179,6 +179,7 @@ function useAuth() {
   });
   const profileMutation = useMutateProfile();
   const isLogin = getProfileQuery.isSuccess;
+  const isLoadingLogin = refreshTokenQuery.isLoading;
   const deleteAccountMutation = useMutateDeleteAccount({
     onSuccess: () => logoutMutation.mutate(null),
   });
@@ -193,6 +194,7 @@ function useAuth() {
     getProfileQuery,
     profileMutation,
     isLogin,
+    isLoadingLogin,
     deleteAccountMutation,
     categoryMutation,
   };

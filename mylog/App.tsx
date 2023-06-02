@@ -1,9 +1,8 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {Platform, StatusBar, UIManager} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {QueryClientProvider} from '@tanstack/react-query';
-import SplashScreen from 'react-native-splash-screen';
 
 import RootNavigator from '@/navigations/root/RootNavigator';
 import Snackbar from '@/components/@common/Snackbar';
@@ -25,10 +24,6 @@ if (
 
 function App() {
   const {theme} = useThemeStorage();
-
-  useEffect(() => {
-    SplashScreen.hide();
-  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
