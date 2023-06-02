@@ -29,9 +29,11 @@ export class ImageController {
       },
     });
 
+    const uuid = Date.now();
+
     const uploadPromises = files.map((file) => {
       const ext = extname(file.originalname);
-      const fileName = basename(file.originalname, ext) + Date.now() + ext;
+      const fileName = basename(file.originalname, ext) + uuid + ext;
       const uploadParams = {
         Bucket: process.env.AWS_BUCKET_NAME,
         Key: `original/${fileName}`,
@@ -46,7 +48,7 @@ export class ImageController {
 
     const uris = files.map((file) => {
       const ext = extname(file.originalname);
-      const fileName = basename(file.originalname, ext) + Date.now() + ext;
+      const fileName = basename(file.originalname, ext) + uuid + ext;
 
       return `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_BUCKET_REGION}.amazonaws.com/original/${fileName}`;
     });
