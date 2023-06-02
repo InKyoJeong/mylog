@@ -1,14 +1,8 @@
 import React from 'react';
-import {
-  Dimensions,
-  Image,
-  Pressable,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import {Dimensions, Pressable, StyleSheet, Text, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
+import FastImage from 'react-native-fast-image';
 
 import type {FeedStackParamList} from '@/navigations/stack/FeedStackNavigator';
 import CustomMarker from '../@common/CustomMarker';
@@ -38,7 +32,14 @@ function FeedItem({post}: FeedItemProps) {
         <View>
           <Conditional condition={post.images.length > 0}>
             <View key={post.id} style={styles.imageContainer}>
-              <Image source={{uri: post.images[0]?.uri}} style={styles.image} />
+              <FastImage
+                style={styles.image}
+                source={{
+                  uri: post.images[0]?.uri,
+                  priority: FastImage.priority.normal,
+                }}
+                resizeMode={FastImage.resizeMode.cover}
+              />
             </View>
           </Conditional>
 

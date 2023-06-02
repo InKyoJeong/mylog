@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {
   Dimensions,
-  Image,
   NativeScrollEvent,
   NativeSyntheticEvent,
   Pressable,
@@ -45,6 +44,7 @@ import {
   settingNavigations,
 } from '@/constants';
 import type {ThemeMode} from '@/types';
+import FastImage from 'react-native-fast-image';
 
 type FeedDetailScreenProps = CompositeScreenProps<
   StackScreenProps<FeedStackParamList, typeof feedNavigations.FEED_DETAIL>,
@@ -121,7 +121,14 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
           }>
           <Conditional condition={post.images.length > 0}>
             <View key={post.id} style={styles.coverImageContainer}>
-              <Image source={{uri: post.images[0]?.uri}} style={styles.image} />
+              <FastImage
+                style={styles.image}
+                source={{
+                  uri: post.images[0]?.uri,
+                  priority: FastImage.priority.normal,
+                }}
+                resizeMode={FastImage.resizeMode.cover}
+              />
             </View>
           </Conditional>
 

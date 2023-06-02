@@ -101,6 +101,15 @@ PODS:
     - hermes-engine/Pre-built (= 0.71.4)
   - hermes-engine/Pre-built (0.71.4)
   - libevent (2.1.12)
+  - libwebp (1.2.4):
+    - libwebp/demux (= 1.2.4)
+    - libwebp/mux (= 1.2.4)
+    - libwebp/webp (= 1.2.4)
+  - libwebp/demux (1.2.4):
+    - libwebp/webp
+  - libwebp/mux (1.2.4):
+    - libwebp/demux
+  - libwebp/webp (1.2.4)
   - OpenSSL-Universal (1.1.1100)
   - RCT-Folly (2021.07.22.00):
     - boost
@@ -471,6 +480,10 @@ PODS:
     - React-Core
   - RNCMaskedView (0.2.8):
     - React-Core
+  - RNFastImage (8.6.3):
+    - React-Core
+    - SDWebImage (~> 5.11.1)
+    - SDWebImageWebPCoder (~> 0.8.4)
   - RNGestureHandler (2.9.0):
     - React-Core
   - RNImageCropPicker (0.39.0):
@@ -514,6 +527,12 @@ PODS:
   - RNScreens (3.20.0):
     - React-Core
     - React-RCTImage
+  - SDWebImage (5.11.1):
+    - SDWebImage/Core (= 5.11.1)
+  - SDWebImage/Core (5.11.1)
+  - SDWebImageWebPCoder (0.8.5):
+    - libwebp (~> 1.0)
+    - SDWebImage/Core (~> 5.10)
   - SocketRocket (0.6.0)
   - TOCropViewController (2.6.1)
   - Yoga (1.14.0)
@@ -592,6 +611,7 @@ DEPENDENCIES:
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNCMaskedView (from `../node_modules/@react-native-masked-view/masked-view`)"
+  - RNFastImage (from `../node_modules/react-native-fast-image`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
   - RNPermissions (from `../node_modules/react-native-permissions`)
@@ -615,7 +635,10 @@ SPEC REPOS:
     - Google-Maps-iOS-Utils
     - GoogleMaps
     - libevent
+    - libwebp
     - OpenSSL-Universal
+    - SDWebImage
+    - SDWebImageWebPCoder
     - SocketRocket
     - TOCropViewController
     - YogaKit
@@ -713,6 +736,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-async-storage/async-storage"
   RNCMaskedView:
     :path: "../node_modules/@react-native-masked-view/masked-view"
+  RNFastImage:
+    :path: "../node_modules/react-native-fast-image"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNImageCropPicker:
@@ -747,6 +772,7 @@ SPEC CHECKSUMS:
   GoogleMaps: a146f275ee429d14822178c7a841c03366ec92a1
   hermes-engine: a1f157c49ea579c28b0296bda8530e980c45bdb3
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
+  libwebp: f62cb61d0a484ba548448a4bd52aabf150ff6eef
   OpenSSL-Universal: ebc357f1e6bc71fa463ccb2fe676756aff50e88c
   RCT-Folly: 424b8c9a7a0b9ab2886ffe9c3b041ef628fd4fb1
   RCTRequired: 5a024fdf458fa8c0d82fc262e76f982d4dcdecdd
@@ -788,11 +814,14 @@ SPEC CHECKSUMS:
   ReactCommon: b49a4b00ca6d181ff74b17c12b2d59ac4add0bde
   RNCAsyncStorage: b90b71f45b8b97be43bc4284e71a6af48ac9f547
   RNCMaskedView: bc0170f389056201c82a55e242e5d90070e18e5a
+  RNFastImage: 5c9c9fed9c076e521b3f509fe79e790418a544e8
   RNGestureHandler: 071d7a9ad81e8b83fe7663b303d132406a7d8f39
   RNImageCropPicker: 14fe1c29298fb4018f3186f455c475ab107da332
   RNPermissions: 4580635d00a1c43b950115828fa84fb562b3bff3
   RNReanimated: b1220a0e5168745283ff5d53bfc7d2144b2cee1b
   RNScreens: 218801c16a2782546d30bd2026bb625c0302d70f
+  SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
+  SDWebImageWebPCoder: 908b83b6adda48effe7667cd2b7f78c897e5111d
   SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
   TOCropViewController: edfd4f25713d56905ad1e0b9f5be3fbe0f59c863
   Yoga: 79dd7410de6f8ad73a77c868d3d368843f0c93e0

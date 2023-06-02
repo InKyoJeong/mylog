@@ -1,7 +1,8 @@
 import React, {useCallback, useLayoutEffect} from 'react';
-import {Image, Keyboard, Pressable, StyleSheet, Text, View} from 'react-native';
+import {Keyboard, Pressable, StyleSheet, Text, View} from 'react-native';
 import type {StackScreenProps} from '@react-navigation/stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import FastImage from 'react-native-fast-image';
 
 import type {SettingStackParamList} from '@/navigations/stack/SettingStackNavigator';
 import EditProfileHeaderRight from '@/components/setting/EditProfileHeaderRight';
@@ -91,16 +92,21 @@ function EditProfileScreen({navigation}: EditProfileScreenProps) {
 
           <Conditional
             condition={imagePicker.imageUris.length === 0 && !!kakaoImageUri}>
-            <Image source={{uri: `${kakaoImageUri}`}} style={styles.image} />
+            <FastImage
+              source={{uri: `${kakaoImageUri}`}}
+              style={styles.image}
+              resizeMode={FastImage.resizeMode.cover}
+            />
             <View style={styles.cameraButton}>
               <Ionicons name="camera" size={18} color={colors[theme].WHITE} />
             </View>
           </Conditional>
 
           <Conditional condition={imagePicker.imageUris.length > 0}>
-            <Image
+            <FastImage
               source={{uri: imagePicker.imageUris[0]?.uri}}
               style={styles.image}
+              resizeMode={FastImage.resizeMode.cover}
             />
             <View style={styles.cameraButton}>
               <Ionicons name="camera" size={18} color={colors[theme].WHITE} />

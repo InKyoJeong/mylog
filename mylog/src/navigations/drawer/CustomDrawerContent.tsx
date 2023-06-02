@@ -1,18 +1,12 @@
 import React from 'react';
-import {
-  Image,
-  Pressable,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import {Pressable, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import {
   DrawerContentComponentProps,
   DrawerContentScrollView,
   DrawerItemList,
 } from '@react-navigation/drawer';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import FastImage from 'react-native-fast-image';
 
 import Conditional from '@/components/@common/Conditional';
 import useAuth from '@/hooks/queries/useAuth';
@@ -21,7 +15,7 @@ import {
   colors,
   mainNavigations,
   settingNavigations,
-  statisticsNavigations,
+  // statisticsNavigations,
 } from '@/constants';
 import type {ThemeMode} from '@/types';
 
@@ -31,11 +25,11 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
   const {getProfileQuery} = useAuth();
   const {email, nickname, imageUri, kakaoImageUri} = getProfileQuery.data || {};
 
-  const handlePressStatistics = () => {
-    props.navigation.navigate(mainNavigations.STATISTICS, {
-      screen: statisticsNavigations.STATISTICS_HOME,
-    });
-  };
+  // const handlePressStatistics = () => {
+  //   props.navigation.navigate(mainNavigations.STATISTICS, {
+  //     screen: statisticsNavigations.STATISTICS_HOME,
+  //   });
+  // };
 
   const handlePressSetting = () => {
     props.navigation.navigate(mainNavigations.SETTING, {
@@ -53,21 +47,27 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
           <View style={styles.userImageContainer}>
             <Conditional
               condition={imageUri === null && kakaoImageUri === null}>
-              <Image
+              <FastImage
                 source={require('@/assets/user-default.png')}
                 style={styles.userImage}
+                resizeMode={FastImage.resizeMode.cover}
               />
             </Conditional>
 
             <Conditional condition={imageUri === null && !!kakaoImageUri}>
-              <Image
+              <FastImage
                 source={{uri: `${kakaoImageUri}`}}
                 style={styles.userImage}
+                resizeMode={FastImage.resizeMode.cover}
               />
             </Conditional>
 
             <Conditional condition={imageUri !== null}>
-              <Image source={{uri: `${imageUri}`}} style={styles.userImage} />
+              <FastImage
+                source={{uri: `${imageUri}`}}
+                style={styles.userImage}
+                resizeMode={FastImage.resizeMode.cover}
+              />
             </Conditional>
           </View>
           <Text style={styles.nameText}>{nickname ?? email}</Text>
@@ -76,7 +76,7 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
       </DrawerContentScrollView>
 
       <View style={styles.bottomContainer}>
-        <Pressable onPress={handlePressStatistics}>
+        {/* <Pressable onPress={handlePressStatistics}>
           <View style={styles.bottomMenu}>
             <MaterialIcons
               name={'leaderboard'}
@@ -89,7 +89,7 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
             />
             <Text style={styles.bottomMenuText}>통계</Text>
           </View>
-        </Pressable>
+        </Pressable> */}
         <Pressable onPress={handlePressSetting}>
           <View style={styles.bottomMenu}>
             <MaterialIcons
