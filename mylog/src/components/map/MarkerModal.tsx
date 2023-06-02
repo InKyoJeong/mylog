@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  Dimensions,
-  Image,
-  Pressable,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import {Dimensions, Pressable, StyleSheet, Text, View} from 'react-native';
 import {CompositeNavigationProp, useNavigation} from '@react-navigation/native';
 import Octicons from 'react-native-vector-icons/Octicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -29,6 +22,7 @@ import {
   mainNavigations,
 } from '@/constants';
 import type {ThemeMode} from '@/types';
+import FastImage from 'react-native-fast-image';
 
 type Navigation = CompositeNavigationProp<
   DrawerNavigationProp<MainDrawerParamList>,
@@ -69,9 +63,13 @@ function MarkerModal() {
             <View style={styles.infoAlign}>
               <Conditional condition={post.images.length > 0}>
                 <View style={styles.imageContainer}>
-                  <Image
-                    source={{uri: post.images[0]?.uri}}
+                  <FastImage
                     style={styles.image}
+                    source={{
+                      uri: post.images[0]?.uri,
+                      priority: FastImage.priority.normal,
+                    }}
+                    resizeMode={FastImage.resizeMode.cover}
                   />
                 </View>
               </Conditional>
