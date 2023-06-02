@@ -51,6 +51,7 @@ let AuthService = class AuthService {
             await this.userRepository.save(user);
         }
         catch (error) {
+            console.log(error);
             if (error.code === '23505') {
                 throw new common_1.ConflictException('이미 존재하는 이메일입니다.');
             }
