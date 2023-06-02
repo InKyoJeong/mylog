@@ -1,4 +1,5 @@
-import React, {Suspense} from 'react';
+import React, {Suspense, useEffect} from 'react';
+import SplashScreen from 'react-native-splash-screen';
 
 import AuthStackNavigator from '@/navigations/stack/AuthStackNavigator';
 import MainDrawerNavigator from '@/navigations/drawer/MainDrawerNavigator';
@@ -7,7 +8,15 @@ import Indicator from '@/components/@common/Indicator';
 import useAuth from '@/hooks/queries/useAuth';
 
 function RootNavigator() {
-  const {isLogin} = useAuth();
+  const {isLogin, isLoadingLogin} = useAuth();
+
+  useEffect(() => {
+    if (!isLoadingLogin) {
+      setTimeout(() => {
+        SplashScreen.hide();
+      }, 500);
+    }
+  }, [isLoadingLogin]);
 
   return (
     <RetryErrorBoundary>
