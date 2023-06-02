@@ -10,7 +10,6 @@ import {
   Text,
   View,
 } from 'react-native';
-import Config from 'react-native-config';
 import {CompositeScreenProps} from '@react-navigation/native';
 import type {StackScreenProps} from '@react-navigation/stack';
 import type {DrawerScreenProps} from '@react-navigation/drawer';
@@ -122,12 +121,7 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
           }>
           <Conditional condition={post.images.length > 0}>
             <View key={post.id} style={styles.coverImageContainer}>
-              <Image
-                source={{
-                  uri: `${Config.BASE_URL}/${post.images[0]?.uri}`,
-                }}
-                style={styles.image}
-              />
+              <Image source={{uri: post.images[0]?.uri}} style={styles.image} />
             </View>
           </Conditional>
 

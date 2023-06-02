@@ -13,7 +13,6 @@ import {
   DrawerItemList,
 } from '@react-navigation/drawer';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import Config from 'react-native-config';
 
 import Conditional from '@/components/@common/Conditional';
 import useAuth from '@/hooks/queries/useAuth';
@@ -68,12 +67,7 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
             </Conditional>
 
             <Conditional condition={imageUri !== null}>
-              <Image
-                source={{
-                  uri: `${Config.BASE_URL}/${imageUri}`,
-                }}
-                style={styles.userImage}
-              />
+              <Image source={{uri: `${imageUri}`}} style={styles.userImage} />
             </Conditional>
           </View>
           <Text style={styles.nameText}>{nickname ?? email}</Text>

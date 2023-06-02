@@ -8,7 +8,6 @@ import {
   View,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import Config from 'react-native-config';
 import {StackNavigationProp} from '@react-navigation/stack';
 
 import type {FeedStackParamList} from '@/navigations/stack/FeedStackNavigator';
@@ -39,12 +38,7 @@ function FeedItem({post}: FeedItemProps) {
         <View>
           <Conditional condition={post.images.length > 0}>
             <View key={post.id} style={styles.imageContainer}>
-              <Image
-                source={{
-                  uri: `${Config.BASE_URL}/${post.images[0]?.uri}`,
-                }}
-                style={styles.image}
-              />
+              <Image source={{uri: post.images[0]?.uri}} style={styles.image} />
             </View>
           </Conditional>
 

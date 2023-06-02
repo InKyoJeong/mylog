@@ -2,7 +2,6 @@ import React from 'react';
 import {ScrollView, StyleSheet, Image, View, Pressable} from 'react-native';
 import Animated, {FadeInRight, FadeOutLeft} from 'react-native-reanimated';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
-import Config from 'react-native-config';
 
 import type {FeedStackParamList} from '@/navigations/stack/FeedStackNavigator';
 import PreviewImageButton from './PreviewImageButton';
@@ -48,10 +47,7 @@ function PreviewImageList({
               entering={FadeInRight}
               exiting={FadeOutLeft}>
               <Pressable onPress={() => handlePressImage(index)}>
-                <Image
-                  style={styles.image}
-                  source={{uri: `${Config.BASE_URL}/${uri}`}}
-                />
+                <Image style={styles.image} source={{uri: `${uri}`}} />
               </Pressable>
 
               <Conditional condition={showDeleteButton}>

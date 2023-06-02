@@ -10,7 +10,6 @@ import {
   Pressable,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import Config from 'react-native-config';
 import Octicons from 'react-native-vector-icons/Octicons';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
@@ -58,7 +57,7 @@ function ImageCarousel({images, pressedIndex = 0}: ImageCarouselProps) {
             <Image
               resizeMode="contain"
               style={styles.image}
-              source={{uri: `${Config.BASE_URL}/${item.uri}`}}
+              source={{uri: `${item.uri}`}}
             />
           </View>
         )}
