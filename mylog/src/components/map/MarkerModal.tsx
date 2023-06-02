@@ -8,7 +8,6 @@ import {
   View,
 } from 'react-native';
 import {CompositeNavigationProp, useNavigation} from '@react-navigation/native';
-import Config from 'react-native-config';
 import Octicons from 'react-native-vector-icons/Octicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import type {DrawerNavigationProp} from '@react-navigation/drawer';
@@ -71,9 +70,7 @@ function MarkerModal() {
               <Conditional condition={post.images.length > 0}>
                 <View style={styles.imageContainer}>
                   <Image
-                    source={{
-                      uri: `${Config.BASE_URL}/${post.images[0]?.uri}`,
-                    }}
+                    source={{uri: post.images[0]?.uri}}
                     style={styles.image}
                   />
                 </View>

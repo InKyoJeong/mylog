@@ -2,7 +2,6 @@ import React, {useCallback, useLayoutEffect} from 'react';
 import {Image, Keyboard, Pressable, StyleSheet, Text, View} from 'react-native';
 import type {StackScreenProps} from '@react-navigation/stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import Config from 'react-native-config';
 
 import type {SettingStackParamList} from '@/navigations/stack/SettingStackNavigator';
 import EditProfileHeaderRight from '@/components/setting/EditProfileHeaderRight';
@@ -100,9 +99,7 @@ function EditProfileScreen({navigation}: EditProfileScreenProps) {
 
           <Conditional condition={imagePicker.imageUris.length > 0}>
             <Image
-              source={{
-                uri: `${Config.BASE_URL}/${imagePicker.imageUris[0]?.uri}`,
-              }}
+              source={{uri: imagePicker.imageUris[0]?.uri}}
               style={styles.image}
             />
             <View style={styles.cameraButton}>
