@@ -16,7 +16,7 @@ import FeedTabNavigator, {FeedTabParamList} from '../tab/FeedTabNavigator';
 import CustomDrawerContent from './CustomDrawerContent';
 import useThemeStore from '@/store/useThemeStore';
 import {colors, mainNavigations} from '@/constants';
-import {ThemeMode} from '@/types';
+import type {ThemeMode} from '@/types';
 
 export type MainDrawerParamList = {
   [mainNavigations.HOME]: NavigatorScreenParams<MapStackParamList>;
