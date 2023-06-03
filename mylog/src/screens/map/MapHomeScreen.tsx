@@ -17,7 +17,7 @@ function MapHomeScreen() {
 
   useEffect(() => {
     const feedFirstPageImages = posts?.pages
-      .flatMap(page => page)
+      .flat()
       .flatMap(post => post.images.map(image => ({uri: image.uri})));
 
     FastImage.preload(feedFirstPageImages ?? []);

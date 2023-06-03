@@ -8,12 +8,15 @@ import {
   Text,
   LayoutAnimation,
 } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import CalendarDate from './CalendarDate';
 import CalendarDayOfWeeks from './CalendarDayOfWeeks';
 import CalendarHomeHeaderRight from './CalendarHomeHeaderRight';
+import YearSelector from './YearSelector';
+import useModal from '@/hooks/useModal';
 import useThemeStore from '@/store/useThemeStore';
 import {MonthYear, isSameAsCurrentDate} from '@/utils';
 import {colors, numbers} from '@/constants';
@@ -40,10 +43,12 @@ function Calendar<T>({
   const styles = styling(theme);
   const {lastDate, firstDOW, year, month} = monthYear;
   const navigation = useNavigation();
+  const yearSelector = useModal();
 
   const panResponder = useRef(
     PanResponder.create({
       onStartShouldSetPanResponder: () => true,
+      onPanResponderGrant: () => yearSelector.hide(),
       onPanResponderRelease: (_, gestureState) => {
         if (gestureState.dy < -numbers.MIN_CALENDAR_SLIDE_OFFEST) {
           onChangeMonth(1);
@@ -54,6 +59,11 @@ function Calendar<T>({
       },
     }),
   ).current;
+
+  const handleChangeYear = (selectYear: number) => {
+    onChangeMonth((selectYear - year) * 12);
+    yearSelector.hide();
+  };
 
   useEffect(() => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
@@ -77,9 +87,18 @@ function Calendar<T>({
             color={colors[theme].BLACK}
           />
         </Pressable>
-        <Text style={styles.titleText}>
-          {year}년 {month}월
-        </Text>
+        <Pressable
+          style={styles.monthYearContainer}
+          onPress={yearSelector.show}>
+          <Text style={styles.titleText}>
+            {year}년 {month}월
+          </Text>
+          <MaterialIcons
+            name="keyboard-arrow-down"
+            size={20}
+            color={colors[theme].GRAY_500}
+          />
+        </Pressable>
         <Pressable
           onPress={() => onChangeMonth(1)}
           style={styles.monthButtonContainer}>
@@ -113,6 +132,13 @@ function Calendar<T>({
           numColumns={7}
         />
       </View>
+
+      <YearSelector
+        isVisible={yearSelector.isVisible}
+        currentyear={year}
+        onChangeYear={handleChangeYear}
+        hide={yearSelector.hide}
+      />
     </>
   );
 }
@@ -125,6 +151,11 @@ const styling = (theme: ThemeMode) =>
       justifyContent: 'space-between',
       marginHorizontal: 25,
       marginVertical: 16,
+    },
+    monthYearContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      padding: 10,
     },
     monthButtonContainer: {
       padding: 10,

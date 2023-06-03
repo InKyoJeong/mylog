@@ -35,7 +35,7 @@ function FeedItemFavoriteList() {
   return (
     <FlatList
       ref={scrollRef}
-      data={posts?.pages.flatMap(page => page)}
+      data={posts?.pages.flat()}
       renderItem={({item}) => <FeedItem post={item} />}
       keyExtractor={item => String(item.id)}
       numColumns={2}
