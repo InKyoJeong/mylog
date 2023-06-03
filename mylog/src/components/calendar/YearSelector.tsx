@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {Pressable, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {FlatList, Pressable, StyleSheet, Text, View} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import Conditional from '../@common/Conditional';
 import useThemeStore from '@/store/useThemeStore';
-import {colors} from '@/constants';
+import {colors, numbers} from '@/constants';
 import type {ThemeMode} from '@/types';
 
 interface YearSelectorProps {
@@ -25,41 +25,53 @@ function YearSelector({
   const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
-    const currentRow = Math.floor(currentyear - 1980 / 4);
+    const yearIndex = currentyear - numbers.MIN_CALENDAR_YEAR;
+    const currentRow = Math.floor(yearIndex / 4);
     const scrollToY = currentRow * 50;
+
     setScrollY(scrollToY);
   }, [isVisible, currentyear]);
 
   return (
     <Conditional condition={isVisible}>
       <View style={styles.container}>
-        <ScrollView
-          style={styles.scrollContainer}
-          contentOffset={{x: 0, y: scrollY}}>
-          <View style={styles.yearsContainer}>
-            {Array.from(
-              {length: 2099 - 1980 + 1},
-              (_, index) => index + 1980,
-            ).map(num => (
+        <View style={styles.yearsContainer}>
+          <FlatList
+            style={styles.scrollContainer}
+            showsVerticalScrollIndicator={false}
+            contentOffset={{x: 0, y: scrollY}}
+            initialNumToRender={currentyear - numbers.MIN_CALENDAR_YEAR}
+            data={Array.from(
+              {
+                length:
+                  numbers.MAX_CALENDAR_YEAR - numbers.MIN_CALENDAR_YEAR + 1,
+              },
+              (_, index) => ({
+                id: index,
+                num: index + numbers.MIN_CALENDAR_YEAR,
+              }),
+            )}
+            renderItem={({item}) => (
               <Pressable
-                key={num}
-                onPress={() => onChangeYear(num)}
+                key={item.num}
+                onPress={() => onChangeYear(item.num)}
                 style={[
                   styles.yearButton,
-                  currentyear === num && styles.currentYearButton,
+                  currentyear === item.num && styles.currentYearButton,
                 ]}>
                 <Text
                   style={[
                     styles.yearText,
-                    currentyear === num && styles.currentYearText,
+                    currentyear === item.num && styles.currentYearText,
                   ]}>
-                  {num}
+                  {item.num}
                 </Text>
               </Pressable>
-            ))}
-          </View>
-        </ScrollView>
-
+            )}
+            keyExtractor={item => String(item.num)}
+            numColumns={4}
+          />
+        </View>
         <Pressable style={styles.closeButton} onPress={hide}>
           <Text style={styles.closeText}>닫기</Text>
           <MaterialIcons
@@ -77,16 +89,15 @@ const styling = (theme: ThemeMode) =>
   StyleSheet.create({
     container: {
       position: 'absolute',
+      width: '100%',
+    },
+    yearsContainer: {
+      alignItems: 'center',
+      backgroundColor: colors[theme].WHITE,
     },
     scrollContainer: {
       maxHeight: 200,
       backgroundColor: colors[theme].WHITE,
-    },
-    yearsContainer: {
-      flexDirection: 'row',
-      flexWrap: 'wrap',
-      justifyContent: 'space-evenly',
-      marginVertical: 10,
     },
     yearButton: {
       width: 80,
