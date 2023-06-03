@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {memo} from 'react';
 import {Alert, Pressable, StyleSheet, View} from 'react-native';
 import {
   Callout,
@@ -205,4 +205,4 @@ const styling = (theme: ThemeMode) =>
     },
   });
 
-export default MyMapView;
+export default memo(MyMapView);

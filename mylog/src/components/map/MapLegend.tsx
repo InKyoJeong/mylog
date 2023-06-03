@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react';
+import React, {Fragment, memo} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
@@ -68,4 +68,4 @@ const styling = (theme: ThemeMode) =>
     },
   });
 
-export default MapLegend;
+export default memo(MapLegend);
