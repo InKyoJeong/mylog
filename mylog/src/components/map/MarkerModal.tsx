@@ -5,6 +5,7 @@ import Octicons from 'react-native-vector-icons/Octicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import type {DrawerNavigationProp} from '@react-navigation/drawer';
 import type {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
+import FastImage from 'react-native-fast-image';
 
 import type {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
 import type {FeedTabParamList} from '@/navigations/tab/FeedTabNavigator';
@@ -22,7 +23,6 @@ import {
   mainNavigations,
 } from '@/constants';
 import type {ThemeMode} from '@/types';
-import FastImage from 'react-native-fast-image';
 
 type Navigation = CompositeNavigationProp<
   DrawerNavigationProp<MainDrawerParamList>,

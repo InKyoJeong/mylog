@@ -296,9 +296,10 @@ const styling = (theme: ThemeMode) =>
       borderRadius: 10,
     },
     emptyCategoryContainer: {
+      alignItems: 'center',
+      justifyContent: 'center',
       backgroundColor: colors[theme].GRAY_300,
-      paddingHorizontal: 2,
-      paddingVertical: 2,
+      padding: 2,
       borderRadius: 2,
     },
     coverImageContainer: {

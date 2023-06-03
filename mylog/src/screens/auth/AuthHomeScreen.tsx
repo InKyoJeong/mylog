@@ -15,7 +15,7 @@ import type {AuthStackParamList} from '@/navigations/stack/AuthStackNavigator';
 import CustomButton from '@/components/@common/CustomButton';
 import useThemeStore from '@/store/useThemeStore';
 import {authNavigations, colors} from '@/constants';
-import {ThemeMode} from '@/types';
+import type {ThemeMode} from '@/types';
 
 type AuthHomeScreenProps = StackScreenProps<
   AuthStackParamList,

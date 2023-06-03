@@ -147,9 +147,9 @@ const styling = (theme: ThemeMode) =>
       borderRadius: 4,
     },
     mediumEye: {
-      width: 7,
-      height: 7,
-      borderRadius: 7,
+      width: 6,
+      height: 6,
+      borderRadius: 6,
     },
     largeEye: {
       //
@@ -182,16 +182,16 @@ const styling = (theme: ThemeMode) =>
       borderTopColor: 'rgba(255,255,255 / 0.01)',
     },
     smallMouth: {
-      width: 13,
-      height: 13,
+      width: 12,
+      height: 12,
       borderWidth: 1,
-      borderRadius: 13,
+      borderRadius: 12,
     },
     mediumMouth: {
-      width: 20,
-      height: 20,
+      width: 18,
+      height: 18,
       borderWidth: 2,
-      borderRadius: 15,
+      borderRadius: 18,
     },
     largeMouth: {
       //
