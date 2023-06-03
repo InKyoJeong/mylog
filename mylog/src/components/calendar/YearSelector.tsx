@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {Pressable, ScrollView, StyleSheet, Text, View} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
@@ -22,13 +22,25 @@ function YearSelector({
 }: YearSelectorProps) {
   const {theme} = useThemeStore();
   const styles = styling(theme);
+  const scrollViewRef = useRef<ScrollView>(null);
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    if (scrollViewRef.current) {
+      const yearIndex = currentyear - 1980;
+      const currentRow = Math.floor(yearIndex / 4);
+      const scrollToY = currentRow * 50;
+      setScrollY(scrollToY);
+    }
+  }, [isVisible, currentyear]);
 
   return (
     <Conditional condition={isVisible}>
       <View style={styles.container}>
         <ScrollView
+          ref={scrollViewRef}
           style={styles.scrollContainer}
-          contentOffset={{x: 0, y: 500}}>
+          contentOffset={{x: 0, y: scrollY}}>
           <View style={styles.yearsContainer}>
             {Array.from(
               {length: 2099 - 1980 + 1},
