@@ -15,7 +15,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import CalendarDate from './CalendarDate';
 import CalendarDayOfWeeks from './CalendarDayOfWeeks';
 import CalendarHomeHeaderRight from './CalendarHomeHeaderRight';
-import YearSelector from './YearSelector';
+import CalendarYearSelector from './CalendarYearSelector';
 import useModal from '@/hooks/useModal';
 import useThemeStore from '@/store/useThemeStore';
 import {MonthYear, isSameAsCurrentDate} from '@/utils';
@@ -133,7 +133,7 @@ function Calendar<T>({
         />
       </View>
 
-      <YearSelector
+      <CalendarYearSelector
         isVisible={yearSelector.isVisible}
         currentyear={year}
         onChangeYear={handleChangeYear}
