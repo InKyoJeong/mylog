@@ -16,7 +16,6 @@ import CalendarDate from './CalendarDate';
 import CalendarDayOfWeeks from './CalendarDayOfWeeks';
 import CalendarHomeHeaderRight from './CalendarHomeHeaderRight';
 import YearSelector from './YearSelector';
-import Conditional from '../@common/Conditional';
 import useModal from '@/hooks/useModal';
 import useThemeStore from '@/store/useThemeStore';
 import {MonthYear, isSameAsCurrentDate} from '@/utils';
@@ -134,13 +133,12 @@ function Calendar<T>({
         />
       </View>
 
-      <Conditional condition={yearSelector.isVisible}>
-        <YearSelector
-          currentyear={year}
-          onChangeYear={handleChangeYear}
-          hide={yearSelector.hide}
-        />
-      </Conditional>
+      <YearSelector
+        isVisible={yearSelector.isVisible}
+        currentyear={year}
+        onChangeYear={handleChangeYear}
+        hide={yearSelector.hide}
+      />
     </>
   );
 }
