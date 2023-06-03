@@ -7,26 +7,28 @@ import useThemeStore from '@/store/useThemeStore';
 import {colors, numbers} from '@/constants';
 import type {ThemeMode} from '@/types';
 
-interface YearSelectorProps {
+interface CalendarYearSelectorProps {
   isVisible: boolean;
   currentyear: number;
   onChangeYear: (year: number) => void;
   hide: () => void;
 }
 
-function YearSelector({
+function CalendarYearSelector({
   isVisible,
   currentyear,
   onChangeYear,
   hide,
-}: YearSelectorProps) {
+}: CalendarYearSelectorProps) {
   const {theme} = useThemeStore();
   const styles = styling(theme);
   const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
     const yearIndex = currentyear - numbers.MIN_CALENDAR_YEAR;
-    const currentRow = Math.floor(yearIndex / 4);
+    const currentRow = Math.floor(
+      yearIndex / numbers.CALENDAR_YEAR_SELECTOR_COLUMN,
+    );
     const scrollToY = currentRow * 50;
 
     setScrollY(scrollToY);
@@ -69,7 +71,7 @@ function YearSelector({
               </Pressable>
             )}
             keyExtractor={item => String(item.num)}
-            numColumns={4}
+            numColumns={numbers.CALENDAR_YEAR_SELECTOR_COLUMN}
           />
         </View>
         <Pressable style={styles.closeButton} onPress={hide}>
@@ -141,4 +143,4 @@ const styling = (theme: ThemeMode) =>
     },
   });
 
-export default YearSelector;
+export default CalendarYearSelector;
