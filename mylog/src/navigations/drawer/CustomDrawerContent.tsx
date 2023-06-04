@@ -5,8 +5,8 @@ import {
   DrawerContentScrollView,
   DrawerItemList,
 } from '@react-navigation/drawer';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FastImage from 'react-native-fast-image';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import Conditional from '@/components/@common/Conditional';
 import useAuth from '@/hooks/queries/useAuth';
