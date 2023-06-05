@@ -36,6 +36,7 @@ const kakaoLogin = async (token: string): Promise<ResponseToken> => {
 type RequestAppleIdentity = {
   identityToken: string;
   appId: string;
+  nickname: string | null;
 };
 
 const appleLogin = async (
@@ -54,7 +55,7 @@ const getProfile = async (): Promise<ResponseProfile> => {
   return data;
 };
 
-type RequestProfile = Omit<Profile, 'email' | 'kakaoImageUri'>;
+type RequestProfile = Omit<Profile, 'email' | 'kakaoImageUri' | 'loginType'>;
 
 const editProfile = async (body: RequestProfile): Promise<ResponseProfile> => {
   const {data} = await axiosInstance.patch('/auth/me', body);

@@ -38,15 +38,16 @@ function AuthHomeScreen({navigation}: AuthHomeScreenProps) {
 
   const handlePressAppleLogin = async () => {
     try {
-      const {identityToken} = await appleAuth.performRequest({
+      const {identityToken, fullName} = await appleAuth.performRequest({
         requestedOperation: appleAuth.Operation.LOGIN,
-        requestedScopes: [appleAuth.Scope.EMAIL],
+        requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
       });
 
       if (identityToken) {
         appleLoginMutation.mutate({
-          identityToken,
+          identityToken: identityToken,
           appId: Config.APP_ID as string,
+          nickname: fullName?.givenName ?? null,
         });
       }
     } catch (error: any) {
