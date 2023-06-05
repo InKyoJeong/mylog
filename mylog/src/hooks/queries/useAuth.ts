@@ -1,4 +1,9 @@
-import {UseQueryOptions, useMutation, useQuery} from '@tanstack/react-query';
+import {
+  MutationFunction,
+  UseQueryOptions,
+  useMutation,
+  useQuery,
+} from '@tanstack/react-query';
 
 import {
   ResponseProfile,
@@ -36,8 +41,11 @@ function useSignup(mutationOptions?: UseMutationCustomOptions) {
   });
 }
 
-function useLogin(mutationOptions?: UseMutationCustomOptions<ResponseToken>) {
-  return useMutation(postLogin, {
+function useLogin<T>(
+  loginMethod: MutationFunction<ResponseToken, T>,
+  mutationOptions?: UseMutationCustomOptions<ResponseToken>,
+) {
+  return useMutation(loginMethod, {
     onSuccess: ({accessToken, refreshToken}) => {
       setHeader('Authorization', `Bearer ${accessToken}`);
       setEncryptStorage(storageKeys.REFRESH_TOKEN, refreshToken);
@@ -49,40 +57,24 @@ function useLogin(mutationOptions?: UseMutationCustomOptions<ResponseToken>) {
     useErrorBoundary: error => Number(error.response?.status) >= 500,
     ...mutationOptions,
   });
+}
+
+function useEmailLogin(
+  mutationOptions?: UseMutationCustomOptions<ResponseToken>,
+) {
+  return useLogin(postLogin, mutationOptions);
 }
 
 function useKakaoLogin(
   mutationOptions?: UseMutationCustomOptions<ResponseToken>,
 ) {
-  return useMutation(kakaoLogin, {
-    onSuccess: ({accessToken, refreshToken}) => {
-      setHeader('Authorization', `Bearer ${accessToken}`);
-      setEncryptStorage(storageKeys.REFRESH_TOKEN, refreshToken);
-    },
-    onSettled: () => {
-      queryClient.refetchQueries([queryKeys.AUTH, queryKeys.GET_ACCESS_TOKEN]);
-      queryClient.invalidateQueries([queryKeys.AUTH, queryKeys.GET_PROFILE]);
-    },
-    useErrorBoundary: error => Number(error.response?.status) >= 500,
-    ...mutationOptions,
-  });
+  return useLogin(kakaoLogin, mutationOptions);
 }
 
 function useAppleLogin(
   mutationOptions?: UseMutationCustomOptions<ResponseToken>,
 ) {
-  return useMutation(appleLogin, {
-    onSuccess: ({accessToken, refreshToken}) => {
-      setHeader('Authorization', `Bearer ${accessToken}`);
-      setEncryptStorage(storageKeys.REFRESH_TOKEN, refreshToken);
-    },
-    onSettled: () => {
-      queryClient.refetchQueries([queryKeys.AUTH, queryKeys.GET_ACCESS_TOKEN]);
-      queryClient.invalidateQueries([queryKeys.AUTH, queryKeys.GET_PROFILE]);
-    },
-    useErrorBoundary: error => Number(error.response?.status) >= 500,
-    ...mutationOptions,
-  });
+  return useLogin(appleLogin, mutationOptions);
 }
 
 function useLogout(mutationOptions?: UseMutationCustomOptions) {
@@ -188,7 +180,7 @@ function useMutateCategory(mutationOptions?: UseMutationCustomOptions) {
 
 function useAuth() {
   const signupMutation = useSignup();
-  const loginMutation = useLogin();
+  const loginMutation = useEmailLogin();
   const kakaoLoginMutation = useKakaoLogin();
   const appleLoginMutation = useAppleLogin();
   const logoutMutation = useLogout();

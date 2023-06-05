@@ -40,7 +40,7 @@ function AuthHomeScreen({navigation}: AuthHomeScreenProps) {
     try {
       const {identityToken} = await appleAuth.performRequest({
         requestedOperation: appleAuth.Operation.LOGIN,
-        requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+        requestedScopes: [appleAuth.Scope.EMAIL],
       });
 
       if (identityToken) {
