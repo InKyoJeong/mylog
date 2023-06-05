@@ -2,17 +2,20 @@ import React from 'react';
 import {
   Dimensions,
   Image,
+  Platform,
   Pressable,
   SafeAreaView,
   StyleSheet,
   Text,
   View,
 } from 'react-native';
+import {AppleButton} from '@invertase/react-native-apple-authentication';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import type {StackScreenProps} from '@react-navigation/stack';
 
 import type {AuthStackParamList} from '@/navigations/stack/AuthStackNavigator';
 import CustomButton from '@/components/@common/CustomButton';
+import Conditional from '@/components/@common/Conditional';
 import useThemeStore from '@/store/useThemeStore';
 import {authNavigations, colors} from '@/constants';
 import type {ThemeMode} from '@/types';
@@ -36,6 +39,15 @@ function AuthHomeScreen({navigation}: AuthHomeScreenProps) {
         />
       </View>
       <View style={styles.buttonContainer}>
+        <Conditional condition={Platform.OS === 'ios'}>
+          <AppleButton
+            buttonStyle={AppleButton.Style.BLACK}
+            buttonType={AppleButton.Type.SIGN_IN}
+            style={styles.appleButton}
+            cornerRadius={3}
+            onPress={() => {}}
+          />
+        </Conditional>
         <CustomButton
           label="카카오 로그인하기"
           variant="filled"
@@ -77,7 +89,7 @@ const styling = (theme: ThemeMode) =>
       marginVertical: 30,
     },
     imageContainer: {
-      flex: 2,
+      flex: 1.5,
       width: Dimensions.get('screen').width / 2,
     },
     image: {
@@ -88,6 +100,11 @@ const styling = (theme: ThemeMode) =>
       flex: 1,
       alignItems: 'center',
       gap: 10,
+    },
+    appleButton: {
+      width: Dimensions.get('screen').width - 60,
+      height: 46,
+      paddingVertical: 25,
     },
     kakaoButtonContainer: {
       backgroundColor: '#fee503',
