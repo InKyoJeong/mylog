@@ -28,7 +28,7 @@ const postLogin = async ({
 };
 
 const kakaoLogin = async (token: string): Promise<ResponseToken> => {
-  const {data} = await axiosInstance.post('/auth/oauth', {token});
+  const {data} = await axiosInstance.post('/auth/oauth/kakao', {token});
 
   return data;
 };
