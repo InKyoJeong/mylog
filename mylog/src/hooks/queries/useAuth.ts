@@ -3,6 +3,7 @@ import {UseQueryOptions, useMutation, useQuery} from '@tanstack/react-query';
 import {
   ResponseProfile,
   ResponseToken,
+  appleLogin,
   deleteAccount,
   editCategory,
   editProfile,
@@ -54,6 +55,23 @@ function useKakaoLogin(
   mutationOptions?: UseMutationCustomOptions<ResponseToken>,
 ) {
   return useMutation(kakaoLogin, {
+    onSuccess: ({accessToken, refreshToken}) => {
+      setHeader('Authorization', `Bearer ${accessToken}`);
+      setEncryptStorage(storageKeys.REFRESH_TOKEN, refreshToken);
+    },
+    onSettled: () => {
+      queryClient.refetchQueries([queryKeys.AUTH, queryKeys.GET_ACCESS_TOKEN]);
+      queryClient.invalidateQueries([queryKeys.AUTH, queryKeys.GET_PROFILE]);
+    },
+    useErrorBoundary: error => Number(error.response?.status) >= 500,
+    ...mutationOptions,
+  });
+}
+
+function useAppleLogin(
+  mutationOptions?: UseMutationCustomOptions<ResponseToken>,
+) {
+  return useMutation(appleLogin, {
     onSuccess: ({accessToken, refreshToken}) => {
       setHeader('Authorization', `Bearer ${accessToken}`);
       setEncryptStorage(storageKeys.REFRESH_TOKEN, refreshToken);
@@ -172,6 +190,7 @@ function useAuth() {
   const signupMutation = useSignup();
   const loginMutation = useLogin();
   const kakaoLoginMutation = useKakaoLogin();
+  const appleLoginMutation = useAppleLogin();
   const logoutMutation = useLogout();
   const refreshTokenQuery = useGetRefreshToken();
   const getProfileQuery = useGetProfile({
@@ -189,6 +208,7 @@ function useAuth() {
     signupMutation,
     loginMutation,
     kakaoLoginMutation,
+    appleLoginMutation,
     logoutMutation,
     refreshTokenQuery,
     getProfileQuery,
