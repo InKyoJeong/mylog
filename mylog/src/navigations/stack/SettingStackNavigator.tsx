@@ -5,6 +5,7 @@ import SettingHomeScreen from '@/screens/setting/SettingHomeScreen';
 import EditProfileScreen from '@/screens/setting/EditProfileScreen';
 import FeedbackScreen from '@/screens/setting/FeedbackScreen';
 import EditCategoryScreen from '@/screens/setting/EditCategoryScreen';
+import DeleteAccountScreen from '@/screens/setting/DeleteAccountScreen';
 import SettingHeaderLeft from '@/components/setting/SettingHeaderLeft';
 import useThemeStore from '@/store/useThemeStore';
 import {colors, settingNavigations} from '@/constants';
@@ -14,6 +15,7 @@ export type SettingStackParamList = {
   [settingNavigations.EDIT_PROFILE]: undefined;
   [settingNavigations.EDIT_CATEGORY]: undefined;
   [settingNavigations.FEED_BACK]: undefined;
+  [settingNavigations.DELETE_ACCOUNT]: undefined;
 };
 
 const Stack = createStackNavigator<SettingStackParamList>();
@@ -71,6 +73,16 @@ function SettingStackNavigator() {
         component={FeedbackScreen}
         options={{
           headerTitle: '의견 보내기',
+          cardStyle: {
+            backgroundColor: colors[theme].WHITE,
+          },
+        }}
+      />
+      <Stack.Screen
+        name={settingNavigations.DELETE_ACCOUNT}
+        component={DeleteAccountScreen}
+        options={{
+          headerTitle: '회원탈퇴',
           cardStyle: {
             backgroundColor: colors[theme].WHITE,
           },

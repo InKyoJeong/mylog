@@ -136,6 +136,11 @@ function EditProfileScreen({navigation}: EditProfileScreenProps) {
       <Pressable
         onPress={() => navigation.navigate('DeleteAccount')}
         style={styles.deleteAccountContainer}>
+        <Ionicons
+          name="ios-remove-circle-sharp"
+          size={18}
+          color={colors[theme].RED_500}
+        />
         <Text style={styles.deleteAccountText}>회원탈퇴</Text>
       </Pressable>
 
@@ -208,7 +213,11 @@ const styling = (theme: ThemeMode) =>
     },
     deleteAccountContainer: {
       position: 'absolute',
-      right: 50,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: 5,
+      right: 20,
       bottom: 70,
       backgroundColor: colors[theme].GRAY_100,
       borderRadius: 10,
