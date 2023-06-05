@@ -174,7 +174,7 @@ export class AuthService {
     } catch (error) {
       console.log(error);
       throw new BadRequestException(
-        '탈퇴할 수 없습니다. 남은 게시글이 존재하는지 확인해주세요.',
+        '탈퇴할 수 없습니다. 추가한 장소가 존재하는지 확인해주세요.',
       );
     }
   }

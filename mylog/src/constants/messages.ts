@@ -23,6 +23,7 @@ const successMessages = {
   SUCCESS_EDIT_PROFILE: '프로필이 변경되었습니다.',
   SUCCESS_SUBMIT_FEEDBACK: '제출되었습니다.',
   SUCCESS_SAVE: '저장되었습니다.',
+  SUCCESS_DELETE_ACCOUNT: '탈퇴가 완료되었습니다.',
 } as const;
 
 const alerts = {
@@ -49,6 +50,10 @@ const alerts = {
   DELETE_POST: {
     TITLE: '삭제하시겠습니까?',
     DESCRIPTION: '피드와 지도에서 모두 삭제됩니다.',
+  },
+  DELETE_ACCOUNT: {
+    TITLE: '정말 탈퇴하시겠습니까?',
+    DESCRIPTION: '회원 정보는 탈퇴 즉시 삭제되며, 복구되지 않습니다.',
   },
 } as const;
 

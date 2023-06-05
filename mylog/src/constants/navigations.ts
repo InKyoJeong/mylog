@@ -41,6 +41,7 @@ const settingNavigations = {
   EDIT_PROFILE: 'EditProfile',
   EDIT_CATEGORY: 'EditCategory',
   FEED_BACK: 'FeedBack',
+  DELETE_ACCOUNT: 'DeleteAccount',
 } as const;
 
 const statisticsNavigations = {

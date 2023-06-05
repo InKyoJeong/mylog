@@ -35,7 +35,11 @@ __decorate([
     __metadata("design:type", Date)
 ], Feedback.prototype, "createdAt", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => user_entity_1.User, (user) => user.feedback, { eager: false }),
+    (0, typeorm_1.ManyToOne)(() => user_entity_1.User, (user) => user.feedback, {
+        eager: false,
+        nullable: true,
+        onDelete: 'SET NULL',
+    }),
     __metadata("design:type", user_entity_1.User)
 ], Feedback.prototype, "user", void 0);
 Feedback = __decorate([

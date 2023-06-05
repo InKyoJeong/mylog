@@ -25,6 +25,10 @@ export class Feedback extends BaseEntity {
   @CreateDateColumn()
   createdAt: Date;
 
-  @ManyToOne(() => User, (user) => user.feedback, { eager: false })
+  @ManyToOne(() => User, (user) => user.feedback, {
+    eager: false,
+    nullable: true,
+    onDelete: 'SET NULL',
+  })
   user: User;
 }
