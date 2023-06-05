@@ -15,7 +15,7 @@ import useAuth from '@/hooks/queries/useAuth';
 import useImagePicker from '@/hooks/useImagePicker';
 import useSnackbarStore from '@/store/useSnackbarStore';
 import useThemeStore from '@/store/useThemeStore';
-import {isValidEmailFormat, validateEditProfile} from '@/utils';
+import {validateEditProfile} from '@/utils';
 import {colors, errorMessages, numbers, successMessages} from '@/constants';
 import type {ThemeMode} from '@/types';
 
@@ -27,7 +27,8 @@ function EditProfileScreen({navigation}: EditProfileScreenProps) {
   const snackbar = useSnackbarStore();
   const imageOption = useModal();
   const {getProfileQuery, profileMutation} = useAuth();
-  const {email, nickname, imageUri, kakaoImageUri} = getProfileQuery.data || {};
+  const {email, nickname, imageUri, kakaoImageUri, loginType} =
+    getProfileQuery.data || {};
   const imagePicker = useImagePicker({
     initialImages: imageUri ? [{uri: imageUri}] : [],
     mode: 'single',
@@ -114,10 +115,10 @@ function EditProfileScreen({navigation}: EditProfileScreenProps) {
           </Conditional>
         </Pressable>
 
-        <Conditional condition={Boolean(email && isValidEmailFormat(email))}>
+        <Conditional condition={loginType === 'email'}>
           <View style={styles.idContainer}>
             <View style={styles.idTextContainer}>
-              <Text style={styles.nameText}>ID</Text>
+              <Text style={styles.nameText}>Email</Text>
             </View>
             <Text style={styles.nameText}>{email}</Text>
           </View>
@@ -189,12 +190,15 @@ const styling = (theme: ThemeMode) =>
     },
     idTextContainer: {
       backgroundColor: colors[theme].GRAY_200,
+      alignItems: 'center',
+      justifyContent: 'center',
       paddingHorizontal: 5,
       paddingVertical: 2,
       borderRadius: 5,
     },
     nameText: {
       color: colors[theme].BLACK,
+      fontWeight: '500',
     },
   });
 
