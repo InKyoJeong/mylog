@@ -5,6 +5,7 @@ import { Feedback } from 'src/feedback/feedback.entity';
 import { MarkerColor } from 'src/post/marker-color.enum';
 export declare class User extends BaseEntity {
     id: number;
+    loginType: 'email' | 'kakao' | 'apple';
     email: string;
     password: string;
     nickname?: string;
