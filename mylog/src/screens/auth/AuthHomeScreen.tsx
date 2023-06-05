@@ -9,15 +9,20 @@ import {
   Text,
   View,
 } from 'react-native';
-import {AppleButton} from '@invertase/react-native-apple-authentication';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import type {StackScreenProps} from '@react-navigation/stack';
+import appleAuth, {
+  AppleButton,
+} from '@invertase/react-native-apple-authentication';
+import Config from 'react-native-config';
 
 import type {AuthStackParamList} from '@/navigations/stack/AuthStackNavigator';
 import CustomButton from '@/components/@common/CustomButton';
 import Conditional from '@/components/@common/Conditional';
+import useAuth from '@/hooks/queries/useAuth';
+import useSnackbarStore from '@/store/useSnackbarStore';
 import useThemeStore from '@/store/useThemeStore';
-import {authNavigations, colors} from '@/constants';
+import {authNavigations, colors, errorMessages} from '@/constants';
 import type {ThemeMode} from '@/types';
 
 type AuthHomeScreenProps = StackScreenProps<
@@ -28,6 +33,28 @@ type AuthHomeScreenProps = StackScreenProps<
 function AuthHomeScreen({navigation}: AuthHomeScreenProps) {
   const {theme} = useThemeStore();
   const styles = styling(theme);
+  const snackbar = useSnackbarStore();
+  const {appleLoginMutation} = useAuth();
+
+  const handlePressAppleLogin = async () => {
+    try {
+      const {identityToken} = await appleAuth.performRequest({
+        requestedOperation: appleAuth.Operation.LOGIN,
+        requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+      });
+
+      if (identityToken) {
+        appleLoginMutation.mutate({
+          identityToken,
+          appId: Config.APP_ID as string,
+        });
+      }
+    } catch (error: any) {
+      if (error.code !== appleAuth.Error.CANCELED) {
+        snackbar.show(errorMessages.FAIL_APPLE_LOGIN);
+      }
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -45,7 +72,7 @@ function AuthHomeScreen({navigation}: AuthHomeScreenProps) {
             buttonType={AppleButton.Type.SIGN_IN}
             style={styles.appleButton}
             cornerRadius={3}
-            onPress={() => {}}
+            onPress={handlePressAppleLogin}
           />
         </Conditional>
         <CustomButton

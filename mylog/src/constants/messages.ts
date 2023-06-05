@@ -15,6 +15,7 @@ const errorMessages = {
     '갤러리를 열 수 없어요.\n권한을 허용했는지 확인해주세요.',
   CANNOT_ACCESS_USER_LOCATION: '위치 권한을 허용해주세요.',
   UNEXPECT_ERROR: '알 수 없는 에러가 발생했습니다.',
+  FAIL_APPLE_LOGIN: '애플 로그인이 실패했습니다. 나중에 다시 시도하세요.',
 } as const;
 
 const successMessages = {
