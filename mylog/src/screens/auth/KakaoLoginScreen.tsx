@@ -6,7 +6,7 @@ import axios from 'axios';
 
 import useAuth from '@/hooks/queries/useAuth';
 
-const REDIRECT_URI = `${Config.BASE_URL}/auth/oauth`;
+const REDIRECT_URI = `${Config.BASE_URL}/auth/oauth/kakao`;
 const INJECTED_JAVASCRIPT = "window.ReactNativeWebView.postMessage('')";
 
 function KakaoLoginScreen() {

@@ -28,7 +28,21 @@ const postLogin = async ({
 };
 
 const kakaoLogin = async (token: string): Promise<ResponseToken> => {
-  const {data} = await axiosInstance.post('/auth/oauth', {token});
+  const {data} = await axiosInstance.post('/auth/oauth/kakao', {token});
+
+  return data;
+};
+
+type RequestAppleIdentity = {
+  identityToken: string;
+  appId: string;
+  nickname: string | null;
+};
+
+const appleLogin = async (
+  body: RequestAppleIdentity,
+): Promise<ResponseToken> => {
+  const {data} = await axiosInstance.post('/auth/oauth/apple', body);
 
   return data;
 };
@@ -41,7 +55,7 @@ const getProfile = async (): Promise<ResponseProfile> => {
   return data;
 };
 
-type RequestProfile = Omit<Profile, 'email' | 'kakaoImageUri'>;
+type RequestProfile = Omit<Profile, 'email' | 'kakaoImageUri' | 'loginType'>;
 
 const editProfile = async (body: RequestProfile): Promise<ResponseProfile> => {
   const {data} = await axiosInstance.patch('/auth/me', body);
@@ -79,6 +93,7 @@ export {
   postSignup,
   postLogin,
   kakaoLogin,
+  appleLogin,
   getProfile,
   editProfile,
   getAccessToken,
@@ -86,4 +101,10 @@ export {
   deleteAccount,
   editCategory,
 };
-export type {RequestUser, ResponseToken, ResponseProfile, RequestProfile};
+export type {
+  RequestUser,
+  ResponseToken,
+  ResponseProfile,
+  RequestProfile,
+  RequestAppleIdentity,
+};

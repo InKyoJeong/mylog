@@ -2,6 +2,7 @@ import React from 'react';
 import {
   Dimensions,
   Image,
+  Platform,
   Pressable,
   SafeAreaView,
   StyleSheet,
@@ -10,11 +11,18 @@ import {
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import type {StackScreenProps} from '@react-navigation/stack';
+import appleAuth, {
+  AppleButton,
+} from '@invertase/react-native-apple-authentication';
+import Config from 'react-native-config';
 
 import type {AuthStackParamList} from '@/navigations/stack/AuthStackNavigator';
 import CustomButton from '@/components/@common/CustomButton';
+import Conditional from '@/components/@common/Conditional';
+import useAuth from '@/hooks/queries/useAuth';
+import useSnackbarStore from '@/store/useSnackbarStore';
 import useThemeStore from '@/store/useThemeStore';
-import {authNavigations, colors} from '@/constants';
+import {authNavigations, colors, errorMessages} from '@/constants';
 import type {ThemeMode} from '@/types';
 
 type AuthHomeScreenProps = StackScreenProps<
@@ -25,6 +33,29 @@ type AuthHomeScreenProps = StackScreenProps<
 function AuthHomeScreen({navigation}: AuthHomeScreenProps) {
   const {theme} = useThemeStore();
   const styles = styling(theme);
+  const snackbar = useSnackbarStore();
+  const {appleLoginMutation} = useAuth();
+
+  const handlePressAppleLogin = async () => {
+    try {
+      const {identityToken, fullName} = await appleAuth.performRequest({
+        requestedOperation: appleAuth.Operation.LOGIN,
+        requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+      });
+
+      if (identityToken) {
+        appleLoginMutation.mutate({
+          identityToken: identityToken,
+          appId: Config.APP_ID as string,
+          nickname: fullName?.givenName ?? null,
+        });
+      }
+    } catch (error: any) {
+      if (error.code !== appleAuth.Error.CANCELED) {
+        snackbar.show(errorMessages.FAIL_APPLE_LOGIN);
+      }
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -36,6 +67,15 @@ function AuthHomeScreen({navigation}: AuthHomeScreenProps) {
         />
       </View>
       <View style={styles.buttonContainer}>
+        <Conditional condition={Platform.OS === 'ios'}>
+          <AppleButton
+            buttonStyle={AppleButton.Style.BLACK}
+            buttonType={AppleButton.Type.SIGN_IN}
+            style={styles.appleButton}
+            cornerRadius={3}
+            onPress={handlePressAppleLogin}
+          />
+        </Conditional>
         <CustomButton
           label="카카오 로그인하기"
           variant="filled"
@@ -77,7 +117,7 @@ const styling = (theme: ThemeMode) =>
       marginVertical: 30,
     },
     imageContainer: {
-      flex: 2,
+      flex: 1.5,
       width: Dimensions.get('screen').width / 2,
     },
     image: {
@@ -88,6 +128,11 @@ const styling = (theme: ThemeMode) =>
       flex: 1,
       alignItems: 'center',
       gap: 10,
+    },
+    appleButton: {
+      width: Dimensions.get('screen').width - 60,
+      height: 46,
+      paddingVertical: 25,
     },
     kakaoButtonContainer: {
       backgroundColor: '#fee503',

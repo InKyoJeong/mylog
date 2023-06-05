@@ -46,6 +46,7 @@
 		5DCACB8F33CDC322A6C60F78 /* libPods-mylog.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-mylog.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = mylog/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-mylog-mylogTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mylog-mylogTests.release.xcconfig"; path = "Target Support Files/Pods-mylog-mylogTests/Pods-mylog-mylogTests.release.xcconfig"; sourceTree = "<group>"; };
+		B22DA9F12A2D9EF300B57D4E /* mylog.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = mylog.entitlements; path = mylog/mylog.entitlements; sourceTree = "<group>"; };
 		B2A7D00629EE781F00BEA5D9 /* Ionicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Ionicons.ttf; sourceTree = "<group>"; };
 		B2A7D00729EE783900BEA5D9 /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialIcons.ttf; sourceTree = "<group>"; };
 		B2A7D00829EE786A00BEA5D9 /* Octicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Octicons.ttf; sourceTree = "<group>"; };
@@ -93,6 +94,7 @@
 		13B07FAE1A68108700A75B9A /* mylog */ = {
 			isa = PBXGroup;
 			children = (
+				B22DA9F12A2D9EF300B57D4E /* mylog.entitlements */,
 				B2A7D00529EE774F00BEA5D9 /* Fonts */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
@@ -507,6 +509,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = mylog/mylog.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = ZK9Y296K5C;
 				ENABLE_BITCODE = NO;
@@ -536,6 +539,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = mylog/mylog.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = ZK9Y296K5C;
 				INFOPLIST_FILE = mylog/Info.plist;

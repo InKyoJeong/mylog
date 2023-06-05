@@ -29,6 +29,7 @@ interface Profile {
   nickname: string | null;
   imageUri: string | null;
   kakaoImageUri: string | null;
+  loginType: 'email' | 'kakao' | 'apple';
 }
 
 export type {MarkerColor, Category, Marker, Post, ImageUri, Profile};
