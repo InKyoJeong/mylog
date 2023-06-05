@@ -20,6 +20,7 @@ export declare class AuthService {
         refreshToken: string;
     }>;
     getProfile(user: User): {
+        loginType: "email" | "kakao" | "apple";
         email: string;
         nickname?: string;
         imageUri?: string;
@@ -37,6 +38,7 @@ export declare class AuthService {
         PURPLE: string;
     };
     editProfile(editProfileDto: EditProfileDto, user: User): Promise<{
+        loginType: "email" | "kakao" | "apple";
         email: string;
         nickname?: string;
         imageUri?: string;
@@ -58,6 +60,7 @@ export declare class AuthService {
     private getTokens;
     deleteAccount(user: User): Promise<void>;
     updateCategory(categories: Record<keyof MarkerColor, string>, user: User): Promise<{
+        loginType: "email" | "kakao" | "apple";
         email: string;
         nickname?: string;
         imageUri?: string;
@@ -76,6 +79,14 @@ export declare class AuthService {
     }>;
     kakaoLogin(kakaoToken: {
         token: string;
+    }): Promise<{
+        accessToken: string;
+        refreshToken: string;
+    }>;
+    appleLogin(appleIdentity: {
+        identityToken: string;
+        appId: string;
+        nickname: string | null;
     }): Promise<{
         accessToken: string;
         refreshToken: string;

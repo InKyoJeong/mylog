@@ -31,6 +31,7 @@ const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const bcrypt = require("bcryptjs");
 const axios_1 = require("axios");
+const apple_signin_auth_1 = require("apple-signin-auth");
 const user_entity_1 = require("./user.entity");
 const marker_color_enum_1 = require("../post/marker-color.enum");
 let AuthService = class AuthService {
@@ -46,6 +47,7 @@ let AuthService = class AuthService {
         const user = this.userRepository.create({
             email,
             password: hashedPassword,
+            loginType: 'email',
         });
         try {
             await this.userRepository.save(user);
@@ -196,6 +198,7 @@ let AuthService = class AuthService {
                 password: '',
                 nickname,
                 kakaoImageUri: imageUri,
+                loginType: 'kakao',
             });
             try {
                 await this.userRepository.save(newUser);
@@ -213,6 +216,47 @@ let AuthService = class AuthService {
         catch (error) {
             console.log(error);
             throw new common_1.InternalServerErrorException('Kakao 서버 에러가 발생했습니다.');
+        }
+    }
+    async appleLogin(appleIdentity) {
+        const { identityToken, appId, nickname } = appleIdentity;
+        try {
+            const { sub: userAppleId } = await apple_signin_auth_1.default.verifyIdToken(identityToken, {
+                audience: appId,
+                ignoreExpiration: true,
+            });
+            const existingUser = await this.userRepository.findOneBy({
+                email: userAppleId,
+            });
+            if (existingUser) {
+                const { accessToken, refreshToken } = await this.getTokens({
+                    email: existingUser.email,
+                });
+                await this.updateHashedRefreshToken(existingUser.id, refreshToken);
+                return { accessToken, refreshToken };
+            }
+            const newUser = this.userRepository.create({
+                email: userAppleId,
+                nickname: nickname === null ? '이름없음' : nickname,
+                password: '',
+                loginType: 'apple',
+            });
+            try {
+                await this.userRepository.save(newUser);
+            }
+            catch (error) {
+                console.log(error);
+                throw new common_1.InternalServerErrorException();
+            }
+            const { accessToken, refreshToken } = await this.getTokens({
+                email: newUser.email,
+            });
+            await this.updateHashedRefreshToken(newUser.id, refreshToken);
+            return { accessToken, refreshToken };
+        }
+        catch (error) {
+            console.log('error', error);
+            throw new common_1.InternalServerErrorException('Apple 로그인 도중 문제가 발생했습니다.');
         }
     }
 };

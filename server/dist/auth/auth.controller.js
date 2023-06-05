@@ -51,6 +51,9 @@ let AuthController = class AuthController {
     kakaoLogin(kakaoToken) {
         return this.authService.kakaoLogin(kakaoToken);
     }
+    appleLogin(appleIdentity) {
+        return this.authService.appleLogin(appleIdentity);
+    }
 };
 __decorate([
     (0, common_1.Post)('/signup'),
@@ -117,12 +120,19 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "updateCategory", null);
 __decorate([
-    (0, common_1.Post)('/oauth'),
+    (0, common_1.Post)('/oauth/kakao'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "kakaoLogin", null);
+__decorate([
+    (0, common_1.Post)('/oauth/apple'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], AuthController.prototype, "appleLogin", null);
 AuthController = __decorate([
     (0, common_1.Controller)('auth'),
     __metadata("design:paramtypes", [auth_service_1.AuthService])
