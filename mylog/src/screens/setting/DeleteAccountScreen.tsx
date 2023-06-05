@@ -1,8 +1,8 @@
 import React from 'react';
-import {Alert, StyleSheet, Text, View} from 'react-native';
-import Animated, {StretchInY} from 'react-native-reanimated';
+import {Alert, StyleSheet, View} from 'react-native';
 
 import CustomButton from '@/components/@common/CustomButton';
+import AnimatedMessages from '@/components/@common/AnimatedMessages';
 import useAuth from '@/hooks/queries/useAuth';
 import useThemeStore from '@/store/useThemeStore';
 import useSnackbarStore from '@/store/useSnackbarStore';
@@ -45,15 +45,12 @@ function DeleteAccountScreen() {
 
   return (
     <View style={styles.container}>
-      <Animated.View entering={StretchInY} style={styles.infoContainer}>
-        <Text style={styles.infoText}>
-          저장된 데이터를 모두 삭제해야 회원탈퇴가 가능해요.
-        </Text>
-        <Text style={styles.infoText}>
-          피드에 저장된 장소가 남아있다면 삭제해주세요.
-        </Text>
-      </Animated.View>
-
+      <AnimatedMessages
+        messages={[
+          '저장된 데이터를 모두 삭제해야 회원탈퇴가 가능해요.',
+          '피드에 저장된 장소가 남아있다면 삭제해주세요.',
+        ]}
+      />
       <CustomButton
         label="회원탈퇴"
         variant="filled"

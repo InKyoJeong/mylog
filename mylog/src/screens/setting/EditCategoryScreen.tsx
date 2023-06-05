@@ -1,18 +1,17 @@
 import React, {useCallback, useLayoutEffect, useRef} from 'react';
 import {
-  Text,
   TextInput,
   ScrollView,
   StyleSheet,
   View,
   SafeAreaView,
 } from 'react-native';
-import Animated, {StretchInY} from 'react-native-reanimated';
 import type {StackScreenProps} from '@react-navigation/stack';
 
 import type {SettingStackParamList} from '@/navigations/stack/SettingStackNavigator';
 import EditCategoryHeaderRight from '@/components/setting/EditCategoryHeaderRight';
 import CustomKeyboardAvoidingView from '@/components/@common/CustomKeyboardAvoidingView';
+import AnimatedMessages from '@/components/@common/AnimatedMessages';
 import InputField from '@/components/@common/InputField';
 import useAuth from '@/hooks/queries/useAuth';
 import useForm from '@/hooks/useForm';
@@ -73,14 +72,12 @@ function EditCategoryScreen({navigation}: EditCategoryScreenProps) {
         <ScrollView
           style={styles.contentContainer}
           scrollIndicatorInsets={{right: 1}}>
-          <Animated.View entering={StretchInY} style={styles.infoContainer}>
-            <Text style={styles.infoText}>
-              마커 색상의 카테고리를 설정해주세요.
-            </Text>
-            <Text style={styles.infoText}>
-              마커 필터링, 범례 표시에 사용할 수 있어요.
-            </Text>
-          </Animated.View>
+          <AnimatedMessages
+            messages={[
+              '마커 색상의 카테고리를 설정해주세요.',
+              '마커 필터링, 범례 표시에 사용할 수 있어요.',
+            ]}
+          />
 
           <View style={styles.formContainer}>
             {categoryList.map((color, i) => {
