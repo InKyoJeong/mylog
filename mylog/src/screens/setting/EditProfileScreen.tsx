@@ -133,6 +133,12 @@ function EditProfileScreen({navigation}: EditProfileScreenProps) {
         maxLength={numbers.MAX_NICKNAME_LENGTH}
       />
 
+      <Pressable
+        onPress={() => navigation.navigate('DeleteAccount')}
+        style={styles.deleteAccountContainer}>
+        <Text style={styles.deleteAccountText}>회원탈퇴</Text>
+      </Pressable>
+
       <EditProfileImageOption
         isVisible={imageOption.isVisible}
         hideOption={imageOption.hide}
@@ -199,6 +205,18 @@ const styling = (theme: ThemeMode) =>
     nameText: {
       color: colors[theme].BLACK,
       fontWeight: '500',
+    },
+    deleteAccountContainer: {
+      position: 'absolute',
+      right: 50,
+      bottom: 70,
+      backgroundColor: colors[theme].GRAY_100,
+      borderRadius: 10,
+      padding: 10,
+    },
+    deleteAccountText: {
+      color: colors[theme].RED_500,
+      fontSize: 15,
     },
   });
 
