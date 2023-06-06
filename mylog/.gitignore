@@ -70,3 +70,5 @@ ios/tmp.xcconfig
 
 .yarn
 .yarnrc.yml
+
+*.aab 
