@@ -6,8 +6,8 @@ export class Version extends BaseEntity {
   id: number;
 
   @Column({ default: '1.0.0' })
-  versionIOS: string;
+  ios: string;
 
   @Column({ default: '1.0.0' })
-  versionAndroid: string;
+  android: string;
 }

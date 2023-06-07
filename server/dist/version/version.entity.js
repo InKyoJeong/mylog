@@ -20,11 +20,11 @@ __decorate([
 __decorate([
     (0, typeorm_1.Column)({ default: '1.0.0' }),
     __metadata("design:type", String)
-], Version.prototype, "versionIOS", void 0);
+], Version.prototype, "ios", void 0);
 __decorate([
     (0, typeorm_1.Column)({ default: '1.0.0' }),
     __metadata("design:type", String)
-], Version.prototype, "versionAndroid", void 0);
+], Version.prototype, "android", void 0);
 Version = __decorate([
     (0, typeorm_1.Entity)()
 ], Version);

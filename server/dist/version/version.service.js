@@ -44,14 +44,14 @@ let VersionService = class VersionService {
         }
     }
     async createVersion(createVersionDto) {
-        const { versionIOS, versionAndroid } = createVersionDto;
+        const { ios, android } = createVersionDto;
         const foundVersion = await this.versionRepository.find();
         if (foundVersion.length > 0) {
             return;
         }
         const versions = this.versionRepository.create({
-            versionIOS,
-            versionAndroid,
+            ios,
+            android,
         });
         try {
             await this.versionRepository.save(versions);
@@ -62,10 +62,13 @@ let VersionService = class VersionService {
         }
     }
     async updateVersion(updateVersionDto) {
-        const { versionIOS, versionAndroid } = updateVersionDto;
-        const versions = await this.versionRepository.findOneBy({ id: 1 });
-        versions.versionIOS = versionIOS;
-        versions.versionAndroid = versionAndroid;
+        const { ios, android } = updateVersionDto;
+        const versions = await this.versionRepository
+            .createQueryBuilder('version')
+            .where('version.id = :id', { id: 1 })
+            .getOne();
+        versions.ios = ios;
+        versions.android = android;
         try {
             await this.versionRepository.save(versions);
         }

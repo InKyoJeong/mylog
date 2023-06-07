@@ -4,8 +4,8 @@ export declare class VersionController {
     private versionService;
     constructor(versionService: VersionService);
     getVersion(): Promise<{
-        versionIOS: string;
-        versionAndroid: string;
+        ios: string;
+        android: string;
     }>;
     createVersion(createVersionDto: UpdateVersionDto): Promise<void>;
     updateVersion(updateVersionDto: UpdateVersionDto): Promise<void>;

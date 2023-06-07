@@ -2,8 +2,8 @@ import { IsString } from 'class-validator';
 
 export class UpdateVersionDto {
   @IsString()
-  versionIOS: string;
+  ios: string;
 
   @IsString()
-  versionAndroid: string;
+  android: string;
 }

@@ -1,4 +1,4 @@
 export declare class UpdateVersionDto {
-    versionIOS: string;
-    versionAndroid: string;
+    ios: string;
+    android: string;
 }

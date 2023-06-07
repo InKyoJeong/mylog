@@ -5,8 +5,8 @@ export declare class VersionService {
     private versionRepository;
     constructor(versionRepository: Repository<Version>);
     getVersion(): Promise<{
-        versionIOS: string;
-        versionAndroid: string;
+        ios: string;
+        android: string;
     }>;
     createVersion(createVersionDto: UpdateVersionDto): Promise<void>;
     updateVersion(updateVersionDto: UpdateVersionDto): Promise<void>;

@@ -16,10 +16,10 @@ class UpdateVersionDto {
 __decorate([
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
-], UpdateVersionDto.prototype, "versionIOS", void 0);
+], UpdateVersionDto.prototype, "ios", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
-], UpdateVersionDto.prototype, "versionAndroid", void 0);
+], UpdateVersionDto.prototype, "android", void 0);
 exports.UpdateVersionDto = UpdateVersionDto;
 //# sourceMappingURL=update-version.dto.js.map
