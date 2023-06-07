@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useRef} from 'react';
 import {ActivityIndicator, SafeAreaView, StyleSheet, View} from 'react-native';
 import Config from 'react-native-config';
 import WebView from 'react-native-webview';
@@ -11,31 +11,25 @@ function FaqScreen() {
   const {theme} = useThemeStore();
   const styles = styling(theme);
   const webviewRef = useRef<WebView | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
 
   const handleWebViewLoad = () => {
-    setIsLoading(false);
-
     if (webviewRef.current) {
       webviewRef.current.postMessage(JSON.stringify({theme}));
     }
   };
 
-  const renderLoading = () => {
-    return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color={colors[theme].BLACK} />
-      </View>
-    );
-  };
-
   return (
     <SafeAreaView style={styles.container}>
-      {isLoading && renderLoading()}
       <WebView
         ref={webviewRef}
         source={{uri: `${Config.WEB_URL}/faq`}}
         onLoad={handleWebViewLoad}
+        renderLoading={() => (
+          <View style={styles.loadingContainer}>
+            <ActivityIndicator size="large" color={colors[theme].BLACK} />
+          </View>
+        )}
+        startInLoadingState={true}
       />
     </SafeAreaView>
   );

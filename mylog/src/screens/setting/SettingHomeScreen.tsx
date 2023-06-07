@@ -55,9 +55,9 @@ function SettingHomeScreen({navigation}: SettingHomeScreenProps) {
         <SettingItem title="범례 표시" onPress={mapLegendOption.show} />
         <SettingItem title="다크 모드" onPress={darkModeOption.show} />
         <View style={styles.space} />
-        <SettingItem title="의견 보내기" onPress={handlePressFeedback} />
         <SettingItem title="FAQ" onPress={handlePressFAQ} />
-        <SettingItem title="버전정보" subTitle="1.1.0" />
+        <SettingItem title="의견 보내기" onPress={handlePressFeedback} />
+        <SettingItem title="버전정보" subTitle="1.2.0" />
         <View style={styles.space} />
         <SettingItem
           title="로그아웃"
