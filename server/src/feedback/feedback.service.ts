@@ -12,8 +12,15 @@ export class FeedbackService {
     private feedbackRepository: Repository<Feedback>,
   ) {}
 
-  async getFeedbacks() {
-    return this.feedbackRepository.find();
+  async getFeedbacks(page: number) {
+    const perPage = 30;
+    const offset = (page - 1) * perPage;
+
+    return this.feedbackRepository
+      .createQueryBuilder('feedback')
+      .take(perPage)
+      .skip(offset)
+      .getMany();
   }
 
   async createFeedback(createFeedbackDto: CreateFeedbackDto, user: User) {

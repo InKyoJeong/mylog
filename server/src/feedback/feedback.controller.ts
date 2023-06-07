@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Post,
+  Query,
   SetMetadata,
   UseGuards,
   UsePipes,
@@ -24,8 +25,8 @@ export class FeedbackController {
   @Get()
   @UseGuards(AuthGuard(), AuthAdminGuard)
   @SetMetadata(ADMIN_FLAG, true)
-  getFeedbacks() {
-    return this.feedbackService.getFeedbacks();
+  getFeedbacks(@Query('page') page: number) {
+    return this.feedbackService.getFeedbacks(page);
   }
 
   @Post()
