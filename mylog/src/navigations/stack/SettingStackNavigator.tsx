@@ -6,6 +6,7 @@ import EditProfileScreen from '@/screens/setting/EditProfileScreen';
 import FeedbackScreen from '@/screens/setting/FeedbackScreen';
 import EditCategoryScreen from '@/screens/setting/EditCategoryScreen';
 import DeleteAccountScreen from '@/screens/setting/DeleteAccountScreen';
+import FaqScreen from '@/screens/setting/FaqScreen';
 import SettingHeaderLeft from '@/components/setting/SettingHeaderLeft';
 import useThemeStore from '@/store/useThemeStore';
 import {colors, settingNavigations} from '@/constants';
@@ -16,6 +17,7 @@ export type SettingStackParamList = {
   [settingNavigations.EDIT_CATEGORY]: undefined;
   [settingNavigations.FEED_BACK]: undefined;
   [settingNavigations.DELETE_ACCOUNT]: undefined;
+  [settingNavigations.FAQ]: undefined;
 };
 
 const Stack = createStackNavigator<SettingStackParamList>();
@@ -83,6 +85,16 @@ function SettingStackNavigator() {
         component={DeleteAccountScreen}
         options={{
           headerTitle: '회원탈퇴',
+          cardStyle: {
+            backgroundColor: colors[theme].WHITE,
+          },
+        }}
+      />
+      <Stack.Screen
+        name={settingNavigations.FAQ}
+        component={FaqScreen}
+        options={{
+          headerTitle: 'FAQ',
           cardStyle: {
             backgroundColor: colors[theme].WHITE,
           },
