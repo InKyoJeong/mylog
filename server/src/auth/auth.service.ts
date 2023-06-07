@@ -245,7 +245,7 @@ export class AuthService {
 
       const newUser = this.userRepository.create({
         email: kakaoId,
-        password: '',
+        password: nickname ?? '',
         nickname,
         kakaoImageUri: imageUri,
         loginType: 'kakao',

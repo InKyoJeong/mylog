@@ -1,4 +1,4 @@
-package com.mylog;
+package com.ingg.mylog;
 
 import android.app.Application;
 import com.facebook.react.PackageList;
