@@ -35,8 +35,7 @@ let VersionController = class VersionController {
 };
 __decorate([
     (0, common_1.Get)(),
-    (0, common_1.UseGuards)((0, passport_1.AuthGuard)(), admin_auth_guard_1.AuthAdminGuard),
-    (0, common_1.SetMetadata)(constants_1.ADMIN_FLAG, true),
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)

@@ -18,8 +18,7 @@ export class VersionController {
   constructor(private versionService: VersionService) {}
 
   @Get()
-  @UseGuards(AuthGuard(), AuthAdminGuard)
-  @SetMetadata(ADMIN_FLAG, true)
+  @UseGuards(AuthGuard())
   getVersion() {
     return this.versionService.getVersion();
   }
