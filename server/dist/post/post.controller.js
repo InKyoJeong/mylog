@@ -19,6 +19,8 @@ const user_entity_1 = require("../auth/user.entity");
 const get_user_decorator_1 = require("../common/decorators/get-user.decorator");
 const create_post_dto_1 = require("./dto/create-post.dto");
 const post_service_1 = require("./post.service");
+const admin_auth_guard_1 = require("../auth/guard/admin-auth.guard");
+const constants_1 = require("../constants");
 let PostController = class PostController {
     constructor(postService) {
         this.postService = postService;
@@ -52,6 +54,12 @@ let PostController = class PostController {
     }
     async getCountByColor(user) {
         return this.postService.getPostCountByField(user, 'color');
+    }
+    getUserPosts(page, userId) {
+        return this.postService.getUserPosts(page, userId);
+    }
+    getAllPosts(page) {
+        return this.postService.getAllPosts(page);
     }
 };
 __decorate([
@@ -136,6 +144,25 @@ __decorate([
     __metadata("design:paramtypes", [user_entity_1.User]),
     __metadata("design:returntype", Promise)
 ], PostController.prototype, "getCountByColor", null);
+__decorate([
+    (0, common_1.Get)('/posts/user/:id'),
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)(), admin_auth_guard_1.AuthAdminGuard),
+    (0, common_1.SetMetadata)(constants_1.ADMIN_FLAG, true),
+    __param(0, (0, common_1.Query)('page')),
+    __param(1, (0, common_1.Param)('id', common_1.ParseIntPipe)),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, Number]),
+    __metadata("design:returntype", void 0)
+], PostController.prototype, "getUserPosts", null);
+__decorate([
+    (0, common_1.Get)('/users/posts'),
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)(), admin_auth_guard_1.AuthAdminGuard),
+    (0, common_1.SetMetadata)(constants_1.ADMIN_FLAG, true),
+    __param(0, (0, common_1.Query)('page')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", void 0)
+], PostController.prototype, "getAllPosts", null);
 PostController = __decorate([
     (0, common_1.Controller)(),
     (0, common_1.UseGuards)((0, passport_1.AuthGuard)()),

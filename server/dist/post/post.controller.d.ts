@@ -100,4 +100,6 @@ export declare class PostController {
         totalCount: any;
         results: any[];
     }>;
+    getUserPosts(page: number, userId: number): Promise<PostEntity[]>;
+    getAllPosts(page: number): Promise<PostEntity[]>;
 }

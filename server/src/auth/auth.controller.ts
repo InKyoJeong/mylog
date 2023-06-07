@@ -5,6 +5,8 @@ import {
   Get,
   Patch,
   Post,
+  Query,
+  SetMetadata,
   UseGuards,
   ValidationPipe,
 } from '@nestjs/common';
@@ -15,6 +17,8 @@ import { User } from './user.entity';
 import { AuthCredentialsDto } from './dto/auth-credential.dto';
 import { EditProfileDto } from './dto/edit-profile.dto';
 import { MarkerColor } from 'src/post/marker-color.enum';
+import { AuthAdminGuard } from './guard/admin-auth.guard';
+import { ADMIN_FLAG } from 'src/constants';
 
 @Controller('auth')
 export class AuthController {
@@ -91,5 +95,12 @@ export class AuthController {
     },
   ) {
     return this.authService.appleLogin(appleIdentity);
+  }
+
+  @Get()
+  @UseGuards(AuthGuard(), AuthAdminGuard)
+  @SetMetadata(ADMIN_FLAG, true)
+  getUsers(@Query('page') page: number) {
+    return this.authService.getUsers(page);
   }
 }

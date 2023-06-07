@@ -99,4 +99,6 @@ export declare class PostService {
         totalCount: any;
         results: any[];
     }>;
+    getUserPosts(page: number, userId: number): Promise<Post[]>;
+    getAllPosts(page: number): Promise<Post[]>;
 }

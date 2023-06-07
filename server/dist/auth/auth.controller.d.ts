@@ -85,4 +85,21 @@ export declare class AuthController {
         accessToken: string;
         refreshToken: string;
     }>;
+    getUsers(page: number): Promise<{
+        id: number;
+        loginType: "email" | "kakao" | "apple";
+        email: string;
+        nickname?: string;
+        imageUri?: string;
+        kakaoImageUri?: string;
+        createdAt: Date;
+        post: import("../post/post.entity").Post[];
+        favorite: import("../favorite/favorite.entity").Favorite[];
+        feedback: import("../feedback/feedback.entity").Feedback[];
+        RED: string;
+        YELLOW: string;
+        BLUE: string;
+        GREEN: string;
+        PURPLE: string;
+    }[]>;
 }
