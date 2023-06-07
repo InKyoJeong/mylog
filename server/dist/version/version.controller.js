@@ -26,6 +26,9 @@ let VersionController = class VersionController {
     getVersion() {
         return this.versionService.getVersion();
     }
+    createVersion(createVersionDto) {
+        return this.versionService.createVersion(createVersionDto);
+    }
     updateVersion(updateVersionDto) {
         return this.versionService.updateVersion(updateVersionDto);
     }
@@ -38,6 +41,15 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], VersionController.prototype, "getVersion", null);
+__decorate([
+    (0, common_1.Post)(),
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)(), admin_auth_guard_1.AuthAdminGuard),
+    (0, common_1.SetMetadata)(constants_1.ADMIN_FLAG, true),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [update_version_dto_1.UpdateVersionDto]),
+    __metadata("design:returntype", void 0)
+], VersionController.prototype, "createVersion", null);
 __decorate([
     (0, common_1.Patch)(),
     (0, common_1.UseGuards)((0, passport_1.AuthGuard)(), admin_auth_guard_1.AuthAdminGuard),

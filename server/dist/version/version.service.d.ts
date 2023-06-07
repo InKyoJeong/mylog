@@ -8,5 +8,6 @@ export declare class VersionService {
         versionIOS: string;
         versionAndroid: string;
     }>;
+    createVersion(createVersionDto: UpdateVersionDto): Promise<void>;
     updateVersion(updateVersionDto: UpdateVersionDto): Promise<void>;
 }

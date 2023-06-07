@@ -25,8 +25,13 @@ export class VersionService {
     }
   }
 
-  async updateVersion(updateVersionDto: UpdateVersionDto) {
-    const { versionIOS, versionAndroid } = updateVersionDto;
+  async createVersion(createVersionDto: UpdateVersionDto) {
+    const { versionIOS, versionAndroid } = createVersionDto;
+
+    const foundVersion = await this.versionRepository.find();
+    if (foundVersion.length > 0) {
+      return;
+    }
 
     const versions = this.versionRepository.create({
       versionIOS,
@@ -38,7 +43,24 @@ export class VersionService {
     } catch (error) {
       console.log(error);
       throw new InternalServerErrorException(
-        '버전을 변경하는 도중 에러가 발생했습니다.',
+        '버전을 생성하는 도중 에러가 발생했습니다.',
+      );
+    }
+  }
+
+  async updateVersion(updateVersionDto: UpdateVersionDto) {
+    const { versionIOS, versionAndroid } = updateVersionDto;
+
+    const versions = await this.versionRepository.findOneBy({ id: 1 });
+    versions.versionIOS = versionIOS;
+    versions.versionAndroid = versionAndroid;
+
+    try {
+      await this.versionRepository.save(versions);
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException(
+        '버전을 수정하는 도중 에러가 발생했습니다.',
       );
     }
   }

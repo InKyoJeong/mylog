@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Patch,
+  Post,
   SetMetadata,
   UseGuards,
 } from '@nestjs/common';
@@ -21,6 +22,13 @@ export class VersionController {
   @SetMetadata(ADMIN_FLAG, true)
   getVersion() {
     return this.versionService.getVersion();
+  }
+
+  @Post()
+  @UseGuards(AuthGuard(), AuthAdminGuard)
+  @SetMetadata(ADMIN_FLAG, true)
+  createVersion(@Body() createVersionDto: UpdateVersionDto) {
+    return this.versionService.createVersion(createVersionDto);
   }
 
   @Patch()

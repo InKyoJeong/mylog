@@ -7,5 +7,6 @@ export declare class VersionController {
         versionIOS: string;
         versionAndroid: string;
     }>;
+    createVersion(createVersionDto: UpdateVersionDto): Promise<void>;
     updateVersion(updateVersionDto: UpdateVersionDto): Promise<void>;
 }
