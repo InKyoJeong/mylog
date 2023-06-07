@@ -259,6 +259,19 @@ let AuthService = class AuthService {
             throw new common_1.InternalServerErrorException('Apple 로그인 도중 문제가 발생했습니다.');
         }
     }
+    async getUsers(page) {
+        const perPage = 30;
+        const offset = (page - 1) * perPage;
+        const users = await this.userRepository
+            .createQueryBuilder('user')
+            .take(perPage)
+            .skip(offset)
+            .getMany();
+        return users.map((user) => {
+            const { password, hashedRefreshToken, deletedAt, updatedAt } = user, rest = __rest(user, ["password", "hashedRefreshToken", "deletedAt", "updatedAt"]);
+            return rest;
+        });
+    }
 };
 AuthService = __decorate([
     (0, common_1.Injectable)(),

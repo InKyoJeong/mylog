@@ -20,6 +20,8 @@ const auth_service_1 = require("./auth.service");
 const user_entity_1 = require("./user.entity");
 const auth_credential_dto_1 = require("./dto/auth-credential.dto");
 const edit_profile_dto_1 = require("./dto/edit-profile.dto");
+const admin_auth_guard_1 = require("./guard/admin-auth.guard");
+const constants_1 = require("../constants");
 let AuthController = class AuthController {
     constructor(authService) {
         this.authService = authService;
@@ -53,6 +55,9 @@ let AuthController = class AuthController {
     }
     appleLogin(appleIdentity) {
         return this.authService.appleLogin(appleIdentity);
+    }
+    getUsers(page) {
+        return this.authService.getUsers(page);
     }
 };
 __decorate([
@@ -133,6 +138,15 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "appleLogin", null);
+__decorate([
+    (0, common_1.Get)(),
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)(), admin_auth_guard_1.AuthAdminGuard),
+    (0, common_1.SetMetadata)(constants_1.ADMIN_FLAG, true),
+    __param(0, (0, common_1.Query)('page')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", void 0)
+], AuthController.prototype, "getUsers", null);
 AuthController = __decorate([
     (0, common_1.Controller)('auth'),
     __metadata("design:paramtypes", [auth_service_1.AuthService])

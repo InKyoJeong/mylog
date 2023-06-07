@@ -8,6 +8,7 @@ import {
   Patch,
   Post,
   Query,
+  SetMetadata,
   UseGuards,
   UsePipes,
   ValidationPipe,
@@ -18,6 +19,8 @@ import { GetUser } from 'src/common/decorators/get-user.decorator';
 import { CreatePostDto } from './dto/create-post.dto';
 import { Post as PostEntity } from './post.entity';
 import { PostService } from './post.service';
+import { AuthAdminGuard } from 'src/auth/guard/admin-auth.guard';
+import { ADMIN_FLAG } from 'src/constants';
 
 @Controller()
 @UseGuards(AuthGuard())
@@ -94,5 +97,22 @@ export class PostController {
   @Get('/posts/colors/count')
   async getCountByColor(@GetUser() user: User) {
     return this.postService.getPostCountByField(user, 'color');
+  }
+
+  @Get('/posts/user/:id')
+  @UseGuards(AuthGuard(), AuthAdminGuard)
+  @SetMetadata(ADMIN_FLAG, true)
+  getUserPosts(
+    @Query('page') page: number,
+    @Param('id', ParseIntPipe) userId: number,
+  ) {
+    return this.postService.getUserPosts(page, userId);
+  }
+
+  @Get('/users/posts')
+  @UseGuards(AuthGuard(), AuthAdminGuard)
+  @SetMetadata(ADMIN_FLAG, true)
+  getAllPosts(@Query('page') page: number) {
+    return this.postService.getAllPosts(page);
   }
 }

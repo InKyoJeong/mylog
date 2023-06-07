@@ -249,7 +249,7 @@ export class PostService {
   }
 
   async getPostCountByField(user: User, field: string) {
-    const counts = this.postRepository
+    const counts = await this.postRepository
       .createQueryBuilder('post')
       .where('post.userId = :userId', { userId: user.id })
       .select(`post.${field}`, `${field}`)
@@ -265,5 +265,33 @@ export class PostService {
       });
 
     return counts;
+  }
+
+  async getUserPosts(page: number, userId: number) {
+    const perPage = 20;
+    const offset = (page - 1) * perPage;
+    const posts = await this.postRepository
+      .createQueryBuilder('post')
+      .leftJoinAndSelect('post.images', 'image')
+      .where('post.userId = :userId', { userId })
+      .orderBy('post.date', 'DESC')
+      .take(perPage)
+      .skip(offset)
+      .getMany();
+
+    return posts;
+  }
+
+  async getAllPosts(page: number) {
+    const perPage = 20;
+    const offset = (page - 1) * perPage;
+    const posts = await this.postRepository
+      .createQueryBuilder('post')
+      .leftJoinAndSelect('post.images', 'image')
+      .take(perPage)
+      .skip(offset)
+      .getMany();
+
+    return posts;
   }
 }

@@ -326,4 +326,20 @@ export class AuthService {
       );
     }
   }
+
+  async getUsers(page: number) {
+    const perPage = 30;
+    const offset = (page - 1) * perPage;
+    const users = await this.userRepository
+      .createQueryBuilder('user')
+      .take(perPage)
+      .skip(offset)
+      .getMany();
+
+    return users.map((user) => {
+      const { password, hashedRefreshToken, deletedAt, updatedAt, ...rest } =
+        user;
+      return rest;
+    });
+  }
 }
