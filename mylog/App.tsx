@@ -9,12 +9,6 @@ import Snackbar from '@/components/@common/Snackbar';
 import useThemeStorage from '@/hooks/useThemeStorage';
 import queryClient from '@/api/queryClient';
 
-if (__DEV__) {
-  import('react-query-native-devtools').then(({addPlugin}) => {
-    addPlugin({queryClient});
-  });
-}
-
 if (
   Platform.OS === 'android' &&
   UIManager.setLayoutAnimationEnabledExperimental
