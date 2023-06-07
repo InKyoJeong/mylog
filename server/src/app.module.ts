@@ -10,6 +10,7 @@ import { PostModule } from './post/post.module';
 import { FavoriteModule } from './favorite/favorite.module';
 import { FeedbackModule } from './feedback/feedback.module';
 import { LoggerMiddleware } from './middlewares/logger.middleware';
+import { VersionModule } from './version/version.module';
 
 @Module({
   imports: [
@@ -22,7 +23,7 @@ import { LoggerMiddleware } from './middlewares/logger.middleware';
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
       entities: [__dirname + '/**/*.entity.{js,ts}'],
-      synchronize: false,
+      synchronize: true,
     }),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'uploads'),
@@ -33,6 +34,7 @@ import { LoggerMiddleware } from './middlewares/logger.middleware';
     ImageModule,
     FavoriteModule,
     FeedbackModule,
+    VersionModule,
   ],
   providers: [ConfigService],
 })
