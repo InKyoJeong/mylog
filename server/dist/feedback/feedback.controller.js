@@ -25,8 +25,8 @@ let FeedbackController = class FeedbackController {
     constructor(feedbackService) {
         this.feedbackService = feedbackService;
     }
-    getFeedbacks() {
-        return this.feedbackService.getFeedbacks();
+    getFeedbacks(page) {
+        return this.feedbackService.getFeedbacks(page);
     }
     createFeedback(createFeedbackDto, user) {
         return this.feedbackService.createFeedback(createFeedbackDto, user);
@@ -36,8 +36,9 @@ __decorate([
     (0, common_1.Get)(),
     (0, common_1.UseGuards)((0, passport_1.AuthGuard)(), admin_auth_guard_1.AuthAdminGuard),
     (0, common_1.SetMetadata)(constants_1.ADMIN_FLAG, true),
+    __param(0, (0, common_1.Query)('page')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", void 0)
 ], FeedbackController.prototype, "getFeedbacks", null);
 __decorate([

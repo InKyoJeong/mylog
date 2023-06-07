@@ -21,8 +21,14 @@ let FeedbackService = class FeedbackService {
     constructor(feedbackRepository) {
         this.feedbackRepository = feedbackRepository;
     }
-    async getFeedbacks() {
-        return this.feedbackRepository.find();
+    async getFeedbacks(page) {
+        const perPage = 30;
+        const offset = (page - 1) * perPage;
+        return this.feedbackRepository
+            .createQueryBuilder('feedback')
+            .take(perPage)
+            .skip(offset)
+            .getMany();
     }
     async createFeedback(createFeedbackDto, user) {
         const { email, title, description } = createFeedbackDto;

@@ -4,6 +4,6 @@ import { CreateFeedbackDto } from './dto/create-feedback.dto';
 export declare class FeedbackController {
     private feedbackService;
     constructor(feedbackService: FeedbackService);
-    getFeedbacks(): Promise<import("./feedback.entity").Feedback[]>;
+    getFeedbacks(page: number): Promise<import("./feedback.entity").Feedback[]>;
     createFeedback(createFeedbackDto: CreateFeedbackDto, user: User): Promise<void>;
 }
