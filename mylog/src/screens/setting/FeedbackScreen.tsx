@@ -66,6 +66,7 @@ function FeedbackScreen({navigation}: FeedbackScreenProps) {
               error={addFeedback.errors.email}
               touched={addFeedback.touched.email}
               placeholder="이메일을 입력해주세요."
+              autoFocus
               maxLength={numbers.MAX_EMAIL_LENGTH}
               inputMode="email"
               returnKeyType="next"
