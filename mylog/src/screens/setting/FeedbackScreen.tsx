@@ -16,7 +16,7 @@ import useForm from '@/hooks/useForm';
 import useMutateFeedback from '@/hooks/queries/useMutateFeedback';
 import useAuth from '@/hooks/queries/useAuth';
 import useSnackbarStore from '@/store/useSnackbarStore';
-import {isValidEmailFormat, validateAddFeedback} from '@/utils';
+import {validateAddFeedback} from '@/utils';
 import {errorMessages, numbers, successMessages} from '@/constants';
 
 type FeedbackScreenProps = StackScreenProps<SettingStackParamList>;
@@ -27,10 +27,10 @@ function FeedbackScreen({navigation}: FeedbackScreenProps) {
   const snackbar = useSnackbarStore();
   const feedback = useMutateFeedback();
   const {getProfileQuery} = useAuth();
-  const {email} = getProfileQuery.data || {};
+  const {email, loginType} = getProfileQuery.data || {};
   const addFeedback = useForm({
     initialValue: {
-      email: email && isValidEmailFormat(email) ? email : '',
+      email: email && loginType === 'email' ? email : '',
       title: '',
       description: '',
     },
