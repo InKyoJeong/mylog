@@ -195,7 +195,7 @@ let AuthService = class AuthService {
             }
             const newUser = this.userRepository.create({
                 email: kakaoId,
-                password: '',
+                password: nickname !== null && nickname !== void 0 ? nickname : '',
                 nickname,
                 kakaoImageUri: imageUri,
                 loginType: 'kakao',

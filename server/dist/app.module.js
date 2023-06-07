@@ -18,6 +18,7 @@ const post_module_1 = require("./post/post.module");
 const favorite_module_1 = require("./favorite/favorite.module");
 const feedback_module_1 = require("./feedback/feedback.module");
 const logger_middleware_1 = require("./middlewares/logger.middleware");
+const version_module_1 = require("./version/version.module");
 let AppModule = class AppModule {
     configure(consumer) {
         consumer.apply(logger_middleware_1.LoggerMiddleware).forRoutes('*');
@@ -35,7 +36,7 @@ AppModule = __decorate([
                 password: process.env.DB_PASSWORD,
                 database: process.env.DB_DATABASE,
                 entities: [__dirname + '/**/*.entity.{js,ts}'],
-                synchronize: false,
+                synchronize: true,
             }),
             serve_static_1.ServeStaticModule.forRoot({
                 rootPath: (0, path_1.join)(__dirname, '..', 'uploads'),
@@ -46,6 +47,7 @@ AppModule = __decorate([
             image_module_1.ImageModule,
             favorite_module_1.FavoriteModule,
             feedback_module_1.FeedbackModule,
+            version_module_1.VersionModule,
         ],
         providers: [config_1.ConfigService],
     })
