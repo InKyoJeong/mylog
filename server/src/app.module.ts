@@ -10,6 +10,7 @@ import { PostModule } from './post/post.module';
 import { FavoriteModule } from './favorite/favorite.module';
 import { FeedbackModule } from './feedback/feedback.module';
 import { LoggerMiddleware } from './middlewares/logger.middleware';
+import { VersionModule } from './version/version.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { LoggerMiddleware } from './middlewares/logger.middleware';
     ImageModule,
     FavoriteModule,
     FeedbackModule,
+    VersionModule,
   ],
   providers: [ConfigService],
 })
