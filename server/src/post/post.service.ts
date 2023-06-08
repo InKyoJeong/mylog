@@ -255,14 +255,7 @@ export class PostService {
       .select(`post.${field}`, `${field}`)
       .addSelect('COUNT(post.id)', 'count')
       .groupBy(`post.${field}`)
-      .getRawMany()
-      .then((results) => {
-        const totalCount = results.reduce((acc, result) => {
-          return acc + parseInt(result.count);
-        }, 0);
-
-        return { totalCount, results };
-      });
+      .getRawMany();
 
     return counts;
   }

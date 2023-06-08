@@ -92,14 +92,8 @@ export declare class PostController {
         images: import("../image/image.entity").Image[];
     }>;
     getPostsByMonth(year: number, month: number, user: User): Promise<any>;
-    getCountByScore(user: User): Promise<{
-        totalCount: any;
-        results: any[];
-    }>;
-    getCountByColor(user: User): Promise<{
-        totalCount: any;
-        results: any[];
-    }>;
+    getCountByScore(user: User): Promise<any[]>;
+    getCountByColor(user: User): Promise<any[]>;
     getUserPosts(page: number, userId: number): Promise<PostEntity[]>;
     getAllPosts(page: number): Promise<PostEntity[]>;
 }
