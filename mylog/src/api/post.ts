@@ -87,17 +87,15 @@ const getCalendarPosts = async (
   return data;
 };
 
-type ResponseScoreCount = {score: number; count: number}[];
+type ResponseCount<T> = {field: T; count: number}[];
 
-const getScoreCount = async (): Promise<ResponseScoreCount> => {
+const getScoreCount = async (): Promise<ResponseCount<number>> => {
   const {data} = await axiosInstance.get('/posts/scores/count');
 
   return data;
 };
 
-type ResponseColorCount = {color: MarkerColor; count: number}[];
-
-const getColorCount = async (): Promise<ResponseColorCount> => {
+const getColorCount = async (): Promise<ResponseCount<MarkerColor>> => {
   const {data} = await axiosInstance.get('/posts/colors/count');
 
   return data;
@@ -123,6 +121,5 @@ export type {
   RequestUpdatePost,
   CalendarPost,
   ResponseCalendarPost,
-  ResponseScoreCount,
-  ResponseColorCount,
+  ResponseCount,
 };
