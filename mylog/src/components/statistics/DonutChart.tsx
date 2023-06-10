@@ -10,14 +10,15 @@ type DataItem = {
   id: number;
   count: number;
   color: string;
-  label: string;
+  field: string;
 };
 
 interface DonutChartProps {
   data: DataItem[];
+  title?: string;
 }
 
-function DonutChart({data}: DonutChartProps) {
+function DonutChart({data, title}: DonutChartProps) {
   const {theme} = useThemeStore();
   const styles = styling(theme);
 
@@ -48,6 +49,13 @@ function DonutChart({data}: DonutChartProps) {
 
   return (
     <View style={styles.container}>
+      {title && (
+        <View style={styles.titleContainer}>
+          <Text style={styles.titleText}>
+            {title} ({totalCount})
+          </Text>
+        </View>
+      )}
       <Svg width={200} height={200}>
         <G transform="rotate(-90 100 100)">{data.map(renderSlice)}</G>
         <Circle cx={100} cy={100} r={50} fill={colors[theme].WHITE} />
@@ -56,8 +64,11 @@ function DonutChart({data}: DonutChartProps) {
       <View style={styles.legendContainer}>
         {data.map(item => (
           <View key={item.id} style={styles.legendItem}>
-            <View style={[styles.labelColor, {backgroundColor: item.color}]} />
-            <Text style={styles.labelText}>{item.label}</Text>
+            <View style={[styles.fieldColor, {backgroundColor: item.color}]} />
+            <Text style={styles.fieldText}>
+              {item.field} ({Math.floor((item.count / totalCount) * 100)}%,{' '}
+              {item.count})
+            </Text>
           </View>
         ))}
       </View>
@@ -71,7 +82,20 @@ const styling = (theme: ThemeMode) =>
       alignItems: 'center',
       marginVertical: 20,
     },
+    titleContainer: {
+      marginBottom: 15,
+    },
+    titleText: {
+      color: colors[theme].BLACK,
+      fontWeight: '600',
+      fontSize: 15,
+    },
     legendContainer: {
+      marginVertical: 20,
+      marginHorizontal: 15,
+      display: 'flex',
+      gap: 5,
+      flexWrap: 'wrap',
       flexDirection: 'row',
       justifyContent: 'center',
     },
@@ -80,13 +104,13 @@ const styling = (theme: ThemeMode) =>
       alignItems: 'center',
       marginRight: 10,
     },
-    labelColor: {
+    fieldColor: {
       width: 10,
       height: 10,
       borderRadius: 5,
       marginRight: 5,
     },
-    labelText: {
+    fieldText: {
       color: colors[theme].BLACK,
     },
   });
