@@ -8,9 +8,13 @@ import type {Marker, MarkerColor, UseMutationCustomOptions} from '@/types';
 function incrementCount<T>(existingCounts: ResponseCount<T>, field: T) {
   const copyCounts = [...existingCounts];
   const findCount = copyCounts.findIndex(c => c.field === field);
-  copyCounts[findCount].count++;
 
-  return copyCounts;
+  if (findCount !== -1) {
+    copyCounts[findCount].count++;
+    return copyCounts;
+  }
+
+  return [...copyCounts, {field, count: 1}];
 }
 
 function useMutateCreatePost(mutationOptions?: UseMutationCustomOptions) {
