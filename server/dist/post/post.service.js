@@ -209,12 +209,10 @@ let PostService = class PostService {
             .addSelect('COUNT(post.id)', 'count')
             .groupBy(`post.${field}`)
             .getRawMany()
-            .then((results) => {
-            const totalCount = results.reduce((acc, result) => {
-                return acc + parseInt(result.count);
-            }, 0);
-            return { totalCount, results };
-        });
+            .then((result) => result.map((post) => ({
+            field: post[field],
+            count: Number(post.count),
+        })));
         return counts;
     }
     async getUserPosts(page, userId) {
@@ -236,6 +234,7 @@ let PostService = class PostService {
         const posts = await this.postRepository
             .createQueryBuilder('post')
             .leftJoinAndSelect('post.images', 'image')
+            .orderBy('post.date', 'DESC')
             .take(perPage)
             .skip(offset)
             .getMany();

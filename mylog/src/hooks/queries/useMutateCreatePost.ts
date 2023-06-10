@@ -1,9 +1,21 @@
 import {useMutation} from '@tanstack/react-query';
 
 import queryClient from '@/api/queryClient';
-import {ResponseCalendarPost, createPost} from '@/api';
+import {ResponseCalendarPost, ResponseCount, createPost} from '@/api';
 import {queryKeys} from '@/constants';
-import type {Marker, UseMutationCustomOptions} from '@/types';
+import type {Marker, MarkerColor, UseMutationCustomOptions} from '@/types';
+
+function incrementCount<T>(existingCounts: ResponseCount<T>, field: T) {
+  const copyCounts = [...existingCounts];
+  const findCount = copyCounts.findIndex(c => c.field === field);
+
+  if (findCount !== -1) {
+    copyCounts[findCount].count++;
+    return copyCounts;
+  }
+
+  return [...copyCounts, {field, count: 1}];
+}
 
 function useMutateCreatePost(mutationOptions?: UseMutationCustomOptions) {
   return useMutation(createPost, {
@@ -53,6 +65,26 @@ function useMutateCreatePost(mutationOptions?: UseMutationCustomOptions) {
               ? [...existingPosts[date], newCalendarPost]
               : [newCalendarPost],
           };
+        },
+      );
+      queryClient.setQueryData<ResponseCount<MarkerColor>>(
+        [queryKeys.POST, queryKeys.POST_COUNT, queryKeys.GET_COLOR_COUNT],
+        existingCounts => {
+          if (!existingCounts) {
+            return;
+          }
+
+          return incrementCount(existingCounts, newPost.color);
+        },
+      );
+      queryClient.setQueryData<ResponseCount<number>>(
+        [queryKeys.POST, queryKeys.POST_COUNT, queryKeys.GET_SCORE_COUNT],
+        existingCounts => {
+          if (!existingCounts) {
+            return;
+          }
+
+          return incrementCount(existingCounts, newPost.score);
         },
       );
     },

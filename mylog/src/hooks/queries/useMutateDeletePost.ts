@@ -9,6 +9,7 @@ function useMutateDeletePost(mutationOptions?: UseMutationCustomOptions) {
   return useMutation(deletePost, {
     onSuccess: deletedId => {
       queryClient.invalidateQueries([queryKeys.POST, queryKeys.GET_POSTS]);
+      queryClient.invalidateQueries([queryKeys.POST, queryKeys.POST_COUNT]);
       queryClient.invalidateQueries([
         queryKeys.POST,
         queryKeys.GET_SEARCH_POSTS,

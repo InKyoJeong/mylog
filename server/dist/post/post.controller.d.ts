@@ -93,13 +93,13 @@ export declare class PostController {
     }>;
     getPostsByMonth(year: number, month: number, user: User): Promise<any>;
     getCountByScore(user: User): Promise<{
-        totalCount: any;
-        results: any[];
-    }>;
+        field: any;
+        count: number;
+    }[]>;
     getCountByColor(user: User): Promise<{
-        totalCount: any;
-        results: any[];
-    }>;
+        field: any;
+        count: number;
+    }[]>;
     getUserPosts(page: number, userId: number): Promise<PostEntity[]>;
     getAllPosts(page: number): Promise<PostEntity[]>;
 }

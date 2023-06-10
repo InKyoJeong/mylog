@@ -96,9 +96,9 @@ export declare class PostService {
     }>;
     getPostsByMonth(year: number, month: number, user: User): Promise<any>;
     getPostCountByField(user: User, field: string): Promise<{
-        totalCount: any;
-        results: any[];
-    }>;
+        field: any;
+        count: number;
+    }[]>;
     getUserPosts(page: number, userId: number): Promise<Post[]>;
     getAllPosts(page: number): Promise<Post[]>;
 }

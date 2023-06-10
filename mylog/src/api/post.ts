@@ -1,5 +1,5 @@
 import axiosInstance from './axios';
-import {ImageUri, Post} from '@/types';
+import {ImageUri, MarkerColor, Post} from '@/types';
 
 type ResponsePost = Post & {images: ImageUri[]};
 
@@ -87,6 +87,20 @@ const getCalendarPosts = async (
   return data;
 };
 
+type ResponseCount<T> = {field: T; count: number}[];
+
+const getScoreCount = async (): Promise<ResponseCount<number>> => {
+  const {data} = await axiosInstance.get('/posts/scores/count');
+
+  return data;
+};
+
+const getColorCount = async (): Promise<ResponseCount<MarkerColor>> => {
+  const {data} = await axiosInstance.get('/posts/colors/count');
+
+  return data;
+};
+
 export {
   getPosts,
   getSearchPosts,
@@ -97,6 +111,8 @@ export {
   getFavoritePosts,
   updateFavoritePost,
   getCalendarPosts,
+  getScoreCount,
+  getColorCount,
 };
 export type {
   ResponsePost,
@@ -105,4 +121,5 @@ export type {
   RequestUpdatePost,
   CalendarPost,
   ResponseCalendarPost,
+  ResponseCount,
 };

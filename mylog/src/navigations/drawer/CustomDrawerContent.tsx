@@ -15,7 +15,7 @@ import {
   colors,
   mainNavigations,
   settingNavigations,
-  // statisticsNavigations,
+  statisticsNavigations,
 } from '@/constants';
 import type {ThemeMode} from '@/types';
 
@@ -25,11 +25,11 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
   const {getProfileQuery} = useAuth();
   const {email, nickname, imageUri, kakaoImageUri} = getProfileQuery.data || {};
 
-  // const handlePressStatistics = () => {
-  //   props.navigation.navigate(mainNavigations.STATISTICS, {
-  //     screen: statisticsNavigations.STATISTICS_HOME,
-  //   });
-  // };
+  const handlePressStatistics = () => {
+    props.navigation.navigate(mainNavigations.STATISTICS, {
+      screen: statisticsNavigations.STATISTICS_HOME,
+    });
+  };
 
   const handlePressSetting = () => {
     props.navigation.navigate(mainNavigations.SETTING, {
@@ -76,7 +76,7 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
       </DrawerContentScrollView>
 
       <View style={styles.bottomContainer}>
-        {/* <Pressable onPress={handlePressStatistics}>
+        <Pressable onPress={handlePressStatistics}>
           <View style={styles.bottomMenu}>
             <MaterialIcons
               name={'leaderboard'}
@@ -89,7 +89,7 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
             />
             <Text style={styles.bottomMenuText}>통계</Text>
           </View>
-        </Pressable> */}
+        </Pressable>
         <Pressable onPress={handlePressSetting}>
           <View style={styles.bottomMenu}>
             <MaterialIcons
