@@ -148,7 +148,7 @@ let AuthService = class AuthService {
         }
         catch (error) {
             console.log(error);
-            throw new common_1.BadRequestException('탈퇴할 수 없습니다. 남은 장소나 메모가 존재하는지 확인해주세요.');
+            throw new common_1.BadRequestException('탈퇴할 수 없습니다. 남은 데이터가 존재하는지 확인해주세요.');
         }
     }
     async updateCategory(categories, user) {
@@ -264,6 +264,7 @@ let AuthService = class AuthService {
         const offset = (page - 1) * perPage;
         const users = await this.userRepository
             .createQueryBuilder('user')
+            .orderBy('user.createdAt', 'DESC')
             .take(perPage)
             .skip(offset)
             .getMany();
