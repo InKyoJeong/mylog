@@ -17,6 +17,7 @@ const favorite_entity_1 = require("../favorite/favorite.entity");
 const post_entity_1 = require("../post/post.entity");
 const feedback_entity_1 = require("../feedback/feedback.entity");
 const marker_color_enum_1 = require("../post/marker-color.enum");
+const memo_entity_1 = require("../memo/memo.entity");
 let User = class User extends typeorm_1.BaseEntity {
 };
 _a = marker_color_enum_1.MarkerColor.RED, _b = marker_color_enum_1.MarkerColor.YELLOW, _c = marker_color_enum_1.MarkerColor.BLUE, _d = marker_color_enum_1.MarkerColor.GREEN, _e = marker_color_enum_1.MarkerColor.PURPLE;
@@ -97,6 +98,10 @@ __decorate([
     (0, typeorm_1.OneToMany)(() => feedback_entity_1.Feedback, (feedback) => feedback.user, { eager: false }),
     __metadata("design:type", Array)
 ], User.prototype, "feedback", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => memo_entity_1.Memo, (memo) => memo.user, { eager: false }),
+    __metadata("design:type", Array)
+], User.prototype, "memo", void 0);
 User = __decorate([
     (0, typeorm_1.Entity)(),
     (0, typeorm_1.Unique)(['email'])
