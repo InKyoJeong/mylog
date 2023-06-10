@@ -14,6 +14,7 @@ const queryKeys = {
   POST_COUNT: 'postCount',
   GET_COLOR_COUNT: 'getColorCount',
   GET_SCORE_COUNT: 'getScoreCount',
+  VERSION: 'version',
 } as const;
 
 const storageKeys = {
