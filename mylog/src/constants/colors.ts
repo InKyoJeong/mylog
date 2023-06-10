@@ -50,4 +50,12 @@ const colorHex = (theme: ThemeMode = 'light') => ({
   PINK: colors[theme].PINK_700,
 });
 
-export {colors, colorHex};
+const countColor: Record<number, string> = {
+  1: colors.light.GRAY_300,
+  2: colors.light.GRAY_500,
+  3: colors.dark.GRAY_300,
+  4: colors.dark.GRAY_200,
+  5: colors.dark.GRAY_100,
+} as const;
+
+export {colors, colorHex, countColor};

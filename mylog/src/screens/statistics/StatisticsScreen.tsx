@@ -1,16 +1,18 @@
-import React from 'react';
-import {SafeAreaView, ScrollView, StyleSheet, Text, View} from 'react-native';
+import React, {Suspense} from 'react';
+import {SafeAreaView, StyleSheet} from 'react-native';
 
-interface StatisticsScreenProps {}
+import RetryErrorBoundary from '@/components/@common/RetryErrorBoundary';
+import Indicator from '@/components/@common/Indicator';
+import DonutChartList from '@/components/statistics/DonutChartList';
 
-function StatisticsScreen({}: StatisticsScreenProps) {
+function StatisticsScreen() {
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
-        <View>
-          <Text>통계페이지</Text>
-        </View>
-      </ScrollView>
+      <RetryErrorBoundary>
+        <Suspense fallback={<Indicator />}>
+          <DonutChartList />
+        </Suspense>
+      </RetryErrorBoundary>
     </SafeAreaView>
   );
 }
@@ -18,6 +20,8 @@ function StatisticsScreen({}: StatisticsScreenProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 export default StatisticsScreen;
