@@ -14,11 +14,11 @@ import { VersionService } from './version.service';
 import { UpdateVersionDto } from './dto/update-version.dto';
 
 @Controller('version')
+@UseGuards(AuthGuard())
 export class VersionController {
   constructor(private versionService: VersionService) {}
 
   @Get()
-  @UseGuards(AuthGuard())
   getVersion() {
     return this.versionService.getVersion();
   }
