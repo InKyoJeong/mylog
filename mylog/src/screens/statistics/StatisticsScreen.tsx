@@ -7,13 +7,13 @@ import DonutChartList from '@/components/statistics/DonutChartList';
 
 function StatisticsScreen() {
   return (
-    <SafeAreaView style={styles.container}>
-      <RetryErrorBoundary>
-        <Suspense fallback={<Indicator />}>
+    <RetryErrorBoundary>
+      <Suspense fallback={<Indicator />}>
+        <SafeAreaView style={styles.container}>
           <DonutChartList />
-        </Suspense>
-      </RetryErrorBoundary>
-    </SafeAreaView>
+        </SafeAreaView>
+      </Suspense>
+    </RetryErrorBoundary>
   );
 }
 

@@ -9,6 +9,7 @@ import EditProfileHeaderRight from '@/components/setting/EditProfileHeaderRight'
 import InputField from '@/components/@common/InputField';
 import Conditional from '@/components/@common/Conditional';
 import EditProfileImageOption from '@/components/setting/EditProfileImageOption';
+import Indicator from '@/components/@common/Indicator';
 import useForm from '@/hooks/useForm';
 import useModal from '@/hooks/useModal';
 import useAuth from '@/hooks/queries/useAuth';
@@ -16,7 +17,13 @@ import useImagePicker from '@/hooks/useImagePicker';
 import useSnackbarStore from '@/store/useSnackbarStore';
 import useThemeStore from '@/store/useThemeStore';
 import {validateEditProfile} from '@/utils';
-import {colors, errorMessages, numbers, successMessages} from '@/constants';
+import {
+  colors,
+  errorMessages,
+  numbers,
+  settingNavigations,
+  successMessages,
+} from '@/constants';
 import type {ThemeMode} from '@/types';
 
 type EditProfileScreenProps = StackScreenProps<SettingStackParamList>;
@@ -76,6 +83,10 @@ function EditProfileScreen({navigation}: EditProfileScreenProps) {
     });
   }, [editProfile.hasErrors, handleSubmit, navigation]);
 
+  if (imagePicker.isUploading) {
+    return <Indicator size={'large'} />;
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.profileContainer}>
@@ -134,7 +145,7 @@ function EditProfileScreen({navigation}: EditProfileScreenProps) {
       />
 
       <Pressable
-        onPress={() => navigation.navigate('DeleteAccount')}
+        onPress={() => navigation.navigate(settingNavigations.DELETE_ACCOUNT)}
         style={styles.deleteAccountContainer}>
         <Ionicons
           name="ios-remove-circle-sharp"
