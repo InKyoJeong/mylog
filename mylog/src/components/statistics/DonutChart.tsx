@@ -22,7 +22,6 @@ interface DonutChartProps {
 function DonutChart({data, title}: DonutChartProps) {
   const {theme} = useThemeStore();
   const styles = styling(theme);
-
   const totalCount = data.reduce((acc, item) => acc + item.count, 0);
   let startAngle = 0;
 
@@ -69,10 +68,10 @@ function DonutChart({data, title}: DonutChartProps) {
       <Svg width={200} height={200}>
         <G transform="rotate(-90 100 100)">
           <Conditional condition={data.length === 1}>
-            <Circle cx={100} cy={100} r={100} fill={data[0].color} />
+            <Circle cx={100} cy={100} r={100} fill={data[0]?.color} />
           </Conditional>
 
-          <Conditional condition={data.length !== 1}>
+          <Conditional condition={data.length > 1}>
             {data.map(renderSlice)}
           </Conditional>
         </G>
