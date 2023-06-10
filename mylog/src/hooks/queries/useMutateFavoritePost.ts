@@ -9,6 +9,7 @@ function useMutateFavoritePost(mutationOptions?: UseMutationCustomOptions) {
   return useMutation(updateFavoritePost, {
     onSuccess: updatedId => {
       queryClient.invalidateQueries([
+        queryKeys.POST,
         queryKeys.FAVORITE,
         queryKeys.GET_FAVORITE_POSTS,
       ]);

@@ -15,6 +15,7 @@ function useMutateUpdatePost(mutationOptions?: UseMutationCustomOptions) {
         queryKeys.GET_SEARCH_POSTS,
       ]);
       queryClient.invalidateQueries([
+        queryKeys.POST,
         queryKeys.FAVORITE,
         queryKeys.GET_FAVORITE_POSTS,
       ]);
