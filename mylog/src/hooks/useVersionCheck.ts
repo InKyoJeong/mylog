@@ -36,7 +36,7 @@ function useVersionCheck() {
         : showUpdateAlert('IOS');
     }
     if (Platform.OS === 'android') {
-      version?.ios === numbers.CURRENT_VERSION.ANDROID
+      version?.android === numbers.CURRENT_VERSION.ANDROID
         ? Alert.alert(alerts.ALREADY_LATEST_VERSION.TITLE, '')
         : showUpdateAlert('ANDROID');
     }

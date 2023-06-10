@@ -48,7 +48,7 @@ function DeleteAccountScreen() {
       <AnimatedMessages
         messages={[
           '저장된 데이터를 모두 삭제해야 회원탈퇴가 가능해요.',
-          '저장된 장소나 메모가 남아있다면 삭제해주세요.',
+          '저장된 장소가 남아있다면 삭제해주세요.',
         ]}
       />
       <CustomButton
