@@ -11,6 +11,7 @@ function useGetVersion(
     [queryKeys.VERSION],
     () => getVersion(),
     {
+      suspense: false,
       useErrorBoundary: false,
       ...queryOptions,
     },

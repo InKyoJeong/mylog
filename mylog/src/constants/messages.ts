@@ -55,6 +55,13 @@ const alerts = {
     TITLE: '정말 탈퇴하시겠습니까?',
     DESCRIPTION: '회원 정보는 탈퇴 즉시 삭제되며, 복구되지 않습니다.',
   },
+  NOT_LATEST_VERSION: {
+    TITLE: '최신 버전이 존재합니다.',
+    DESCRIPTION: '새로운 기능을 위해 업데이트 해주세요.',
+  },
+  ALREADY_LATEST_VERSION: {
+    TITLE: '앱이 최신버전입니다.',
+  },
 } as const;
 
 export {errorMessages, successMessages, alerts};
