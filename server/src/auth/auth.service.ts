@@ -332,6 +332,7 @@ export class AuthService {
     const offset = (page - 1) * perPage;
     const users = await this.userRepository
       .createQueryBuilder('user')
+      .orderBy('user.createdAt', 'DESC')
       .take(perPage)
       .skip(offset)
       .getMany();

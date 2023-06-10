@@ -26,6 +26,7 @@ let FeedbackService = class FeedbackService {
         const offset = (page - 1) * perPage;
         return this.feedbackRepository
             .createQueryBuilder('feedback')
+            .orderBy('feedback.createdAt', 'DESC')
             .take(perPage)
             .skip(offset)
             .getMany();

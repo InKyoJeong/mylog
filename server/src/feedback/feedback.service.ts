@@ -18,6 +18,7 @@ export class FeedbackService {
 
     return this.feedbackRepository
       .createQueryBuilder('feedback')
+      .orderBy('feedback.createdAt', 'DESC')
       .take(perPage)
       .skip(offset)
       .getMany();

@@ -37,7 +37,7 @@ AppModule = __decorate([
                 password: process.env.DB_PASSWORD,
                 database: process.env.DB_DATABASE,
                 entities: [__dirname + '/**/*.entity.{js,ts}'],
-                synchronize: false,
+                synchronize: true,
             }),
             serve_static_1.ServeStaticModule.forRoot({
                 rootPath: (0, path_1.join)(__dirname, '..', 'uploads'),
