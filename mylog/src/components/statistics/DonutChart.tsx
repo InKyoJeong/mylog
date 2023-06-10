@@ -3,6 +3,7 @@ import {StyleSheet, Text, View} from 'react-native';
 import {Svg, Path, Circle, G} from 'react-native-svg';
 
 import useThemeStore from '@/store/useThemeStore';
+import Conditional from '../@common/Conditional';
 import {colors} from '@/constants';
 import type {ThemeMode} from '@/types';
 
@@ -56,8 +57,25 @@ function DonutChart({data, title}: DonutChartProps) {
           </Text>
         </View>
       )}
+
+      <Conditional condition={totalCount === 0}>
+        <View style={styles.emptyContainer}>
+          <Text style={styles.emptyText}>
+            아직 등록한 장소가 없어서 통계를 볼 수 없어요.
+          </Text>
+        </View>
+      </Conditional>
+
       <Svg width={200} height={200}>
-        <G transform="rotate(-90 100 100)">{data.map(renderSlice)}</G>
+        <G transform="rotate(-90 100 100)">
+          <Conditional condition={data.length === 1}>
+            <Circle cx={100} cy={100} r={100} fill={data[0].color} />
+          </Conditional>
+
+          <Conditional condition={data.length !== 1}>
+            {data.map(renderSlice)}
+          </Conditional>
+        </G>
         <Circle cx={100} cy={100} r={50} fill={colors[theme].WHITE} />
       </Svg>
 
@@ -89,6 +107,12 @@ const styling = (theme: ThemeMode) =>
       color: colors[theme].BLACK,
       fontWeight: '600',
       fontSize: 15,
+    },
+    emptyContainer: {
+      marginHorizontal: 20,
+    },
+    emptyText: {
+      color: colors[theme].BLACK,
     },
     legendContainer: {
       marginVertical: 20,

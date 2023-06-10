@@ -48,7 +48,7 @@ function FeedItemList() {
       indicatorStyle={theme === 'dark' ? 'white' : 'black'}
       ListEmptyComponent={
         <InfoMessage
-          message="아직 등록된 위치가 없어요."
+          message="아직 등록된 장소가 없어요."
           buttonLabel="홈으로 이동"
           onPress={() =>
             navigation.navigate(mainNavigations.HOME, {
