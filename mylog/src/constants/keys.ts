@@ -11,6 +11,7 @@ const queryKeys = {
   GET_SEARCH_POSTS: 'getSearchPosts',
   GET_FAVORITE_POSTS: 'getFavoritePosts',
   GET_CALENDAR_POSTS: 'getCalendarPosts',
+  POST_COUNT: 'postCount',
   GET_COLOR_COUNT: 'getColorCount',
   GET_SCORE_COUNT: 'getScoreCount',
 } as const;

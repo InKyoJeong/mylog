@@ -12,7 +12,11 @@ function useGetPostCount() {
   return useQueries({
     queries: [
       {
-        queryKey: [queryKeys.POST, queryKeys.GET_COLOR_COUNT],
+        queryKey: [
+          queryKeys.POST,
+          queryKeys.POST_COUNT,
+          queryKeys.GET_COLOR_COUNT,
+        ],
         queryFn: () => getColorCount(),
         select: (data: ResponseCount<MarkerColor>) =>
           data.map((countData, id) => ({
@@ -26,7 +30,11 @@ function useGetPostCount() {
         useErrorBoundary: true,
       },
       {
-        queryKey: [queryKeys.POST, queryKeys.GET_SCORE_COUNT],
+        queryKey: [
+          queryKeys.POST,
+          queryKeys.POST_COUNT,
+          queryKeys.GET_SCORE_COUNT,
+        ],
         queryFn: () => getScoreCount(),
         select: (data: ResponseCount<number>) =>
           data.map((countData, id) => ({
