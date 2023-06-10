@@ -44,7 +44,7 @@ function usePermission(type: PermissionType) {
       const permissionOS = isAndroid ? androidPermissions : iosPermissions;
       const checked = await check(permissionOS[type]);
 
-      const openPermissionAlert = () => {
+      const showPermissionAlert = () => {
         Alert.alert(
           alerts[`${type}_PERMISSION`].TITLE,
           alerts[`${type}_PERMISSION`].DESCRIPTION,
@@ -55,14 +55,14 @@ function usePermission(type: PermissionType) {
       switch (checked) {
         case RESULTS.DENIED:
           if (isAndroid) {
-            openPermissionAlert();
+            showPermissionAlert();
             return;
           }
           await request(permissionOS[type]);
           break;
         case RESULTS.LIMITED:
         case RESULTS.BLOCKED:
-          openPermissionAlert();
+          showPermissionAlert();
           break;
         default:
           break;

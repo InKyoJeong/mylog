@@ -1,5 +1,11 @@
 import React from 'react';
-import {StyleSheet, SafeAreaView, ScrollView, View} from 'react-native';
+import {
+  StyleSheet,
+  SafeAreaView,
+  ScrollView,
+  View,
+  Platform,
+} from 'react-native';
 import type {StackScreenProps} from '@react-navigation/stack';
 import Octicons from 'react-native-vector-icons/Octicons';
 
@@ -9,8 +15,9 @@ import SettingItem from '@/components/setting/SettingItem';
 import DarkModeOption from '@/components/setting/DarkModeOption';
 import useAuth from '@/hooks/queries/useAuth';
 import useModal from '@/hooks/useModal';
+import useVersionCheck from '@/hooks/useVersionCheck';
 import useThemeStore from '@/store/useThemeStore';
-import {colors, settingNavigations} from '@/constants';
+import {colors, numbers, settingNavigations} from '@/constants';
 
 type SettingHomeScreenProps = StackScreenProps<
   SettingStackParamList,
@@ -22,6 +29,7 @@ function SettingHomeScreen({navigation}: SettingHomeScreenProps) {
   const {logoutMutation} = useAuth();
   const mapLegendOption = useModal();
   const darkModeOption = useModal();
+  const {checkVersion} = useVersionCheck();
 
   const handlePressEditProfile = () => {
     navigation.navigate(settingNavigations.EDIT_PROFILE);
@@ -57,7 +65,14 @@ function SettingHomeScreen({navigation}: SettingHomeScreenProps) {
         <View style={styles.space} />
         <SettingItem title="FAQ" onPress={handlePressFAQ} />
         <SettingItem title="의견 보내기" onPress={handlePressFeedback} />
-        <SettingItem title="버전정보" subTitle="1.2.0" />
+        <SettingItem
+          title="버전정보"
+          subTitle={Platform.select({
+            ios: numbers.CURRENT_VERSION.IOS,
+            android: numbers.CURRENT_VERSION.ANDROID,
+          })}
+          onPress={checkVersion}
+        />
         <View style={styles.space} />
         <SettingItem
           title="로그아웃"

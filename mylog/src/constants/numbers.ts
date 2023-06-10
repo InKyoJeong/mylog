@@ -42,6 +42,10 @@ const numbers = {
   KEYBOARD_VERTICAL_OFFSET: {
     ANDROID: -1000,
   },
+  CURRENT_VERSION: {
+    IOS: '1.3.0',
+    ANDROID: '1.1.0',
+  },
 } as const;
 
 const zIndex = {
