@@ -27,6 +27,7 @@ export declare class AuthController {
         post: import("../post/post.entity").Post[];
         favorite: import("../favorite/favorite.entity").Favorite[];
         feedback: import("../feedback/feedback.entity").Feedback[];
+        memo: import("../memo/memo.entity").Memo[];
         RED: string;
         YELLOW: string;
         BLUE: string;
@@ -45,6 +46,7 @@ export declare class AuthController {
         post: import("../post/post.entity").Post[];
         favorite: import("../favorite/favorite.entity").Favorite[];
         feedback: import("../feedback/feedback.entity").Feedback[];
+        memo: import("../memo/memo.entity").Memo[];
         RED: string;
         YELLOW: string;
         BLUE: string;
@@ -65,6 +67,7 @@ export declare class AuthController {
         post: import("../post/post.entity").Post[];
         favorite: import("../favorite/favorite.entity").Favorite[];
         feedback: import("../feedback/feedback.entity").Feedback[];
+        memo: import("../memo/memo.entity").Memo[];
         RED: string;
         YELLOW: string;
         BLUE: string;
@@ -96,6 +99,7 @@ export declare class AuthController {
         post: import("../post/post.entity").Post[];
         favorite: import("../favorite/favorite.entity").Favorite[];
         feedback: import("../feedback/feedback.entity").Feedback[];
+        memo: import("../memo/memo.entity").Memo[];
         RED: string;
         YELLOW: string;
         BLUE: string;

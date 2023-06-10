@@ -6,13 +6,16 @@ import {
   Param,
   ParseIntPipe,
   Post,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { MemoService } from './memo.service';
 import { GetUser } from 'src/common/decorators/get-user.decorator';
 import { User } from 'src/auth/user.entity';
 import { CreateMemoDto } from './dto/create-memo.dto';
 
 @Controller('memos')
+@UseGuards(AuthGuard())
 export class MemoController {
   constructor(private memoService: MemoService) {}
 
