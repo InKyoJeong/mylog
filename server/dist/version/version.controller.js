@@ -35,7 +35,6 @@ let VersionController = class VersionController {
 };
 __decorate([
     (0, common_1.Get)(),
-    (0, common_1.UseGuards)((0, passport_1.AuthGuard)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
@@ -60,6 +59,7 @@ __decorate([
 ], VersionController.prototype, "updateVersion", null);
 VersionController = __decorate([
     (0, common_1.Controller)('version'),
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)()),
     __metadata("design:paramtypes", [version_service_1.VersionService])
 ], VersionController);
 exports.VersionController = VersionController;
