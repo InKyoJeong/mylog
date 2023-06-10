@@ -11,13 +11,13 @@ function useGetInfiniteFavoritePosts(
       ResponseError,
       ResponsePost[],
       ResponsePost[],
-      [string, string]
+      [string, string, string]
     >,
     'queryKey' | 'queryFn'
   >,
 ) {
   return useInfiniteQuery(
-    [queryKeys.FAVORITE, queryKeys.GET_FAVORITE_POSTS],
+    [queryKeys.POST, queryKeys.FAVORITE, queryKeys.GET_FAVORITE_POSTS],
     ({pageParam = 1}) => getFavoritePosts(pageParam),
     {
       getNextPageParam: (lastPage, allPages) => {
