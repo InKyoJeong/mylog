@@ -255,7 +255,13 @@ export class PostService {
       .select(`post.${field}`, `${field}`)
       .addSelect('COUNT(post.id)', 'count')
       .groupBy(`post.${field}`)
-      .getRawMany();
+      .getRawMany()
+      .then((result) =>
+        result.map((post) => ({
+          field: post[field],
+          count: Number(post.count),
+        })),
+      );
 
     return counts;
   }
@@ -281,6 +287,7 @@ export class PostService {
     const posts = await this.postRepository
       .createQueryBuilder('post')
       .leftJoinAndSelect('post.images', 'image')
+      .orderBy('post.date', 'DESC')
       .take(perPage)
       .skip(offset)
       .getMany();
