@@ -61,7 +61,7 @@ function DonutChart({data, title}: DonutChartProps) {
       <Conditional condition={totalCount === 0}>
         <View style={styles.emptyContainer}>
           <Text style={styles.emptyText}>
-            아직 등록한 장소가 없어서 통계를 볼 수 없어요.
+            데이터가 없어서 통계를 볼 수 없어요.
           </Text>
         </View>
       </Conditional>
