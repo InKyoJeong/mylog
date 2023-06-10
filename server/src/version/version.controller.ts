@@ -19,7 +19,6 @@ export class VersionController {
   constructor(private versionService: VersionService) {}
 
   @Get()
-  @UseGuards(AuthGuard())
   getVersion() {
     return this.versionService.getVersion();
   }
