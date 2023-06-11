@@ -14,4 +14,6 @@
 
 ## 📌 Tech Stack
 
+![tech](https://github-production-user-asset-6210df.s3.amazonaws.com/48676844/244947276-1578467c-7b0d-46c0-966a-13cad076c1db.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20230611%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20230611T151627Z&X-Amz-Expires=300&X-Amz-Signature=0183314bff1adff58ff8af01934aabd640338b3d059d016c30a373254514ff5f&X-Amz-SignedHeaders=host&actor_id=48676844&key_id=0&repo_id=607555602)
+
 ## 📌 Architecture
