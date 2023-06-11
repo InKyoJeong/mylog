@@ -24,7 +24,7 @@ import { MemoModule } from './memo/memo.module';
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
       entities: [__dirname + '/**/*.entity.{js,ts}'],
-      synchronize: true,
+      synchronize: false,
     }),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'uploads'),
