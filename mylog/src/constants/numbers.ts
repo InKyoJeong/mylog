@@ -44,7 +44,7 @@ const numbers = {
   },
   CURRENT_VERSION: {
     IOS: '1.3.0',
-    ANDROID: '1.2.0',
+    ANDROID: '1.3.0',
   },
 } as const;
 
