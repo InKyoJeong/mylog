@@ -1,7 +1,7 @@
 ![mylog](https://github.com/InKyoJeong/TIL/assets/48676844/775106fb-c9e7-4514-9722-89df7414dd1f)
 
 <p align="center">
-  <img src="https://img.shields.io/badge/release-v1.3.0-pink?style=flat" /> 
+  <img src="https://img.shields.io/badge/release-v1.3.0-%23C63B64?style=flat" /> 
 </p>
 
 ## 📌 Deploy
