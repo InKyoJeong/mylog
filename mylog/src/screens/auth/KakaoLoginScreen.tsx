@@ -1,6 +1,10 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {SafeAreaView, StyleSheet} from 'react-native';
-import {WebView, WebViewMessageEvent} from 'react-native-webview';
+import {
+  WebView,
+  WebViewMessageEvent,
+  WebViewNavigation,
+} from 'react-native-webview';
 import Config from 'react-native-config';
 import axios from 'axios';
 
@@ -10,6 +14,7 @@ const REDIRECT_URI = `${Config.BASE_URL}/auth/oauth/kakao`;
 const INJECTED_JAVASCRIPT = "window.ReactNativeWebView.postMessage('')";
 
 function KakaoLoginScreen() {
+  const [loading, setLoading] = useState(true);
   const {kakaoLoginMutation} = useAuth();
 
   const handleOnMessage = (event: WebViewMessageEvent) => {
@@ -35,15 +40,23 @@ function KakaoLoginScreen() {
     kakaoLoginMutation.mutate(response.data.access_token);
   };
 
+  const handleNavigationStateChange = (event: WebViewNavigation) => {
+    setLoading(event.loading);
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <WebView
-        style={styles.container}
+        style={[
+          styles.container,
+          loading ? styles.navigationLoading : styles.navigation,
+        ]}
         source={{
           uri: `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${Config.KAKAO_REST_API_KEY}&redirect_uri=${REDIRECT_URI}`,
         }}
         onMessage={handleOnMessage}
         injectedJavaScript={INJECTED_JAVASCRIPT}
+        onNavigationStateChange={handleNavigationStateChange}
         javaScriptEnabled
       />
     </SafeAreaView>
@@ -53,6 +66,12 @@ function KakaoLoginScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  navigationLoading: {
+    opacity: 1,
+  },
+  navigation: {
+    opacity: 0,
   },
 });
 

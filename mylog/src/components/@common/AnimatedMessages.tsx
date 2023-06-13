@@ -54,6 +54,7 @@ const styling = (theme: ThemeMode) =>
       color: colors[theme].PINK_700,
       fontSize: 15,
       fontWeight: '600',
+      textAlign: 'center',
     },
   });
 
