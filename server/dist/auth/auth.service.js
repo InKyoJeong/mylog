@@ -172,6 +172,7 @@ let AuthService = class AuthService {
         return Object.assign({}, rest);
     }
     async kakaoLogin(kakaoToken) {
+        var _a;
         const url = 'https://kapi.kakao.com/v2/user/me';
         const headers = {
             Authorization: `Bearer ${kakaoToken.token}`,
@@ -182,7 +183,7 @@ let AuthService = class AuthService {
             const userData = response.data;
             const { id: kakaoId, kakao_account } = userData;
             const nickname = kakao_account.profile.nickname;
-            const imageUri = kakao_account.profile.thumbnail_image_url.replace(/^http:/, 'https:');
+            const imageUri = (_a = kakao_account.profile.thumbnail_image_url) === null || _a === void 0 ? void 0 : _a.replace(/^http:/, 'https:');
             const existingUser = await this.userRepository.findOneBy({
                 email: kakaoId,
             });
@@ -197,7 +198,7 @@ let AuthService = class AuthService {
                 email: kakaoId,
                 password: nickname !== null && nickname !== void 0 ? nickname : '',
                 nickname,
-                kakaoImageUri: imageUri,
+                kakaoImageUri: imageUri !== null && imageUri !== void 0 ? imageUri : null,
                 loginType: 'kakao',
             });
             try {
