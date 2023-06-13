@@ -225,7 +225,7 @@ export class AuthService {
       const userData = response.data;
       const { id: kakaoId, kakao_account } = userData;
       const nickname = kakao_account.profile.nickname;
-      const imageUri = kakao_account.profile.thumbnail_image_url.replace(
+      const imageUri = kakao_account.profile.thumbnail_image_url?.replace(
         /^http:/,
         'https:',
       );
@@ -247,7 +247,7 @@ export class AuthService {
         email: kakaoId,
         password: nickname ?? '',
         nickname,
-        kakaoImageUri: imageUri,
+        kakaoImageUri: imageUri ?? null,
         loginType: 'kakao',
       });
 
