@@ -23,9 +23,6 @@ function SyncProgressView({syncProgress}: SyncProgressViewProps) {
     }
   }, [syncProgress]);
 
-  const progress =
-    (syncProgress.receivedBytes / syncProgress.totalBytes) * progressWidth;
-
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.column}>
@@ -35,7 +32,16 @@ function SyncProgressView({syncProgress}: SyncProgressViewProps) {
         <Text style={styles.text}>재시작까지 잠시만 기다려주세요.</Text>
 
         <View style={{width: progressWidth}}>
-          <View style={[styles.progressBar, {width: progress}]} />
+          <View
+            style={[
+              styles.progressBar,
+              {
+                width:
+                  (syncProgress.receivedBytes / syncProgress.totalBytes) *
+                  progressWidth,
+              },
+            ]}
+          />
         </View>
 
         <Text style={styles.percentText}>

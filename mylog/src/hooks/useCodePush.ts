@@ -24,7 +24,8 @@ function useCodePush() {
 
         setHasUpdate(false);
         return;
-      } catch {
+      } catch (err) {
+        console.log('err', err);
         setHasUpdate(false);
       }
     };
