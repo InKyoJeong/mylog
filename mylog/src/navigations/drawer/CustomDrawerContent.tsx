@@ -7,6 +7,7 @@ import {
 } from '@react-navigation/drawer';
 import FastImage from 'react-native-fast-image';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import Conditional from '@/components/@common/Conditional';
 import useAuth from '@/hooks/queries/useAuth';
@@ -78,8 +79,8 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
       <View style={styles.bottomContainer}>
         <Pressable onPress={handlePressStatistics}>
           <View style={styles.bottomMenu}>
-            <MaterialIcons
-              name={'leaderboard'}
+            <Ionicons
+              name={'pie-chart'}
               color={
                 theme === 'light'
                   ? colors[theme].GRAY_700
