@@ -1,21 +1,34 @@
+import axios from 'axios';
 import React, {useState} from 'react';
-import {SafeAreaView, StyleSheet} from 'react-native';
+import {
+  ActivityIndicator,
+  Dimensions,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import {
   WebView,
   WebViewMessageEvent,
   WebViewNavigation,
 } from 'react-native-webview';
 import Config from 'react-native-config';
-import axios from 'axios';
 
 import useAuth from '@/hooks/queries/useAuth';
+import useThemeStore from '@/store/useThemeStore';
+import {colors} from '@/constants';
+import type {ThemeMode} from '@/types';
 
 const REDIRECT_URI = `${Config.BASE_URL}/auth/oauth/kakao`;
 const INJECTED_JAVASCRIPT = "window.ReactNativeWebView.postMessage('')";
 
 function KakaoLoginScreen() {
-  const [loading, setLoading] = useState(true);
+  const {theme} = useThemeStore();
+  const styles = styling(theme);
   const {kakaoLoginMutation} = useAuth();
+  const [isChangeNavigate, setIsChangeNavigate] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleOnMessage = (event: WebViewMessageEvent) => {
     if (event.nativeEvent.url.includes(`${REDIRECT_URI}?code=`)) {
@@ -41,38 +54,48 @@ function KakaoLoginScreen() {
   };
 
   const handleNavigationStateChange = (event: WebViewNavigation) => {
-    setLoading(event.loading);
+    const isMatched = event.url.includes(`${REDIRECT_URI}?code=`);
+    setIsLoading(isMatched);
+    setIsChangeNavigate(event.loading);
   };
 
   return (
     <SafeAreaView style={styles.container}>
+      {(isChangeNavigate || isLoading) && (
+        <View style={styles.kakaoLoadingContiner}>
+          <ActivityIndicator size={'large'} color={colors[theme].BLACK} />
+          <Text style={styles.kakaoLoadingText}>로딩중...</Text>
+        </View>
+      )}
       <WebView
-        style={[
-          styles.container,
-          loading ? styles.navigationLoading : styles.navigation,
-        ]}
+        style={styles.container}
         source={{
           uri: `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${Config.KAKAO_REST_API_KEY}&redirect_uri=${REDIRECT_URI}`,
         }}
         onMessage={handleOnMessage}
         injectedJavaScript={INJECTED_JAVASCRIPT}
-        onNavigationStateChange={handleNavigationStateChange}
         javaScriptEnabled
+        onNavigationStateChange={handleNavigationStateChange}
       />
     </SafeAreaView>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  navigationLoading: {
-    opacity: 1,
-  },
-  navigation: {
-    opacity: 0,
-  },
-});
+const styling = (theme: ThemeMode) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+    },
+    kakaoLoadingContiner: {
+      backgroundColor: colors[theme].WHITE,
+      height: Dimensions.get('window').height,
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: 10,
+    },
+    kakaoLoadingText: {
+      color: colors[theme].BLACK,
+    },
+  });
 
 export default KakaoLoginScreen;
