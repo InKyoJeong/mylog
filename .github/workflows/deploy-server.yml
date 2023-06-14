@@ -7,10 +7,6 @@ on:
     paths:
       - "server/**"
 
-defaults:
-  run:
-    working-directory: server
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -28,18 +24,20 @@ jobs:
           script: |
             whoami
 
-      - name: Clone repository
+      - name: Pull Repository
         run: |
-          sudo su
           pwd
           ls -al
-          cd /home/runner/work/mylog
+          cd
+          cd mylog
+          pwd
           ls -al
           sudo git pull origin main
 
       - name: Install dependencies
         run: |
           cd server
+          sudo su
           sudo npm i
 
       - name: Check and kill existing processes
