@@ -33,7 +33,7 @@ jobs:
           sudo su
           pwd
           ls -al
-          cd mylog
+          cd /home/runner/work/mylog
           ls -al
           sudo git pull origin main
 

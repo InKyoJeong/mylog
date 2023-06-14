@@ -7,7 +7,7 @@ async function bootstrap() {
   const port = process.env.PORT || 3030;
 
   app.use('/', (_, res) => {
-    res.send('ok');
+    res.send('server ok');
   });
 
   if (process.env.NODE_ENV === 'production') {
