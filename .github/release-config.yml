@@ -1,0 +1,31 @@
+name-template: "v$RESOLVED_VERSION"
+tag-template: "v$RESOLVED_VERSION"
+categories:
+  - title: "🚀 Features"
+    labels:
+      - "feat"
+  - title: "🐛 Bug Fixes"
+    labels:
+      - "fix"
+  - title: "🌟 Performance"
+    labels:
+      - "perf"
+change-template: "- $TITLE (#$NUMBER)"
+change-title-escapes: '\<*_&'
+version-resolver:
+  major:
+    labels:
+      - "major"
+  minor:
+    labels:
+      - "minor"
+  patch:
+    labels:
+      - "patch"
+  default: patch
+template: |
+  $CHANGES
+
+  <br>
+
+  $CONTRIBUTORS

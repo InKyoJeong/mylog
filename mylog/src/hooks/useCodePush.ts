@@ -15,9 +15,9 @@ function useCodePush() {
           update
             .download((progress: DownloadProgress) => setSyncProgress(progress))
             .then((newPackage: LocalPackage) =>
-              newPackage.install(CodePush.InstallMode.IMMEDIATE).then(() => {
-                CodePush.restartApp();
-              }),
+              newPackage
+                .install(CodePush.InstallMode.IMMEDIATE)
+                .then(() => CodePush.restartApp()),
             );
           return;
         }

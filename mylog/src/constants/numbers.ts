@@ -43,8 +43,8 @@ const numbers = {
     ANDROID: -1000,
   },
   CURRENT_VERSION: {
-    IOS: '1.3.0',
-    ANDROID: '1.3.0',
+    IOS: '1.4.0',
+    ANDROID: '1.4.0',
   },
 } as const;
 

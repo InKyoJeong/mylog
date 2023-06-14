@@ -1,8 +1,8 @@
 #import "AppDelegate.h"
 
+#import <CodePush/CodePush.h>
 #import <GoogleMaps/GoogleMaps.h>
 #import <React/RCTBundleURLProvider.h>
-#import <CodePush/CodePush.h>
 #import <AppCenterReactNative.h>
 #import <AppCenterReactNativeAnalytics.h>
 #import <AppCenterReactNativeCrashes.h>
