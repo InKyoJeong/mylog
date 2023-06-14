@@ -27,11 +27,14 @@ jobs:
           key: ${{ secrets.EC2_PRIVATE_KEY }}
           script: |
             whoami
-            ls -al
 
       - name: Clone repository
         run: |
+          sudo su
+          pwd
+          ls -al
           cd mylog
+          ls -al
           sudo git pull origin main
 
       - name: Install dependencies
