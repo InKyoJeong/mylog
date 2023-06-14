@@ -7,7 +7,7 @@ categories:
   - title: "🐛 Bug Fixes"
     labels:
       - "fix"
-  - title: "🪃 Performance"
+  - title: "🌟 Performance"
     labels:
       - "perf"
 change-template: "- $TITLE (#$NUMBER)"
