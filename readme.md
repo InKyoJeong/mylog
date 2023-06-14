@@ -12,7 +12,7 @@
 
 ## 📌 Tech Stack
 
-![tech](https://github-production-user-asset-6210df.s3.amazonaws.com/48676844/245780151-931fd1cc-520b-411a-a725-ec025d73d73c.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20230614%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20230614T114523Z&X-Amz-Expires=300&X-Amz-Signature=a705e62fe892d592e6b867398f9ba8a0a00cac977eb9394f81afdc2d1902129c&X-Amz-SignedHeaders=host&actor_id=48676844&key_id=0&repo_id=607555602)
+![tech](https://github-production-user-asset-6210df.s3.amazonaws.com/48676844/245781951-456765cb-0759-4256-b3f4-3f87cec52fae.png)
 
 ## 📌 Architecture
 
