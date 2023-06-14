@@ -12,7 +12,7 @@
 
 ## 📌 Tech Stack
 
-![tech](https://github-production-user-asset-6210df.s3.amazonaws.com/48676844/245781951-456765cb-0759-4256-b3f4-3f87cec52fae.png)
+![tech](https://github-production-user-asset-6210df.s3.amazonaws.com/48676844/245821780-4f80ec57-5a19-4e8e-90ba-41fc36c22092.png)
 
 ## 📌 Architecture
 
