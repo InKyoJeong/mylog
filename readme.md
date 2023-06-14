@@ -16,4 +16,5 @@
 
 ## 📌 Architecture
 
-![server](https://github-production-user-asset-6210df.s3.amazonaws.com/48676844/244952924-d7e600f6-3559-4d73-a2f2-c99eb39615ba.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20230611%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20230611T164536Z&X-Amz-Expires=300&X-Amz-Signature=322f7bd99bdf41bbad13daf7959316d56b154abec872981502672ea9e32e4146&X-Amz-SignedHeaders=host&actor_id=48676844&key_id=0&repo_id=607555602)
+![app](https://github-production-user-asset-6210df.s3.amazonaws.com/48676844/245841044-21360ba7-79b5-4d98-9679-6251350d570b.png)
+![server](https://github-production-user-asset-6210df.s3.amazonaws.com/48676844/245840919-8573fdf1-484e-4919-afab-02104bc33249.png)
