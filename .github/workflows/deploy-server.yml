@@ -26,10 +26,7 @@ jobs:
 
       - name: Pull Repository
         run: |
-          pwd
-          ls -al
-          cd
-          cd mylog
+          cd /home/runner/work/mylog
           pwd
           ls -al
           sudo git pull origin main
