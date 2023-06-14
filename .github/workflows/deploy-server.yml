@@ -37,20 +37,6 @@ jobs:
           sudo su
           sudo npm i
 
-      - name: Check and kill existing processes
+      - name: Check existing processes
         run: |
           sudo lsof -i :80
-          sudo kill -9 $(sudo lsof -t -i :80)
-          sudo npx pm2 kill
-          sudo npx pm2 list
-
-      - name: Start the application
-        run: |
-          sudo npm run start:prod
-
-      - name: Start Nginx
-        run: |
-          sudo service nginx start
-          sudo systemctl start nginx
-          sudo /etc/init.d/nginx start
-          sudo npx pm2 list
