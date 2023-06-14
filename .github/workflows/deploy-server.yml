@@ -39,12 +39,12 @@ jobs:
 
       - name: kill existing processes
         run: |
-          sudo kill -9 $(sudo lsof -t -i :80)
+          sudo kill -9 $(sudo lsof -t -i:80)
 
       - name: Kill pm2
         run: |
-          sudo npx pm2 kill
           sudo npx pm2 list
+          sudo npx pm2 kill
 
       - name: Start the application
         run: |
