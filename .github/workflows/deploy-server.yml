@@ -37,7 +37,6 @@ jobs:
 
       - name: Start the application
         run: |
-          cd mylog/server
           sudo npm run start:prod
 
       - name: Start Nginx
