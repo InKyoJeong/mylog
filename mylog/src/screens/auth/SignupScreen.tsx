@@ -1,49 +1,66 @@
 import React, {useRef} from 'react';
-import {SafeAreaView, StyleSheet, TextInput, View} from 'react-native';
+import {
+  SafeAreaView,
+  StyleSheet,
+  TextInput,
+  View,
+  ScrollView,
+} from 'react-native';
 
-import CustomButton from '@/components/common/CustomButton';
-import InputField from '@/components/common/InputField';
-import KeyboardPersistView from '@/components/keyboard/KeyboardPersistView';
-import CustomKeyboardAvoidingView from '@/components/keyboard/CustomKeyboardAvoidingView';
-import useForm from '@/hooks/common/useForm';
+import CustomButton from '@/components/@common/CustomButton';
+import InputField from '@/components/@common/InputField';
+import CustomKeyboardAvoidingView from '@/components/@common/CustomKeyboardAvoidingView';
+import useForm from '@/hooks/useForm';
 import useAuth from '@/hooks/queries/useAuth';
-import {validateSignup} from '@/utils/validate';
+import useSnackbarStore from '@/store/useSnackbarStore';
+import {validateSignup} from '@/utils';
+import {errorMessages, numbers} from '@/constants';
 
 function SignupScreen() {
   const {signupMutation, loginMutation} = useAuth();
+  const passwordRef = useRef<TextInput | null>(null);
+  const passwordConfirmRef = useRef<TextInput | null>(null);
+  const snackbar = useSnackbarStore();
   const signup = useForm({
-    initialValue: {username: '', password: '', passwordConfirm: ''},
+    initialValue: {email: '', password: '', passwordConfirm: ''},
     validate: validateSignup,
   });
 
-  const passwordRef = useRef<TextInput | null>(null);
-  const passwordConfirmRef = useRef<TextInput | null>(null);
-
   const handleSubmit = () => {
-    const {username, password} = signup.values;
+    if (signup.hasErrors) {
+      return;
+    }
+
+    const {email, password} = signup.values;
     signupMutation.mutate(
-      {username, password},
+      {email, password},
       {
         onSuccess: () => {
-          loginMutation.mutate({username, password});
+          loginMutation.mutate({email, password});
         },
         onError: error =>
-          console.log('error.response?.data', error.response?.data),
+          snackbar.show(
+            error.response?.data.message || errorMessages.UNEXPECT_ERROR,
+          ),
       },
     );
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <KeyboardPersistView>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="always"
+        keyboardDismissMode="on-drag"
+        scrollIndicatorInsets={{right: 1}}>
         <CustomKeyboardAvoidingView>
           <View style={styles.inputContainer}>
             <InputField
-              {...signup.getTextInputProps('username')}
-              error={signup.errors.username}
-              touched={signup.touched.username}
-              placeholder="아이디"
-              maxLength={20}
+              {...signup.getTextInputProps('email')}
+              error={signup.errors.email}
+              touched={signup.touched.email}
+              placeholder="이메일"
+              maxLength={numbers.MAX_EMAIL_LENGTH}
               autoFocus
               inputMode="email"
               returnKeyType="next"
@@ -58,10 +75,11 @@ function SignupScreen() {
               touched={signup.touched.password}
               ref={passwordRef}
               placeholder="비밀번호"
-              textContentType="newPassword"
-              maxLength={20}
+              textContentType="oneTimeCode"
+              maxLength={numbers.MAX_PASSWORD_LENGTH}
               secureTextEntry
               returnKeyType="next"
+              blurOnSubmit={false}
               onSubmitEditing={() => {
                 passwordConfirmRef.current?.focus();
               }}
@@ -72,7 +90,7 @@ function SignupScreen() {
               touched={signup.touched.passwordConfirm}
               ref={passwordConfirmRef}
               placeholder="비밀번호 확인"
-              maxLength={20}
+              maxLength={numbers.MAX_PASSWORD_LENGTH}
               secureTextEntry
               returnKeyType="join"
               onSubmitEditing={handleSubmit}
@@ -82,11 +100,11 @@ function SignupScreen() {
             label="회원가입"
             variant="filled"
             size="large"
-            isValid={!signup.hasErrors}
+            hasError={signup.hasErrors}
             onPress={handleSubmit}
           />
         </CustomKeyboardAvoidingView>
-      </KeyboardPersistView>
+      </ScrollView>
     </SafeAreaView>
   );
 }

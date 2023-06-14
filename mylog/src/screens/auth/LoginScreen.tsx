@@ -1,45 +1,59 @@
 import React, {useRef} from 'react';
-import {View, TextInput, SafeAreaView, StyleSheet} from 'react-native';
+import {
+  View,
+  TextInput,
+  SafeAreaView,
+  StyleSheet,
+  ScrollView,
+} from 'react-native';
 
-import InputField from '@/components/common/InputField';
-import CustomButton from '@/components/common/CustomButton';
-import KeyboardPersistView from '@/components/keyboard/KeyboardPersistView';
-import CustomKeyboardAvoidingView from '@/components/keyboard/CustomKeyboardAvoidingView';
-import useForm from '@/hooks/common/useForm';
+import InputField from '@/components/@common/InputField';
+import CustomButton from '@/components/@common/CustomButton';
+import CustomKeyboardAvoidingView from '@/components/@common/CustomKeyboardAvoidingView';
+import useForm from '@/hooks/useForm';
 import useAuth from '@/hooks/queries/useAuth';
-import {validateLogin} from '@/utils/validate';
+import useSnackbarStore from '@/store/useSnackbarStore';
+import {validateLogin} from '@/utils';
+import {errorMessages, numbers} from '@/constants';
 
 function LoginScreen() {
   const {loginMutation} = useAuth();
+  const passwordRef = useRef<TextInput | null>(null);
+  const snackbar = useSnackbarStore();
   const login = useForm({
-    initialValue: {username: '', password: ''},
+    initialValue: {email: '', password: ''},
     validate: validateLogin,
   });
 
-  const passwordRef = useRef<TextInput | null>(null);
-
   const handleSubmit = () => {
+    if (login.hasErrors) {
+      return;
+    }
+
     loginMutation.mutate(login.values, {
-      onSuccess: () => {
-        console.log('로그인 완료');
-      },
       onError: error =>
-        console.log('error.response?.data', error.response?.data),
+        snackbar.show(
+          error.response?.data.message || errorMessages.UNEXPECT_ERROR,
+        ),
     });
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <KeyboardPersistView>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="always"
+        keyboardDismissMode="on-drag"
+        scrollIndicatorInsets={{right: 1}}>
         <CustomKeyboardAvoidingView>
           <View style={styles.inputContainer}>
             <InputField
               autoFocus
-              {...login.getTextInputProps('username')}
-              error={login.errors.username}
-              touched={login.touched.username}
-              placeholder="아이디"
-              maxLength={20}
+              {...login.getTextInputProps('email')}
+              error={login.errors.email}
+              touched={login.touched.email}
+              placeholder="이메일"
+              maxLength={numbers.MAX_EMAIL_LENGTH}
               inputMode="email"
               returnKeyType="next"
               blurOnSubmit={false}
@@ -53,7 +67,7 @@ function LoginScreen() {
               touched={login.touched.password}
               ref={passwordRef}
               placeholder="비밀번호"
-              maxLength={20}
+              maxLength={numbers.MAX_PASSWORD_LENGTH}
               returnKeyType="join"
               secureTextEntry
               onSubmitEditing={handleSubmit}
@@ -63,11 +77,11 @@ function LoginScreen() {
             label="로그인"
             variant="filled"
             size="large"
-            isValid={!login.hasErrors}
+            hasError={login.hasErrors}
             onPress={handleSubmit}
           />
         </CustomKeyboardAvoidingView>
-      </KeyboardPersistView>
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -75,8 +89,7 @@ function LoginScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginHorizontal: 30,
-    marginVertical: 30,
+    margin: 30,
   },
   inputContainer: {
     gap: 30,

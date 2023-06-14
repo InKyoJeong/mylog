@@ -1,29 +1,26 @@
-import {getObjectWithValue} from '.';
-import {errorMessages} from '@/constants/messages';
-import {numbers} from '@/constants/numbers';
+import {getObjectWithValue} from './common';
+import {numbers, errorMessages} from '@/constants';
+import type {RequestUser, RequestFeedback, RequestCreatePost} from '@/api';
+import type {Category, MarkerColor} from '@/types';
 
-type LoginInfo = {
-  username: string;
-  password: string;
-};
+function isBlank(value: string) {
+  return value.trim() === '';
+}
 
-type SignupInfo = LoginInfo & {
-  passwordConfirm: string;
-};
+function hasBlankString(value: string) {
+  return value.includes(' ');
+}
 
-function isValidUsernameFormat(username: string) {
-  return /^[a-zA-Z0-9]*$/.test(username);
+function isStartsWithWhitespace(str: string) {
+  return /^\s/.test(str);
+}
+
+function isValidEmailFormat(email: string) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
 function isValidPasswordFormat(password: string) {
   return /^[a-zA-Z0-9`'~!@#$%^&*()-_=+]*$/.test(password);
-}
-
-function isValidUsernameLength(username: string) {
-  return (
-    username.length >= numbers.MIN_USERNAME_LENGTH &&
-    username.length <= numbers.MAX_USERNAME_LENGTH
-  );
 }
 
 function isValidPasswordLength(password: string) {
@@ -37,16 +34,27 @@ function isMatchPasswordConfirm(password: string, passwordConfirm: string) {
   return password === passwordConfirm;
 }
 
+function isValidNicknameLength(nickname: string) {
+  return (
+    nickname.length >= numbers.MIN_NICKNAME_LENGTH &&
+    nickname.length <= numbers.MAX_NICKNAME_LENGTH
+  );
+}
+
+function isValidFeedbackTitleLength(title: string) {
+  return title.length >= numbers.MIN_FEEDBACK_TITLE_LENGTH;
+}
+
+function isValidFeedbackDescriptionLength(title: string) {
+  return title.length >= numbers.MIN_FEEDBACK_DESCRIPTION_LENGTH;
+}
 function validateUser(
-  errors: Record<keyof LoginInfo, string>,
-  username: string,
+  errors: Record<keyof RequestUser, string>,
+  email: string,
   password: string,
 ) {
-  if (!isValidUsernameFormat(username)) {
-    errors.username = errorMessages.INVALID_USERNAME_FORMAT;
-  }
-  if (!isValidUsernameLength(username)) {
-    errors.username = errorMessages.INVALID_USERNAME_LENGTH;
+  if (!isValidEmailFormat(email)) {
+    errors.email = errorMessages.INVALID_EMAIL_FORMAT;
   }
   if (!isValidPasswordFormat(password)) {
     errors.password = errorMessages.INVALID_PASSWORD_FORMAT;
@@ -57,6 +65,10 @@ function validateUser(
 
   return errors;
 }
+
+type SignupInfo = RequestUser & {
+  passwordConfirm: string;
+};
 
 function validatePasswordConfirm(
   errors: Record<keyof SignupInfo, string>,
@@ -76,20 +88,20 @@ function validatePasswordConfirm(
   return errors;
 }
 
-function validateLogin(values: LoginInfo) {
-  const {username, password} = values;
+function validateLogin(values: RequestUser) {
+  const {email, password} = values;
 
   const errors = getObjectWithValue(Object.keys(values), '');
-  const userErrors = validateUser(errors, username, password);
+  const userErrors = validateUser(errors, email, password);
 
   return {...errors, ...userErrors};
 }
 
 function validateSignup(values: SignupInfo) {
-  const {username, password, passwordConfirm} = values;
+  const {email, password, passwordConfirm} = values;
 
   const errors = getObjectWithValue(Object.keys(values), '');
-  const userErrors = validateUser(errors, username, password);
+  const userErrors = validateUser(errors, email, password);
   const passwordConfirmErrors = validatePasswordConfirm(
     errors,
     password,
@@ -99,4 +111,66 @@ function validateSignup(values: SignupInfo) {
   return {...passwordConfirmErrors, ...userErrors};
 }
 
-export {validateLogin, validateSignup};
+function validateAddPost(values: Pick<RequestCreatePost, 'title'>) {
+  const {title} = values;
+
+  const errors = getObjectWithValue(Object.keys(values), '');
+
+  if (isBlank(title)) {
+    errors.title = errorMessages.INVALID_POST_TITLE_LENGTH;
+  }
+
+  return errors;
+}
+
+function validateEditProfile(values: {nickname: string}) {
+  const {nickname} = values;
+
+  const errors = getObjectWithValue(Object.keys(values), '');
+
+  if (hasBlankString(nickname) || !isValidNicknameLength(nickname)) {
+    errors.nickname = errorMessages.INVALID_NICKNAME;
+  }
+
+  return errors;
+}
+
+function validateAddFeedback(values: RequestFeedback) {
+  const {email, title, description} = values;
+
+  const errors = getObjectWithValue(Object.keys(values), '');
+
+  if (!isValidEmailFormat(email)) {
+    errors.email = errorMessages.INVALID_EMAIL_FORMAT;
+  }
+  if (isBlank(title) || !isValidFeedbackTitleLength(title)) {
+    errors.title = errorMessages.INVALID_FEEDBACK_TITLE_LENGTH;
+  }
+  if (isBlank(description) || !isValidFeedbackDescriptionLength(description)) {
+    errors.description = errorMessages.INVALID_FEEDBACK_DESCRIPTION_LENGTH;
+  }
+
+  return errors;
+}
+
+function validateCategory(values: Category) {
+  const errors = getObjectWithValue(Object.keys(values), '');
+
+  (Object.keys(values) as MarkerColor[]).map(value => {
+    if (isStartsWithWhitespace(values[value])) {
+      errors[value] = errorMessages.INVALID_CATEGORY_FORMAT;
+    }
+  });
+
+  return errors;
+}
+
+export {
+  isValidEmailFormat,
+  validateLogin,
+  validateSignup,
+  validateAddPost,
+  validateEditProfile,
+  validateAddFeedback,
+  validateCategory,
+};

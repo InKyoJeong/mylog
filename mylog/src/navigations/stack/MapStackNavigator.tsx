@@ -1,35 +1,39 @@
 import React from 'react';
-import {
-  StackNavigationOptions,
-  createStackNavigator,
-} from '@react-navigation/stack';
-import {LatLng} from 'react-native-maps';
+import {createStackNavigator} from '@react-navigation/stack';
+import type {LatLng} from 'react-native-maps';
 
 import MapHomeScreen from '@/screens/map/MapHomeScreen';
-import AddLocationScreen from '@/screens/map/AddLocationScreen';
-import {mapNavigations} from '@/constants/navigations';
-import {colors} from '@/constants/colors';
+import AddPostScreen from '@/screens/map/AddPostScreen';
+import SearchLocationScreen from '@/screens/map/SearchLocationScreen';
+import useThemeStore from '@/store/useThemeStore';
+import {colors, mapNavigations} from '@/constants';
 
 export type MapStackParamList = {
   [mapNavigations.MAP_HOME]: undefined;
-  [mapNavigations.ADD_LOCATION]: {location: LatLng};
+  [mapNavigations.ADD_POST]: {location: LatLng};
+  [mapNavigations.SEARCH_LOCATION]: undefined;
 };
 
 const Stack = createStackNavigator<MapStackParamList>();
 
-const mapStackOptions: StackNavigationOptions = {
-  headerStyle: {
-    backgroundColor: colors.WHITE,
-  },
-  headerTintColor: colors.BLACK,
-  cardStyle: {
-    backgroundColor: colors.WHITE,
-  },
-};
-
 function MapStackNavigator() {
+  const {theme} = useThemeStore();
+
   return (
-    <Stack.Navigator screenOptions={mapStackOptions}>
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: colors[theme].WHITE,
+          shadowColor: colors[theme].GRAY_200,
+        },
+        headerTitleStyle: {
+          fontSize: 15,
+        },
+        headerTintColor: colors[theme].BLACK,
+        cardStyle: {
+          backgroundColor: colors[theme].WHITE,
+        },
+      }}>
       <Stack.Screen
         name={mapNavigations.MAP_HOME}
         component={MapHomeScreen}
@@ -39,10 +43,18 @@ function MapStackNavigator() {
         }}
       />
       <Stack.Screen
-        name={mapNavigations.ADD_LOCATION}
-        component={AddLocationScreen}
+        name={mapNavigations.ADD_POST}
+        component={AddPostScreen}
         options={{
           headerTitle: '장소 추가',
+        }}
+      />
+      <Stack.Screen
+        name={mapNavigations.SEARCH_LOCATION}
+        component={SearchLocationScreen}
+        options={{
+          presentation: 'modal',
+          headerTitle: '장소 검색',
         }}
       />
     </Stack.Navigator>
