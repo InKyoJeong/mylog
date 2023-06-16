@@ -8,7 +8,7 @@ import type {StatisticsStackParamList} from '@/navigations/stack/StatisticsStack
 import type {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
 import HeaderButton from '../@common/HeaderButton';
 import useThemeStore from '@/store/useThemeStore';
-import {colors} from '@/constants';
+import {colors, numbers} from '@/constants';
 
 type StatisticsHeaderLeftProps = CompositeNavigationProp<
   StackNavigationProp<StatisticsStackParamList>,
@@ -24,7 +24,7 @@ function StatisticsHeaderLeft(navigation: StatisticsHeaderLeftProps) {
         <Ionicons
           name={'md-menu-sharp'}
           color={colors[theme].BLACK}
-          size={25}
+          size={numbers.HEADER_DRAWER_ICON}
         />
       }
       onPress={() => navigation.openDrawer()}

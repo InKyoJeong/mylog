@@ -46,6 +46,7 @@ const numbers = {
     IOS: '1.4.0',
     ANDROID: '1.4.0',
   },
+  HEADER_DRAWER_ICON: 25,
 } as const;
 
 const zIndex = {

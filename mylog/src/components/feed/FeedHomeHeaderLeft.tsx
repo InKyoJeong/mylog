@@ -8,7 +8,7 @@ import type {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator
 import type {FeedStackParamList} from '@/navigations/stack/FeedStackNavigator';
 import HeaderButton from '../@common/HeaderButton';
 import useThemeStore from '@/store/useThemeStore';
-import {colors} from '@/constants';
+import {colors, numbers} from '@/constants';
 
 type FeedHomeHeaderLeftProps = CompositeNavigationProp<
   StackNavigationProp<FeedStackParamList>,
@@ -24,7 +24,7 @@ function FeedHomeHeaderLeft(navigation: FeedHomeHeaderLeftProps) {
         <Ionicons
           name={'md-menu-sharp'}
           color={colors[theme].BLACK}
-          size={25}
+          size={numbers.HEADER_DRAWER_ICON}
         />
       }
       onPress={() => navigation.openDrawer()}
