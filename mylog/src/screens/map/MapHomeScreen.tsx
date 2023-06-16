@@ -7,6 +7,7 @@ import MarkerModal from '@/components/map/MarkerModal';
 import useMarkerFilterStorage from '@/hooks/useMarkerFilterStorage';
 import useGetMarkers from '@/hooks/queries/useGetMarkers';
 import useGetInfinitePosts from '@/hooks/queries/useGetInfinitePosts';
+import useViewModeStorage from '@/hooks/useViewModeStorage';
 
 function MapHomeScreen() {
   const markerFilter = useMarkerFilterStorage();
@@ -14,6 +15,7 @@ function MapHomeScreen() {
     select: markerFilter.transformFilteredMarker,
   });
   const {data: posts} = useGetInfinitePosts();
+  useViewModeStorage();
 
   useEffect(() => {
     const feedFirstPageImages = posts?.pages

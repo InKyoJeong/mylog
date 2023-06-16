@@ -5,9 +5,11 @@ import {useScrollToTop} from '@react-navigation/native';
 import FeedItem from './FeedItem';
 import InfoMessage from '../@common/InfoMessage';
 import useGetInfiniteFavoritePosts from '@/hooks/queries/useGetInfiniteFavoritePosts';
+import useViewModeStore from '@/store/useViewModeStore';
 import useThemeStore from '@/store/useThemeStore';
 
 function FeedItemFavoriteList() {
+  const {mode} = useViewModeStore();
   const {theme} = useThemeStore();
   const scrollRef = useRef(null);
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -34,11 +36,12 @@ function FeedItemFavoriteList() {
 
   return (
     <FlatList
+      key={mode}
       ref={scrollRef}
       data={posts?.pages.flat()}
       renderItem={({item}) => <FeedItem post={item} />}
-      keyExtractor={item => String(item.id)}
-      numColumns={2}
+      keyExtractor={item => mode + String(item.id)}
+      numColumns={mode === 'album' ? 2 : 1}
       scrollIndicatorInsets={{right: 1}}
       contentContainerStyle={styles.contentContainer}
       indicatorStyle={theme === 'dark' ? 'white' : 'black'}

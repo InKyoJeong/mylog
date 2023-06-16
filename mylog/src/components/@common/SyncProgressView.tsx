@@ -11,7 +11,7 @@ interface SyncProgressViewProps {
   syncProgress: DownloadProgress;
 }
 
-const progressWidth = Dimensions.get('window').width - 30;
+const deviceWidth = Dimensions.get('window').width - 30;
 
 function SyncProgressView({syncProgress}: SyncProgressViewProps) {
   const {theme} = useThemeStore();
@@ -31,14 +31,14 @@ function SyncProgressView({syncProgress}: SyncProgressViewProps) {
         </Text>
         <Text style={styles.text}>재시작까지 잠시만 기다려주세요.</Text>
 
-        <View style={{width: progressWidth}}>
+        <View style={{width: deviceWidth}}>
           <View
             style={[
               styles.progressBar,
               {
                 width:
                   (syncProgress.receivedBytes / syncProgress.totalBytes) *
-                  progressWidth,
+                  deviceWidth,
               },
             ]}
           />
