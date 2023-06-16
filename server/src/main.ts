@@ -6,6 +6,10 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   const port = process.env.PORT || 3030;
 
+  app.use('/', (_, res) => {
+    res.send('server ok');
+  });
+
   if (process.env.NODE_ENV === 'production') {
     app.enableCors({
       origin: ['https://mylog.ingg.dev'],

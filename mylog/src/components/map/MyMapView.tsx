@@ -25,7 +25,7 @@ import MarkerFilterOption from '@/components/map/MarkerFilterOption';
 import usePermission from '@/hooks/usePermission';
 import useUserLocation from '@/hooks/useUserLocation';
 import useMoveMapView from '@/hooks/useMoveMapView';
-import useLegendStorage from '@/hooks/useLegendStorage';
+import useLegendStorage from '@/hooks/storage/useLegendStorage';
 import useModal from '@/hooks/useModal';
 import useMarkerModalStore from '@/store/useMarkerModalStore';
 import useSnackbarStore from '@/store/useSnackbarStore';

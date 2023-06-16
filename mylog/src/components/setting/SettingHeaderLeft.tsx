@@ -8,7 +8,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import HeaderButton from '../@common/HeaderButton';
 import useThemeStore from '@/store/useThemeStore';
-import {colors} from '@/constants';
+import {colors, numbers} from '@/constants';
 
 type SettingHeaderLeftProps = CompositeNavigationProp<
   StackNavigationProp<SettingStackParamList>,
@@ -24,7 +24,7 @@ function SettingHeaderLeft(navigation: SettingHeaderLeftProps) {
         <Ionicons
           name={'md-menu-sharp'}
           color={colors[theme].BLACK}
-          size={25}
+          size={numbers.HEADER_DRAWER_ICON}
         />
       }
       onPress={() => navigation.openDrawer()}

@@ -1,33 +1,21 @@
-import React, {memo, useEffect, useState} from 'react';
+import React, {memo} from 'react';
 import {Pressable, ScrollView, StyleSheet, Text, View} from 'react-native';
 
 import Conditional from '../@common/Conditional';
 import useThemeStore from '@/store/useThemeStore';
-import RecentSearchedItem from './RecentSearchedItem';
-import {getAsyncStorage, setAsyncStorage} from '@/utils';
+import SearchHistoryItem from './SearchHistoryItem';
+import useSearchHistoryStorage from '@/hooks/storage/useSearchHistoryStorage';
 import {colors} from '@/constants';
 import type {ThemeMode} from '@/types';
 
-interface RecentSearchedListProps {
+interface SearchHistoryListProps {
   storageKey: string;
 }
 
-function RecentSearchedList({storageKey}: RecentSearchedListProps) {
+function SearchHistoryList({storageKey}: SearchHistoryListProps) {
   const {theme} = useThemeStore();
   const styles = styling(theme);
-  const [searchedList, setSearchedList] = useState([]);
-
-  const clearList = async () => {
-    await setAsyncStorage(storageKey, []);
-    setSearchedList([]);
-  };
-
-  useEffect(() => {
-    (async () => {
-      const storedData = (await getAsyncStorage(storageKey)) ?? [];
-      setSearchedList(storedData);
-    })();
-  }, [storageKey]);
+  const {searchedList, clearList} = useSearchHistoryStorage(storageKey);
 
   return (
     <View style={styles.container}>
@@ -42,7 +30,7 @@ function RecentSearchedList({storageKey}: RecentSearchedListProps) {
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           <View style={styles.listContainer}>
             {searchedList.map((keyword, index) => (
-              <RecentSearchedItem key={index} keyword={keyword} />
+              <SearchHistoryItem key={index} keyword={keyword} />
             ))}
           </View>
         </ScrollView>
@@ -85,4 +73,4 @@ const styling = (theme: ThemeMode) =>
     },
   });
 
-export default memo(RecentSearchedList);
+export default memo(SearchHistoryList);

@@ -1,8 +1,12 @@
 ![mylog](https://github.com/InKyoJeong/TIL/assets/48676844/775106fb-c9e7-4514-9722-89df7414dd1f)
 
 <p align="center">
-  <img src="https://img.shields.io/badge/release-v1.3.0-%23C63B64?style=flat" /> 
+  <img src="https://img.shields.io/badge/release-v1.5.0-%23C63B64?style=flat" />
 </p>
+
+<p align="center"><strong>나만의 지도 기록, 마이로그</strong></p>
+
+<br>
 
 ## 📌 Deploy
 
@@ -12,8 +16,11 @@
 
 ## 📌 Tech Stack
 
-![tech](https://github-production-user-asset-6210df.s3.amazonaws.com/48676844/244952901-8cf01009-788a-4feb-9b8e-0ec3c1a37b45.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20230611%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20230611T164514Z&X-Amz-Expires=300&X-Amz-Signature=ea6a36eb0cb1cfad525271de693b89ab51966723134c83beb0ff350a23cac67c&X-Amz-SignedHeaders=host&actor_id=48676844&key_id=0&repo_id=607555602)
+![tech](https://github-production-user-asset-6210df.s3.amazonaws.com/48676844/245821780-4f80ec57-5a19-4e8e-90ba-41fc36c22092.png)
+
+<br>
 
 ## 📌 Architecture
 
-![server](https://github-production-user-asset-6210df.s3.amazonaws.com/48676844/244952924-d7e600f6-3559-4d73-a2f2-c99eb39615ba.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20230611%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20230611T164536Z&X-Amz-Expires=300&X-Amz-Signature=322f7bd99bdf41bbad13daf7959316d56b154abec872981502672ea9e32e4146&X-Amz-SignedHeaders=host&actor_id=48676844&key_id=0&repo_id=607555602)
+![app](https://github-production-user-asset-6210df.s3.amazonaws.com/48676844/245890031-93f6eeb5-4d51-46d8-9eaf-5d8fe11396b8.png)
+![server](https://github-production-user-asset-6210df.s3.amazonaws.com/48676844/245890123-5af3398a-45ce-4274-ae4a-3be825b56683.png)

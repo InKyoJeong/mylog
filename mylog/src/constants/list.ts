@@ -9,11 +9,11 @@ const categoryList: MarkerColor[] = [
 ];
 
 const categoryPlaceholderList = [
-  'ex) 음식점',
+  'ex) 식당',
   'ex) 카페',
   'ex) 병원',
-  'ex) 여행지',
-  'ex) 도서관',
+  'ex) 숙소',
+  'ex) 여행',
 ];
 
 const dayOfWeekList = ['일', '월', '화', '수', '목', '금', '토'];

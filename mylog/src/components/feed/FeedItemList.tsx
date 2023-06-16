@@ -8,10 +8,12 @@ import FeedItem from './FeedItem';
 import InfoMessage from '../@common/InfoMessage';
 import useGetInfinitePosts from '@/hooks/queries/useGetInfinitePosts';
 import useThemeStore from '@/store/useThemeStore';
+import useViewModeStore from '@/store/useViewModeStore';
 import {mainNavigations, mapNavigations} from '@/constants';
 
 function FeedItemList() {
   const {theme} = useThemeStore();
+  const {mode} = useViewModeStore();
   const scrollRef = useRef(null);
   const navigation = useNavigation<DrawerNavigationProp<MainDrawerParamList>>();
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -36,32 +38,37 @@ function FeedItemList() {
     }
   };
 
+  const handlePressMoveHome = () => {
+    navigation.navigate(mainNavigations.HOME, {
+      screen: mapNavigations.MAP_HOME,
+    });
+  };
+
   return (
-    <FlatList
-      ref={scrollRef}
-      data={posts?.pages.flat()}
-      renderItem={({item}) => <FeedItem post={item} />}
-      keyExtractor={item => String(item.id)}
-      numColumns={2}
-      scrollIndicatorInsets={{right: 1}}
-      contentContainerStyle={styles.contentContainer}
-      indicatorStyle={theme === 'dark' ? 'white' : 'black'}
-      ListEmptyComponent={
-        <InfoMessage
-          message="아직 등록된 장소가 없어요."
-          buttonLabel="홈으로 이동"
-          onPress={() =>
-            navigation.navigate(mainNavigations.HOME, {
-              screen: mapNavigations.MAP_HOME,
-            })
-          }
-        />
-      }
-      refreshing={isRefreshing}
-      onRefresh={handleRefresh}
-      onEndReached={handleEndReached}
-      onEndReachedThreshold={0.5}
-    />
+    <>
+      <FlatList
+        key={mode}
+        ref={scrollRef}
+        data={posts?.pages.flat()}
+        renderItem={({item}) => <FeedItem post={item} />}
+        keyExtractor={item => mode + String(item.id)}
+        numColumns={mode === 'album' ? 2 : 1}
+        scrollIndicatorInsets={{right: 1}}
+        contentContainerStyle={styles.contentContainer}
+        indicatorStyle={theme === 'dark' ? 'white' : 'black'}
+        ListEmptyComponent={
+          <InfoMessage
+            message="아직 등록된 장소가 없어요."
+            buttonLabel="홈으로 이동"
+            onPress={handlePressMoveHome}
+          />
+        }
+        refreshing={isRefreshing}
+        onRefresh={handleRefresh}
+        onEndReached={handleEndReached}
+        onEndReachedThreshold={0.5}
+      />
+    </>
   );
 }
 

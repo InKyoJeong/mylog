@@ -4,7 +4,8 @@ import FastImage from 'react-native-fast-image';
 
 import MyMapView from '@/components/map/MyMapView';
 import MarkerModal from '@/components/map/MarkerModal';
-import useMarkerFilterStorage from '@/hooks/useMarkerFilterStorage';
+import useMarkerFilterStorage from '@/hooks/storage/useMarkerFilterStorage';
+import useViewModeStorage from '@/hooks/storage/useViewModeStorage';
 import useGetMarkers from '@/hooks/queries/useGetMarkers';
 import useGetInfinitePosts from '@/hooks/queries/useGetInfinitePosts';
 
@@ -14,6 +15,7 @@ function MapHomeScreen() {
     select: markerFilter.transformFilteredMarker,
   });
   const {data: posts} = useGetInfinitePosts();
+  useViewModeStorage();
 
   useEffect(() => {
     const feedFirstPageImages = posts?.pages

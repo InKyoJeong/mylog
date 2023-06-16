@@ -5,6 +5,9 @@ const app_module_1 = require("./app.module");
 async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
     const port = process.env.PORT || 3030;
+    app.use('/', (_, res) => {
+        res.send('ok');
+    });
     if (process.env.NODE_ENV === 'production') {
         app.enableCors({
             origin: ['https://mylog.ingg.dev'],

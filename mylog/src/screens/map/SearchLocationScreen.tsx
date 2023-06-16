@@ -2,9 +2,9 @@ import React from 'react';
 import {Keyboard, StyleSheet, View} from 'react-native';
 
 import SearchInput from '@/components/@common/SearchInput';
-import RecentSearchedList from '@/components/map/RecentSearchedList';
+import Pagination from '@/components/@common/Pagination';
+import SearchHistoryList from '@/components/map/SearchHistoryList';
 import SearchRegionResult from '@/components/map/SearchRegionResult';
-import Pagination from '@/components/map/Pagination';
 import useSearchLocation from '@/hooks/useSearchLocation';
 import useUserLocation from '@/hooks/useUserLocation';
 import useSearchStore from '@/store/useSearchStore';
@@ -30,7 +30,7 @@ function SearchLocationScreen() {
         maxLength={numbers.MAX_SEARCH_LOCATION_LENGTH}
         onSubmit={() => Keyboard.dismiss()}
       />
-      <RecentSearchedList storageKey={storageKeys.SEARCH_LOCATION} />
+      <SearchHistoryList storageKey={storageKeys.SEARCH_LOCATION} />
       <SearchRegionResult regionInfo={regionInfo} />
       <Pagination
         pageParam={pageParam}

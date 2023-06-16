@@ -1,6 +1,6 @@
 {
   "name": "mylog",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
@@ -11,8 +11,8 @@
     "postinstall": "react-native setup-ios-permissions && pod-install",
     "appcenter-key:android": "appcenter codepush deployment list -a koy/mylog-android -k",
     "appcenter-key:ios": "appcenter codepush deployment list --app koy/mylog-ios -k",
-    "codepush:android": "appcenter codepush release-react -a koy/mylog-android -d Staging -s -o ./build -m -t 1.4",
-    "codepush:ios": "appcenter codepush release-react -a koy/mylog-ios -d Staging -s -o ./build -m -t 1.4",
+    "codepush:android": "appcenter codepush release-react -a koy/mylog-android -d Staging -s -o ./build -m -t 1.5",
+    "codepush:ios": "appcenter codepush release-react -a koy/mylog-ios -d Staging -s -o ./build -m -t 1.5",
     "codepush-history:android": "appcenter codepush deployment history -a koy/mylog-android Production",
     "codepush-history:ios": "appcenter codepush deployment history -a koy/mylog-ios Production",
     "bundle-android": "react-native bundle --assets-dest build/CodePush --bundle-output build/CodePush/index.android.bundle --dev false --entry-file index.js --platform android --sourcemap-output build/CodePush/index.android.bundle.map",

@@ -43,7 +43,7 @@ function SearchRegionResult({regionInfo}: SearchRegionResultProps) {
     };
 
     moveToMapScreen(regionLocation);
-    saveRecentSearchedList(keyword);
+    saveSearchHistory(keyword);
   };
 
   const moveToMapScreen = (regionLocation: LatLng) => {
@@ -52,7 +52,7 @@ function SearchRegionResult({regionInfo}: SearchRegionResultProps) {
     setSelectLocation(regionLocation);
   };
 
-  const saveRecentSearchedList = async (searchKeyword: string) => {
+  const saveSearchHistory = async (searchKeyword: string) => {
     const storedData =
       (await getAsyncStorage(storageKeys.SEARCH_LOCATION)) ?? [];
     await setAsyncStorage(storageKeys.SEARCH_LOCATION, [
