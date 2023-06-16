@@ -196,6 +196,36 @@ function Filter({children, isSelected, ...props}: FilterProps) {
   );
 }
 
+interface RadioProps extends PressableProps {
+  children: ReactNode;
+  icon?: ReactNode;
+  isChecked?: boolean;
+}
+
+function Radio({children, icon, isChecked = false, ...props}: RadioProps) {
+  const {theme} = useThemeStore();
+  const styles = styling(theme);
+
+  return (
+    <Pressable
+      style={({pressed}) => [
+        pressed && styles.optionButtonPressed,
+        styles.radioContainer,
+      ]}
+      {...props}>
+      <View style={styles.radioTextContainer}>
+        {icon}
+        <Text style={styles.checkBoxText}>{children}</Text>
+      </View>
+      <MaterialIcons
+        name={`radio-button-${isChecked ? 'checked' : 'unchecked'}`}
+        size={22}
+        color={colors[theme].BLUE_500}
+      />
+    </Pressable>
+  );
+}
+
 function Card({children}: PropsWithChildren) {
   const {theme} = useThemeStore();
   const styles = styling(theme);
@@ -215,6 +245,7 @@ export const CompoundOption = Object.assign(OptionMain, {
   Divider,
   CheckBox,
   Filter,
+  Radio,
   Card,
 });
 
@@ -272,6 +303,10 @@ const styling = (theme: ThemeMode) =>
       paddingHorizontal: 30,
       gap: 10,
     },
+    checkBoxText: {
+      color: colors[theme].BLACK,
+      fontSize: 15,
+    },
     filterContainer: {
       flexDirection: 'row',
       alignItems: 'center',
@@ -288,9 +323,16 @@ const styling = (theme: ThemeMode) =>
       fontSize: 15,
       fontWeight: '500',
     },
-    checkBoxText: {
-      color: colors[theme].BLACK,
-      fontSize: 15,
+    radioContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      paddingVertical: 10,
+      paddingHorizontal: 30,
+    },
+    radioTextContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 15,
     },
     cardContainer: {
       backgroundColor: colors[theme].WHITE,
