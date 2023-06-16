@@ -7,8 +7,9 @@ import FastImage from 'react-native-fast-image';
 import type {FeedStackParamList} from '@/navigations/stack/FeedStackNavigator';
 import CustomMarker from '../@common/CustomMarker';
 import Conditional from '../@common/Conditional';
-import {getDateWithSeparator} from '@/utils';
 import useThemeStore from '@/store/useThemeStore';
+import useViewModeStore from '@/store/useViewModeStore';
+import {getDateWithSeparator} from '@/utils';
 import {colors, feedNavigations} from '@/constants';
 import type {ResponsePost} from '@/api';
 import type {ThemeMode} from '@/types';
@@ -18,6 +19,7 @@ interface FeedItemProps {
 }
 
 function FeedItem({post}: FeedItemProps) {
+  const {mode} = useViewModeStore();
   const {theme} = useThemeStore();
   const styles = styling(theme);
   const navigation = useNavigation<StackNavigationProp<FeedStackParamList>>();
@@ -31,7 +33,12 @@ function FeedItem({post}: FeedItemProps) {
       <Pressable onPress={handlePressFeed}>
         <View>
           <Conditional condition={post.images.length > 0}>
-            <View key={post.id} style={styles.imageContainer}>
+            <View
+              key={post.id}
+              style={[
+                styles.imageContainer,
+                mode === 'feed' && styles.fullWidth,
+              ]}>
               <FastImage
                 style={styles.image}
                 source={{
@@ -44,7 +51,12 @@ function FeedItem({post}: FeedItemProps) {
           </Conditional>
 
           <Conditional condition={post.images.length === 0}>
-            <View style={[styles.imageContainer, styles.emptyImageContainer]}>
+            <View
+              style={[
+                styles.imageContainer,
+                mode === 'feed' && styles.fullWidth,
+                styles.emptyImageContainer,
+              ]}>
               <CustomMarker
                 size="medium"
                 borderColor={colors[theme].GRAY_200}
@@ -57,7 +69,12 @@ function FeedItem({post}: FeedItemProps) {
             <Text style={styles.dateText}>
               {getDateWithSeparator(post.date, '/')}
             </Text>
-            <Text style={styles.titleText}>{post.title}</Text>
+            <Text style={styles.albumText}>{post.title}</Text>
+            {mode === 'feed' && (
+              <Text numberOfLines={3} style={styles.albumText}>
+                {post.description}
+              </Text>
+            )}
           </View>
         </View>
       </Pressable>
@@ -75,6 +92,9 @@ const styling = (theme: ThemeMode) =>
     imageContainer: {
       width: Dimensions.get('screen').width / 2 - 25,
       height: Dimensions.get('screen').width / 2 - 25,
+    },
+    fullWidth: {
+      width: '100%',
     },
     image: {
       width: '100%',
@@ -97,7 +117,7 @@ const styling = (theme: ThemeMode) =>
       fontWeight: '600',
       fontSize: 12,
     },
-    titleText: {
+    albumText: {
       color: colors[theme].BLACK,
       fontWeight: '400',
       fontSize: 13,

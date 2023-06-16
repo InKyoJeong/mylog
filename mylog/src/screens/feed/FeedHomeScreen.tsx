@@ -1,9 +1,10 @@
 import React, {Suspense} from 'react';
 import {SafeAreaView, StyleSheet} from 'react-native';
 
-import FeedItemList from '@/components/feed/FeedItemList';
 import Indicator from '@/components/@common/Indicator';
 import RetryErrorBoundary from '@/components/@common/RetryErrorBoundary';
+import FeedItemList from '@/components/feed/FeedItemList';
+import FeedViewModeOption from '@/components/feed/FeedViewModeOption';
 
 function FeedHomeScreen() {
   return (
@@ -11,6 +12,7 @@ function FeedHomeScreen() {
       <RetryErrorBoundary>
         <Suspense fallback={<Indicator />}>
           <FeedItemList />
+          <FeedViewModeOption />
         </Suspense>
       </RetryErrorBoundary>
     </SafeAreaView>
