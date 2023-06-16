@@ -7,6 +7,7 @@ import FeedDetailScreen from '@/screens/feed/FeedDetailScreen';
 import EditPostScreen from '@/screens/feed/EditPostScreen';
 import ImageZoomScreen from '@/screens/feed/ImageZoomScreen';
 import FeedHomeHeaderLeft from '@/components/feed/FeedHomeHeaderLeft';
+import FeedHomeHeaderRight from '@/components/feed/FeedHomeHeaderRight';
 import useThemeStore from '@/store/useThemeStore';
 import {colors, feedNavigations} from '@/constants';
 
@@ -43,6 +44,7 @@ function FeedStackNavigator() {
         options={({navigation}) => ({
           headerTitle: '피드',
           headerLeft: () => FeedHomeHeaderLeft(navigation),
+          headerRight: FeedHomeHeaderRight,
           cardStyle: {
             backgroundColor: colors[theme].WHITE,
           },
