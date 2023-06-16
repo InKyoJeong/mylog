@@ -17,7 +17,7 @@ import {
 import type {CalendarPost} from '@/api';
 import type {ThemeMode} from '@/types';
 
-interface CalendarContentsListProps {
+interface CalendarPostListProps {
   posts: CalendarPost[];
 }
 
@@ -26,7 +26,7 @@ type Navigation = CompositeNavigationProp<
   BottomTabNavigationProp<FeedTabParamList>
 >;
 
-function CalendarContentsList({posts}: CalendarContentsListProps) {
+function CalendarPostList({posts}: CalendarPostListProps) {
   const {theme} = useThemeStore();
   const styles = styling(theme);
   const navigation = useNavigation<Navigation>();
@@ -101,4 +101,4 @@ const styling = (theme: ThemeMode) =>
     },
   });
 
-export default CalendarContentsList;
+export default CalendarPostList;
