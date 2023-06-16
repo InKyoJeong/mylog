@@ -12,10 +12,12 @@ import FeedItem from './FeedItem';
 import useGetInfiniteSearchPosts from '@/hooks/queries/useGetInfiniteSearchPosts';
 import useDebounce from '@/hooks/useDebounce';
 import useThemeStore from '@/store/useThemeStore';
+import useViewModeStore from '@/store/useViewModeStore';
 import {colors, numbers} from '@/constants';
 import type {ThemeMode} from '@/types';
 
 function FeedItemSearchList() {
+  const {mode} = useViewModeStore();
   const {theme} = useThemeStore();
   const styles = styling(theme);
   const navigation = useNavigation<DrawerNavigationProp<MainDrawerParamList>>();
@@ -45,10 +47,11 @@ function FeedItemSearchList() {
 
   return (
     <FlatList
+      key={mode}
       data={posts?.pages.flat()}
       renderItem={({item}) => <FeedItem post={item} />}
-      keyExtractor={item => String(item.id)}
-      numColumns={2}
+      keyExtractor={item => mode + String(item.id)}
+      numColumns={mode === 'album' ? 2 : 1}
       scrollIndicatorInsets={{right: 1}}
       contentContainerStyle={styles.contentContainer}
       indicatorStyle={theme === 'dark' ? 'white' : 'black'}
