@@ -4,7 +4,7 @@ import {StyleSheet, View} from 'react-native';
 import {CompoundOption} from '../@common/CompoundOption';
 import Conditional from '../@common/Conditional';
 import useAuth from '@/hooks/queries/useAuth';
-import useMarkerFilterStorage from '@/hooks/useMarkerFilterStorage';
+import useMarkerFilterStorage from '@/hooks/storage/useMarkerFilterStorage';
 import useThemeStore from '@/store/useThemeStore';
 import {categoryList, colorHex, scoreList} from '@/constants';
 

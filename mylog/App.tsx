@@ -8,8 +8,8 @@ import CodePush from 'react-native-code-push';
 import RootNavigator from '@/navigations/root/RootNavigator';
 import Snackbar from '@/components/@common/Snackbar';
 import SyncProgressView from '@/components/@common/SyncProgressView';
+import useThemeStorage from '@/hooks/storage/useThemeStorage';
 import useCodePush from '@/hooks/useCodePush';
-import useThemeStorage from '@/hooks/useThemeStorage';
 import queryClient from '@/api/queryClient';
 
 if (

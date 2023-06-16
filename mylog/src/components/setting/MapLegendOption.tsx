@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {CompoundOption} from '../@common/CompoundOption';
-import useLegendStorage from '@/hooks/useLegendStorage';
+import useLegendStorage from '@/hooks/storage/useLegendStorage';
 
 interface MapLegendOptionProps {
   isVisible: boolean;
