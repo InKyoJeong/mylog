@@ -1,10 +1,10 @@
-import React, {memo, useEffect, useState} from 'react';
+import React, {memo} from 'react';
 import {Pressable, ScrollView, StyleSheet, Text, View} from 'react-native';
 
 import Conditional from '../@common/Conditional';
 import useThemeStore from '@/store/useThemeStore';
 import RecentSearchedItem from './RecentSearchedItem';
-import {getAsyncStorage, setAsyncStorage} from '@/utils';
+import useSearchHistoryStorage from '@/hooks/storage/useSearchHistoryStorage';
 import {colors} from '@/constants';
 import type {ThemeMode} from '@/types';
 
@@ -15,19 +15,7 @@ interface RecentSearchedListProps {
 function RecentSearchedList({storageKey}: RecentSearchedListProps) {
   const {theme} = useThemeStore();
   const styles = styling(theme);
-  const [searchedList, setSearchedList] = useState([]);
-
-  const clearList = async () => {
-    await setAsyncStorage(storageKey, []);
-    setSearchedList([]);
-  };
-
-  useEffect(() => {
-    (async () => {
-      const storedData = (await getAsyncStorage(storageKey)) ?? [];
-      setSearchedList(storedData);
-    })();
-  }, [storageKey]);
+  const {searchedList, clearList} = useSearchHistoryStorage(storageKey);
 
   return (
     <View style={styles.container}>
