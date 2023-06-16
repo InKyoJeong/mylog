@@ -6,11 +6,11 @@ import useThemeStore from '@/store/useThemeStore';
 import {colors} from '@/constants';
 import type {ThemeMode} from '@/types';
 
-interface RecentSearchedItemProps {
+interface SearchHistoryItemProps {
   keyword: string;
 }
 
-function RecentSearchedItem({keyword}: RecentSearchedItemProps) {
+function SearchHistoryItem({keyword}: SearchHistoryItemProps) {
   const {theme} = useThemeStore();
   const styles = styling(theme);
   const {setKeyword} = useSearchStore();
@@ -42,4 +42,4 @@ const styling = (theme: ThemeMode) =>
     },
   });
 
-export default RecentSearchedItem;
+export default SearchHistoryItem;

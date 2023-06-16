@@ -8,7 +8,7 @@ import type {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator
 import {CalendarStackParamList} from '@/navigations/stack/CalendarStackNavigator';
 import HeaderButton from '../@common/HeaderButton';
 import useThemeStore from '@/store/useThemeStore';
-import {colors} from '@/constants';
+import {colors, numbers} from '@/constants';
 
 type CalendarHomeHeaderLeftProps = CompositeNavigationProp<
   StackNavigationProp<CalendarStackParamList>,
@@ -24,7 +24,7 @@ function CalendarHomeHeaderLeft(navigation: CalendarHomeHeaderLeftProps) {
         <Ionicons
           name={'md-menu-sharp'}
           color={colors[theme].BLACK}
-          size={25}
+          size={numbers.HEADER_DRAWER_ICON}
         />
       }
       onPress={() => navigation.openDrawer()}

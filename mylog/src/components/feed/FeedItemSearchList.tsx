@@ -64,7 +64,7 @@ function FeedItemSearchList() {
             <Ionicons
               name={'md-menu-sharp'}
               color={colors[theme].BLACK}
-              size={25}
+              size={numbers.HEADER_DRAWER_ICON}
             />
           </Pressable>
           <Animated.View

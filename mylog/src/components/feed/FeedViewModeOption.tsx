@@ -3,9 +3,9 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import {CompoundOption} from '../@common/CompoundOption';
+import useViewModeStorage from '@/hooks/storage/useViewModeStorage';
 import useThemeStore from '@/store/useThemeStore';
 import useViewModeStore from '@/store/useViewModeStore';
-import useViewModeStorage from '@/hooks/useViewModeStorage';
 import {colors} from '@/constants';
 
 function FeedViewModeOption() {
