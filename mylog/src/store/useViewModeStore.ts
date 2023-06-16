@@ -1,19 +1,19 @@
 import {create} from 'zustand';
 
-export type Mode = 'feed' | 'album';
+export type ViewMode = 'feed' | 'album';
 
-interface ViewMode {
-  mode: Mode;
+interface ViewModeState {
+  mode: ViewMode;
   isVisible: boolean;
-  setMode: (mode: Mode) => void;
+  setMode: (mode: ViewMode) => void;
   showOption: () => void;
   hideOption: () => void;
 }
 
-const useViewModeStore = create<ViewMode>(set => ({
+const useViewModeStore = create<ViewModeState>(set => ({
   mode: 'album',
   isVisible: false,
-  setMode: (mode: Mode) => {
+  setMode: (mode: ViewMode) => {
     set(state => ({...state, mode}));
   },
   showOption: () => {

@@ -5,19 +5,21 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {CompoundOption} from '../@common/CompoundOption';
 import useThemeStore from '@/store/useThemeStore';
 import useViewModeStore from '@/store/useViewModeStore';
+import useViewModeStorage from '@/hooks/useViewModeStorage';
 import {colors} from '@/constants';
 
 function FeedViewModeOption() {
   const {theme} = useThemeStore();
-  const {isVisible, hideOption, mode, setMode} = useViewModeStore();
+  const {isVisible, hideOption} = useViewModeStore();
+  const viewMode = useViewModeStorage();
 
   const handlePressAlbumMode = () => {
-    setMode('album');
+    viewMode.set('album');
     hideOption();
   };
 
   const handlePressFeedMode = () => {
-    setMode('feed');
+    viewMode.set('feed');
     hideOption();
   };
 
@@ -26,7 +28,7 @@ function FeedViewModeOption() {
       <CompoundOption.Background>
         <CompoundOption.Container>
           <CompoundOption.Radio
-            isChecked={mode === 'album'}
+            isChecked={viewMode.mode === 'album'}
             onPress={handlePressAlbumMode}
             icon={
               <Ionicons name="grid" size={18} color={colors[theme].BLACK} />
@@ -34,7 +36,7 @@ function FeedViewModeOption() {
             앨범형
           </CompoundOption.Radio>
           <CompoundOption.Radio
-            isChecked={mode === 'feed'}
+            isChecked={viewMode.mode === 'feed'}
             onPress={handlePressFeedMode}
             icon={
               <MaterialIcons
