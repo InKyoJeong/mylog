@@ -25,6 +25,7 @@ import {
   setEncryptStorage,
   removeHeader,
   setHeader,
+  isServerError,
 } from '@/utils';
 import {numbers, queryKeys, storageKeys} from '@/constants';
 import type {
@@ -36,7 +37,7 @@ import type {
 
 function useSignup(mutationOptions?: UseMutationCustomOptions) {
   return useMutation(postSignup, {
-    useErrorBoundary: error => Number(error.response?.status) >= 500,
+    useErrorBoundary: error => isServerError(error),
     ...mutationOptions,
   });
 }
@@ -54,7 +55,7 @@ function useLogin<T>(
       queryClient.refetchQueries([queryKeys.AUTH, queryKeys.GET_ACCESS_TOKEN]);
       queryClient.invalidateQueries([queryKeys.AUTH, queryKeys.GET_PROFILE]);
     },
-    useErrorBoundary: error => Number(error.response?.status) >= 500,
+    useErrorBoundary: error => isServerError(error),
     ...mutationOptions,
   });
 }
