@@ -2,8 +2,6 @@ import {useEffect, useState} from 'react';
 import CodePush from 'react-native-code-push';
 import type {DownloadProgress, LocalPackage} from 'react-native-code-push';
 
-import {captureException} from '@/utils';
-
 function useCodePush() {
   const [hasUpdate, setHasUpdate] = useState(true);
   const [syncProgress, setSyncProgress] = useState<DownloadProgress>();
@@ -26,9 +24,8 @@ function useCodePush() {
 
         setHasUpdate(false);
         return;
-      } catch (error) {
+      } catch {
         setHasUpdate(false);
-        captureException(error);
       }
     };
 

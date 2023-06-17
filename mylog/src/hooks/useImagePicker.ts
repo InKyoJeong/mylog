@@ -4,7 +4,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 
 import useSnackbarStore from '@/store/useSnackbarStore';
 import useMutateImages from './queries/useMutateImages';
-import {getFormDataImages} from '@/utils';
+import {captureException, getFormDataImages} from '@/utils';
 import {numbers, alerts, errorMessages} from '@/constants';
 import type {ImageUri} from '@/types';
 
@@ -82,6 +82,7 @@ function useImagePicker({
       .catch(error => {
         if (error.code !== 'E_PICKER_CANCELLED') {
           snackbar.show(errorMessages.CANNOT_ACCESS_PHOTO);
+          captureException(error);
         }
       });
   };
