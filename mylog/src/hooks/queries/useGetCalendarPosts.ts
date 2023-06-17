@@ -1,6 +1,7 @@
 import {UseQueryOptions, useQuery} from '@tanstack/react-query';
 
 import {queryKeys} from '@/constants';
+import {captureException} from '@/utils';
 import {getCalendarPosts} from '@/api';
 import type {ResponseCalendarPost} from '@/api';
 import type {ResponseError} from '@/types';
@@ -16,6 +17,7 @@ function useGetCalendarPosts(
     {
       useErrorBoundary: false,
       keepPreviousData: true,
+      onError: error => captureException(error),
       ...queryOptions,
     },
   );

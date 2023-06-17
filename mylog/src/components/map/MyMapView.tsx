@@ -8,12 +8,12 @@ import {
   PROVIDER_GOOGLE,
 } from 'react-native-maps';
 import MapView from 'react-native-map-clustering';
-import type {StackNavigationProp} from '@react-navigation/stack';
-import type {DrawerNavigationProp} from '@react-navigation/drawer';
-import {CompositeNavigationProp, useNavigation} from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {CompositeNavigationProp, useNavigation} from '@react-navigation/native';
+import type {StackNavigationProp} from '@react-navigation/stack';
+import type {DrawerNavigationProp} from '@react-navigation/drawer';
 
 import type {MapStackParamList} from '@/navigations/stack/MapStackNavigator';
 import type {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';

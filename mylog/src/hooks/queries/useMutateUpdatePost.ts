@@ -2,6 +2,7 @@ import {useMutation} from '@tanstack/react-query';
 
 import queryClient from '@/api/queryClient';
 import {ResponseCalendarPost, updatePost} from '@/api';
+import {captureException} from '@/utils';
 import {queryKeys} from '@/constants';
 import type {Marker, UseMutationCustomOptions} from '@/types';
 
@@ -67,6 +68,7 @@ function useMutateUpdatePost(mutationOptions?: UseMutationCustomOptions) {
         },
       );
     },
+    onError: error => captureException(error),
     ...mutationOptions,
   });
 }

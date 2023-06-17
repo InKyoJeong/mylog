@@ -1,11 +1,11 @@
 import React from 'react';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import type {StackNavigationProp} from '@react-navigation/stack';
 import type {CompositeNavigationProp} from '@react-navigation/native';
 import type {DrawerNavigationProp} from '@react-navigation/drawer';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import type {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
-import {CalendarStackParamList} from '@/navigations/stack/CalendarStackNavigator';
+import type {CalendarStackParamList} from '@/navigations/stack/CalendarStackNavigator';
 import HeaderButton from '../@common/HeaderButton';
 import useThemeStore from '@/store/useThemeStore';
 import {colors, numbers} from '@/constants';

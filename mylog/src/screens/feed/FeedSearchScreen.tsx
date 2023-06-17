@@ -1,7 +1,9 @@
-import React from 'react';
+import React, {Suspense} from 'react';
 import {SafeAreaView, StyleSheet} from 'react-native';
 
 import FeedItemSearchList from '@/components/feed/FeedItemSearchList';
+import RetryErrorBoundary from '@/components/@common/RetryErrorBoundary';
+import Indicator from '@/components/@common/Indicator';
 import useThemeStore from '@/store/useThemeStore';
 import {colors} from '@/constants';
 import type {ThemeMode} from '@/types';
@@ -12,7 +14,11 @@ function FeedSearchScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <FeedItemSearchList />
+      <RetryErrorBoundary>
+        <Suspense fallback={<Indicator />}>
+          <FeedItemSearchList />
+        </Suspense>
+      </RetryErrorBoundary>
     </SafeAreaView>
   );
 }

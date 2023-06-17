@@ -25,6 +25,8 @@ import {
   setEncryptStorage,
   removeHeader,
   setHeader,
+  captureException,
+  isServerError,
 } from '@/utils';
 import {numbers, queryKeys, storageKeys} from '@/constants';
 import type {
@@ -36,7 +38,7 @@ import type {
 
 function useSignup(mutationOptions?: UseMutationCustomOptions) {
   return useMutation(postSignup, {
-    useErrorBoundary: error => Number(error.response?.status) >= 500,
+    useErrorBoundary: error => isServerError(error),
     ...mutationOptions,
   });
 }
@@ -54,7 +56,7 @@ function useLogin<T>(
       queryClient.refetchQueries([queryKeys.AUTH, queryKeys.GET_ACCESS_TOKEN]);
       queryClient.invalidateQueries([queryKeys.AUTH, queryKeys.GET_PROFILE]);
     },
-    useErrorBoundary: error => Number(error.response?.status) >= 500,
+    useErrorBoundary: error => isServerError(error),
     ...mutationOptions,
   });
 }
@@ -88,6 +90,7 @@ function useLogout(mutationOptions?: UseMutationCustomOptions) {
     onSettled: () => {
       queryClient.invalidateQueries([queryKeys.AUTH]);
     },
+    onError: error => captureException(error),
     ...mutationOptions,
   });
 }
@@ -103,9 +106,10 @@ function useGetRefreshToken(
         setHeader('Authorization', `Bearer ${accessToken}`);
         setEncryptStorage(storageKeys.REFRESH_TOKEN, refreshToken);
       },
-      onError: () => {
+      onError: error => {
         removeHeader('Authorization');
         removeEncryptStorage(storageKeys.REFRESH_TOKEN);
+        isServerError(error) && captureException(error);
       },
       suspense: false,
       useErrorBoundary: false,
@@ -156,12 +160,14 @@ function useMutateProfile(mutationOptions?: UseMutationCustomOptions) {
         newProfile,
       );
     },
+    onError: error => captureException(error),
     ...mutationOptions,
   });
 }
 
 function useMutateDeleteAccount(mutationOptions?: UseMutationCustomOptions) {
   return useMutation(deleteAccount, {
+    onError: error => isServerError(error) && captureException(error),
     ...mutationOptions,
   });
 }
@@ -174,6 +180,7 @@ function useMutateCategory(mutationOptions?: UseMutationCustomOptions) {
         newProfile,
       );
     },
+    onError: error => captureException(error),
     ...mutationOptions,
   });
 }

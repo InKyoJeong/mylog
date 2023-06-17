@@ -9,13 +9,13 @@ import {
   Pressable,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import Octicons from 'react-native-vector-icons/Octicons';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import Octicons from 'react-native-vector-icons/Octicons';
+import FastImage from 'react-native-fast-image';
 
 import useThemeStore from '@/store/useThemeStore';
 import {colors} from '@/constants';
 import type {ImageUri, ThemeMode} from '@/types';
-import FastImage from 'react-native-fast-image';
 
 interface ImageCarouselProps {
   images: ImageUri[];

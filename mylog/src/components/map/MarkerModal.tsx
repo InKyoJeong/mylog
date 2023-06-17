@@ -1,11 +1,11 @@
 import React from 'react';
 import {Dimensions, Pressable, StyleSheet, Text, View} from 'react-native';
 import {CompositeNavigationProp, useNavigation} from '@react-navigation/native';
+import FastImage from 'react-native-fast-image';
 import Octicons from 'react-native-vector-icons/Octicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import type {DrawerNavigationProp} from '@react-navigation/drawer';
 import type {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
-import FastImage from 'react-native-fast-image';
 
 import type {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
 import type {FeedTabParamList} from '@/navigations/tab/FeedTabNavigator';

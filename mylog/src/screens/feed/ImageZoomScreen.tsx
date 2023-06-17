@@ -2,8 +2,8 @@ import React from 'react';
 import type {StackScreenProps} from '@react-navigation/stack';
 
 import type {FeedStackParamList} from '@/navigations/stack/FeedStackNavigator';
-import useDetailPostStore from '@/store/useDetailPostStore';
 import ImageCarousel from '@/components/@common/ImageCarousel';
+import useDetailPostStore from '@/store/useDetailPostStore';
 import {feedNavigations} from '@/constants';
 
 type ImageZoomScreenProps = StackScreenProps<

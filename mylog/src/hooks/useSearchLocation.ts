@@ -4,6 +4,7 @@ import type {LatLng} from 'react-native-maps';
 import Config from 'react-native-config';
 
 import useDebounce from './useDebounce';
+import {captureException} from '@/utils';
 import {numbers} from '@/constants';
 
 type Meta = {
@@ -69,8 +70,9 @@ function useSearchLocation(keyword: string, location: LatLng) {
 
         setHasNextPage(!data.meta.is_end);
         setRegionInfo(data.documents);
-      } catch {
+      } catch (error) {
         setRegionInfo([]);
+        captureException(error);
       }
     })();
 

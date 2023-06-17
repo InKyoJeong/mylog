@@ -2,6 +2,7 @@ import {useMutation} from '@tanstack/react-query';
 
 import queryClient from '@/api/queryClient';
 import {updateFavoritePost, ResponseSinglePost} from '@/api';
+import {captureException} from '@/utils';
 import {queryKeys} from '@/constants';
 import type {UseMutationCustomOptions} from '@/types';
 
@@ -25,6 +26,7 @@ function useMutateFavoritePost(mutationOptions?: UseMutationCustomOptions) {
         {...existingPost, isFavorite: !existingPost.isFavorite},
       );
     },
+    onError: error => captureException(error),
     ...mutationOptions,
   });
 }

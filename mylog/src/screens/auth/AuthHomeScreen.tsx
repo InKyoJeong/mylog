@@ -22,6 +22,7 @@ import Conditional from '@/components/@common/Conditional';
 import useAuth from '@/hooks/queries/useAuth';
 import useSnackbarStore from '@/store/useSnackbarStore';
 import useThemeStore from '@/store/useThemeStore';
+import {captureException} from '@/utils';
 import {authNavigations, colors, errorMessages} from '@/constants';
 import type {ThemeMode} from '@/types';
 
@@ -53,6 +54,7 @@ function AuthHomeScreen({navigation}: AuthHomeScreenProps) {
     } catch (error: any) {
       if (error.code !== appleAuth.Error.CANCELED) {
         snackbar.show(errorMessages.FAIL_APPLE_LOGIN);
+        captureException(error);
       }
     }
   };
