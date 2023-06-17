@@ -9,12 +9,13 @@ import {
   Text,
   View,
 } from 'react-native';
-import {CompositeScreenProps} from '@react-navigation/native';
+import FastImage from 'react-native-fast-image';
+import Octicons from 'react-native-vector-icons/Octicons';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import type {CompositeScreenProps} from '@react-navigation/native';
 import type {StackScreenProps} from '@react-navigation/stack';
 import type {DrawerScreenProps} from '@react-navigation/drawer';
 import type {FeedStackParamList} from '@/navigations/stack/FeedStackNavigator';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import Octicons from 'react-native-vector-icons/Octicons';
 
 import type {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
 import Conditional from '@/components/@common/Conditional';
@@ -44,7 +45,6 @@ import {
   settingNavigations,
 } from '@/constants';
 import type {ThemeMode} from '@/types';
-import FastImage from 'react-native-fast-image';
 
 type FeedDetailScreenProps = CompositeScreenProps<
   StackScreenProps<FeedStackParamList, typeof feedNavigations.FEED_DETAIL>,

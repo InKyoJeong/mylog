@@ -1,5 +1,6 @@
-import {ResponseError} from '@/types';
 import * as Sentry from '@sentry/react-native';
+
+import type {ResponseError} from '@/types';
 
 function captureException(error: unknown) {
   if (__DEV__) {

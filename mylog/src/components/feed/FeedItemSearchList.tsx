@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import {Keyboard, FlatList, Pressable, StyleSheet, View} from 'react-native';
 import Animated, {FadeInRight} from 'react-native-reanimated';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
 import type {DrawerNavigationProp} from '@react-navigation/drawer';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import type {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
 import SearchInput from '../@common/SearchInput';

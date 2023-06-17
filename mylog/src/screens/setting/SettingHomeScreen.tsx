@@ -6,8 +6,8 @@ import {
   View,
   Platform,
 } from 'react-native';
-import type {StackScreenProps} from '@react-navigation/stack';
 import Octicons from 'react-native-vector-icons/Octicons';
+import type {StackScreenProps} from '@react-navigation/stack';
 
 import type {SettingStackParamList} from '@/navigations/stack/SettingStackNavigator';
 import MapLegendOption from '@/components/setting/MapLegendOption';

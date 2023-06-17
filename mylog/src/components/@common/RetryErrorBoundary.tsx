@@ -11,8 +11,8 @@ const RetryErrorBoundary = ({children}: PropsWithChildren) => {
   return (
     <ErrorBoundary
       onReset={reset}
-      FallbackComponent={RetryErrorFallback}
-      onError={error => captureException(error)}>
+      onError={error => captureException(error)}
+      FallbackComponent={RetryErrorFallback}>
       {children}
     </ErrorBoundary>
   );
