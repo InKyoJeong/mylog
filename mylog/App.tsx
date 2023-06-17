@@ -3,7 +3,9 @@ import {Platform, StatusBar, UIManager} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {QueryClientProvider} from '@tanstack/react-query';
+import Config from 'react-native-config';
 import CodePush from 'react-native-code-push';
+import * as Sentry from '@sentry/react-native';
 
 import RootNavigator from '@/navigations/root/RootNavigator';
 import Snackbar from '@/components/@common/Snackbar';
@@ -11,6 +13,10 @@ import SyncProgressView from '@/components/@common/SyncProgressView';
 import useThemeStorage from '@/hooks/storage/useThemeStorage';
 import useCodePush from '@/hooks/useCodePush';
 import queryClient from '@/api/queryClient';
+
+Sentry.init({
+  dsn: Config.SENTRY_DSN,
+});
 
 if (
   Platform.OS === 'android' &&
@@ -42,4 +48,4 @@ function App() {
   );
 }
 
-export default CodePush(App);
+export default CodePush(Sentry.wrap(App));
