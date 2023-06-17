@@ -2,6 +2,7 @@ import {useMutation} from '@tanstack/react-query';
 
 import queryClient from '@/api/queryClient';
 import {deletePost} from '@/api';
+import {captureException} from '@/utils';
 import {queryKeys} from '@/constants';
 import type {Marker, UseMutationCustomOptions} from '@/types';
 
@@ -30,6 +31,7 @@ function useMutateDeletePost(mutationOptions?: UseMutationCustomOptions) {
         },
       );
     },
+    onError: error => captureException(error),
     ...mutationOptions,
   });
 }

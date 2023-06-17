@@ -4,6 +4,7 @@ import type {LatLng} from 'react-native-maps';
 import Config from 'react-native-config';
 
 import {errorMessages} from '@/constants';
+import {captureException} from '@/utils';
 
 function useGetAddress(location: LatLng) {
   const {latitude, longitude} = location;
@@ -20,8 +21,9 @@ function useGetAddress(location: LatLng) {
           : `${latitude.toFixed(4)}, ${longitude.toFixed(4)}`;
 
         setResult(address);
-      } catch {
+      } catch (error) {
         setResult(errorMessages.CANNOT_GET_ADDRESS);
+        captureException(error);
       }
     })();
   }, [latitude, longitude]);

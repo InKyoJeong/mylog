@@ -13,9 +13,11 @@ import SyncProgressView from '@/components/@common/SyncProgressView';
 import useThemeStorage from '@/hooks/storage/useThemeStorage';
 import useCodePush from '@/hooks/useCodePush';
 import queryClient from '@/api/queryClient';
+import {numbers} from '@/constants';
 
 Sentry.init({
   dsn: Config.SENTRY_DSN,
+  release: numbers.CURRENT_VERSION.COMMON,
 });
 
 if (

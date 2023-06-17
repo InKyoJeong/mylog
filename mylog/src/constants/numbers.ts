@@ -45,6 +45,7 @@ const numbers = {
   CURRENT_VERSION: {
     IOS: '1.5.0',
     ANDROID: '1.5.0',
+    COMMON: '1.5.0',
   },
   HEADER_DRAWER_ICON: 25,
 } as const;
