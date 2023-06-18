@@ -1,6 +1,3 @@
-import {months} from '@/constants';
-import type {Locale} from '@/types';
-
 function getDateDetails(dateString: Date | string) {
   const date = new Date(dateString);
   const year = date.getFullYear();
@@ -23,17 +20,10 @@ function getDateWithSeparator(
   ].join(separator);
 }
 
-function getDateLocaleFormat(dateString: Date | string, locale: Locale = 'ko') {
+function getDateLocaleFormat(dateString: Date | string) {
   const {year, month, day} = getDateDetails(dateString);
 
-  switch (locale) {
-    case 'ko': {
-      return `${year}년 ${month}월 ${day}일`;
-    }
-    case 'en': {
-      return `${months[month]} ${day}, ${year}`;
-    }
-  }
+  return `${year}년 ${month}월 ${day}일`;
 }
 
 function getMonthYearDetails(initialDate: Date) {

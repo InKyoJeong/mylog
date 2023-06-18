@@ -20,7 +20,7 @@
 
 <br>
 
-## 📌 Architecture
+## 📌 Structure
 
 ![app](https://github-production-user-asset-6210df.s3.amazonaws.com/48676844/245890031-93f6eeb5-4d51-46d8-9eaf-5d8fe11396b8.png)
 ![server](https://github-production-user-asset-6210df.s3.amazonaws.com/48676844/245890123-5af3398a-45ce-4274-ae4a-3be825b56683.png)
