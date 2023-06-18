@@ -23,8 +23,6 @@ type AxiosCommonRequestHeaders =
 
 type ThemeMode = 'light' | 'dark';
 
-type Locale = 'ko' | 'en';
-
 export type {
   ResponseError,
   UseMutationCustomOptions,
