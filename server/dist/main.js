@@ -6,7 +6,7 @@ async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
     const port = process.env.PORT || 3030;
     app.use('/', (_, res) => {
-        res.send('ok');
+        res.send('server ok');
     });
     if (process.env.NODE_ENV === 'production') {
         app.enableCors({
