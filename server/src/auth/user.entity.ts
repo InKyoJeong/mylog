@@ -4,8 +4,8 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  // JoinTable,
-  // ManyToMany,
+  JoinTable,
+  ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
   Unique,
@@ -82,14 +82,14 @@ export class User extends BaseEntity {
   @OneToMany(() => Memo, (memo) => memo.user, { eager: false })
   memo: Memo[];
 
-  // @ManyToMany(() => User, { cascade: true })
-  // @JoinTable({
-  //   name: 'friendship',
-  //   joinColumn: { name: 'userId', referencedColumnName: 'id' },
-  //   inverseJoinColumn: { name: 'friendId', referencedColumnName: 'id' },
-  // })
-  // friends: User[];
+  @ManyToMany(() => User, { cascade: true })
+  @JoinTable({
+    name: 'friendship',
+    joinColumn: { name: 'userId', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'friendId', referencedColumnName: 'id' },
+  })
+  friends: User[];
 
-  // @ManyToMany(() => User, { cascade: true })
-  // pendingFriendRequests: User[];
+  @ManyToMany(() => User, { cascade: true })
+  pendingFriendRequests: User[];
 }
