@@ -15,7 +15,7 @@ export class Friendship extends BaseEntity {
   id: number;
 
   @Column()
-  status: 'pending' | 'accepted' | 'rejected';
+  status: 'pending' | 'accepted' | 'blocked';
 
   @CreateDateColumn()
   createdAt: Date;

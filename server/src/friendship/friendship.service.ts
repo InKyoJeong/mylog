@@ -22,6 +22,10 @@ export class FriendshipService {
   async sendFriendRequest(user: User, receiverId: number): Promise<void> {
     const receiver = await this.userRepository.findOneBy({ id: receiverId });
 
+    if (Number(user.id) === Number(receiverId)) {
+      throw new ConflictException('자신은 추가할 수 없습니다.');
+    }
+
     if (!user || !receiver) {
       throw new NotFoundException('존재하지 않는 사용자입니다.');
     }
@@ -29,11 +33,34 @@ export class FriendshipService {
     const existingRequest = await this.friendshipRepository
       .createQueryBuilder('friendship')
       .where('friendship.requesterId = :requesterId', { requesterId: user.id })
+      .andWhere('friendship.receiverId = :receiverId', { receiverId })
       .andWhere('friendship.status = :status', { status: 'pending' })
       .getOne();
 
     if (existingRequest) {
       throw new ConflictException('이미 요청을 보낸 상태입니다.');
+    }
+
+    const existingFriend = await this.friendshipRepository
+      .createQueryBuilder('friendship')
+      .where('friendship.requesterId = :requesterId', { requesterId: user.id })
+      .andWhere('friendship.receiverId = :receiverId', { receiverId })
+      .andWhere('friendship.status = :status', { status: 'accepted' })
+      .getOne();
+
+    if (existingFriend) {
+      throw new ConflictException('이미 친구 추가된 사용자입니다.');
+    }
+
+    const blockFriend = await this.friendshipRepository
+      .createQueryBuilder('friendship')
+      .where('friendship.requesterId = :requesterId', { requesterId: user.id })
+      .andWhere('friendship.receiverId = :receiverId', { receiverId })
+      .andWhere('friendship.status = :status', { status: 'blocked' })
+      .getOne();
+
+    if (blockFriend) {
+      throw new ConflictException('친구 요청을 보낼 수 없는 사용자입니다.');
     }
 
     const friendship = new Friendship();
@@ -57,6 +84,7 @@ export class FriendshipService {
   ): Promise<void> {
     const { status } = updateFriendRequestDto;
 
+    const receiver = await this.userRepository.findOneBy({ id: requesterId });
     const friendship = await this.friendshipRepository
       .createQueryBuilder('friendship')
       .where('friendship.requesterId = :requesterId', { requesterId })
@@ -64,19 +92,40 @@ export class FriendshipService {
       .andWhere('friendship.status = :status', { status: 'pending' })
       .getOne();
 
-    if (!friendship) {
-      throw new NotFoundException('존재하지 않는 요청입니다.');
+    if (!friendship || !receiver) {
+      throw new NotFoundException(
+        '이미 처리되었거나 존재하지 않는 사용자입니다.',
+      );
     }
 
     friendship.status = status;
 
-    try {
-      await this.friendshipRepository.save(friendship);
-    } catch (error) {
-      throw new InternalServerErrorException(
-        '요청을 수락하는 도중 에러가 발생했습니다.',
-      );
+    await this.friendshipRepository.save(friendship);
+
+    // 반대로 친구 상태도 변경
+    const existReverseFriendShip = await this.friendshipRepository
+      .createQueryBuilder('friendship')
+      .where('friendship.requesterId = :requesterId', { requesterId: user.id })
+      .andWhere('friendship.receiverId = :receiverId', {
+        receiverId: requesterId,
+      })
+      .andWhere('friendship.status = :status', { status: 'pending' })
+      .getOne();
+
+    // 이미 상대도 요청을 보내서 status 변경
+    if (existReverseFriendShip) {
+      existReverseFriendShip.status = 'accepted';
+      await this.friendshipRepository.save(existReverseFriendShip);
+      return;
     }
+
+    // 친구쪽도 반대로 accepted 생성
+    const reverseFriendship = new Friendship();
+    reverseFriendship.requester = user;
+    reverseFriendship.receiver = receiver;
+    reverseFriendship.status = 'accepted';
+
+    await this.friendshipRepository.save(reverseFriendship);
   }
 
   private getFriendProfile(friendShips: Friendship[]) {
