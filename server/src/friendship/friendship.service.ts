@@ -1,4 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { Friendship } from './friendship.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -27,7 +32,7 @@ export class FriendshipService {
       .getOne();
 
     if (existingRequest) {
-      throw new Error('이미 요청을 보낸 상태입니다.');
+      throw new ConflictException('이미 요청을 보낸 상태입니다.');
     }
 
     const friendship = new Friendship();
@@ -35,6 +40,12 @@ export class FriendshipService {
     friendship.receiver = receiver;
     friendship.status = 'pending';
 
-    await this.friendshipRepository.save(friendship);
+    try {
+      await this.friendshipRepository.save(friendship);
+    } catch (error) {
+      throw new InternalServerErrorException(
+        '친구 요청을 보내는 도중 에러가 발생했습니다.',
+      );
+    }
   }
 }
