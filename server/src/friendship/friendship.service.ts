@@ -71,4 +71,46 @@ export class FriendshipService {
     friendship.status = status;
     await this.friendshipRepository.save(friendship);
   }
+
+  async getFriendRequests(user: User) {
+    const friendRequests = await this.friendshipRepository
+      .createQueryBuilder('friendship')
+      .leftJoinAndSelect('friendship.requester', 'requester')
+      .where('friendship.status = :status', { status: 'pending' })
+      .andWhere('friendship.receiverId = :userId', { userId: user.id })
+      .getMany();
+
+    const requestProfile = friendRequests.map((friend) => ({
+      ...friend,
+      requester: {
+        id: friend.requester.id,
+        nickname: friend.requester.nickname,
+        email: friend.requester.email,
+        imageUri: friend.requester.imageUri,
+        kakaoImageUri: friend.requester.kakaoImageUri,
+      },
+    }));
+
+    return requestProfile;
+  }
+
+  async getFriends(user: User) {
+    const friendships = await this.friendshipRepository
+      .createQueryBuilder('friendship')
+      .leftJoinAndSelect('friendship.requester', 'requester')
+      .where('friendship.receiverId = :userId', { userId: user.id })
+      .andWhere('friendship.status = :status', { status: 'accepted' })
+      .getMany();
+
+    return friendships.map((friendship) => ({
+      ...friendship,
+      requester: {
+        id: friendship.requester.id,
+        nickname: friendship.requester.nickname,
+        email: friendship.requester.email,
+        imageUri: friendship.requester.imageUri,
+        kakaoImageUri: friendship.requester.kakaoImageUri,
+      },
+    }));
+  }
 }

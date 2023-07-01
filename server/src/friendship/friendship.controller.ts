@@ -38,4 +38,14 @@ export class FriendshipController {
       updateFriendRequestDto,
     );
   }
+
+  @Get('/friend-requests')
+  async getFriendRequests(@GetUser() user: User) {
+    await this.friendshipService.getFriendRequests(user);
+  }
+
+  @Get('/friends')
+  async getFriends(@GetUser() user: User) {
+    return this.friendshipService.getFriends(user);
+  }
 }

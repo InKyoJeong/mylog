@@ -88,8 +88,4 @@ export class User extends BaseEntity {
 
   @OneToMany(() => Friendship, (friendship) => friendship.receiver)
   receivedFriendships: Friendship[];
-
-  @ManyToMany(() => User, (user) => user.friends)
-  @JoinTable()
-  friends: User[];
 }
