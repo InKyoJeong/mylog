@@ -12,6 +12,7 @@ import { FeedbackModule } from './feedback/feedback.module';
 import { LoggerMiddleware } from './middlewares/logger.middleware';
 import { VersionModule } from './version/version.module';
 import { MemoModule } from './memo/memo.module';
+import { FriendshipModule } from './friendship/friendship.module';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { MemoModule } from './memo/memo.module';
     FeedbackModule,
     VersionModule,
     MemoModule,
+    FriendshipModule,
   ],
   providers: [ConfigService],
 })
