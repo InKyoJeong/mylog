@@ -8,6 +8,7 @@ import { Friendship } from './friendship.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/auth/user.entity';
+import { UpdateFriendRequestDto } from './dto/update-friend-request.dto';
 
 @Injectable()
 export class FriendshipService {
@@ -47,5 +48,27 @@ export class FriendshipService {
         '친구 요청을 보내는 도중 에러가 발생했습니다.',
       );
     }
+  }
+
+  async updateFriendRequest(
+    user: User,
+    requesterId: number,
+    updateFriendRequestDto: UpdateFriendRequestDto,
+  ): Promise<void> {
+    const { status } = updateFriendRequestDto;
+
+    const friendship = await this.friendshipRepository
+      .createQueryBuilder('friendship')
+      .where('friendship.requesterId = :requesterId', { requesterId })
+      .andWhere('friendship.receiverId = :receiverId', { receiverId: user.id })
+      .andWhere('friendship.status = :status', { status: 'pending' })
+      .getOne();
+
+    if (!friendship) {
+      throw new NotFoundException('존재하지 않는 요청입니다.');
+    }
+
+    friendship.status = status;
+    await this.friendshipRepository.save(friendship);
   }
 }
