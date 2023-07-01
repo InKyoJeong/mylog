@@ -72,15 +72,8 @@ export class FriendshipService {
     await this.friendshipRepository.save(friendship);
   }
 
-  async getFriendRequests(user: User) {
-    const friendRequests = await this.friendshipRepository
-      .createQueryBuilder('friendship')
-      .leftJoinAndSelect('friendship.requester', 'requester')
-      .where('friendship.status = :status', { status: 'pending' })
-      .andWhere('friendship.receiverId = :userId', { userId: user.id })
-      .getMany();
-
-    const requestProfile = friendRequests.map((friend) => ({
+  private getFriendProfile(friendShips: Friendship[]) {
+    return friendShips.map((friend) => ({
       ...friend,
       requester: {
         id: friend.requester.id,
@@ -90,8 +83,17 @@ export class FriendshipService {
         kakaoImageUri: friend.requester.kakaoImageUri,
       },
     }));
+  }
 
-    return requestProfile;
+  async getFriendRequests(user: User) {
+    const friendRequests = await this.friendshipRepository
+      .createQueryBuilder('friendship')
+      .leftJoinAndSelect('friendship.requester', 'requester')
+      .where('friendship.receiverId = :userId', { userId: user.id })
+      .andWhere('friendship.status = :status', { status: 'pending' })
+      .getMany();
+
+    return this.getFriendProfile(friendRequests);
   }
 
   async getFriends(user: User) {
@@ -102,15 +104,6 @@ export class FriendshipService {
       .andWhere('friendship.status = :status', { status: 'accepted' })
       .getMany();
 
-    return friendships.map((friendship) => ({
-      ...friendship,
-      requester: {
-        id: friendship.requester.id,
-        nickname: friendship.requester.nickname,
-        email: friendship.requester.email,
-        imageUri: friendship.requester.imageUri,
-        kakaoImageUri: friendship.requester.kakaoImageUri,
-      },
-    }));
+    return this.getFriendProfile(friendships);
   }
 }

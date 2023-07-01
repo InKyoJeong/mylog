@@ -19,20 +19,20 @@ export class FriendshipController {
   constructor(private friendshipService: FriendshipService) {}
 
   @Post('/friend-requests/:receiverId')
-  async sendFriendRequest(
+  sendFriendRequest(
     @Param('receiverId') receiverId: number,
     @GetUser() user: User,
   ) {
-    await this.friendshipService.sendFriendRequest(user, receiverId);
+    return this.friendshipService.sendFriendRequest(user, receiverId);
   }
 
   @Patch('friend-requests/:requesterId')
-  async updateFriendRequest(
+  updateFriendRequest(
     @Param('requesterId') requesterId: number,
     @GetUser() user: User,
     @Body() updateFriendRequestDto: UpdateFriendRequestDto,
   ) {
-    await this.friendshipService.updateFriendRequest(
+    return this.friendshipService.updateFriendRequest(
       user,
       requesterId,
       updateFriendRequestDto,
@@ -40,12 +40,12 @@ export class FriendshipController {
   }
 
   @Get('/friend-requests')
-  async getFriendRequests(@GetUser() user: User) {
-    await this.friendshipService.getFriendRequests(user);
+  getFriendRequests(@GetUser() user: User) {
+    return this.friendshipService.getFriendRequests(user);
   }
 
   @Get('/friends')
-  async getFriends(@GetUser() user: User) {
+  getFriends(@GetUser() user: User) {
     return this.friendshipService.getFriends(user);
   }
 }
