@@ -69,7 +69,14 @@ export class FriendshipService {
     }
 
     friendship.status = status;
-    await this.friendshipRepository.save(friendship);
+
+    try {
+      await this.friendshipRepository.save(friendship);
+    } catch (error) {
+      throw new InternalServerErrorException(
+        '요청을 수락하는 도중 에러가 발생했습니다.',
+      );
+    }
   }
 
   private getFriendProfile(friendShips: Friendship[]) {
@@ -85,25 +92,26 @@ export class FriendshipService {
     }));
   }
 
-  async getFriendRequests(user: User) {
-    const friendRequests = await this.friendshipRepository
+  private async getFriendsByStatus(user: User, status: Friendship['status']) {
+    const friends = await this.friendshipRepository
       .createQueryBuilder('friendship')
       .leftJoinAndSelect('friendship.requester', 'requester')
       .where('friendship.receiverId = :userId', { userId: user.id })
-      .andWhere('friendship.status = :status', { status: 'pending' })
+      .andWhere('friendship.status = :status', { status })
       .getMany();
 
-    return this.getFriendProfile(friendRequests);
+    return friends;
   }
 
-  async getFriends(user: User) {
-    const friendships = await this.friendshipRepository
-      .createQueryBuilder('friendship')
-      .leftJoinAndSelect('friendship.requester', 'requester')
-      .where('friendship.receiverId = :userId', { userId: user.id })
-      .andWhere('friendship.status = :status', { status: 'accepted' })
-      .getMany();
+  async getAcceptedFriends(user: User) {
+    const acceptedFriends = await this.getFriendsByStatus(user, 'accepted');
 
-    return this.getFriendProfile(friendships);
+    return this.getFriendProfile(acceptedFriends);
+  }
+
+  async getPendingFriends(user: User) {
+    const pendingFriends = await this.getFriendsByStatus(user, 'pending');
+
+    return this.getFriendProfile(pendingFriends);
   }
 }
