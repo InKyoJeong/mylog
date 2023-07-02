@@ -41,11 +41,11 @@ export class FriendshipController {
 
   @Get('/')
   getMyFriends(@GetUser() user: User) {
-    return this.friendshipService.getAcceptedFriends(user);
+    return this.friendshipService.getFriendsByStatus(user, 'accepted');
   }
 
   @Get('/requests')
-  getFriendRequests(@GetUser() user: User) {
-    return this.friendshipService.getPendingFriends(user);
+  getPendingFriends(@GetUser() user: User) {
+    return this.friendshipService.getFriendsByStatus(user, 'pending');
   }
 }

@@ -19,7 +19,7 @@ export class FriendshipService {
     private userRepository: Repository<User>,
   ) {}
 
-  private async findFriendshipByConditions(
+  private async findFriendshipByStatus(
     requesterId: number,
     receiverId: number,
     status: Friendship['status'],
@@ -38,7 +38,7 @@ export class FriendshipService {
     status: Friendship['status'],
     errorMessage: string,
   ): Promise<void> {
-    const friendship = await this.findFriendshipByConditions(
+    const friendship = await this.findFriendshipByStatus(
       user.id,
       receiverId,
       status,
@@ -102,7 +102,7 @@ export class FriendshipService {
   ): Promise<void> {
     const { status } = updateFriendRequestDto;
     const receiver = await this.userRepository.findOneBy({ id: requesterId });
-    const friendship = await this.findFriendshipByConditions(
+    const friendship = await this.findFriendshipByStatus(
       requesterId,
       user.id,
       'pending',
@@ -117,7 +117,7 @@ export class FriendshipService {
     friendship.status = status;
     await this.friendshipRepository.save(friendship);
 
-    const existingReverseFriendShip = await this.findFriendshipByConditions(
+    const existingReverseFriendShip = await this.findFriendshipByStatus(
       user.id,
       requesterId,
       'pending',
@@ -137,39 +137,22 @@ export class FriendshipService {
     await this.friendshipRepository.save(reverseFriendship);
   }
 
-  private getFriendProfile(friendShips: Friendship[]) {
-    return friendShips.map((friend) => ({
-      ...friend,
-      requester: {
-        id: friend.requester.id,
-        nickname: friend.requester.nickname,
-        email: friend.requester.email,
-        imageUri: friend.requester.imageUri,
-        kakaoImageUri: friend.requester.kakaoImageUri,
-      },
-    }));
-  }
-
-  private async getFriendsByStatus(user: User, status: Friendship['status']) {
+  async getFriendsByStatus(user: User, status: Friendship['status']) {
     const friends = await this.friendshipRepository
       .createQueryBuilder('friendship')
       .leftJoinAndSelect('friendship.requester', 'requester')
+      .select([
+        'friendship',
+        'requester.id',
+        'requester.nickname',
+        'requester.email',
+        'requester.imageUri',
+        'requester.kakaoImageUri',
+      ])
       .where('friendship.receiverId = :userId', { userId: user.id })
       .andWhere('friendship.status = :status', { status })
       .getMany();
 
     return friends;
-  }
-
-  async getAcceptedFriends(user: User) {
-    const acceptedFriends = await this.getFriendsByStatus(user, 'accepted');
-
-    return this.getFriendProfile(acceptedFriends);
-  }
-
-  async getPendingFriends(user: User) {
-    const pendingFriends = await this.getFriendsByStatus(user, 'pending');
-
-    return this.getFriendProfile(pendingFriends);
   }
 }
