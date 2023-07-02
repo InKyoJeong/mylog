@@ -4,8 +4,8 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  // JoinTable,
-  // ManyToMany,
+  JoinTable,
+  ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
   Unique,
@@ -17,6 +17,7 @@ import { Post } from 'src/post/post.entity';
 import { Feedback } from 'src/feedback/feedback.entity';
 import { MarkerColor } from 'src/post/marker-color.enum';
 import { Memo } from 'src/memo/memo.entity';
+import { Friendship } from 'src/friendship/friendship.entity';
 
 @Entity()
 @Unique(['email'])
@@ -82,14 +83,9 @@ export class User extends BaseEntity {
   @OneToMany(() => Memo, (memo) => memo.user, { eager: false })
   memo: Memo[];
 
-  // @ManyToMany(() => User, { cascade: true })
-  // @JoinTable({
-  //   name: 'friendship',
-  //   joinColumn: { name: 'userId', referencedColumnName: 'id' },
-  //   inverseJoinColumn: { name: 'friendId', referencedColumnName: 'id' },
-  // })
-  // friends: User[];
+  @OneToMany(() => Friendship, (friendship) => friendship.requester)
+  requestedFriendships: Friendship[];
 
-  // @ManyToMany(() => User, { cascade: true })
-  // pendingFriendRequests: User[];
+  @OneToMany(() => Friendship, (friendship) => friendship.receiver)
+  receivedFriendships: Friendship[];
 }
