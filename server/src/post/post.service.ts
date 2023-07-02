@@ -10,6 +10,7 @@ import { User } from 'src/auth/user.entity';
 import { CreatePostDto } from './dto/create-post.dto';
 import { Post } from './post.entity';
 import { Image } from 'src/image/image.entity';
+import { Friendship } from 'src/friendship/friendship.entity';
 
 @Injectable()
 export class PostService {
@@ -18,6 +19,8 @@ export class PostService {
     private postRepository: Repository<Post>,
     @InjectRepository(Image)
     private imageRepository: Repository<Image>,
+    @InjectRepository(Friendship)
+    private friendshipRepository: Repository<Friendship>,
   ) {}
 
   async getMyMarkers(user: User) {
@@ -43,20 +46,20 @@ export class PostService {
     }
   }
 
-  private async getMyPostsBaseQuery(
-    user: User,
+  private async getPostsBaseQuery(
+    userId: number,
   ): Promise<SelectQueryBuilder<Post>> {
     return this.postRepository
       .createQueryBuilder('post')
       .leftJoinAndSelect('post.images', 'image')
-      .where('post.userId = :userId', { userId: user.id })
+      .where('post.userId = :userId', { userId })
       .orderBy('post.date', 'DESC');
   }
 
   async getMyPosts(page: number, user: User) {
     const perPage = 10;
     const offset = (page - 1) * perPage;
-    const queryBuilder = await this.getMyPostsBaseQuery(user);
+    const queryBuilder = await this.getPostsBaseQuery(user.id);
     const posts = await queryBuilder.take(perPage).skip(offset).getMany();
 
     const newPosts = posts.map((post) => {
@@ -75,7 +78,7 @@ export class PostService {
   ) {
     const perPage = 10;
     const offset = (page - 1) * perPage;
-    const queryBuilder = await this.getMyPostsBaseQuery(user);
+    const queryBuilder = await this.getPostsBaseQuery(user.id);
     const posts = await queryBuilder
       .andWhere(
         new Brackets((qb) => {
@@ -264,6 +267,34 @@ export class PostService {
       );
 
     return counts;
+  }
+
+  async getFriendPosts(page: number, friendId: number, user: User) {
+    const friends = await this.friendshipRepository
+      .createQueryBuilder('friendship')
+      .leftJoinAndSelect('friendship.requester', 'requester')
+      .select(['friendship', 'requester.id'])
+      .where('friendship.receiverId = :userId', { userId: user.id })
+      .andWhere('friendship.status = :status', { status: 'accepted' })
+      .getMany();
+    const friendIds = friends.map((friend) => friend.requester.id);
+
+    if (!friendIds.includes(friendId)) {
+      throw new NotFoundException('친구 관계가 아닌 사용자입니다.');
+    }
+
+    const perPage = 10;
+    const offset = (page - 1) * perPage;
+    const queryBuilder = await this.getPostsBaseQuery(friendId);
+    const posts = await queryBuilder.take(perPage).skip(offset).getMany();
+
+    const newPosts = posts.map((post) => {
+      const { images, ...rest } = post;
+      const newImages = [...images].sort((a, b) => a.id - b.id);
+      return { ...rest, images: newImages };
+    });
+
+    return newPosts;
   }
 
   async getUserPosts(page: number, userId: number) {

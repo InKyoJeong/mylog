@@ -99,6 +99,15 @@ export class PostController {
     return this.postService.getPostCountByField(user, 'color');
   }
 
+  @Get('/posts/friend/:friendId')
+  getFriendPosts(
+    @Query('page') page: number,
+    @Param('friendId', ParseIntPipe) friendId: number,
+    @GetUser() user: User,
+  ) {
+    return this.postService.getFriendPosts(page, friendId, user);
+  }
+
   @Get('/posts/user/:id')
   @UseGuards(AuthGuard(), AuthAdminGuard)
   @SetMetadata(ADMIN_FLAG, true)
