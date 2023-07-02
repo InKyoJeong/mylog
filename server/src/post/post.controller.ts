@@ -36,6 +36,11 @@ export class PostController {
     return this.postService.getMyMarkers(user);
   }
 
+  @Get('/markers/friends')
+  getFriendMarkers(@GetUser() user: User) {
+    return this.postService.getFriendMarkers(user);
+  }
+
   @Get('/posts/my')
   getMyPosts(@Query('page') page: number, @GetUser() user: User) {
     return this.postService.getMyPosts(page, user);

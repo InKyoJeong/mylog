@@ -265,18 +265,49 @@ export class PostService {
     return counts;
   }
 
-  private async checkFriendship(userId: number, friendId: number) {
-    const friends = await this.friendshipRepository
+  private async getFriends(userId: number) {
+    return await this.friendshipRepository
       .createQueryBuilder('friendship')
       .leftJoinAndSelect('friendship.requester', 'requester')
-      .select(['friendship', 'requester.id'])
       .where('friendship.receiverId = :userId', { userId })
       .andWhere('friendship.status = :status', { status: 'accepted' })
       .getMany();
+  }
+
+  private async checkFriendship(userId: number, friendId: number) {
+    const friends = await this.getFriends(userId);
     const friendIds = friends.map((friend) => friend.requester.id);
 
     if (!friendIds.includes(friendId)) {
       throw new NotFoundException('친구가 아닌 사용자입니다.');
+    }
+  }
+
+  async getFriendMarkers(user: User) {
+    try {
+      const friends = await this.getFriends(user.id);
+      const friendIds = friends.map((friend) => friend.requester.id);
+
+      const friendMarkers = await this.postRepository
+        .createQueryBuilder('post')
+        .leftJoinAndSelect('post.user', 'user')
+        .where('post.userId IN (:...friendIds)', { friendIds })
+        .select([
+          'post.id AS id',
+          'post.latitude AS latitude',
+          'post.longitude AS longitude',
+          'post.color AS color',
+          'post.score AS score',
+          'user.id AS friendId',
+        ])
+        .getRawMany();
+
+      return friendMarkers;
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException(
+        '친구의 마커를 가져오는 도중 에러가 발생했습니다.',
+      );
     }
   }
 
