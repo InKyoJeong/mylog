@@ -99,7 +99,7 @@ export class PostController {
     return this.postService.getPostCountByField(user, 'color');
   }
 
-  @Get('/posts/friend/:friendId')
+  @Get('/posts/friends/:friendId')
   getFriendPosts(
     @Query('page') page: number,
     @Param('friendId', ParseIntPipe) friendId: number,
@@ -108,7 +108,16 @@ export class PostController {
     return this.postService.getFriendPosts(page, friendId, user);
   }
 
-  @Get('/posts/user/:id')
+  @Get('/posts/:postId/friends/:friendId')
+  getFriendPostById(
+    @Param('postId', ParseIntPipe) postId: number,
+    @Param('friendId', ParseIntPipe) friendId: number,
+    @GetUser() user: User,
+  ) {
+    return this.postService.getFriendPostById(postId, friendId, user);
+  }
+
+  @Get('/posts/users/:id')
   @UseGuards(AuthGuard(), AuthAdminGuard)
   @SetMetadata(ADMIN_FLAG, true)
   getUserPosts(

@@ -265,19 +265,23 @@ export class PostService {
     return counts;
   }
 
-  async getFriendPosts(page: number, friendId: number, user: User) {
+  private async checkFriendship(userId: number, friendId: number) {
     const friends = await this.friendshipRepository
       .createQueryBuilder('friendship')
       .leftJoinAndSelect('friendship.requester', 'requester')
       .select(['friendship', 'requester.id'])
-      .where('friendship.receiverId = :userId', { userId: user.id })
+      .where('friendship.receiverId = :userId', { userId })
       .andWhere('friendship.status = :status', { status: 'accepted' })
       .getMany();
     const friendIds = friends.map((friend) => friend.requester.id);
 
     if (!friendIds.includes(friendId)) {
-      throw new NotFoundException('친구 관계가 아닌 사용자입니다.');
+      throw new NotFoundException('친구가 아닌 사용자입니다.');
     }
+  }
+
+  async getFriendPosts(page: number, friendId: number, user: User) {
+    await this.checkFriendship(user.id, friendId);
 
     const perPage = 10;
     const offset = (page - 1) * perPage;
@@ -285,6 +289,23 @@ export class PostService {
     const posts = await queryBuilder.take(perPage).skip(offset).getMany();
 
     return this.getPostsWithOrderImages(posts);
+  }
+
+  async getFriendPostById(postId: number, friendId: number, user: User) {
+    await this.checkFriendship(user.id, friendId);
+
+    const foundPost = await this.postRepository
+      .createQueryBuilder('post')
+      .leftJoinAndSelect('post.images', 'image')
+      .where('post.userId = :userId', { userId: friendId })
+      .andWhere('post.id = :postId', { postId })
+      .getOne();
+
+    if (!foundPost) {
+      throw new NotFoundException('존재하지 않는 피드입니다.');
+    }
+
+    return foundPost;
   }
 
   async getUserPosts(page: number, userId: number) {
