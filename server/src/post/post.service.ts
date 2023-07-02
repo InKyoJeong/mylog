@@ -56,19 +56,21 @@ export class PostService {
       .orderBy('post.date', 'DESC');
   }
 
+  private getPostsWithOrderImages(posts: Post[]) {
+    return posts.map((post) => {
+      const { images, ...rest } = post;
+      const newImages = [...images].sort((a, b) => a.id - b.id);
+      return { ...rest, images: newImages };
+    });
+  }
+
   async getMyPosts(page: number, user: User) {
     const perPage = 10;
     const offset = (page - 1) * perPage;
     const queryBuilder = await this.getPostsBaseQuery(user.id);
     const posts = await queryBuilder.take(perPage).skip(offset).getMany();
 
-    const newPosts = posts.map((post) => {
-      const { images, ...rest } = post;
-      const newImages = [...images].sort((a, b) => a.id - b.id);
-      return { ...rest, images: newImages };
-    });
-
-    return newPosts;
+    return this.getPostsWithOrderImages(posts);
   }
 
   async searchMyPostsByTitleAndAddress(
@@ -90,13 +92,7 @@ export class PostService {
       .take(perPage)
       .getMany();
 
-    const newPosts = posts.map((post) => {
-      const { images, ...rest } = post;
-      const newImages = [...images].sort((a, b) => a.id - b.id);
-      return { ...rest, images: newImages };
-    });
-
-    return newPosts;
+    return this.getPostsWithOrderImages(posts);
   }
 
   async getPostById(id: number, user: User) {
@@ -288,13 +284,7 @@ export class PostService {
     const queryBuilder = await this.getPostsBaseQuery(friendId);
     const posts = await queryBuilder.take(perPage).skip(offset).getMany();
 
-    const newPosts = posts.map((post) => {
-      const { images, ...rest } = post;
-      const newImages = [...images].sort((a, b) => a.id - b.id);
-      return { ...rest, images: newImages };
-    });
-
-    return newPosts;
+    return this.getPostsWithOrderImages(posts);
   }
 
   async getUserPosts(page: number, userId: number) {
