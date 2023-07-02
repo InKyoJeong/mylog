@@ -298,7 +298,7 @@ export class PostService {
           'post.longitude AS longitude',
           'post.color AS color',
           'post.score AS score',
-          'user.id AS friendId',
+          'user.id AS "friendId"',
         ])
         .getRawMany();
 
