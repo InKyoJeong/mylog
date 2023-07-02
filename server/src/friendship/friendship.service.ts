@@ -32,6 +32,23 @@ export class FriendshipService {
       .getOne();
   }
 
+  private async checkExistingFriendship(
+    user: User,
+    receiverId: number,
+    status: Friendship['status'],
+    errorMessage: string,
+  ): Promise<void> {
+    const friendship = await this.findFriendshipByConditions(
+      user.id,
+      receiverId,
+      status,
+    );
+
+    if (friendship) {
+      throw new ConflictException(errorMessage);
+    }
+  }
+
   async sendFriendRequest(user: User, receiverId: number): Promise<void> {
     const receiver = await this.userRepository.findOneBy({ id: receiverId });
 
@@ -43,35 +60,26 @@ export class FriendshipService {
       throw new NotFoundException('존재하지 않는 사용자입니다.');
     }
 
-    const existingRequest = await this.findFriendshipByConditions(
-      user.id,
+    await this.checkExistingFriendship(
+      user,
       receiverId,
       'pending',
+      '이미 요청을 보낸 상태입니다.',
     );
 
-    if (existingRequest) {
-      throw new ConflictException('이미 요청을 보낸 상태입니다.');
-    }
-
-    const existingFriend = await this.findFriendshipByConditions(
-      user.id,
+    await this.checkExistingFriendship(
+      user,
       receiverId,
       'accepted',
+      '이미 친구 추가된 사용자입니다.',
     );
 
-    if (existingFriend) {
-      throw new ConflictException('이미 친구 추가된 사용자입니다.');
-    }
-
-    const blockFriend = await this.findFriendshipByConditions(
-      user.id,
+    await this.checkExistingFriendship(
+      user,
       receiverId,
       'blocked',
+      '친구 요청을 보낼 수 없는 사용자입니다.',
     );
-
-    if (blockFriend) {
-      throw new ConflictException('친구 요청을 보낼 수 없는 사용자입니다.');
-    }
 
     const friendship = new Friendship();
     friendship.requester = user;
@@ -121,7 +129,6 @@ export class FriendshipService {
       return;
     }
 
-    // 친구쪽도 반대로 accepted 생성
     const reverseFriendship = new Friendship();
     reverseFriendship.requester = user;
     reverseFriendship.receiver = receiver;
