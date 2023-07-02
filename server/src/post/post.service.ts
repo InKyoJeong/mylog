@@ -10,6 +10,7 @@ import { User } from 'src/auth/user.entity';
 import { CreatePostDto } from './dto/create-post.dto';
 import { Post } from './post.entity';
 import { Image } from 'src/image/image.entity';
+import { Friendship } from 'src/friendship/friendship.entity';
 
 @Injectable()
 export class PostService {
@@ -18,6 +19,8 @@ export class PostService {
     private postRepository: Repository<Post>,
     @InjectRepository(Image)
     private imageRepository: Repository<Image>,
+    @InjectRepository(Friendship)
+    private friendshipRepository: Repository<Friendship>,
   ) {}
 
   async getMyMarkers(user: User) {
@@ -43,29 +46,31 @@ export class PostService {
     }
   }
 
-  private async getMyPostsBaseQuery(
-    user: User,
+  private async getPostsBaseQuery(
+    userId: number,
   ): Promise<SelectQueryBuilder<Post>> {
     return this.postRepository
       .createQueryBuilder('post')
       .leftJoinAndSelect('post.images', 'image')
-      .where('post.userId = :userId', { userId: user.id })
+      .where('post.userId = :userId', { userId })
       .orderBy('post.date', 'DESC');
+  }
+
+  private getPostsWithOrderImages(posts: Post[]) {
+    return posts.map((post) => {
+      const { images, ...rest } = post;
+      const newImages = [...images].sort((a, b) => a.id - b.id);
+      return { ...rest, images: newImages };
+    });
   }
 
   async getMyPosts(page: number, user: User) {
     const perPage = 10;
     const offset = (page - 1) * perPage;
-    const queryBuilder = await this.getMyPostsBaseQuery(user);
+    const queryBuilder = await this.getPostsBaseQuery(user.id);
     const posts = await queryBuilder.take(perPage).skip(offset).getMany();
 
-    const newPosts = posts.map((post) => {
-      const { images, ...rest } = post;
-      const newImages = [...images].sort((a, b) => a.id - b.id);
-      return { ...rest, images: newImages };
-    });
-
-    return newPosts;
+    return this.getPostsWithOrderImages(posts);
   }
 
   async searchMyPostsByTitleAndAddress(
@@ -75,7 +80,7 @@ export class PostService {
   ) {
     const perPage = 10;
     const offset = (page - 1) * perPage;
-    const queryBuilder = await this.getMyPostsBaseQuery(user);
+    const queryBuilder = await this.getPostsBaseQuery(user.id);
     const posts = await queryBuilder
       .andWhere(
         new Brackets((qb) => {
@@ -87,13 +92,7 @@ export class PostService {
       .take(perPage)
       .getMany();
 
-    const newPosts = posts.map((post) => {
-      const { images, ...rest } = post;
-      const newImages = [...images].sort((a, b) => a.id - b.id);
-      return { ...rest, images: newImages };
-    });
-
-    return newPosts;
+    return this.getPostsWithOrderImages(posts);
   }
 
   async getPostById(id: number, user: User) {
@@ -264,6 +263,49 @@ export class PostService {
       );
 
     return counts;
+  }
+
+  private async checkFriendship(userId: number, friendId: number) {
+    const friends = await this.friendshipRepository
+      .createQueryBuilder('friendship')
+      .leftJoinAndSelect('friendship.requester', 'requester')
+      .select(['friendship', 'requester.id'])
+      .where('friendship.receiverId = :userId', { userId })
+      .andWhere('friendship.status = :status', { status: 'accepted' })
+      .getMany();
+    const friendIds = friends.map((friend) => friend.requester.id);
+
+    if (!friendIds.includes(friendId)) {
+      throw new NotFoundException('친구가 아닌 사용자입니다.');
+    }
+  }
+
+  async getFriendPosts(page: number, friendId: number, user: User) {
+    await this.checkFriendship(user.id, friendId);
+
+    const perPage = 10;
+    const offset = (page - 1) * perPage;
+    const queryBuilder = await this.getPostsBaseQuery(friendId);
+    const posts = await queryBuilder.take(perPage).skip(offset).getMany();
+
+    return this.getPostsWithOrderImages(posts);
+  }
+
+  async getFriendPostById(postId: number, friendId: number, user: User) {
+    await this.checkFriendship(user.id, friendId);
+
+    const foundPost = await this.postRepository
+      .createQueryBuilder('post')
+      .leftJoinAndSelect('post.images', 'image')
+      .where('post.userId = :userId', { userId: friendId })
+      .andWhere('post.id = :postId', { postId })
+      .getOne();
+
+    if (!foundPost) {
+      throw new NotFoundException('존재하지 않는 피드입니다.');
+    }
+
+    return foundPost;
   }
 
   async getUserPosts(page: number, userId: number) {

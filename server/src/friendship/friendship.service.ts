@@ -52,7 +52,7 @@ export class FriendshipService {
   async sendFriendRequest(user: User, receiverId: number): Promise<void> {
     const receiver = await this.userRepository.findOneBy({ id: receiverId });
 
-    if (Number(user.id) === Number(receiverId)) {
+    if (user.id === receiverId) {
       throw new ConflictException('자신은 추가할 수 없습니다.');
     }
 

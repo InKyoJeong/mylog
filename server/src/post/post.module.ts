@@ -6,9 +6,10 @@ import { PostController } from './post.controller';
 import { Post } from './post.entity';
 import { PostService } from './post.service';
 import { Image } from 'src/image/image.entity';
+import { Friendship } from 'src/friendship/friendship.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Post, Image]), AuthModule],
+  imports: [TypeOrmModule.forFeature([Post, Image, Friendship]), AuthModule],
   controllers: [PostController],
   providers: [PostService],
 })
