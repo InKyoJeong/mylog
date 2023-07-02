@@ -3,9 +3,11 @@ import {
   Controller,
   Get,
   Param,
+  ParseIntPipe,
   Patch,
   Post,
   UseGuards,
+  ValidationPipe,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { FriendshipService } from './friendship.service';
@@ -20,7 +22,7 @@ export class FriendshipController {
 
   @Post('/requests/:receiverId')
   sendFriendRequest(
-    @Param('receiverId') receiverId: number,
+    @Param('receiverId', ParseIntPipe) receiverId: number,
     @GetUser() user: User,
   ) {
     return this.friendshipService.sendFriendRequest(user, receiverId);
@@ -28,9 +30,9 @@ export class FriendshipController {
 
   @Patch('/requests/:requesterId')
   updateFriendRequest(
-    @Param('requesterId') requesterId: number,
+    @Param('requesterId', ParseIntPipe) requesterId: number,
     @GetUser() user: User,
-    @Body() updateFriendRequestDto: UpdateFriendRequestDto,
+    @Body(ValidationPipe) updateFriendRequestDto: UpdateFriendRequestDto,
   ) {
     return this.friendshipService.updateFriendRequest(
       user,
