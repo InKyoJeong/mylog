@@ -3,12 +3,15 @@ import { User } from 'src/auth/user.entity';
 import { CreatePostDto } from './dto/create-post.dto';
 import { Post } from './post.entity';
 import { Image } from 'src/image/image.entity';
+import { Friendship } from 'src/friendship/friendship.entity';
 export declare class PostService {
     private postRepository;
     private imageRepository;
-    constructor(postRepository: Repository<Post>, imageRepository: Repository<Image>);
+    private friendshipRepository;
+    constructor(postRepository: Repository<Post>, imageRepository: Repository<Image>, friendshipRepository: Repository<Friendship>);
     getMyMarkers(user: User): Promise<Post[]>;
-    private getMyPostsBaseQuery;
+    private getPostsBaseQuery;
+    private getPostsWithOrderImages;
     getMyPosts(page: number, user: User): Promise<{
         images: Image[];
         id: number;
@@ -99,6 +102,27 @@ export declare class PostService {
         field: any;
         count: number;
     }[]>;
+    private getFriends;
+    private checkFriendship;
+    getFriendMarkers(user: User): Promise<any[]>;
+    getFriendPosts(page: number, friendId: number, user: User): Promise<{
+        images: Image[];
+        id: number;
+        latitude: number;
+        longitude: number;
+        color: import("./marker-color.enum").MarkerColor;
+        address: string;
+        title: string;
+        description: string;
+        date: Date;
+        score: number;
+        createdAt: Date;
+        updatedAt: Date;
+        deletedAt: Date;
+        user: User;
+        favorites: import("../favorite/favorite.entity").Favorite[];
+    }[]>;
+    getFriendPostById(postId: number, friendId: number, user: User): Promise<Post>;
     getUserPosts(page: number, userId: number): Promise<Post[]>;
     getAllPosts(page: number): Promise<Post[]>;
 }

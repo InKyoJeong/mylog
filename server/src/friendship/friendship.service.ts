@@ -97,7 +97,7 @@ export class FriendshipService {
       user,
       receiverId,
       'blocked',
-      '친구 요청을 보낼 수 없는 사용자입니다.',
+      '요청을 보낼 수 없는 사용자입니다.',
     );
 
     const friendship = new Friendship();
@@ -109,7 +109,7 @@ export class FriendshipService {
       await this.friendshipRepository.save(friendship);
     } catch (error) {
       throw new InternalServerErrorException(
-        '친구 요청을 보내는 도중 에러가 발생했습니다.',
+        '요청을 보내는 도중 에러가 발생했습니다.',
       );
     }
   }
@@ -173,7 +173,7 @@ export class FriendshipService {
       return requesterId;
     } catch (error) {
       throw new InternalServerErrorException(
-        '친구 요청을 삭제하는 도중 에러가 발생했습니다.',
+        '요청을 삭제하는 도중 에러가 발생했습니다.',
       );
     }
   }
@@ -203,9 +203,7 @@ export class FriendshipService {
 
       return friendId;
     } catch (error) {
-      throw new InternalServerErrorException(
-        '친구 삭제 도중 에러가 발생했습니다.',
-      );
+      throw new InternalServerErrorException('삭제 도중 에러가 발생했습니다.');
     }
   }
 
@@ -235,9 +233,7 @@ export class FriendshipService {
         await this.friendshipRepository.save(reverseFriendship);
       }
     } catch (error) {
-      throw new InternalServerErrorException(
-        '친구 차단 도중 에러가 발생했습니다.',
-      );
+      throw new InternalServerErrorException('차단 도중 에러가 발생했습니다.');
     }
   }
 
@@ -265,7 +261,7 @@ export class FriendshipService {
       }
     } catch (error) {
       throw new InternalServerErrorException(
-        '친구 차단 해제 도중 에러가 발생했습니다.',
+        '차단 해제 도중 에러가 발생했습니다.',
       );
     }
   }

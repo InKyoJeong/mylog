@@ -6,23 +6,22 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PostModule = void 0;
+exports.FriendshipModule = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
+const friendship_controller_1 = require("./friendship.controller");
+const friendship_service_1 = require("./friendship.service");
+const friendship_entity_1 = require("./friendship.entity");
 const auth_module_1 = require("../auth/auth.module");
-const post_controller_1 = require("./post.controller");
-const post_entity_1 = require("./post.entity");
-const post_service_1 = require("./post.service");
-const image_entity_1 = require("../image/image.entity");
-const friendship_entity_1 = require("../friendship/friendship.entity");
-let PostModule = class PostModule {
+const user_entity_1 = require("../auth/user.entity");
+let FriendshipModule = class FriendshipModule {
 };
-PostModule = __decorate([
+FriendshipModule = __decorate([
     (0, common_1.Module)({
-        imports: [typeorm_1.TypeOrmModule.forFeature([post_entity_1.Post, image_entity_1.Image, friendship_entity_1.Friendship]), auth_module_1.AuthModule],
-        controllers: [post_controller_1.PostController],
-        providers: [post_service_1.PostService],
+        imports: [typeorm_1.TypeOrmModule.forFeature([friendship_entity_1.Friendship, user_entity_1.User]), auth_module_1.AuthModule],
+        controllers: [friendship_controller_1.FriendshipController],
+        providers: [friendship_service_1.FriendshipService],
     })
-], PostModule);
-exports.PostModule = PostModule;
-//# sourceMappingURL=post.module.js.map
+], FriendshipModule);
+exports.FriendshipModule = FriendshipModule;
+//# sourceMappingURL=friendship.module.js.map

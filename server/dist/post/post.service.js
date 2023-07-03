@@ -29,10 +29,12 @@ const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const post_entity_1 = require("./post.entity");
 const image_entity_1 = require("../image/image.entity");
+const friendship_entity_1 = require("../friendship/friendship.entity");
 let PostService = class PostService {
-    constructor(postRepository, imageRepository) {
+    constructor(postRepository, imageRepository, friendshipRepository) {
         this.postRepository = postRepository;
         this.imageRepository = imageRepository;
+        this.friendshipRepository = friendshipRepository;
     }
     async getMyMarkers(user) {
         try {
@@ -54,29 +56,31 @@ let PostService = class PostService {
             throw new common_1.InternalServerErrorException('마커를 가져오는 도중 에러가 발생했습니다.');
         }
     }
-    async getMyPostsBaseQuery(user) {
+    async getPostsBaseQuery(userId) {
         return this.postRepository
             .createQueryBuilder('post')
             .leftJoinAndSelect('post.images', 'image')
-            .where('post.userId = :userId', { userId: user.id })
+            .where('post.userId = :userId', { userId })
             .orderBy('post.date', 'DESC');
     }
-    async getMyPosts(page, user) {
-        const perPage = 10;
-        const offset = (page - 1) * perPage;
-        const queryBuilder = await this.getMyPostsBaseQuery(user);
-        const posts = await queryBuilder.take(perPage).skip(offset).getMany();
-        const newPosts = posts.map((post) => {
+    getPostsWithOrderImages(posts) {
+        return posts.map((post) => {
             const { images } = post, rest = __rest(post, ["images"]);
             const newImages = [...images].sort((a, b) => a.id - b.id);
             return Object.assign(Object.assign({}, rest), { images: newImages });
         });
-        return newPosts;
+    }
+    async getMyPosts(page, user) {
+        const perPage = 10;
+        const offset = (page - 1) * perPage;
+        const queryBuilder = await this.getPostsBaseQuery(user.id);
+        const posts = await queryBuilder.take(perPage).skip(offset).getMany();
+        return this.getPostsWithOrderImages(posts);
     }
     async searchMyPostsByTitleAndAddress(query, page, user) {
         const perPage = 10;
         const offset = (page - 1) * perPage;
-        const queryBuilder = await this.getMyPostsBaseQuery(user);
+        const queryBuilder = await this.getPostsBaseQuery(user.id);
         const posts = await queryBuilder
             .andWhere(new typeorm_2.Brackets((qb) => {
             qb.where('post.title like :query', { query: `%${query}%` });
@@ -85,12 +89,7 @@ let PostService = class PostService {
             .skip(offset)
             .take(perPage)
             .getMany();
-        const newPosts = posts.map((post) => {
-            const { images } = post, rest = __rest(post, ["images"]);
-            const newImages = [...images].sort((a, b) => a.id - b.id);
-            return Object.assign(Object.assign({}, rest), { images: newImages });
-        });
-        return newPosts;
+        return this.getPostsWithOrderImages(posts);
     }
     async getPostById(id, user) {
         try {
@@ -215,6 +214,66 @@ let PostService = class PostService {
         })));
         return counts;
     }
+    async getFriends(userId) {
+        return await this.friendshipRepository
+            .createQueryBuilder('friendship')
+            .leftJoinAndSelect('friendship.requester', 'requester')
+            .where('friendship.receiverId = :userId', { userId })
+            .andWhere('friendship.status = :status', { status: 'accepted' })
+            .getMany();
+    }
+    async checkFriendship(userId, friendId) {
+        const friends = await this.getFriends(userId);
+        const friendIds = friends.map((friend) => friend.requester.id);
+        if (!friendIds.includes(friendId)) {
+            throw new common_1.NotFoundException('친구가 아닌 사용자입니다.');
+        }
+    }
+    async getFriendMarkers(user) {
+        try {
+            const friends = await this.getFriends(user.id);
+            const friendIds = friends.map((friend) => friend.requester.id);
+            const friendMarkers = await this.postRepository
+                .createQueryBuilder('post')
+                .leftJoinAndSelect('post.user', 'user')
+                .where('post.userId IN (:...friendIds)', { friendIds })
+                .select([
+                'post.id AS id',
+                'post.latitude AS latitude',
+                'post.longitude AS longitude',
+                'post.color AS color',
+                'post.score AS score',
+                'user.id AS "friendId"',
+            ])
+                .getRawMany();
+            return friendMarkers;
+        }
+        catch (error) {
+            console.log(error);
+            throw new common_1.InternalServerErrorException('친구의 마커를 가져오는 도중 에러가 발생했습니다.');
+        }
+    }
+    async getFriendPosts(page, friendId, user) {
+        await this.checkFriendship(user.id, friendId);
+        const perPage = 10;
+        const offset = (page - 1) * perPage;
+        const queryBuilder = await this.getPostsBaseQuery(friendId);
+        const posts = await queryBuilder.take(perPage).skip(offset).getMany();
+        return this.getPostsWithOrderImages(posts);
+    }
+    async getFriendPostById(postId, friendId, user) {
+        await this.checkFriendship(user.id, friendId);
+        const foundPost = await this.postRepository
+            .createQueryBuilder('post')
+            .leftJoinAndSelect('post.images', 'image')
+            .where('post.userId = :userId', { userId: friendId })
+            .andWhere('post.id = :postId', { postId })
+            .getOne();
+        if (!foundPost) {
+            throw new common_1.NotFoundException('존재하지 않는 피드입니다.');
+        }
+        return foundPost;
+    }
     async getUserPosts(page, userId) {
         const perPage = 20;
         const offset = (page - 1) * perPage;
@@ -245,7 +304,9 @@ PostService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(post_entity_1.Post)),
     __param(1, (0, typeorm_1.InjectRepository)(image_entity_1.Image)),
+    __param(2, (0, typeorm_1.InjectRepository)(friendship_entity_1.Friendship)),
     __metadata("design:paramtypes", [typeorm_2.Repository,
+        typeorm_2.Repository,
         typeorm_2.Repository])
 ], PostService);
 exports.PostService = PostService;

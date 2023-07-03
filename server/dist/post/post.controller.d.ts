@@ -100,6 +100,25 @@ export declare class PostController {
         field: any;
         count: number;
     }[]>;
+    getFriendMarkers(user: User): Promise<any[]>;
+    getFriendPosts(page: number, friendId: number, user: User): Promise<{
+        images: import("../image/image.entity").Image[];
+        id: number;
+        latitude: number;
+        longitude: number;
+        color: import("./marker-color.enum").MarkerColor;
+        address: string;
+        title: string;
+        description: string;
+        date: Date;
+        score: number;
+        createdAt: Date;
+        updatedAt: Date;
+        deletedAt: Date;
+        user: User;
+        favorites: import("../favorite/favorite.entity").Favorite[];
+    }[]>;
+    getFriendPostById(postId: number, friendId: number, user: User): Promise<PostEntity>;
     getUserPosts(page: number, userId: number): Promise<PostEntity[]>;
     getAllPosts(page: number): Promise<PostEntity[]>;
 }
