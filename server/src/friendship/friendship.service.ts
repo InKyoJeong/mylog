@@ -19,6 +19,25 @@ export class FriendshipService {
     private userRepository: Repository<User>,
   ) {}
 
+  async getFriendsByStatus(user: User, status: Friendship['status']) {
+    const friends = await this.friendshipRepository
+      .createQueryBuilder('friendship')
+      .leftJoinAndSelect('friendship.requester', 'requester')
+      .select([
+        'friendship',
+        'requester.id',
+        'requester.nickname',
+        'requester.email',
+        'requester.imageUri',
+        'requester.kakaoImageUri',
+      ])
+      .where('friendship.receiverId = :userId', { userId: user.id })
+      .andWhere('friendship.status = :status', { status })
+      .getMany();
+
+    return friends;
+  }
+
   private async findFriendshipByStatus(
     requesterId: number,
     receiverId: number,
@@ -78,7 +97,7 @@ export class FriendshipService {
       user,
       receiverId,
       'blocked',
-      '친구 요청을 보낼 수 없는 사용자입니다.',
+      '요청을 보낼 수 없는 사용자입니다.',
     );
 
     const friendship = new Friendship();
@@ -90,7 +109,7 @@ export class FriendshipService {
       await this.friendshipRepository.save(friendship);
     } catch (error) {
       throw new InternalServerErrorException(
-        '친구 요청을 보내는 도중 에러가 발생했습니다.',
+        '요청을 보내는 도중 에러가 발생했습니다.',
       );
     }
   }
@@ -137,22 +156,113 @@ export class FriendshipService {
     await this.friendshipRepository.save(reverseFriendship);
   }
 
-  async getFriendsByStatus(user: User, status: Friendship['status']) {
-    const friends = await this.friendshipRepository
-      .createQueryBuilder('friendship')
-      .leftJoinAndSelect('friendship.requester', 'requester')
-      .select([
-        'friendship',
-        'requester.id',
-        'requester.nickname',
-        'requester.email',
-        'requester.imageUri',
-        'requester.kakaoImageUri',
-      ])
-      .where('friendship.receiverId = :userId', { userId: user.id })
-      .andWhere('friendship.status = :status', { status })
-      .getMany();
+  async deleteFriendRequest(user: User, requesterId: number) {
+    const friendship = await this.findFriendshipByStatus(
+      requesterId,
+      user.id,
+      'pending',
+    );
 
-    return friends;
+    if (!friendship) {
+      throw new NotFoundException('존재하지 않는 요청입니다.');
+    }
+
+    try {
+      await this.friendshipRepository.delete(friendship.id);
+
+      return requesterId;
+    } catch (error) {
+      throw new InternalServerErrorException(
+        '요청을 삭제하는 도중 에러가 발생했습니다.',
+      );
+    }
+  }
+
+  async deleteFriend(user: User, friendId: number) {
+    const friendship = await this.findFriendshipByStatus(
+      user.id,
+      friendId,
+      'accepted',
+    );
+
+    if (!friendship) {
+      throw new NotFoundException('친구가 아닌 사용자입니다.');
+    }
+
+    try {
+      await this.friendshipRepository.delete(friendship.id);
+
+      const reverseFriendship = await this.findFriendshipByStatus(
+        friendId,
+        user.id,
+        'accepted',
+      );
+      if (reverseFriendship) {
+        await this.friendshipRepository.delete(reverseFriendship.id);
+      }
+
+      return friendId;
+    } catch (error) {
+      throw new InternalServerErrorException('삭제 도중 에러가 발생했습니다.');
+    }
+  }
+
+  async blockFriend(user: User, friendId: number): Promise<void> {
+    const friendship = await this.findFriendshipByStatus(
+      user.id,
+      friendId,
+      'accepted',
+    );
+
+    if (!friendship) {
+      throw new NotFoundException('친구가 아닌 사용자입니다.');
+    }
+
+    try {
+      friendship.status = 'blocked';
+      await this.friendshipRepository.save(friendship);
+
+      const reverseFriendship = await this.findFriendshipByStatus(
+        friendId,
+        user.id,
+        'accepted',
+      );
+
+      if (reverseFriendship) {
+        reverseFriendship.status = 'blocked';
+        await this.friendshipRepository.save(reverseFriendship);
+      }
+    } catch (error) {
+      throw new InternalServerErrorException('차단 도중 에러가 발생했습니다.');
+    }
+  }
+
+  async unblockFriend(user: User, friendId: number): Promise<void> {
+    const friendship = await this.findFriendshipByStatus(
+      user.id,
+      friendId,
+      'blocked',
+    );
+
+    if (!friendship) {
+      throw new NotFoundException('존재하지 않는 사용자입니다.');
+    }
+
+    try {
+      await this.friendshipRepository.delete(friendship.id);
+
+      const reverseFriendship = await this.findFriendshipByStatus(
+        friendId,
+        user.id,
+        'blocked',
+      );
+      if (reverseFriendship) {
+        await this.friendshipRepository.delete(reverseFriendship.id);
+      }
+    } catch (error) {
+      throw new InternalServerErrorException(
+        '차단 해제 도중 에러가 발생했습니다.',
+      );
+    }
   }
 }

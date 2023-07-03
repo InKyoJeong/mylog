@@ -80,7 +80,7 @@ let AuthService = class AuthService {
         return { accessToken, refreshToken };
     }
     getProfile(user) {
-        const { id, password, hashedRefreshToken } = user, rest = __rest(user, ["id", "password", "hashedRefreshToken"]);
+        const { password, hashedRefreshToken } = user, rest = __rest(user, ["password", "hashedRefreshToken"]);
         return Object.assign({}, rest);
     }
     async editProfile(editProfileDto, user) {

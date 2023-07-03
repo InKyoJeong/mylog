@@ -55,6 +55,15 @@ let PostController = class PostController {
     async getCountByColor(user) {
         return this.postService.getPostCountByField(user, 'color');
     }
+    getFriendMarkers(user) {
+        return this.postService.getFriendMarkers(user);
+    }
+    getFriendPosts(page, friendId, user) {
+        return this.postService.getFriendPosts(page, friendId, user);
+    }
+    getFriendPostById(postId, friendId, user) {
+        return this.postService.getFriendPostById(postId, friendId, user);
+    }
     getUserPosts(page, userId) {
         return this.postService.getUserPosts(page, userId);
     }
@@ -145,7 +154,32 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], PostController.prototype, "getCountByColor", null);
 __decorate([
-    (0, common_1.Get)('/posts/user/:id'),
+    (0, common_1.Get)('/markers/friends'),
+    __param(0, (0, get_user_decorator_1.GetUser)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [user_entity_1.User]),
+    __metadata("design:returntype", void 0)
+], PostController.prototype, "getFriendMarkers", null);
+__decorate([
+    (0, common_1.Get)('/posts/friends/:friendId'),
+    __param(0, (0, common_1.Query)('page')),
+    __param(1, (0, common_1.Param)('friendId', common_1.ParseIntPipe)),
+    __param(2, (0, get_user_decorator_1.GetUser)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, Number, user_entity_1.User]),
+    __metadata("design:returntype", void 0)
+], PostController.prototype, "getFriendPosts", null);
+__decorate([
+    (0, common_1.Get)('/posts/:postId/friends/:friendId'),
+    __param(0, (0, common_1.Param)('postId', common_1.ParseIntPipe)),
+    __param(1, (0, common_1.Param)('friendId', common_1.ParseIntPipe)),
+    __param(2, (0, get_user_decorator_1.GetUser)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, Number, user_entity_1.User]),
+    __metadata("design:returntype", void 0)
+], PostController.prototype, "getFriendPostById", null);
+__decorate([
+    (0, common_1.Get)('/posts/users/:id'),
     (0, common_1.UseGuards)((0, passport_1.AuthGuard)(), admin_auth_guard_1.AuthAdminGuard),
     (0, common_1.SetMetadata)(constants_1.ADMIN_FLAG, true),
     __param(0, (0, common_1.Query)('page')),

@@ -20,6 +20,7 @@ export declare class AuthService {
         refreshToken: string;
     }>;
     getProfile(user: User): {
+        id: number;
         loginType: "email" | "kakao" | "apple";
         email: string;
         nickname?: string;
@@ -32,6 +33,8 @@ export declare class AuthService {
         favorite: import("../favorite/favorite.entity").Favorite[];
         feedback: import("../feedback/feedback.entity").Feedback[];
         memo: import("../memo/memo.entity").Memo[];
+        requestedFriendships: import("../friendship/friendship.entity").Friendship[];
+        receivedFriendships: import("../friendship/friendship.entity").Friendship[];
         RED: string;
         YELLOW: string;
         BLUE: string;
@@ -51,6 +54,8 @@ export declare class AuthService {
         favorite: import("../favorite/favorite.entity").Favorite[];
         feedback: import("../feedback/feedback.entity").Feedback[];
         memo: import("../memo/memo.entity").Memo[];
+        requestedFriendships: import("../friendship/friendship.entity").Friendship[];
+        receivedFriendships: import("../friendship/friendship.entity").Friendship[];
         RED: string;
         YELLOW: string;
         BLUE: string;
@@ -74,6 +79,8 @@ export declare class AuthService {
         favorite: import("../favorite/favorite.entity").Favorite[];
         feedback: import("../feedback/feedback.entity").Feedback[];
         memo: import("../memo/memo.entity").Memo[];
+        requestedFriendships: import("../friendship/friendship.entity").Friendship[];
+        receivedFriendships: import("../friendship/friendship.entity").Friendship[];
         RED: string;
         YELLOW: string;
         BLUE: string;
@@ -106,6 +113,8 @@ export declare class AuthService {
         favorite: import("../favorite/favorite.entity").Favorite[];
         feedback: import("../feedback/feedback.entity").Feedback[];
         memo: import("../memo/memo.entity").Memo[];
+        requestedFriendships: import("../friendship/friendship.entity").Friendship[];
+        receivedFriendships: import("../friendship/friendship.entity").Friendship[];
         RED: string;
         YELLOW: string;
         BLUE: string;

@@ -90,7 +90,7 @@ export class AuthService {
   }
 
   getProfile(user: User) {
-    const { id, password, hashedRefreshToken, ...rest } = user;
+    const { password, hashedRefreshToken, ...rest } = user;
 
     return { ...rest };
   }
