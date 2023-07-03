@@ -31,6 +31,11 @@ export class FriendshipController {
     return this.friendshipService.getFriendsByStatus(user, 'pending');
   }
 
+  @Get('/block')
+  getBlockedFriends(@GetUser() user: User) {
+    return this.friendshipService.getFriendsByStatus(user, 'blocked');
+  }
+
   @Post('/requests/:receiverId')
   sendFriendRequest(
     @Param('receiverId', ParseIntPipe) receiverId: number,
@@ -66,5 +71,13 @@ export class FriendshipController {
     @GetUser() user: User,
   ) {
     return this.friendshipService.blockFriend(user, friendId);
+  }
+
+  @Delete('/unblock/:friendId')
+  unblockFriend(
+    @Param('friendId', ParseIntPipe) friendId: number,
+    @GetUser() user: User,
+  ) {
+    return this.friendshipService.unblockFriend(user, friendId);
   }
 }

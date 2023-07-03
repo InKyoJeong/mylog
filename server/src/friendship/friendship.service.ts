@@ -209,4 +209,33 @@ export class FriendshipService {
       );
     }
   }
+
+  async unblockFriend(user: User, friendId: number): Promise<void> {
+    const friendship = await this.findFriendshipByStatus(
+      user.id,
+      friendId,
+      'blocked',
+    );
+
+    if (!friendship) {
+      throw new NotFoundException('존재하지 않는 사용자입니다.');
+    }
+
+    try {
+      await this.friendshipRepository.delete(friendship.id);
+
+      const reverseFriendship = await this.findFriendshipByStatus(
+        friendId,
+        user.id,
+        'blocked',
+      );
+      if (reverseFriendship) {
+        await this.friendshipRepository.delete(reverseFriendship.id);
+      }
+    } catch (error) {
+      throw new InternalServerErrorException(
+        '친구 차단 해제 도중 에러가 발생했습니다.',
+      );
+    }
+  }
 }
