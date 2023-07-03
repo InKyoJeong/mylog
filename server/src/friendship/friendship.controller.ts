@@ -1,5 +1,4 @@
 import {
-  Body,
   Controller,
   Delete,
   Get,
@@ -8,13 +7,11 @@ import {
   Patch,
   Post,
   UseGuards,
-  ValidationPipe,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { FriendshipService } from './friendship.service';
 import { GetUser } from 'src/common/decorators/get-user.decorator';
 import { User } from 'src/auth/user.entity';
-import { UpdateFriendRequestDto } from './dto/update-friend-request.dto';
 
 @Controller('friends')
 @UseGuards(AuthGuard())
@@ -45,16 +42,11 @@ export class FriendshipController {
   }
 
   @Patch('/requests/:requesterId')
-  updateFriendRequest(
+  acceptFriendRequest(
     @Param('requesterId', ParseIntPipe) requesterId: number,
     @GetUser() user: User,
-    @Body(ValidationPipe) updateFriendRequestDto: UpdateFriendRequestDto,
   ) {
-    return this.friendshipService.updateFriendRequest(
-      user,
-      requesterId,
-      updateFriendRequestDto,
-    );
+    return this.friendshipService.acceptFriendRequest(user, requesterId);
   }
 
   @Delete('/requests/:requesterId')
