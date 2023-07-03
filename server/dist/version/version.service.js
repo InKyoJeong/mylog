@@ -24,9 +24,9 @@ var __rest = (this && this.__rest) || function (s, e) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.VersionService = void 0;
+const typeorm_1 = require("typeorm");
+const typeorm_2 = require("@nestjs/typeorm");
 const common_1 = require("@nestjs/common");
-const typeorm_1 = require("@nestjs/typeorm");
-const typeorm_2 = require("typeorm");
 const version_entity_1 = require("./version.entity");
 let VersionService = class VersionService {
     constructor(versionRepository) {
@@ -80,8 +80,8 @@ let VersionService = class VersionService {
 };
 VersionService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, typeorm_1.InjectRepository)(version_entity_1.Version)),
-    __metadata("design:paramtypes", [typeorm_2.Repository])
+    __param(0, (0, typeorm_2.InjectRepository)(version_entity_1.Version)),
+    __metadata("design:paramtypes", [typeorm_1.Repository])
 ], VersionService);
 exports.VersionService = VersionService;
 //# sourceMappingURL=version.service.js.map

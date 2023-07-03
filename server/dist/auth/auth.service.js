@@ -24,14 +24,14 @@ var __rest = (this && this.__rest) || function (s, e) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthService = void 0;
+const axios_1 = require("axios");
+const apple_signin_auth_1 = require("apple-signin-auth");
 const common_1 = require("@nestjs/common");
 const jwt_1 = require("@nestjs/jwt");
 const config_1 = require("@nestjs/config");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const bcrypt = require("bcryptjs");
-const axios_1 = require("axios");
-const apple_signin_auth_1 = require("apple-signin-auth");
 const user_entity_1 = require("./user.entity");
 const marker_color_enum_1 = require("../post/marker-color.enum");
 let AuthService = class AuthService {
@@ -168,7 +168,7 @@ let AuthService = class AuthService {
             console.log(error);
             throw new common_1.InternalServerErrorException('카테고리 수정 도중 에러가 발생했습니다.');
         }
-        const { id, password, hashedRefreshToken } = user, rest = __rest(user, ["id", "password", "hashedRefreshToken"]);
+        const { password, hashedRefreshToken } = user, rest = __rest(user, ["password", "hashedRefreshToken"]);
         return Object.assign({}, rest);
     }
     async kakaoLogin(kakaoToken) {

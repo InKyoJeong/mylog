@@ -1,5 +1,5 @@
-import { Memo } from './memo.entity';
 import { Repository } from 'typeorm';
+import { Memo } from './memo.entity';
 import { User } from 'src/auth/user.entity';
 import { CreateMemoDto } from './dto/create-memo.dto';
 export declare class MemoService {

@@ -13,8 +13,8 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.FeedbackService = void 0;
-const common_1 = require("@nestjs/common");
 const typeorm_1 = require("typeorm");
+const common_1 = require("@nestjs/common");
 const typeorm_2 = require("@nestjs/typeorm");
 const feedback_entity_1 = require("./feedback.entity");
 let FeedbackService = class FeedbackService {

@@ -13,12 +13,12 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ImageController = void 0;
-const common_1 = require("@nestjs/common");
-const passport_1 = require("@nestjs/passport");
 const fs = require("fs");
 const multer_1 = require("multer");
 const path_1 = require("path");
+const passport_1 = require("@nestjs/passport");
 const platform_express_1 = require("@nestjs/platform-express");
+const common_1 = require("@nestjs/common");
 const constants_1 = require("../@common/constants");
 try {
     fs.readdirSync('uploads');

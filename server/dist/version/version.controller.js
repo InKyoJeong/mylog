@@ -16,9 +16,9 @@ exports.VersionController = void 0;
 const common_1 = require("@nestjs/common");
 const passport_1 = require("@nestjs/passport");
 const admin_auth_guard_1 = require("../auth/guard/admin-auth.guard");
-const constants_1 = require("../@common/constants");
 const version_service_1 = require("./version.service");
 const update_version_dto_1 = require("./dto/update-version.dto");
+const constants_1 = require("../@common/constants");
 let VersionController = class VersionController {
     constructor(versionService) {
         this.versionService = versionService;

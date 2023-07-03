@@ -8,10 +8,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.FavoriteModule = void 0;
 const common_1 = require("@nestjs/common");
+const typeorm_1 = require("@nestjs/typeorm");
 const favorite_controller_1 = require("./favorite.controller");
 const favorite_service_1 = require("./favorite.service");
 const auth_module_1 = require("../auth/auth.module");
-const typeorm_1 = require("@nestjs/typeorm");
 const favorite_entity_1 = require("./favorite.entity");
 let FavoriteModule = class FavoriteModule {
 };

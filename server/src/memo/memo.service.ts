@@ -1,11 +1,12 @@
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 import {
   Injectable,
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
+
 import { Memo } from './memo.entity';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 import { User } from 'src/auth/user.entity';
 import { CreateMemoDto } from './dto/create-memo.dto';
 

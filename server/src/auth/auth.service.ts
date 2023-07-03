@@ -1,3 +1,5 @@
+import axios from 'axios';
+import appleSignin from 'apple-signin-auth';
 import {
   BadRequestException,
   ConflictException,
@@ -12,8 +14,6 @@ import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcryptjs';
-import axios from 'axios';
-import appleSignin from 'apple-signin-auth';
 
 import { User } from './user.entity';
 import { AuthCredentialsDto } from './dto/auth-credential.dto';
@@ -208,7 +208,7 @@ export class AuthService {
       );
     }
 
-    const { id, password, hashedRefreshToken, ...rest } = user;
+    const { password, hashedRefreshToken, ...rest } = user;
 
     return { ...rest };
   }

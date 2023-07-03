@@ -11,13 +11,14 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { GetUser } from 'src/@common/decorators/get-user.decorator';
+
 import { AuthService } from './auth.service';
 import { User } from './user.entity';
+import { AuthAdminGuard } from './guard/admin-auth.guard';
 import { AuthCredentialsDto } from './dto/auth-credential.dto';
 import { EditProfileDto } from './dto/edit-profile.dto';
 import { MarkerColor } from 'src/post/marker-color.enum';
-import { AuthAdminGuard } from './guard/admin-auth.guard';
+import { GetUser } from 'src/@common/decorators/get-user.decorator';
 import { ADMIN_FLAG } from 'src/@common/constants';
 
 @Controller('auth')

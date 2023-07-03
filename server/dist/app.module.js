@@ -7,11 +7,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
-const common_1 = require("@nestjs/common");
-const config_1 = require("@nestjs/config");
+const path_1 = require("path");
 const typeorm_1 = require("@nestjs/typeorm");
 const serve_static_1 = require("@nestjs/serve-static");
-const path_1 = require("path");
+const config_1 = require("@nestjs/config");
+const common_1 = require("@nestjs/common");
 const auth_module_1 = require("./auth/auth.module");
 const image_module_1 = require("./image/image.module");
 const post_module_1 = require("./post/post.module");
