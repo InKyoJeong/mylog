@@ -177,4 +177,36 @@ export class FriendshipService {
       );
     }
   }
+
+  async blockFriend(user: User, friendId: number): Promise<void> {
+    const friendship = await this.findFriendshipByStatus(
+      user.id,
+      friendId,
+      'accepted',
+    );
+
+    if (!friendship) {
+      throw new NotFoundException('친구가 아닌 사용자입니다.');
+    }
+
+    try {
+      friendship.status = 'blocked';
+      await this.friendshipRepository.save(friendship);
+
+      const reverseFriendship = await this.findFriendshipByStatus(
+        friendId,
+        user.id,
+        'accepted',
+      );
+
+      if (reverseFriendship) {
+        reverseFriendship.status = 'blocked';
+        await this.friendshipRepository.save(reverseFriendship);
+      }
+    } catch (error) {
+      throw new InternalServerErrorException(
+        '친구 차단 도중 에러가 발생했습니다.',
+      );
+    }
+  }
 }
