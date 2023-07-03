@@ -19,6 +19,25 @@ export class FriendshipService {
     private userRepository: Repository<User>,
   ) {}
 
+  async getFriendsByStatus(user: User, status: Friendship['status']) {
+    const friends = await this.friendshipRepository
+      .createQueryBuilder('friendship')
+      .leftJoinAndSelect('friendship.requester', 'requester')
+      .select([
+        'friendship',
+        'requester.id',
+        'requester.nickname',
+        'requester.email',
+        'requester.imageUri',
+        'requester.kakaoImageUri',
+      ])
+      .where('friendship.receiverId = :userId', { userId: user.id })
+      .andWhere('friendship.status = :status', { status })
+      .getMany();
+
+    return friends;
+  }
+
   private async findFriendshipByStatus(
     requesterId: number,
     receiverId: number,
@@ -137,22 +156,25 @@ export class FriendshipService {
     await this.friendshipRepository.save(reverseFriendship);
   }
 
-  async getFriendsByStatus(user: User, status: Friendship['status']) {
-    const friends = await this.friendshipRepository
-      .createQueryBuilder('friendship')
-      .leftJoinAndSelect('friendship.requester', 'requester')
-      .select([
-        'friendship',
-        'requester.id',
-        'requester.nickname',
-        'requester.email',
-        'requester.imageUri',
-        'requester.kakaoImageUri',
-      ])
-      .where('friendship.receiverId = :userId', { userId: user.id })
-      .andWhere('friendship.status = :status', { status })
-      .getMany();
+  async deleteFriendRequest(user: User, requesterId: number) {
+    const friendship = await this.findFriendshipByStatus(
+      requesterId,
+      user.id,
+      'pending',
+    );
 
-    return friends;
+    if (!friendship) {
+      throw new NotFoundException('존재하지 않는 요청입니다.');
+    }
+
+    try {
+      await this.friendshipRepository.delete(friendship.id);
+
+      return friendship.id;
+    } catch (error) {
+      throw new InternalServerErrorException(
+        '친구 요청을 삭제하는 도중 에러가 발생했습니다.',
+      );
+    }
   }
 }

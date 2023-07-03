@@ -36,11 +36,6 @@ export class PostController {
     return this.postService.getMyMarkers(user);
   }
 
-  @Get('/markers/friends')
-  getFriendMarkers(@GetUser() user: User) {
-    return this.postService.getFriendMarkers(user);
-  }
-
   @Get('/posts/my')
   getMyPosts(@Query('page') page: number, @GetUser() user: User) {
     return this.postService.getMyPosts(page, user);
@@ -102,6 +97,11 @@ export class PostController {
   @Get('/posts/colors/count')
   async getCountByColor(@GetUser() user: User) {
     return this.postService.getPostCountByField(user, 'color');
+  }
+
+  @Get('/markers/friends')
+  getFriendMarkers(@GetUser() user: User) {
+    return this.postService.getFriendMarkers(user);
   }
 
   @Get('/posts/friends/:friendId')

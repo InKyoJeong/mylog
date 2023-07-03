@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   ParseIntPipe,
@@ -19,6 +20,16 @@ import { UpdateFriendRequestDto } from './dto/update-friend-request.dto';
 @UseGuards(AuthGuard())
 export class FriendshipController {
   constructor(private friendshipService: FriendshipService) {}
+
+  @Get('/')
+  getMyFriends(@GetUser() user: User) {
+    return this.friendshipService.getFriendsByStatus(user, 'accepted');
+  }
+
+  @Get('/requests')
+  getPendingFriends(@GetUser() user: User) {
+    return this.friendshipService.getFriendsByStatus(user, 'pending');
+  }
 
   @Post('/requests/:receiverId')
   sendFriendRequest(
@@ -41,13 +52,11 @@ export class FriendshipController {
     );
   }
 
-  @Get('/')
-  getMyFriends(@GetUser() user: User) {
-    return this.friendshipService.getFriendsByStatus(user, 'accepted');
-  }
-
-  @Get('/requests')
-  getPendingFriends(@GetUser() user: User) {
-    return this.friendshipService.getFriendsByStatus(user, 'pending');
+  @Delete('/requests/:requesterId')
+  deleteFriendRequest(
+    @Param('requesterId', ParseIntPipe) requesterId: number,
+    @GetUser() user: User,
+  ) {
+    return this.friendshipService.deleteFriendRequest(user, requesterId);
   }
 }
