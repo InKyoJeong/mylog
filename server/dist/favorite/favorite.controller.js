@@ -16,7 +16,7 @@ exports.FavoriteController = void 0;
 const common_1 = require("@nestjs/common");
 const passport_1 = require("@nestjs/passport");
 const favorite_service_1 = require("./favorite.service");
-const get_user_decorator_1 = require("../common/decorators/get-user.decorator");
+const get_user_decorator_1 = require("../@common/decorators/get-user.decorator");
 const user_entity_1 = require("../auth/user.entity");
 let FavoriteController = class FavoriteController {
     constructor(favoriteService) {

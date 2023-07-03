@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+
 import { FriendshipController } from './friendship.controller';
 import { FriendshipService } from './friendship.service';
 import { Friendship } from './friendship.entity';

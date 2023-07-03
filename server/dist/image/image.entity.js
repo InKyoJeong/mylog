@@ -10,8 +10,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Image = void 0;
-const post_entity_1 = require("../post/post.entity");
 const typeorm_1 = require("typeorm");
+const post_entity_1 = require("../post/post.entity");
 let Image = class Image extends typeorm_1.BaseEntity {
 };
 __decorate([

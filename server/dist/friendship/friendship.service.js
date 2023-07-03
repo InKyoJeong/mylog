@@ -13,10 +13,10 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.FriendshipService = void 0;
-const common_1 = require("@nestjs/common");
-const friendship_entity_1 = require("./friendship.entity");
 const typeorm_1 = require("typeorm");
 const typeorm_2 = require("@nestjs/typeorm");
+const common_1 = require("@nestjs/common");
+const friendship_entity_1 = require("./friendship.entity");
 const user_entity_1 = require("../auth/user.entity");
 let FriendshipService = class FriendshipService {
     constructor(friendshipRepository, userRepository) {

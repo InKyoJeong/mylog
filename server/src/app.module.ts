@@ -1,19 +1,19 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { join } from 'path';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ServeStaticModule } from '@nestjs/serve-static';
-import { join } from 'path';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 
 import { AuthModule } from './auth/auth.module';
 import { ImageModule } from './image/image.module';
 import { PostModule } from './post/post.module';
 import { FavoriteModule } from './favorite/favorite.module';
 import { FeedbackModule } from './feedback/feedback.module';
-import { LoggerMiddleware } from './middlewares/logger.middleware';
 import { VersionModule } from './version/version.module';
 import { MemoModule } from './memo/memo.module';
 import { FriendshipModule } from './friendship/friendship.module';
 import { ReportModule } from './report/report.module';
+import { LoggerMiddleware } from './@common/middlewares/logger.middleware';
 
 @Module({
   imports: [

@@ -8,11 +8,12 @@ import {
   SetMetadata,
   UseGuards,
 } from '@nestjs/common';
+
 import { ReportService } from './report.service';
 import { User } from 'src/auth/user.entity';
-import { GetUser } from 'src/common/decorators/get-user.decorator';
+import { GetUser } from 'src/@common/decorators/get-user.decorator';
 import { AuthAdminGuard } from 'src/auth/guard/admin-auth.guard';
-import { ADMIN_FLAG } from 'src/constants';
+import { ADMIN_FLAG } from 'src/@common/constants';
 
 @Controller('report')
 @UseGuards(AuthGuard())

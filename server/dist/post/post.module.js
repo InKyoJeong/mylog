@@ -9,10 +9,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.PostModule = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
-const auth_module_1 = require("../auth/auth.module");
 const post_controller_1 = require("./post.controller");
 const post_entity_1 = require("./post.entity");
 const post_service_1 = require("./post.service");
+const auth_module_1 = require("../auth/auth.module");
 const image_entity_1 = require("../image/image.entity");
 const friendship_entity_1 = require("../friendship/friendship.entity");
 let PostModule = class PostModule {

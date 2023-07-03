@@ -10,10 +10,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthAdminGuard = void 0;
-const common_1 = require("@nestjs/common");
-const core_1 = require("@nestjs/core");
 const bcrypt = require("bcryptjs");
-const constants_1 = require("../../constants");
+const core_1 = require("@nestjs/core");
+const common_1 = require("@nestjs/common");
+const constants_1 = require("../../@common/constants");
 let AuthAdminGuard = class AuthAdminGuard {
     constructor(reflector) {
         this.reflector = reflector;

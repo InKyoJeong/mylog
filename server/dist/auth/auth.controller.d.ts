@@ -63,6 +63,7 @@ export declare class AuthController {
     logout(user: User): Promise<void>;
     deleteAccount(user: User): Promise<void>;
     updateCategory(categories: Record<keyof MarkerColor, string>, user: User): Promise<{
+        id: number;
         loginType: "email" | "kakao" | "apple";
         email: string;
         nickname?: string;

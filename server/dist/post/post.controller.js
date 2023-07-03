@@ -15,12 +15,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.PostController = void 0;
 const common_1 = require("@nestjs/common");
 const passport_1 = require("@nestjs/passport");
-const user_entity_1 = require("../auth/user.entity");
-const get_user_decorator_1 = require("../common/decorators/get-user.decorator");
 const create_post_dto_1 = require("./dto/create-post.dto");
 const post_service_1 = require("./post.service");
 const admin_auth_guard_1 = require("../auth/guard/admin-auth.guard");
-const constants_1 = require("../constants");
+const user_entity_1 = require("../auth/user.entity");
+const get_user_decorator_1 = require("../@common/decorators/get-user.decorator");
+const constants_1 = require("../@common/constants");
 let PostController = class PostController {
     constructor(postService) {
         this.postService = postService;

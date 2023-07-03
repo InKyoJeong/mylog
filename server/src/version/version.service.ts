@@ -1,6 +1,7 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
+
 import { UpdateVersionDto } from './dto/update-version.dto';
 import { Version } from './version.entity';
 

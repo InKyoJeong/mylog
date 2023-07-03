@@ -1,5 +1,5 @@
-import { Friendship } from './friendship.entity';
 import { Repository } from 'typeorm';
+import { Friendship } from './friendship.entity';
 import { User } from 'src/auth/user.entity';
 export declare class FriendshipService {
     private friendshipRepository;

@@ -6,9 +6,9 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Brackets, Repository, SelectQueryBuilder } from 'typeorm';
 
-import { User } from 'src/auth/user.entity';
 import { CreatePostDto } from './dto/create-post.dto';
 import { Post } from './post.entity';
+import { User } from 'src/auth/user.entity';
 import { Image } from 'src/image/image.entity';
 import { Friendship } from 'src/friendship/friendship.entity';
 

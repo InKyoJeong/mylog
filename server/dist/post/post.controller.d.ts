@@ -1,7 +1,7 @@
-import { User } from 'src/auth/user.entity';
 import { CreatePostDto } from './dto/create-post.dto';
 import { Post as PostEntity } from './post.entity';
 import { PostService } from './post.service';
+import { User } from 'src/auth/user.entity';
 export declare class PostController {
     private postService;
     constructor(postService: PostService);

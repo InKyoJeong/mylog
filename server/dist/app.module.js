@@ -7,21 +7,21 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
-const common_1 = require("@nestjs/common");
-const config_1 = require("@nestjs/config");
+const path_1 = require("path");
 const typeorm_1 = require("@nestjs/typeorm");
 const serve_static_1 = require("@nestjs/serve-static");
-const path_1 = require("path");
+const config_1 = require("@nestjs/config");
+const common_1 = require("@nestjs/common");
 const auth_module_1 = require("./auth/auth.module");
 const image_module_1 = require("./image/image.module");
 const post_module_1 = require("./post/post.module");
 const favorite_module_1 = require("./favorite/favorite.module");
 const feedback_module_1 = require("./feedback/feedback.module");
-const logger_middleware_1 = require("./middlewares/logger.middleware");
 const version_module_1 = require("./version/version.module");
 const memo_module_1 = require("./memo/memo.module");
 const friendship_module_1 = require("./friendship/friendship.module");
 const report_module_1 = require("./report/report.module");
+const logger_middleware_1 = require("./@common/middlewares/logger.middleware");
 let AppModule = class AppModule {
     configure(consumer) {
         consumer.apply(logger_middleware_1.LoggerMiddleware).forRoutes('*');

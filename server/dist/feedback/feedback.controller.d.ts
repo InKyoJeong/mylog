@@ -1,6 +1,6 @@
+import { CreateFeedbackDto } from './dto/create-feedback.dto';
 import { FeedbackService } from './feedback.service';
 import { User } from 'src/auth/user.entity';
-import { CreateFeedbackDto } from './dto/create-feedback.dto';
 export declare class FeedbackController {
     private feedbackService;
     constructor(feedbackService: FeedbackService);

@@ -13,10 +13,10 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MemoService = void 0;
+const typeorm_1 = require("typeorm");
+const typeorm_2 = require("@nestjs/typeorm");
 const common_1 = require("@nestjs/common");
 const memo_entity_1 = require("./memo.entity");
-const typeorm_1 = require("@nestjs/typeorm");
-const typeorm_2 = require("typeorm");
 let MemoService = class MemoService {
     constructor(memoRepository) {
         this.memoRepository = memoRepository;
@@ -66,8 +66,8 @@ let MemoService = class MemoService {
 };
 MemoService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, typeorm_1.InjectRepository)(memo_entity_1.Memo)),
-    __metadata("design:paramtypes", [typeorm_2.Repository])
+    __param(0, (0, typeorm_2.InjectRepository)(memo_entity_1.Memo)),
+    __metadata("design:paramtypes", [typeorm_1.Repository])
 ], MemoService);
 exports.MemoService = MemoService;
 //# sourceMappingURL=memo.service.js.map
