@@ -32,6 +32,7 @@ export declare class AuthService {
         post: import("../post/post.entity").Post[];
         favorite: import("../favorite/favorite.entity").Favorite[];
         feedback: import("../feedback/feedback.entity").Feedback[];
+        report: import("../report/report.entity").Report[];
         memo: import("../memo/memo.entity").Memo[];
         requestedFriendships: import("../friendship/friendship.entity").Friendship[];
         receivedFriendships: import("../friendship/friendship.entity").Friendship[];
@@ -53,6 +54,7 @@ export declare class AuthService {
         post: import("../post/post.entity").Post[];
         favorite: import("../favorite/favorite.entity").Favorite[];
         feedback: import("../feedback/feedback.entity").Feedback[];
+        report: import("../report/report.entity").Report[];
         memo: import("../memo/memo.entity").Memo[];
         requestedFriendships: import("../friendship/friendship.entity").Friendship[];
         receivedFriendships: import("../friendship/friendship.entity").Friendship[];
@@ -78,6 +80,7 @@ export declare class AuthService {
         post: import("../post/post.entity").Post[];
         favorite: import("../favorite/favorite.entity").Favorite[];
         feedback: import("../feedback/feedback.entity").Feedback[];
+        report: import("../report/report.entity").Report[];
         memo: import("../memo/memo.entity").Memo[];
         requestedFriendships: import("../friendship/friendship.entity").Friendship[];
         receivedFriendships: import("../friendship/friendship.entity").Friendship[];
@@ -112,6 +115,7 @@ export declare class AuthService {
         post: import("../post/post.entity").Post[];
         favorite: import("../favorite/favorite.entity").Favorite[];
         feedback: import("../feedback/feedback.entity").Feedback[];
+        report: import("../report/report.entity").Report[];
         memo: import("../memo/memo.entity").Memo[];
         requestedFriendships: import("../friendship/friendship.entity").Friendship[];
         receivedFriendships: import("../friendship/friendship.entity").Friendship[];

@@ -76,14 +76,13 @@ let FriendshipService = class FriendshipService {
             throw new common_1.InternalServerErrorException('요청을 보내는 도중 에러가 발생했습니다.');
         }
     }
-    async updateFriendRequest(user, requesterId, updateFriendRequestDto) {
-        const { status } = updateFriendRequestDto;
+    async acceptFriendRequest(user, requesterId) {
         const receiver = await this.userRepository.findOneBy({ id: requesterId });
         const friendship = await this.findFriendshipByStatus(requesterId, user.id, 'pending');
         if (!friendship || !receiver) {
             throw new common_1.NotFoundException('이미 처리되었거나 존재하지 않는 사용자입니다.');
         }
-        friendship.status = status;
+        friendship.status = 'accepted';
         await this.friendshipRepository.save(friendship);
         const existingReverseFriendShip = await this.findFriendshipByStatus(user.id, requesterId, 'pending');
         if (existingReverseFriendShip) {

@@ -18,7 +18,6 @@ const passport_1 = require("@nestjs/passport");
 const friendship_service_1 = require("./friendship.service");
 const get_user_decorator_1 = require("../common/decorators/get-user.decorator");
 const user_entity_1 = require("../auth/user.entity");
-const update_friend_request_dto_1 = require("./dto/update-friend-request.dto");
 let FriendshipController = class FriendshipController {
     constructor(friendshipService) {
         this.friendshipService = friendshipService;
@@ -35,8 +34,8 @@ let FriendshipController = class FriendshipController {
     sendFriendRequest(receiverId, user) {
         return this.friendshipService.sendFriendRequest(user, receiverId);
     }
-    updateFriendRequest(requesterId, user, updateFriendRequestDto) {
-        return this.friendshipService.updateFriendRequest(user, requesterId, updateFriendRequestDto);
+    acceptFriendRequest(requesterId, user) {
+        return this.friendshipService.acceptFriendRequest(user, requesterId);
     }
     deleteFriendRequest(requesterId, user) {
         return this.friendshipService.deleteFriendRequest(user, requesterId);
@@ -84,12 +83,10 @@ __decorate([
     (0, common_1.Patch)('/requests/:requesterId'),
     __param(0, (0, common_1.Param)('requesterId', common_1.ParseIntPipe)),
     __param(1, (0, get_user_decorator_1.GetUser)()),
-    __param(2, (0, common_1.Body)(common_1.ValidationPipe)),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, user_entity_1.User,
-        update_friend_request_dto_1.UpdateFriendRequestDto]),
+    __metadata("design:paramtypes", [Number, user_entity_1.User]),
     __metadata("design:returntype", void 0)
-], FriendshipController.prototype, "updateFriendRequest", null);
+], FriendshipController.prototype, "acceptFriendRequest", null);
 __decorate([
     (0, common_1.Delete)('/requests/:requesterId'),
     __param(0, (0, common_1.Param)('requesterId', common_1.ParseIntPipe)),

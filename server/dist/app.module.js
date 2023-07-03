@@ -21,6 +21,7 @@ const logger_middleware_1 = require("./middlewares/logger.middleware");
 const version_module_1 = require("./version/version.module");
 const memo_module_1 = require("./memo/memo.module");
 const friendship_module_1 = require("./friendship/friendship.module");
+const report_module_1 = require("./report/report.module");
 let AppModule = class AppModule {
     configure(consumer) {
         consumer.apply(logger_middleware_1.LoggerMiddleware).forRoutes('*');
@@ -52,6 +53,7 @@ AppModule = __decorate([
             version_module_1.VersionModule,
             memo_module_1.MemoModule,
             friendship_module_1.FriendshipModule,
+            report_module_1.ReportModule,
         ],
         providers: [config_1.ConfigService],
     })

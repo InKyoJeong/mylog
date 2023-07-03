@@ -1,7 +1,6 @@
 import { Friendship } from './friendship.entity';
 import { Repository } from 'typeorm';
 import { User } from 'src/auth/user.entity';
-import { UpdateFriendRequestDto } from './dto/update-friend-request.dto';
 export declare class FriendshipService {
     private friendshipRepository;
     private userRepository;
@@ -10,7 +9,7 @@ export declare class FriendshipService {
     private findFriendshipByStatus;
     private checkExistingFriendship;
     sendFriendRequest(user: User, receiverId: number): Promise<void>;
-    updateFriendRequest(user: User, requesterId: number, updateFriendRequestDto: UpdateFriendRequestDto): Promise<void>;
+    acceptFriendRequest(user: User, requesterId: number): Promise<void>;
     deleteFriendRequest(user: User, requesterId: number): Promise<number>;
     deleteFriend(user: User, friendId: number): Promise<number>;
     blockFriend(user: User, friendId: number): Promise<void>;

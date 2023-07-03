@@ -19,6 +19,10 @@ export class ReportService {
     private postRepository: Repository<Post>,
   ) {}
 
+  async getReports() {
+    return this.reportRepository.find();
+  }
+
   async reportPostById(postId: number, user: User) {
     const foundPost = await this.postRepository
       .createQueryBuilder('post')
