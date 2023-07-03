@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthAdminGuard } from 'src/auth/guard/admin-auth.guard';
-import { ADMIN_FLAG } from 'src/constants';
+import { ADMIN_FLAG } from 'src/@common/constants';
 import { VersionService } from './version.service';
 import { UpdateVersionDto } from './dto/update-version.dto';
 

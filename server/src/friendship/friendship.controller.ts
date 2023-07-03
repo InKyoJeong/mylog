@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { FriendshipService } from './friendship.service';
-import { GetUser } from 'src/common/decorators/get-user.decorator';
+import { GetUser } from 'src/@common/decorators/get-user.decorator';
 import { User } from 'src/auth/user.entity';
 
 @Controller('friends')

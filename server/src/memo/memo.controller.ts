@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { MemoService } from './memo.service';
-import { GetUser } from 'src/common/decorators/get-user.decorator';
+import { GetUser } from 'src/@common/decorators/get-user.decorator';
 import { User } from 'src/auth/user.entity';
 import { CreateMemoDto } from './dto/create-memo.dto';
 

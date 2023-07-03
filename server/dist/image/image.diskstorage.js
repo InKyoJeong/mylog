@@ -19,7 +19,7 @@ const fs = require("fs");
 const multer_1 = require("multer");
 const path_1 = require("path");
 const platform_express_1 = require("@nestjs/platform-express");
-const constants_1 = require("../constants");
+const constants_1 = require("../@common/constants");
 try {
     fs.readdirSync('uploads');
 }

@@ -9,11 +9,11 @@ import { ImageModule } from './image/image.module';
 import { PostModule } from './post/post.module';
 import { FavoriteModule } from './favorite/favorite.module';
 import { FeedbackModule } from './feedback/feedback.module';
-import { LoggerMiddleware } from './middlewares/logger.middleware';
 import { VersionModule } from './version/version.module';
 import { MemoModule } from './memo/memo.module';
 import { FriendshipModule } from './friendship/friendship.module';
 import { ReportModule } from './report/report.module';
+import { LoggerMiddleware } from './@common/middlewares/logger.middleware';
 
 @Module({
   imports: [

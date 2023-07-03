@@ -16,7 +16,7 @@ exports.FriendshipController = void 0;
 const common_1 = require("@nestjs/common");
 const passport_1 = require("@nestjs/passport");
 const friendship_service_1 = require("./friendship.service");
-const get_user_decorator_1 = require("../common/decorators/get-user.decorator");
+const get_user_decorator_1 = require("../@common/decorators/get-user.decorator");
 const user_entity_1 = require("../auth/user.entity");
 let FriendshipController = class FriendshipController {
     constructor(friendshipService) {

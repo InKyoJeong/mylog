@@ -17,8 +17,8 @@ const common_1 = require("@nestjs/common");
 const passport_1 = require("@nestjs/passport");
 const client_s3_1 = require("@aws-sdk/client-s3");
 const platform_express_1 = require("@nestjs/platform-express");
-const constants_1 = require("../constants");
-const getUniqueFileName_1 = require("../common/utils/getUniqueFileName");
+const getUniqueFileName_1 = require("../@common/utils/getUniqueFileName");
+const constants_1 = require("../@common/constants");
 let ImageController = class ImageController {
     async uploadImages(files) {
         const s3Client = new client_s3_1.S3Client({

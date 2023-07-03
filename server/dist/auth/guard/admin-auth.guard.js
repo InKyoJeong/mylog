@@ -13,7 +13,7 @@ exports.AuthAdminGuard = void 0;
 const common_1 = require("@nestjs/common");
 const core_1 = require("@nestjs/core");
 const bcrypt = require("bcryptjs");
-const constants_1 = require("../../constants");
+const constants_1 = require("../../@common/constants");
 let AuthAdminGuard = class AuthAdminGuard {
     constructor(reflector) {
         this.reflector = reflector;

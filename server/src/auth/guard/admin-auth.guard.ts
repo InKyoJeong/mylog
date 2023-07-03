@@ -1,7 +1,7 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import * as bcrypt from 'bcryptjs';
-import { ADMIN_FLAG, ADMIN_ID } from 'src/constants';
+import { ADMIN_FLAG, ADMIN_ID } from 'src/@common/constants';
 
 @Injectable()
 export class AuthAdminGuard implements CanActivate {
