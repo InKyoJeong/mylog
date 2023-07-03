@@ -5,6 +5,7 @@ import { Feedback } from 'src/feedback/feedback.entity';
 import { MarkerColor } from 'src/post/marker-color.enum';
 import { Memo } from 'src/memo/memo.entity';
 import { Friendship } from 'src/friendship/friendship.entity';
+import { Report } from 'src/report/report.entity';
 export declare class User extends BaseEntity {
     id: number;
     loginType: 'email' | 'kakao' | 'apple';
@@ -25,6 +26,7 @@ export declare class User extends BaseEntity {
     post: Post[];
     favorite: Favorite[];
     feedback: Feedback[];
+    report: Report[];
     memo: Memo[];
     requestedFriendships: Friendship[];
     receivedFriendships: Friendship[];

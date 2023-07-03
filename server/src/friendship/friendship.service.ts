@@ -8,7 +8,6 @@ import { Friendship } from './friendship.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/auth/user.entity';
-import { UpdateFriendRequestDto } from './dto/update-friend-request.dto';
 
 @Injectable()
 export class FriendshipService {
@@ -114,12 +113,7 @@ export class FriendshipService {
     }
   }
 
-  async updateFriendRequest(
-    user: User,
-    requesterId: number,
-    updateFriendRequestDto: UpdateFriendRequestDto,
-  ): Promise<void> {
-    const { status } = updateFriendRequestDto;
+  async acceptFriendRequest(user: User, requesterId: number): Promise<void> {
     const receiver = await this.userRepository.findOneBy({ id: requesterId });
     const friendship = await this.findFriendshipByStatus(
       requesterId,
@@ -133,7 +127,7 @@ export class FriendshipService {
       );
     }
 
-    friendship.status = status;
+    friendship.status = 'accepted';
     await this.friendshipRepository.save(friendship);
 
     const existingReverseFriendShip = await this.findFriendshipByStatus(

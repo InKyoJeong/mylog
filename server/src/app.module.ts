@@ -13,6 +13,7 @@ import { LoggerMiddleware } from './middlewares/logger.middleware';
 import { VersionModule } from './version/version.module';
 import { MemoModule } from './memo/memo.module';
 import { FriendshipModule } from './friendship/friendship.module';
+import { ReportModule } from './report/report.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { FriendshipModule } from './friendship/friendship.module';
     VersionModule,
     MemoModule,
     FriendshipModule,
+    ReportModule,
   ],
   providers: [ConfigService],
 })

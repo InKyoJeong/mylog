@@ -16,6 +16,7 @@ import { Feedback } from 'src/feedback/feedback.entity';
 import { MarkerColor } from 'src/post/marker-color.enum';
 import { Memo } from 'src/memo/memo.entity';
 import { Friendship } from 'src/friendship/friendship.entity';
+import { Report } from 'src/report/report.entity';
 
 @Entity()
 @Unique(['email'])
@@ -77,6 +78,9 @@ export class User extends BaseEntity {
 
   @OneToMany(() => Feedback, (feedback) => feedback.user, { eager: false })
   feedback: Feedback[];
+
+  @OneToMany(() => Report, (report) => report.user, { eager: false })
+  report: Report[];
 
   @OneToMany(() => Memo, (memo) => memo.user, { eager: false })
   memo: Memo[];
