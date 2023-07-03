@@ -170,10 +170,41 @@ export class FriendshipService {
     try {
       await this.friendshipRepository.delete(friendship.id);
 
-      return friendship.id;
+      return requesterId;
     } catch (error) {
       throw new InternalServerErrorException(
         '친구 요청을 삭제하는 도중 에러가 발생했습니다.',
+      );
+    }
+  }
+
+  async deleteFriend(user: User, friendId: number) {
+    const friendship = await this.findFriendshipByStatus(
+      user.id,
+      friendId,
+      'accepted',
+    );
+
+    if (!friendship) {
+      throw new NotFoundException('친구가 아닌 사용자입니다.');
+    }
+
+    try {
+      await this.friendshipRepository.delete(friendship.id);
+
+      const reverseFriendship = await this.findFriendshipByStatus(
+        friendId,
+        user.id,
+        'accepted',
+      );
+      if (reverseFriendship) {
+        await this.friendshipRepository.delete(reverseFriendship.id);
+      }
+
+      return friendId;
+    } catch (error) {
+      throw new InternalServerErrorException(
+        '친구 삭제 도중 에러가 발생했습니다.',
       );
     }
   }

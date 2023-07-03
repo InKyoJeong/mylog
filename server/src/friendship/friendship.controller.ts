@@ -65,6 +65,14 @@ export class FriendshipController {
     return this.friendshipService.deleteFriendRequest(user, requesterId);
   }
 
+  @Delete('/:friendId')
+  deleteFriend(
+    @Param('friendId', ParseIntPipe) friendId: number,
+    @GetUser() user: User,
+  ) {
+    return this.friendshipService.deleteFriend(user, friendId);
+  }
+
   @Patch('/block/:friendId')
   blockFriend(
     @Param('friendId', ParseIntPipe) friendId: number,
