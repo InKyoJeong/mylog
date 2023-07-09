@@ -28,5 +28,4 @@ export type {
   UseMutationCustomOptions,
   AxiosCommonRequestHeaders,
   ThemeMode,
-  Locale,
 };
