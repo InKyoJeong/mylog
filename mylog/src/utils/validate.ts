@@ -30,10 +30,6 @@ function isValidPasswordLength(password: string) {
   );
 }
 
-function isMatchPasswordConfirm(password: string, passwordConfirm: string) {
-  return password === passwordConfirm;
-}
-
 function isValidNicknameLength(nickname: string) {
   return (
     nickname.length >= numbers.MIN_NICKNAME_LENGTH &&
@@ -48,14 +44,28 @@ function isValidFeedbackTitleLength(title: string) {
 function isValidFeedbackDescriptionLength(title: string) {
   return title.length >= numbers.MIN_FEEDBACK_DESCRIPTION_LENGTH;
 }
-function validateUser(
-  errors: Record<keyof RequestUser, string>,
+
+type UserInfomation = RequestUser & {
+  passwordConfirm?: string;
+};
+
+function validateEmail(
+  errors: Record<keyof UserInfomation, string>,
   email: string,
-  password: string,
 ) {
   if (!isValidEmailFormat(email)) {
     errors.email = errorMessages.INVALID_EMAIL_FORMAT;
   }
+
+  return errors;
+}
+
+function validatePassword(
+  errors: Record<keyof UserInfomation, string>,
+  password: string,
+  passwordConfirm?: string,
+  checkConfirm?: boolean,
+) {
   if (!isValidPasswordFormat(password)) {
     errors.password = errorMessages.INVALID_PASSWORD_FORMAT;
   }
@@ -63,57 +73,40 @@ function validateUser(
     errors.password = errorMessages.INVALID_PASSWORD_LENGTH;
   }
 
-  return errors;
-}
-
-type SignupInfo = RequestUser & {
-  passwordConfirm: string;
-};
-
-function validatePasswordConfirm(
-  errors: Record<keyof SignupInfo, string>,
-  password: string,
-  passwordConfirm: string,
-) {
-  if (!isValidPasswordFormat(passwordConfirm)) {
-    errors.passwordConfirm = errorMessages.INVALID_PASSWORD_FORMAT;
-  }
-  if (!isValidPasswordLength(passwordConfirm)) {
-    errors.passwordConfirm = errorMessages.INVALID_PASSWORD_LENGTH;
-  }
-  if (!isMatchPasswordConfirm(password, passwordConfirm)) {
+  if (checkConfirm && password !== passwordConfirm) {
     errors.passwordConfirm = errorMessages.NOT_MATCH_PASSWORD;
   }
 
   return errors;
 }
 
-function validateLogin(values: RequestUser) {
+function validateLogin(values: UserInfomation) {
   const {email, password} = values;
-
   const errors = getObjectWithValue(Object.keys(values), '');
-  const userErrors = validateUser(errors, email, password);
 
-  return {...errors, ...userErrors};
+  const emailErrors = validateEmail(errors, email);
+  const loginErrors = validatePassword(emailErrors, password);
+
+  return loginErrors;
 }
 
-function validateSignup(values: SignupInfo) {
+function validateSignup(values: UserInfomation) {
   const {email, password, passwordConfirm} = values;
-
   const errors = getObjectWithValue(Object.keys(values), '');
-  const userErrors = validateUser(errors, email, password);
-  const passwordConfirmErrors = validatePasswordConfirm(
-    errors,
+
+  const emailErrors = validateEmail(errors, email);
+  const signupErrors = validatePassword(
+    emailErrors,
     password,
     passwordConfirm,
+    true,
   );
 
-  return {...passwordConfirmErrors, ...userErrors};
+  return signupErrors;
 }
 
 function validateAddPost(values: Pick<RequestCreatePost, 'title'>) {
   const {title} = values;
-
   const errors = getObjectWithValue(Object.keys(values), '');
 
   if (isBlank(title)) {
@@ -125,7 +118,6 @@ function validateAddPost(values: Pick<RequestCreatePost, 'title'>) {
 
 function validateEditProfile(values: {nickname: string}) {
   const {nickname} = values;
-
   const errors = getObjectWithValue(Object.keys(values), '');
 
   if (hasBlankString(nickname) || !isValidNicknameLength(nickname)) {
@@ -137,7 +129,6 @@ function validateEditProfile(values: {nickname: string}) {
 
 function validateAddFeedback(values: RequestFeedback) {
   const {email, title, description} = values;
-
   const errors = getObjectWithValue(Object.keys(values), '');
 
   if (!isValidEmailFormat(email)) {
@@ -166,7 +157,6 @@ function validateCategory(values: Category) {
 }
 
 export {
-  isValidEmailFormat,
   validateLogin,
   validateSignup,
   validateAddPost,
