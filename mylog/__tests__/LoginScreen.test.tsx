@@ -9,15 +9,6 @@ import LoginScreen from '@/screens/auth/LoginScreen';
 import {errorMessages} from '@/constants';
 import {fillAndBlurInput} from './utils';
 
-jest.mock('@react-navigation/elements', () => ({
-  useHeaderHeight: jest.fn().mockReturnValue(50),
-}));
-
-jest.mock('@sentry/react-native', () => ({
-  captureException: jest.fn(),
-  captureMessage: jest.fn(),
-}));
-
 const queryClient = new QueryClient();
 
 const renderLoginScreen = () => {
