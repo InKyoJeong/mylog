@@ -38,6 +38,13 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
     });
   };
 
+  const handlePressProfile = () => {
+    props.navigation.navigate(mainNavigations.SETTING, {
+      screen: settingNavigations.EDIT_PROFILE,
+      initial: false,
+    });
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <DrawerContentScrollView
@@ -45,7 +52,9 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
         scrollEnabled={false}
         contentContainerStyle={styles.contentContainer}>
         <View style={styles.userInfoContainer}>
-          <View style={styles.userImageContainer}>
+          <Pressable
+            style={styles.userImageContainer}
+            onPress={handlePressProfile}>
             <Conditional
               condition={imageUri === null && kakaoImageUri === null}>
               <FastImage
@@ -70,7 +79,8 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
                 resizeMode={FastImage.resizeMode.cover}
               />
             </Conditional>
-          </View>
+          </Pressable>
+
           <Text style={styles.nameText}>{nickname ?? email}</Text>
         </View>
         <DrawerItemList {...props} />
