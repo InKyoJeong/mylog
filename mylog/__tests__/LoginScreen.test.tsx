@@ -3,15 +3,24 @@ import React from 'react';
 import {render} from '@testing-library/react-native';
 import {describe, expect, it} from '@jest/globals';
 import {NavigationContainer} from '@react-navigation/native';
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 
 import LoginScreen from '@/screens/auth/LoginScreen';
 import {errorMessages} from '@/constants';
 import {fillAndBlurInput} from './utils';
 
+jest.mock('@react-navigation/elements', () => ({
+  useHeaderHeight: jest.fn().mockReturnValue(50),
+}));
+
+const queryClient = new QueryClient();
+
 const renderLoginScreen = () => {
   return render(
     <NavigationContainer>
-      <LoginScreen />
+      <QueryClientProvider client={queryClient}>
+        <LoginScreen />
+      </QueryClientProvider>
     </NavigationContainer>,
   );
 };
@@ -31,9 +40,9 @@ describe('LoginScreen 테스트', () => {
     const {getByPlaceholderText, queryByText} = renderLoginScreen();
 
     const passwordInput = getByPlaceholderText('비밀번호');
-    fillAndBlurInput(passwordInput, 'test1234');
+    fillAndBlurInput(passwordInput, '1234');
 
-    const errorMessage = queryByText(errorMessages.INVALID_PASSWORD_FORMAT);
+    const errorMessage = queryByText(errorMessages.INVALID_PASSWORD_LENGTH);
     expect(errorMessage).not.toBeNull();
   });
 });
