@@ -12,6 +12,7 @@ import SettingStackNavigator, {
   SettingStackParamList,
 } from '../stack/SettingStackNavigator';
 import CalendarStackNavigator from '../stack/CalendarStackNavigator';
+import FriendStackNavigator from '../stack/FriendStackNavigator';
 import FeedTabNavigator, {FeedTabParamList} from '../tab/FeedTabNavigator';
 import CustomDrawerContent from './CustomDrawerContent';
 import useThemeStore from '@/store/useThemeStore';
@@ -24,6 +25,7 @@ export type MainDrawerParamList = {
   [mainNavigations.CALENDAR]: undefined;
   [mainNavigations.SETTING]: NavigatorScreenParams<SettingStackParamList>;
   [mainNavigations.STATISTICS]: undefined;
+  [mainNavigations.FRIEND]: undefined;
 };
 
 const Drawer = createDrawerNavigator<MainDrawerParamList>();
@@ -54,6 +56,10 @@ function DrawerIcons(
     }
     case mainNavigations.SETTING: {
       iconName = 'settings';
+      break;
+    }
+    case mainNavigations.FRIEND: {
+      iconName = 'person';
       break;
     }
   }
@@ -126,6 +132,16 @@ function MainDrawerNavigator() {
         component={SettingStackNavigator}
         options={{
           title: '설정',
+          drawerItemStyle: {
+            height: 0,
+          },
+        }}
+      />
+      <Drawer.Screen
+        name={mainNavigations.FRIEND}
+        component={FriendStackNavigator}
+        options={{
+          title: '친구',
           drawerItemStyle: {
             height: 0,
           },

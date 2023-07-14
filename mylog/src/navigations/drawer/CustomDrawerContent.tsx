@@ -14,6 +14,7 @@ import useAuth from '@/hooks/queries/useAuth';
 import useThemeStore from '@/store/useThemeStore';
 import {
   colors,
+  friendNavigations,
   mainNavigations,
   settingNavigations,
   statisticsNavigations,
@@ -45,12 +46,41 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
     });
   };
 
+  const handlePressFriend = () => {
+    props.navigation.navigate(mainNavigations.FRIEND, {
+      screen: friendNavigations.FRIEND_HOME,
+      initial: false,
+    });
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <DrawerContentScrollView
         {...props}
         scrollEnabled={false}
         contentContainerStyle={styles.contentContainer}>
+        <View style={styles.headerIconContainer}>
+          <Ionicons
+            name={'person'}
+            color={
+              theme === 'light'
+                ? colors[theme].GRAY_700
+                : colors[theme].GRAY_500
+            }
+            size={20}
+            onPress={handlePressFriend}
+          />
+          <Ionicons
+            name={'notifications'}
+            color={
+              theme === 'light'
+                ? colors[theme].GRAY_700
+                : colors[theme].GRAY_500
+            }
+            size={20}
+            onPress={() => console.log('알람')}
+          />
+        </View>
         <View style={styles.userInfoContainer}>
           <Pressable
             style={styles.userImageContainer}
@@ -127,6 +157,13 @@ const styling = (theme: ThemeMode) =>
     },
     contentContainer: {
       backgroundColor: colors[theme].WHITE,
+    },
+    headerIconContainer: {
+      flexDirection: 'row',
+      justifyContent: 'flex-end',
+      gap: 10,
+      paddingHorizontal: 10,
+      paddingVertical: 2,
     },
     nameText: {
       color: colors[theme].BLACK,

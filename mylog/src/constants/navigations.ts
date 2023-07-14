@@ -4,6 +4,7 @@ const mainNavigations = {
   CALENDAR: 'Calendar',
   SETTING: 'Setting',
   STATISTICS: 'Statistics',
+  FRIEND: 'Friend',
 } as const;
 
 const authNavigations = {
@@ -49,6 +50,14 @@ const statisticsNavigations = {
   STATISTICS_HOME: 'StatisticsHome',
 } as const;
 
+const friendNavigations = {
+  FRIEND_HOME: 'FriendHome',
+  FRIEND_ADD: 'FriendAdd',
+  FRIEND_FEED: 'FriendFeed',
+  FRIEND_FEED_Detail: 'FriendFeedDetail',
+  FRIEND_REQUEST: 'FriendRequest',
+} as const;
+
 export {
   mainNavigations,
   authNavigations,
@@ -58,4 +67,5 @@ export {
   calendarNavigations,
   settingNavigations,
   statisticsNavigations,
+  friendNavigations,
 };
