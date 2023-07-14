@@ -34,7 +34,7 @@ function EditProfileScreen({navigation}: EditProfileScreenProps) {
   const snackbar = useSnackbarStore();
   const imageOption = useModal();
   const {getProfileQuery, profileMutation} = useAuth();
-  const {email, nickname, imageUri, kakaoImageUri, loginType} =
+  const {id, email, nickname, imageUri, kakaoImageUri, loginType} =
     getProfileQuery.data || {};
   const imagePicker = useImagePicker({
     initialImages: imageUri ? [{uri: imageUri}] : [],
@@ -126,9 +126,11 @@ function EditProfileScreen({navigation}: EditProfileScreenProps) {
           </Conditional>
         </Pressable>
 
+        <Text style={styles.idText}>#{id}</Text>
+
         <Conditional condition={loginType === 'email'}>
-          <View style={styles.idContainer}>
-            <View style={styles.idTextContainer}>
+          <View style={styles.emailContainer}>
+            <View style={styles.emailTextContainer}>
               <Text style={styles.nameText}>Email</Text>
             </View>
             <Text style={styles.nameText}>{email}</Text>
@@ -203,14 +205,18 @@ const styling = (theme: ThemeMode) =>
       height: 30,
       borderRadius: 30,
     },
-    idContainer: {
+    idText: {
+      marginTop: 5,
+      color: colors[theme].GRAY_500,
+    },
+    emailContainer: {
       flexDirection: 'row',
       gap: 7,
       alignItems: 'center',
       justifyContent: 'center',
       marginTop: 10,
     },
-    idTextContainer: {
+    emailTextContainer: {
       backgroundColor: colors[theme].GRAY_200,
       alignItems: 'center',
       justifyContent: 'center',

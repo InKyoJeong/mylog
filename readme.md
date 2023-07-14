@@ -18,7 +18,7 @@
 
 ## 📌 Tech Stack
 
-![tech](https://github-production-user-asset-6210df.s3.amazonaws.com/48676844/245821780-4f80ec57-5a19-4e8e-90ba-41fc36c22092.png)
+![tech](https://github-production-user-asset-6210df.s3.amazonaws.com/48676844/253483000-0dd9d601-c443-41e0-ab2b-688d0a65992c.png)
 
 <br>
 
