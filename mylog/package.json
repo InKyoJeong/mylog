@@ -88,7 +88,10 @@
     "PhotoLibraryAddOnly"
   ],
   "jest": {
-    "preset": "react-native"
+    "preset": "react-native",
+    "testPathIgnorePatterns": [
+      "<rootDir>/__tests__/utils.ts"
+    ]
   },
   "packageManager": "yarn@1.22.19"
 }
