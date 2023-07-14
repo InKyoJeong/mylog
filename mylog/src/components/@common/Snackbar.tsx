@@ -15,7 +15,7 @@ function Snackbar() {
   const snackbar = useSnackbarStore();
   const {keyboardHeight} = useKeyboardStatus();
   const [position] = useState(new Animated.Value(-(insets.bottom || 10)));
-  const timeoutIdRef = useRef<number | null>(null);
+  const timeoutIdRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     Animated.timing(position, {
