@@ -156,6 +156,17 @@ function validateCategory(values: Category) {
   return errors;
 }
 
+function validateFriendId(values: {friendId: string}) {
+  const {friendId} = values;
+  const errors = getObjectWithValue(Object.keys(values), '');
+
+  if (isBlank(friendId)) {
+    errors.friendId = errorMessages.INVALID_FRIEND_ID;
+  }
+
+  return errors;
+}
+
 export {
   validateLogin,
   validateSignup,
@@ -163,4 +174,5 @@ export {
   validateEditProfile,
   validateAddFeedback,
   validateCategory,
+  validateFriendId,
 };

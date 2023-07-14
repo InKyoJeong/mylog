@@ -42,9 +42,7 @@ function EditProfileScreen({navigation}: EditProfileScreenProps) {
     onSettled: imageOption.hide,
   });
   const editProfile = useForm({
-    initialValue: {
-      nickname: nickname ?? '',
-    },
+    initialValue: {nickname: nickname ?? ''},
     validate: validateEditProfile,
   });
 
