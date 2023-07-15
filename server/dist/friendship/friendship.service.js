@@ -89,7 +89,7 @@ let FriendshipService = class FriendshipService {
         if (existingReverseFriendShip) {
             existingReverseFriendShip.status = 'accepted';
             await this.friendshipRepository.save(existingReverseFriendShip);
-            return;
+            return requesterId;
         }
         const reverseFriendship = new friendship_entity_1.Friendship();
         reverseFriendship.requester = user;

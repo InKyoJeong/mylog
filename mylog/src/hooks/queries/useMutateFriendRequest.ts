@@ -5,8 +5,10 @@ import {
   deleteFriendRequest,
   sendFriendRequest,
 } from '@/api';
+import queryClient from '@/api/queryClient';
 import {captureException, isServerError} from '@/utils';
-import type {UseMutationCustomOptions} from '@/types';
+import {queryKeys} from '@/constants';
+import type {Friend, UseMutationCustomOptions} from '@/types';
 
 function useSendFriendRequest(mutationOptions?: UseMutationCustomOptions) {
   return useMutation(sendFriendRequest, {
@@ -18,7 +20,14 @@ function useSendFriendRequest(mutationOptions?: UseMutationCustomOptions) {
 function useAcceptFriendRequest(mutationOptions?: UseMutationCustomOptions) {
   return useMutation(acceptFriendRequest, {
     onError: error => isServerError(error) && captureException(error),
-    onSuccess: data => console.log(data),
+    onSuccess: acceptedId => {
+      queryClient.setQueryData<Friend[]>(
+        [queryKeys.FRIEND, queryKeys.GET_PENDING_FRIENDS],
+        existingRequests => {
+          return existingRequests?.filter(friend => friend.id !== acceptedId);
+        },
+      );
+    },
     ...mutationOptions,
   });
 }
@@ -26,7 +35,14 @@ function useAcceptFriendRequest(mutationOptions?: UseMutationCustomOptions) {
 function useDeleteFriendRequest(mutationOptions?: UseMutationCustomOptions) {
   return useMutation(deleteFriendRequest, {
     onError: error => isServerError(error) && captureException(error),
-    onSuccess: data => console.log(data),
+    onSuccess: deletedId => {
+      queryClient.setQueryData<Friend[]>(
+        [queryKeys.FRIEND, queryKeys.GET_PENDING_FRIENDS],
+        existingRequests => {
+          return existingRequests?.filter(friend => friend.id !== deletedId);
+        },
+      );
+    },
     ...mutationOptions,
   });
 }

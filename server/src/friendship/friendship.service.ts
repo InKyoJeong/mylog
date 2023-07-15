@@ -141,7 +141,8 @@ export class FriendshipService {
     if (existingReverseFriendShip) {
       existingReverseFriendShip.status = 'accepted';
       await this.friendshipRepository.save(existingReverseFriendShip);
-      return;
+
+      return requesterId;
     }
 
     const reverseFriendship = new Friendship();
