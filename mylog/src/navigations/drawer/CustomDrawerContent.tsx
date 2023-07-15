@@ -14,6 +14,7 @@ import useAuth from '@/hooks/queries/useAuth';
 import useThemeStore from '@/store/useThemeStore';
 import {
   colors,
+  friendNavigations,
   mainNavigations,
   settingNavigations,
   statisticsNavigations,
@@ -38,14 +39,58 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
     });
   };
 
+  const handlePressProfile = () => {
+    props.navigation.navigate(mainNavigations.SETTING, {
+      screen: settingNavigations.EDIT_PROFILE,
+      initial: false,
+    });
+  };
+
+  const handlePressFriend = () => {
+    props.navigation.navigate(mainNavigations.FRIEND, {
+      screen: friendNavigations.FRIEND_HOME,
+      initial: false,
+    });
+  };
+
+  const handlePressAlarm = () => {
+    props.navigation.navigate(mainNavigations.FRIEND, {
+      screen: friendNavigations.FRIEND_REQUEST_ALARM,
+    });
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <DrawerContentScrollView
         {...props}
         scrollEnabled={false}
         contentContainerStyle={styles.contentContainer}>
+        <View style={styles.headerIconContainer}>
+          <Ionicons
+            name={'md-person-sharp'}
+            color={
+              theme === 'light'
+                ? colors[theme].GRAY_700
+                : colors[theme].GRAY_500
+            }
+            size={20}
+            onPress={handlePressFriend}
+          />
+          <Ionicons
+            name={'notifications'}
+            color={
+              theme === 'light'
+                ? colors[theme].GRAY_700
+                : colors[theme].GRAY_500
+            }
+            size={20}
+            onPress={handlePressAlarm}
+          />
+        </View>
         <View style={styles.userInfoContainer}>
-          <View style={styles.userImageContainer}>
+          <Pressable
+            style={styles.userImageContainer}
+            onPress={handlePressProfile}>
             <Conditional
               condition={imageUri === null && kakaoImageUri === null}>
               <FastImage
@@ -70,7 +115,8 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
                 resizeMode={FastImage.resizeMode.cover}
               />
             </Conditional>
-          </View>
+          </Pressable>
+
           <Text style={styles.nameText}>{nickname ?? email}</Text>
         </View>
         <DrawerItemList {...props} />
@@ -117,6 +163,13 @@ const styling = (theme: ThemeMode) =>
     },
     contentContainer: {
       backgroundColor: colors[theme].WHITE,
+    },
+    headerIconContainer: {
+      flexDirection: 'row',
+      justifyContent: 'flex-end',
+      gap: 10,
+      paddingHorizontal: 10,
+      paddingVertical: 2,
     },
     nameText: {
       color: colors[theme].BLACK,

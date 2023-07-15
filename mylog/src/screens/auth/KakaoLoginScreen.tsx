@@ -5,7 +5,6 @@ import {
   Dimensions,
   SafeAreaView,
   StyleSheet,
-  Text,
   View,
 } from 'react-native';
 import {
@@ -63,8 +62,7 @@ function KakaoLoginScreen() {
     <SafeAreaView style={styles.container}>
       {(isChangeNavigate || isLoading) && (
         <View style={styles.kakaoLoadingContiner}>
-          <ActivityIndicator size={'large'} color={colors[theme].BLACK} />
-          <Text style={styles.kakaoLoadingText}>로딩중...</Text>
+          <ActivityIndicator size={'small'} color={colors[theme].BLACK} />
         </View>
       )}
       <WebView
@@ -91,10 +89,6 @@ const styling = (theme: ThemeMode) =>
       height: Dimensions.get('window').height,
       alignItems: 'center',
       justifyContent: 'center',
-      gap: 10,
-    },
-    kakaoLoadingText: {
-      color: colors[theme].BLACK,
     },
   });
 

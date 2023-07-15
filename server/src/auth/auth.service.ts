@@ -118,7 +118,7 @@ export class AuthService {
       );
     }
 
-    const { id, password, hashedRefreshToken, ...rest } = profile;
+    const { password, hashedRefreshToken, ...rest } = profile;
 
     return { ...rest };
   }

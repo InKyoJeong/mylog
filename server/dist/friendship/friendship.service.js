@@ -37,8 +37,9 @@ let FriendshipService = class FriendshipService {
         ])
             .where('friendship.receiverId = :userId', { userId: user.id })
             .andWhere('friendship.status = :status', { status })
+            .orderBy('friendship.updatedAt', 'DESC')
             .getMany();
-        return friends;
+        return friends.map((friend) => friend.requester);
     }
     async findFriendshipByStatus(requesterId, receiverId, status) {
         return this.friendshipRepository
@@ -88,13 +89,14 @@ let FriendshipService = class FriendshipService {
         if (existingReverseFriendShip) {
             existingReverseFriendShip.status = 'accepted';
             await this.friendshipRepository.save(existingReverseFriendShip);
-            return;
+            return requesterId;
         }
         const reverseFriendship = new friendship_entity_1.Friendship();
         reverseFriendship.requester = user;
         reverseFriendship.receiver = receiver;
         reverseFriendship.status = 'accepted';
         await this.friendshipRepository.save(reverseFriendship);
+        return requesterId;
     }
     async deleteFriendRequest(user, requesterId) {
         const friendship = await this.findFriendshipByStatus(requesterId, user.id, 'pending');
@@ -139,6 +141,7 @@ let FriendshipService = class FriendshipService {
                 reverseFriendship.status = 'blocked';
                 await this.friendshipRepository.save(reverseFriendship);
             }
+            return friendId;
         }
         catch (error) {
             throw new common_1.InternalServerErrorException('차단 도중 에러가 발생했습니다.');
@@ -155,6 +158,7 @@ let FriendshipService = class FriendshipService {
             if (reverseFriendship) {
                 await this.friendshipRepository.delete(reverseFriendship.id);
             }
+            return friendId;
         }
         catch (error) {
             throw new common_1.InternalServerErrorException('차단 해제 도중 에러가 발생했습니다.');

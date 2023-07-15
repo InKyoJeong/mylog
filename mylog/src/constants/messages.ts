@@ -10,6 +10,7 @@ const errorMessages = {
   INVALID_FEEDBACK_TITLE_LENGTH: `제목은 ${numbers.MIN_FEEDBACK_TITLE_LENGTH}글자 이상 입력해주세요.`,
   INVALID_FEEDBACK_DESCRIPTION_LENGTH: `내용은 ${numbers.MIN_FEEDBACK_DESCRIPTION_LENGTH}글자 이상 입력해주세요.`,
   INVALID_CATEGORY_FORMAT: '카테고리는 빈 문자열로 시작할 수 없어요.',
+  INVALID_FRIEND_ID: '빈 문자열로 시작할 수 없어요.',
   CANNOT_GET_ADDRESS: '주소를 알 수 없습니다.',
   CANNOT_ACCESS_PHOTO:
     '갤러리를 열 수 없어요.\n권한을 허용했는지 확인해주세요.',
@@ -24,6 +25,8 @@ const successMessages = {
   SUCCESS_SUBMIT_FEEDBACK: '제출되었습니다.',
   SUCCESS_SAVE: '저장되었습니다.',
   SUCCESS_DELETE_ACCOUNT: '탈퇴가 완료되었습니다.',
+  SUCCESS_REQUEST_FRIEND: '친구 요청을 보냈습니다.',
+  SUCCESS_ACCEPT_FRIEND: '친구 추가되었습니다.',
 } as const;
 
 const alerts = {

@@ -33,9 +33,10 @@ export class FriendshipService {
       ])
       .where('friendship.receiverId = :userId', { userId: user.id })
       .andWhere('friendship.status = :status', { status })
+      .orderBy('friendship.updatedAt', 'DESC')
       .getMany();
 
-    return friends;
+    return friends.map((friend) => friend.requester);
   }
 
   private async findFriendshipByStatus(
@@ -114,7 +115,7 @@ export class FriendshipService {
     }
   }
 
-  async acceptFriendRequest(user: User, requesterId: number): Promise<void> {
+  async acceptFriendRequest(user: User, requesterId: number) {
     const receiver = await this.userRepository.findOneBy({ id: requesterId });
     const friendship = await this.findFriendshipByStatus(
       requesterId,
@@ -140,7 +141,8 @@ export class FriendshipService {
     if (existingReverseFriendShip) {
       existingReverseFriendShip.status = 'accepted';
       await this.friendshipRepository.save(existingReverseFriendShip);
-      return;
+
+      return requesterId;
     }
 
     const reverseFriendship = new Friendship();
@@ -149,6 +151,8 @@ export class FriendshipService {
     reverseFriendship.status = 'accepted';
 
     await this.friendshipRepository.save(reverseFriendship);
+
+    return requesterId;
   }
 
   async deleteFriendRequest(user: User, requesterId: number) {
@@ -202,7 +206,7 @@ export class FriendshipService {
     }
   }
 
-  async blockFriend(user: User, friendId: number): Promise<void> {
+  async blockFriend(user: User, friendId: number) {
     const friendship = await this.findFriendshipByStatus(
       user.id,
       friendId,
@@ -227,12 +231,14 @@ export class FriendshipService {
         reverseFriendship.status = 'blocked';
         await this.friendshipRepository.save(reverseFriendship);
       }
+
+      return friendId;
     } catch (error) {
       throw new InternalServerErrorException('차단 도중 에러가 발생했습니다.');
     }
   }
 
-  async unblockFriend(user: User, friendId: number): Promise<void> {
+  async unblockFriend(user: User, friendId: number) {
     const friendship = await this.findFriendshipByStatus(
       user.id,
       friendId,
@@ -251,9 +257,12 @@ export class FriendshipService {
         user.id,
         'blocked',
       );
+
       if (reverseFriendship) {
         await this.friendshipRepository.delete(reverseFriendship.id);
       }
+
+      return friendId;
     } catch (error) {
       throw new InternalServerErrorException(
         '차단 해제 도중 에러가 발생했습니다.',

@@ -15,6 +15,9 @@ const queryKeys = {
   GET_COLOR_COUNT: 'getColorCount',
   GET_SCORE_COUNT: 'getScoreCount',
   VERSION: 'version',
+  FRIEND: 'friend',
+  GET_FRIENDS: 'getFriends',
+  GET_PENDING_FRIENDS: 'getPendingFriends',
 } as const;
 
 const storageKeys = {

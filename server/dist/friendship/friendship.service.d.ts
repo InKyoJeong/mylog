@@ -5,13 +5,13 @@ export declare class FriendshipService {
     private friendshipRepository;
     private userRepository;
     constructor(friendshipRepository: Repository<Friendship>, userRepository: Repository<User>);
-    getFriendsByStatus(user: User, status: Friendship['status']): Promise<Friendship[]>;
+    getFriendsByStatus(user: User, status: Friendship['status']): Promise<User[]>;
     private findFriendshipByStatus;
     private checkExistingFriendship;
     sendFriendRequest(user: User, receiverId: number): Promise<void>;
-    acceptFriendRequest(user: User, requesterId: number): Promise<void>;
+    acceptFriendRequest(user: User, requesterId: number): Promise<number>;
     deleteFriendRequest(user: User, requesterId: number): Promise<number>;
     deleteFriend(user: User, friendId: number): Promise<number>;
-    blockFriend(user: User, friendId: number): Promise<void>;
-    unblockFriend(user: User, friendId: number): Promise<void>;
+    blockFriend(user: User, friendId: number): Promise<number>;
+    unblockFriend(user: User, friendId: number): Promise<number>;
 }
