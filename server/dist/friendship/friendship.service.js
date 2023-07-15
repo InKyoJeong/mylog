@@ -96,6 +96,7 @@ let FriendshipService = class FriendshipService {
         reverseFriendship.receiver = receiver;
         reverseFriendship.status = 'accepted';
         await this.friendshipRepository.save(reverseFriendship);
+        return requesterId;
     }
     async deleteFriendRequest(user, requesterId) {
         const friendship = await this.findFriendshipByStatus(requesterId, user.id, 'pending');
@@ -140,6 +141,7 @@ let FriendshipService = class FriendshipService {
                 reverseFriendship.status = 'blocked';
                 await this.friendshipRepository.save(reverseFriendship);
             }
+            return friendId;
         }
         catch (error) {
             throw new common_1.InternalServerErrorException('차단 도중 에러가 발생했습니다.');
@@ -156,6 +158,7 @@ let FriendshipService = class FriendshipService {
             if (reverseFriendship) {
                 await this.friendshipRepository.delete(reverseFriendship.id);
             }
+            return friendId;
         }
         catch (error) {
             throw new common_1.InternalServerErrorException('차단 해제 도중 에러가 발생했습니다.');

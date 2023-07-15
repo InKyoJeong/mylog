@@ -7,9 +7,9 @@ export declare class FriendshipController {
     getPendingFriends(user: User): Promise<User[]>;
     getBlockedFriends(user: User): Promise<User[]>;
     sendFriendRequest(receiverId: number, user: User): Promise<void>;
-    acceptFriendRequest(requesterId: number, user: User): Promise<void>;
+    acceptFriendRequest(requesterId: number, user: User): Promise<number>;
     deleteFriendRequest(requesterId: number, user: User): Promise<number>;
     deleteFriend(friendId: number, user: User): Promise<number>;
-    blockFriend(friendId: number, user: User): Promise<void>;
-    unblockFriend(friendId: number, user: User): Promise<void>;
+    blockFriend(friendId: number, user: User): Promise<number>;
+    unblockFriend(friendId: number, user: User): Promise<number>;
 }

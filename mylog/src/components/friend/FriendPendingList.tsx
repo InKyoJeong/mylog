@@ -5,15 +5,29 @@ import FriendCard from './FriendCard';
 import CustomButton from '../@common/CustomButton';
 import InfoMessage from '../@common/InfoMessage';
 import {useGetPendingFriends} from '@/hooks/queries/useGetFriends';
+import {
+  useAcceptFriendRequest,
+  useDeleteFriendRequest,
+} from '@/hooks/queries/useMutateFriendRequest';
 
 function FriendPendingList() {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const {data: pendingFriends = [], refetch} = useGetPendingFriends();
+  const acceptFriendMutation = useAcceptFriendRequest();
+  const deleteFriendMutation = useDeleteFriendRequest();
 
   const handleRefresh = async () => {
     setIsRefreshing(true);
     await refetch();
     setIsRefreshing(false);
+  };
+
+  const handlePressAccept = (id: number) => {
+    acceptFriendMutation.mutate(id);
+  };
+
+  const handlePressDelete = (id: number) => {
+    deleteFriendMutation.mutate(id);
   };
 
   return (
@@ -22,8 +36,18 @@ function FriendPendingList() {
       renderItem={({item}) => (
         <FriendCard key={item.id} friend={item}>
           <View style={styles.buttonContainer}>
-            <CustomButton label="수락" variant="filled" size="small" />
-            <CustomButton label="삭제" variant="outlined" size="small" />
+            <CustomButton
+              label="수락"
+              variant="filled"
+              size="small"
+              onPress={() => handlePressAccept(item.id)}
+            />
+            <CustomButton
+              label="삭제"
+              variant="outlined"
+              size="small"
+              onPress={() => handlePressDelete(item.id)}
+            />
           </View>
         </FriendCard>
       )}

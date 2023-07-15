@@ -19,8 +19,14 @@ const sendFriendRequest = async (receiverId: string) => {
   return data;
 };
 
-const acceptFriendRequest = async (requesterId: string) => {
+const acceptFriendRequest = async (requesterId: number): Promise<number> => {
   const {data} = await axiosInstance.patch(`/friends/requests/${requesterId}`);
+
+  return data;
+};
+
+const deleteFriendRequest = async (requesterId: number): Promise<number> => {
+  const {data} = await axiosInstance.delete(`/friends/requests/${requesterId}`);
 
   return data;
 };
@@ -30,4 +36,5 @@ export {
   getPendingFriends,
   sendFriendRequest,
   acceptFriendRequest,
+  deleteFriendRequest,
 };

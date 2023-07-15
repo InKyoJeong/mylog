@@ -1,21 +1,34 @@
 import {useMutation} from '@tanstack/react-query';
 
-import {acceptFriendRequest, sendFriendRequest} from '@/api';
-import {captureException} from '@/utils';
+import {
+  acceptFriendRequest,
+  deleteFriendRequest,
+  sendFriendRequest,
+} from '@/api';
+import {captureException, isServerError} from '@/utils';
 import type {UseMutationCustomOptions} from '@/types';
 
 function useSendFriendRequest(mutationOptions?: UseMutationCustomOptions) {
   return useMutation(sendFriendRequest, {
-    onError: error => captureException(error),
+    onError: error => isServerError(error) && captureException(error),
     ...mutationOptions,
   });
 }
 
 function useAcceptFriendRequest(mutationOptions?: UseMutationCustomOptions) {
   return useMutation(acceptFriendRequest, {
-    onError: error => captureException(error),
+    onError: error => isServerError(error) && captureException(error),
+    onSuccess: data => console.log(data),
     ...mutationOptions,
   });
 }
 
-export {useSendFriendRequest, useAcceptFriendRequest};
+function useDeleteFriendRequest(mutationOptions?: UseMutationCustomOptions) {
+  return useMutation(deleteFriendRequest, {
+    onError: error => isServerError(error) && captureException(error),
+    onSuccess: data => console.log(data),
+    ...mutationOptions,
+  });
+}
+
+export {useSendFriendRequest, useAcceptFriendRequest, useDeleteFriendRequest};

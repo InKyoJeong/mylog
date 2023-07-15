@@ -13,6 +13,8 @@ function useGetMyFriends(
     () => getMyFriends(),
     {
       onError: error => captureException(error),
+      suspense: true,
+      useErrorBoundary: true,
       ...queryOptions,
     },
   );
@@ -26,6 +28,8 @@ function useGetPendingFriends(
     () => getPendingFriends(),
     {
       onError: error => captureException(error),
+      suspense: true,
+      useErrorBoundary: true,
       ...queryOptions,
     },
   );
