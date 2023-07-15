@@ -53,6 +53,12 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
     });
   };
 
+  const handlePressAlarm = () => {
+    props.navigation.navigate(mainNavigations.FRIEND, {
+      screen: friendNavigations.FRIEND_REQUEST_ALARM,
+    });
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <DrawerContentScrollView
@@ -61,7 +67,7 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
         contentContainerStyle={styles.contentContainer}>
         <View style={styles.headerIconContainer}>
           <Ionicons
-            name={'person'}
+            name={'md-person-sharp'}
             color={
               theme === 'light'
                 ? colors[theme].GRAY_700
@@ -78,7 +84,7 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
                 : colors[theme].GRAY_500
             }
             size={20}
-            onPress={() => console.log('알람')}
+            onPress={handlePressAlarm}
           />
         </View>
         <View style={styles.userInfoContainer}>

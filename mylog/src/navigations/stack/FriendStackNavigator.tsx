@@ -7,10 +7,12 @@ import FriendHomeHeaderLeft from '@/components/friend/FriendHomeHeaderLeft';
 import FriendHomeHeaderRight from '@/components/friend/FriendHomeHeaderRight';
 import useThemeStore from '@/store/useThemeStore';
 import {colors, friendNavigations} from '@/constants';
+import FriendRequestAlarmScreen from '@/screens/friend/FriendRequestAlarmScreen';
 
 export type FriendStackParamList = {
   [friendNavigations.FRIEND_HOME]: undefined;
   [friendNavigations.FRIEND_ADD]: undefined;
+  [friendNavigations.FRIEND_REQUEST_ALARM]: undefined;
 };
 
 const Stack = createStackNavigator<FriendStackParamList>();
@@ -52,6 +54,14 @@ function FriendStackNavigator() {
         options={{
           headerTitle: '친구 추가',
         }}
+      />
+      <Stack.Screen
+        name={friendNavigations.FRIEND_REQUEST_ALARM}
+        component={FriendRequestAlarmScreen}
+        options={({navigation}) => ({
+          headerTitle: '친구 요청',
+          headerLeft: () => FriendHomeHeaderLeft(navigation),
+        })}
       />
     </Stack.Navigator>
   );
