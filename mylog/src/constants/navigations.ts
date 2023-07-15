@@ -56,6 +56,7 @@ const friendNavigations = {
   FRIEND_FEED: 'FriendFeed',
   FRIEND_FEED_Detail: 'FriendFeedDetail',
   FRIEND_REQUEST: 'FriendRequest',
+  FRIEND_REQUEST_ALARM: 'FriendRequestAlarm',
 } as const;
 
 export {

@@ -62,7 +62,7 @@ function KakaoLoginScreen() {
     <SafeAreaView style={styles.container}>
       {(isChangeNavigate || isLoading) && (
         <View style={styles.kakaoLoadingContiner}>
-          <ActivityIndicator size={'large'} color={colors[theme].BLACK} />
+          <ActivityIndicator size={'small'} color={colors[theme].BLACK} />
         </View>
       )}
       <WebView
