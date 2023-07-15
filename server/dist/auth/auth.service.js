@@ -101,7 +101,7 @@ let AuthService = class AuthService {
             console.log(error);
             throw new common_1.InternalServerErrorException('프로필 수정 도중 에러가 발생했습니다.');
         }
-        const { id, password, hashedRefreshToken } = profile, rest = __rest(profile, ["id", "password", "hashedRefreshToken"]);
+        const { password, hashedRefreshToken } = profile, rest = __rest(profile, ["password", "hashedRefreshToken"]);
         return Object.assign({}, rest);
     }
     async deleteRefreshToken(id) {

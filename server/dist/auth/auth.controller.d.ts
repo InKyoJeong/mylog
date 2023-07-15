@@ -39,6 +39,7 @@ export declare class AuthController {
         PURPLE: string;
     };
     editProfile(editProfileDto: EditProfileDto, user: User): Promise<{
+        id: number;
         loginType: "email" | "kakao" | "apple";
         email: string;
         nickname?: string;

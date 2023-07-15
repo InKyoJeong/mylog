@@ -37,8 +37,9 @@ let FriendshipService = class FriendshipService {
         ])
             .where('friendship.receiverId = :userId', { userId: user.id })
             .andWhere('friendship.status = :status', { status })
+            .orderBy('friendship.updatedAt', 'DESC')
             .getMany();
-        return friends;
+        return friends.map((friend) => friend.requester);
     }
     async findFriendshipByStatus(requesterId, receiverId, status) {
         return this.friendshipRepository

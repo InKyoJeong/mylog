@@ -5,7 +5,7 @@ export declare class FriendshipService {
     private friendshipRepository;
     private userRepository;
     constructor(friendshipRepository: Repository<Friendship>, userRepository: Repository<User>);
-    getFriendsByStatus(user: User, status: Friendship['status']): Promise<Friendship[]>;
+    getFriendsByStatus(user: User, status: Friendship['status']): Promise<User[]>;
     private findFriendshipByStatus;
     private checkExistingFriendship;
     sendFriendRequest(user: User, receiverId: number): Promise<void>;
