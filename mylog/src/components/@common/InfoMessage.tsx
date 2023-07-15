@@ -27,7 +27,7 @@ function InfoMessage({message, buttonLabel, onPress}: InfoMessageProps) {
       <Text style={styles.message}>{message}</Text>
       {buttonLabel && (
         <CustomButton
-          size="small"
+          size="medium"
           label={buttonLabel}
           variant="outlined"
           onPress={onPress}

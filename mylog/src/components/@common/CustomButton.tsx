@@ -56,7 +56,13 @@ function CustomButton({
       {...props}>
       <View style={[styles[size]]}>
         {icon}
-        <Text style={[styles.text, styles[`${variant}Text`], textStyle]}>
+        <Text
+          style={[
+            styles.text,
+            styles[`${variant}Text`],
+            styles[`${size}Text`],
+            textStyle,
+          ]}>
           {label}
         </Text>
       </View>
@@ -86,8 +92,8 @@ const styling = (theme: ThemeMode) =>
       flexDirection: 'row',
       justifyContent: 'center',
       gap: 10,
-      paddingVertical: deviceHeight > 640 ? 10 : 6,
-      paddingHorizontal: deviceHeight > 640 ? 15 : 10,
+      paddingVertical: deviceHeight > 640 ? 6 : 4,
+      paddingHorizontal: deviceHeight > 640 ? 20 : 14,
     },
     medium: {
       alignItems: 'center',
@@ -137,6 +143,11 @@ const styling = (theme: ThemeMode) =>
     standardText: {
       color: colors[theme].PINK_700,
     },
+    smallText: {
+      fontSize: 12,
+    },
+    mediumText: {},
+    largeText: {},
   });
 
 export default CustomButton;

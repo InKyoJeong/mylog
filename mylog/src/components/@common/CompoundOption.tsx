@@ -326,7 +326,7 @@ const styling = (theme: ThemeMode) =>
     radioContainer: {
       flexDirection: 'row',
       justifyContent: 'space-between',
-      paddingVertical: 10,
+      paddingVertical: 12,
       paddingHorizontal: 30,
     },
     radioTextContainer: {
