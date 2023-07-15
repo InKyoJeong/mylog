@@ -9,8 +9,11 @@ import {
   useAcceptFriendRequest,
   useDeleteFriendRequest,
 } from '@/hooks/queries/useMutateFriendRequest';
+import useSnackbarStore from '@/store/useSnackbarStore';
+import {successMessages} from '@/constants';
 
 function FriendPendingList() {
+  const snackbar = useSnackbarStore();
   const [isRefreshing, setIsRefreshing] = useState(false);
   const {data: pendingFriends = [], refetch} = useGetPendingFriends();
   const acceptFriendMutation = useAcceptFriendRequest();
@@ -23,7 +26,9 @@ function FriendPendingList() {
   };
 
   const handlePressAccept = (id: number) => {
-    acceptFriendMutation.mutate(id);
+    acceptFriendMutation.mutate(id, {
+      onSuccess: () => snackbar.show(successMessages.SUCCESS_ACCEPT_FRIEND),
+    });
   };
 
   const handlePressDelete = (id: number) => {

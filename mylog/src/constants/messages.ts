@@ -26,6 +26,7 @@ const successMessages = {
   SUCCESS_SAVE: '저장되었습니다.',
   SUCCESS_DELETE_ACCOUNT: '탈퇴가 완료되었습니다.',
   SUCCESS_REQUEST_FRIEND: '친구 요청을 보냈습니다.',
+  SUCCESS_ACCEPT_FRIEND: '친구 추가되었습니다.',
 } as const;
 
 const alerts = {
