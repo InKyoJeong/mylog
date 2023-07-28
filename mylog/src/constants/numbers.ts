@@ -52,7 +52,7 @@ const numbers = {
 } as const;
 
 const zIndex = {
-  SAVED_MARKER: -1,
+  EXISTING_MARKER: -1,
   NEW_MARKER: 100,
 } as const;
 
