@@ -122,7 +122,7 @@ function MyMapView({markers}: MyMapViewProps) {
             key={id}
             color={color}
             score={score}
-            style={{zIndex: zIndex.SAVED_MARKER}}
+            style={{zIndex: zIndex.EXISTING_MARKER}}
             coordinate={coordinate}
             onPress={() => handlePressMarker(id, coordinate)}
           />
